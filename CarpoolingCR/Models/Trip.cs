@@ -13,17 +13,8 @@ namespace CarpoolingCR.Models
     public class Trip
     {
         public int TripId { get; set; }
-
-        //public virtual int JourneyId { get; set; }
-        //[Display(Name = "Trayecto")]
-        //public Journey Journey { get; set; }
-
         public string ApplicationUserId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
-
-        //[Required]
-        //[Display(Name = "Ruta")]
-        //public string RouteDetail { get; set; }
         [Required]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy hh:mm tt}", ApplyFormatInEditMode = true)]

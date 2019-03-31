@@ -1,0 +1,42 @@
+﻿@model CarpoolingCR.Models.BankAccount
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>BankAccount</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Bank.BankName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Bank.BankName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SavingsAccount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SavingsAccount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Sinpe)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Sinpe)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.BankAccountId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

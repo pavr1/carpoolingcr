@@ -1,0 +1,82 @@
+﻿@model CarpoolingCR.Models.RideRequest
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>RideRequest</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Journey.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Journey.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UserId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RouteDetails)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RouteDetails)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsTimeSpecific)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsTimeSpecific)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DayPart)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DayPart)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RequestedSpaces)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RequestedSpaces)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.RideRequestId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,72 @@
+﻿@model CarpoolingCR.Objects.Responses.ReservationTransportationResponse
+
+<table class="table">
+    @{
+        if (Model.PendingReservations.Count == 0)
+        {
+            <tr>
+                <td align="center">
+                    No se encontraron registros
+                </td>
+            </tr>
+        }
+        else
+        {
+            foreach (var item in Model.PendingReservations)
+            {
+                if (Model.CurrentUserType == CarpoolingCR.Utils.Enums.UserType.Conductor)
+                {
+                    <tr>
+                        <td>
+                            @{
+                                var from = item.Trip.FromTown;
+                                var to = item.Trip.ToTown;
+                                <label class="control-label">@from < - > @to</label> <h6>@Html.DisplayFor(modelItem => item.Date)</h6>
+                                <h6>Pasajero: @item.PassengerName</h6>
+                                <h6>Espacios Solicitados: @Html.DisplayFor(modelItem => item.RequestedSpaces)</h6>
+                                <h6>Estado: @Html.DisplayFor(modelItem => item.Status)</h6>
+                            }
+                        </td>
+                    </tr>
+                }
+                else if (Model.CurrentUserType == CarpoolingCR.Utils.Enums.UserType.Pasajero)
+                {
+                    <tr>
+                        <td>
+                            @{
+                                var from = item.Trip.FromTown;
+                                var to = item.Trip.ToTown;
+                                <label class="control-label">@from < - > @to</label> <h6>@Html.DisplayFor(modelItem => item.Date)</h6>
+                                <h6>Conductor: @item.Trip.ApplicationUser.Name  @item.Trip.ApplicationUser.LastName</h6>
+                                <h6>Espacios Solicitados: @Html.DisplayFor(modelItem => item.RequestedSpaces)</h6>
+                                <h6>Estado: @Html.DisplayFor(modelItem => item.Status)</h6>
+                            }
+                        </td>
+                        <td class="">
+                            @Html.ActionLink("X", "Delete", "Reservations", new { id = item.ReservationId }, new { @class = "btn btn-danger " })
+                        </td>
+                    </tr>
+                }
+                else if (Model.CurrentUserType == CarpoolingCR.Utils.Enums.UserType.Administrador)
+                {
+                    <tr>
+                        <td>
+                            @{
+                                var from = item.Trip.FromTown;
+                                var to = item.Trip.ToTown;
+                                <label class="control-label">@from < - > @to</label> <h6>@Html.DisplayFor(modelItem => item.Date)</h6>
+                                <h6>Pasajero: @item.PassengerName</h6>
+                                <h6>Espacios Solicitados: @Html.DisplayFor(modelItem => item.RequestedSpaces)</h6>
+                                <h6>Estado: @Html.DisplayFor(modelItem => item.Status)</h6>
+                            }
+                        </td>
+                        <td class="">
+                            @Html.ActionLink("X", "Delete", "Reservations", new { id = item.ReservationId }, new { @class = "btn btn-danger " })
+                        </td>
+                    </tr>
+                }
+            }
+        }
+    }
+
+</table>

@@ -1,0 +1,123 @@
+﻿@model CarpoolingCR.Models.Trip
+
+@{
+    ViewBag.Title = "TripDetail";
+}
+
+<h2>Reservas</h2>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<div>
+    @using (Html.BeginForm("Create", "Reservations", new { TripId = @Model.TripId, UserEmail = @Model.UserEmail }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        <hr />
+
+        <div class="row form-group">
+            <div class="control-label col-md-2">
+                <label class="control-label" style="text-align:left">Conductor</label>
+
+            </div>
+            <div class="col-md-10">
+                @ViewBag.DriverName
+            </div>
+        </div>
+
+        <div class="row form-group">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                <label class="control-label" style="text-align:left">Trayecto</label>
+            </div>
+            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+                @{
+                    var from = Model.Journey.Name.Replace(Model.RouteDetail, "").Replace(" - ", "");
+                    var journey = @from + " -  " + Model.RouteDetail;
+                }
+
+                @journey
+            </div>
+        </div>
+
+        <div class="row form-group">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                <label class="control-label" style="text-align:left">Fecha</label>
+
+            </div>
+            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+                @Html.DisplayFor(model => model.DateTime)
+            </div>
+        </div>
+
+        <div class="row form-group">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                <label class="control-label" style="text-align:left">Espacios Solicitados</label>
+
+            </div>
+            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+                <select id="RequestedSpaces" name="RequestedSpaces" class="form-control">
+                    @{
+                        <option value="0">0</option>
+
+                        for (int i = 1; i <= Model.AvailableSpaces; i++)
+                        {
+                            <option id="@i">@i</option>
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div class="row form-group">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                <label class="control-label" style="text-align:left">Cuota</label>
+
+            </div>
+            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+                @Html.DisplayFor(model => model.Price)
+            </div>
+        </div>
+
+        <div class="row form-group">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                <label class="control-label" style="text-align:left">Estado</label>
+
+            </div>
+            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+                Pendiente
+            </div>
+        </div>
+
+        <hr />
+
+        @*<label id="TripId" name="TripId">@Model.TripId</label>
+            <label id="UserEmail" name="UserEmail">@Model.UserEmail</label>
+            <label id="RequestedSpaces" name="RequestedSpaces"></label>
+            <label id="Status" name="Status">Pendiente</label>*@
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                @Html.ActionLink("<<", "Index", new { }, new { @class = "btn btn-primary" }) <input type="submit" value="Solicitar Reserva" class="btn btn-success pull-right" />
+            </div>
+        </div>
+    }
+</div>
+
+@*<script>
+    function saveReservation() {
+        var reservationObj = {
+            ReservationId: 0,
+            TripId: @Model.TripId,
+            RequestedSpaces: document.getElementById('selectSpaces').value,
+            Status: "Pendiente"
+        };
+
+        $.ajax({
+            type: "post",
+            url: '/Reservations/Create',
+                data: JSON.stringify(reservationObj),
+            success: function (data, textStatus, jQxhr) {
+            },
+            dataType: 'json',
+            contentType: 'application/json',
+        });
+    }
+</script>*@

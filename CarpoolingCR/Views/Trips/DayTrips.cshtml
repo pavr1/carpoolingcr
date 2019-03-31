@@ -1,0 +1,243 @@
+﻿@model CarpoolingCR.Objects.Responses.TripDayTripsResponse
+
+@{
+    ViewBag.Title = "MonthTrips";
+}
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<div class="form-group">
+    <h2>Viajes Disponibles</h2>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <br />
+    <label class="control-label">@ViewBag.Info</label>
+
+    <input id="AvailableSpaces" type="hidden" value="" />
+
+    <div class="row form-group">
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+            @Html.ActionLink("<<", "Transportation", "Reservations", new { }, new { @class = "btn btn-primary" })
+        </div>
+        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+            <label class="control-label" style="text-align:left">Trayecto: </label>  @Model.From -> @Model.To
+        </div>
+    </div>
+    <hr />
+    <div class="row form-group">
+        <div id="dayCalendar" style="height:100%" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+        </div>
+    </div>
+</div>
+
+@*<div id="dialog" style="position: relative; width: 96%; height: 200px; padding:1% 2%; overflow:hidden;" class="fakewindowcontain">
+        @*<input id="AvailableSpaces" type="hidden" value="@Model.Trip.AvailableSpaces" />
+            <input id="ApplicationUserId" type="hidden" value="@Model." />
+
+        <div class="row form-group">
+            <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
+                <label class="control-label" style="text-align:left">Trayecto</label>
+            </div>
+            <div id="modelFromTo" class="col-lg-10 col-md-12 col-sm-12 col-xs-12">
+
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <label class="control-label" style="text-align:left">Fecha</label>
+            </div>
+            <div id="modelDate" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <label class="control-label" style="text-align:left">Conductor</label>
+            </div>
+            <div id="modelDriver" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
+                <label class="control-label" style="text-align:left">Espacios</label>
+            </div>
+            <div class="col-lg-10 col-md-12 col-sm-12 col-xs-12">
+                <input id="RequestedSpaces" class="" style="width:40px;" name="RequestedSpaces" onfocus="blur();">
+            </div>
+        </div>
+        <hr />
+
+        <div class="form-group">
+            <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
+
+            </div>
+            <div class="col-lg-10 col-md-12 col-sm-12 col-xs-12">
+                Html.ActionLink("<<", "Transportation", new { }, new { @class = "btn btn-primary" }) <input type="submit" value="Crear" class="btn btn-success pull-right" />
+            </div>
+        </div>
+    </div>*@
+
+<!-- Modal -->
+<div class="modal fade" id="dayTripModal" tabindex="-1" role="dialog" aria-labelledby="dayTripModalLabel" aria-hidden="true">
+    <form action="/Reservations/Create" method="post">
+        <div class="vertical-alignment-helper">
+            <div class="modal-dialog vertical-align-center">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+
+                        </button>
+                        <h4 class="modal-title" id="dayTripModalLabel">Reserva tu viaje</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row form-group">
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                <b>Trayecto</b>
+                            </div>
+                            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                                <small id="modelFromTo"></small>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6">
+                                <b>Conductor</b>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                                <small id="modelDriver"></small>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6">
+                                <b>Fecha</b>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                                <small id="modelDate"></small>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6">
+                                <b>Espacios</b>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                                <input id="RequestedSpaces" name="RequestedSpaces" class="" style="width:40px;" onfocus="blur();">
+                                <input type="text" id="TripId" name="TripId" class="hidden" />
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6">
+                                <b>Precio</b>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                                <small id="modelPrice"></small>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6">
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6">
+                                <b>Total</b>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                                <small id="modelTotal"></small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Reservar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<link href="~/fonts/fullcalendar-3.10.0/fullcalendar.min.css" rel="stylesheet" />
+<script src="~/fonts/fullcalendar-3.10.0/moment.min.js"></script>
+<script src="~/fonts/fullcalendar-3.10.0/fullcalendar.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var currentDate = new Date('@Model.CurrentDate');
+
+        // page is now ready, initialize the calendar...
+        $('#dayCalendar').fullCalendar({
+            weekends: true,
+            defaultView: 'agendaDay',
+            eventLimit: true, // for all non-agenda views
+            header: {
+                left: 'title',
+                center: '',
+                right: ''
+            },
+            allDaySlot: false,
+            contentHeight: "auto",
+            eventTextColor: 'black',
+            //Moment: currentDate.Format("yyyy-MM-dd"),
+            views: {
+                timelineDay: {
+                    selectable: true
+                }
+            },
+            events: [],
+            eventClick: function (calEvent, jsEvent, view) {
+                $("#dialog").dialog("open");
+                $('#ui-id-1').html("Reserva tu viaje");
+                $('#modelFromTo').html(calEvent.fromto);
+                $('#modelDate').html(calEvent.formatteddate);
+                $('#modelDriver').html(calEvent.driver);
+                $('#AvailableSpaces').val(calEvent.availableSpaces);
+                $('#modelPrice').html(calEvent.price);
+                $('#modelTotal').html(calEvent.price);
+                $('#TripId').val(calEvent.id);
+                $("#dayTripModal").modal();
+                //window.location.href = '/Reservations/Create?tripId=' + calEvent.id;
+            }
+        });
+
+        var arrayOfTrips = JSON.parse('@Html.Raw(Json.Encode(Model.Trips))');
+
+        for (var i = 0; i < arrayOfTrips.length; i++) {
+            var tripId = arrayOfTrips[i].TripId;
+            var availableSpaces = arrayOfTrips[i].AvailableSpaces;
+            var dateTime = arrayOfTrips[i].DateTime;
+            var startUnixTime = parseInt(dateTime.toString().replace("/Date(", "").replace(")", "").replace("/", ""));
+            var endUnixTime = startUnixTime + (30 * 60 * 1000);
+            var driver = arrayOfTrips[i].ApplicationUser.Name + ' ' + arrayOfTrips[i].ApplicationUser.LastName;
+            var price = arrayOfTrips[i].Price;
+            var from = arrayOfTrips[i].FromTown;
+            var to = arrayOfTrips[i].ToTown;
+
+            var d = new Date(startUnixTime);
+            var formattedDate = d.getDate() + '/' + d.getMonth() + '/' + d.getFullYear() + ' ' + d.getHours() + ':' + d.getMinutes();
+
+            var event = {
+                id: tripId,
+                title: 'Conductor: ' + driver + ' [' + availableSpaces + ' espacios]. Precio: ' + price,
+                start: new Date(startUnixTime), end: new Date(endUnixTime),
+                color: 'lightgreen',
+                fromto: from + ' -> ' + to,
+                driver: driver,
+                availableSpaces: availableSpaces,
+                formatteddate: formattedDate,
+                price: price
+            };
+
+            $('#dayCalendar').fullCalendar('renderEvent', event, true);
+        }
+
+            $('#dayCalendar').fullCalendar('gotoDate', currentDate)
+    });
+
+    $('#RequestedSpaces').spinner({
+        stop: function (e, ui) {
+            var price = parseFloat($('#modelPrice').html());
+            var requestedSpaces = parseInt($('#RequestedSpaces').val());
+
+            var total = price * requestedSpaces;
+
+            $('#modelTotal').html(total);
+        },
+        min: 1,
+        max: $('#AvailableSpaces').val()
+    }).val(1);
+</script>

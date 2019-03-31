@@ -1,0 +1,88 @@
+﻿@model CarpoolingCR.Models.RideRequest
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>RideRequest</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Journey.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Journey.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UserId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RouteDetails)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RouteDetails)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsTimeSpecific)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsTimeSpecific)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DayPart)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DayPart)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RequestedSpaces)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RequestedSpaces)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

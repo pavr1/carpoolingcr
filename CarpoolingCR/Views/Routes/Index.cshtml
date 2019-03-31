@@ -1,0 +1,46 @@
+﻿@model IEnumerable<CarpoolingCR.Models.Route>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Rutas</h2>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<p>
+    @Html.ActionLink("Menú Principal", "ValidateUserRol", "UserRols", new { }, new { @class = "btn btn-success " })
+    @Html.ActionLink("Crear", "Create", new { }, new { @class = "btn btn-primary pull-right" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Journey.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Journey.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Status)
+        </td>
+        <td>
+            @Html.ActionLink("...", "Edit", new { id = item.RouteId }, new { @class = "btn btn-info " })
+            @Html.ActionLink("X", "Delete", new { id = item.RouteId }, new { @class = "btn btn-danger " })
+        </td>
+    </tr>
+}
+
+</table>

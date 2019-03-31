@@ -1,0 +1,23 @@
+﻿@model CarpoolingCR.Models.Town
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Localidades</h2>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<h3>Está seguro que desea eliminar "@Html.DisplayFor(model => model.Name)"?</h3>
+<div>
+    <hr />
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            @Html.ActionLink("<<", "Index", new { }, new { @class = "btn btn-primary" }) <input type="submit" value="Eliminar" class="btn btn-danger pull-right" />
+        </div>
+    }
+</div>
+

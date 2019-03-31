@@ -1,0 +1,235 @@
+﻿@model CarpoolingCR.Models.RideRequest
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Solicitud de viaje</h2>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+@using (Html.BeginForm())
+{
+    <input type="hidden" id="hiddenOption1" />
+    <input type="hidden" id="hiddenOption2" />
+
+    @Html.AntiForgeryToken()
+
+    <input type="hidden" name="RouteDetails" id="RouteDetails" value="" />
+    <div class="form-horizontal">
+        <hr />
+        <div class="row form-group">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                <label class="control-label" style="text-align:left">Trayecto</label>
+            </div>
+            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+                @Html.DropDownList("JourneyId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.JourneyId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="row form-group">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                <label class="control-label" style="text-align:left">Destino</label>
+            </div>
+            <div id="radioset" role="toolbar" class="ui-controlgroup ui-controlgroup-horizontal ui-helper-clearfix col-lg-10 col-md-10 col-sm-10 col-xs-12">
+                <input type="radio" id="rbPassenger" name="radio" checked="checked" class="ui-checkboxradio ui-helper-hidden-accessible" onclick="SetRouteOption(1)">
+                <label id="ckPlace1" for="rbPassenger" class="ui-button ui-widget ui-checkboxradio-radio-label ui-controlgroup-item ui-checkboxradio-label ui-corner-left col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    <span class="ui-checkboxradio-icon ui-corner-all ui-icon ui-icon-background ui-icon-blank"></span>
+                    <span class="ui-checkboxradio-icon-space"> </span>Pasajero
+                </label>
+
+                <input type="radio" id="rbDriver" name="radio" class="ui-checkboxradio ui-helper-hidden-accessible" onclick="SetRouteOption(2)">
+                <label for="rbDriver" id="ckPlace2" class="ui-button ui-widget ui-checkboxradio-radio-label ui-checkboxradio-checked ui-state-active ui-checkboxradio-label ui-controlgroup-item col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    <span class="ui-checkboxradio-icon ui-corner-all ui-icon ui-icon-background ui-icon-blank ui-state-hover"></span>
+                    <span class="ui-checkboxradio-icon-space"> </span>Conductor
+                </label>
+            </div>
+        </div>
+
+        <div class="row form-group">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label" })
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12">
+                @Html.LabelFor(model => model.DayPart, htmlAttributes: new { @class = "control-label" })
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                @Html.EnumDropDownListFor(model => model.DayPart, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.DayPart, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                <select id="time" class="form-control hidden">
+                    <option>12:00 am</option>
+                    <option>12:15 am</option>
+                    <option>12:30 am</option>
+                    <option>12:45 am</option>
+                    <option>01:00 am</option>
+                    <option>01:15 am</option>
+                    <option>01:30 am</option>
+                    <option>01:45 am</option>
+                    <option>02:00 am</option>
+                    <option>02:15 am</option>
+                    <option>02:30 am</option>
+                    <option>02:45 am</option>
+                    <option>03:00 am</option>
+                    <option>03:15 am</option>
+                    <option>03:30 am</option>
+                    <option>03:45 am</option>
+                    <option>04:00 am</option>
+                    <option>04:15 am</option>
+                    <option>04:30 am</option>
+                    <option>04:45 am</option>
+                    <option>05:00 am</option>
+                    <option>05:15 am</option>
+                    <option>05:30 am</option>
+                    <option>05:45 am</option>
+                    <option>06:00 am</option>
+                    <option>06:15 am</option>
+                    <option>06:30 am</option>
+                    <option>06:45 am</option>
+                    <option>07:00 am</option>
+                    <option>07:15 am</option>
+                    <option>07:30 am</option>
+                    <option>07:45 am</option>
+                    <option>08:00 am</option>
+                    <option>08:15 am</option>
+                    <option>08:30 am</option>
+                    <option>08:45 am</option>
+                    <option>09:00 am</option>
+                    <option>09:15 am</option>
+                    <option>09:30 am</option>
+                    <option>09:45 am</option>
+                    <option>10:00 am</option>
+                    <option>10:15 am</option>
+                    <option>10:30 am</option>
+                    <option>10:45 am</option>
+                    <option>11:00 am</option>
+                    <option>11:15 am</option>
+                    <option>11:30 am</option>
+                    <option>11:45 am</option>
+                    <option>12:00 pm</option>
+                    <option>12:15 pm</option>
+                    <option>12:30 pm</option>
+                    <option>12:45 pm</option>
+                    <option>12:00 pm</option>
+                    <option>12:15 pm</option>
+                    <option>12:30 pm</option>
+                    <option>12:45 pm</option>
+                    <option>01:00 pm</option>
+                    <option>01:15 pm</option>
+                    <option>01:30 pm</option>
+                    <option>01:45 pm</option>
+                    <option>02:00 pm</option>
+                    <option>02:15 pm</option>
+                    <option>02:30 pm</option>
+                    <option>02:45 pm</option>
+                    <option>03:00 pm</option>
+                    <option>03:15 pm</option>
+                    <option>03:30 pm</option>
+                    <option>03:45 pm</option>
+                    <option>04:00 pm</option>
+                    <option>04:15 pm</option>
+                    <option>04:30 pm</option>
+                    <option>04:45 pm</option>
+                    <option>05:00 pm</option>
+                    <option>05:15 pm</option>
+                    <option>05:30 pm</option>
+                    <option>05:45 pm</option>
+                    <option>06:00 pm</option>
+                    <option>06:15 pm</option>
+                    <option>06:30 pm</option>
+                    <option>06:45 pm</option>
+                    <option>07:00 pm</option>
+                    <option>07:15 pm</option>
+                    <option>07:30 pm</option>
+                    <option>07:45 pm</option>
+                    <option>08:00 pm</option>
+                    <option>08:15 pm</option>
+                    <option>08:30 pm</option>
+                    <option>08:45 pm</option>
+                    <option>09:00 pm</option>
+                    <option>09:15 pm</option>
+                    <option>09:30 pm</option>
+                    <option>09:45 pm</option>
+                    <option>10:00 pm</option>
+                    <option>10:15 pm</option>
+                    <option>10:30 pm</option>
+                    <option>10:45 pm</option>
+                    <option>11:00 pm</option>
+                    <option>11:15 pm</option>
+                    <option>11:30 pm</option>
+                    <option>11:45 pm</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row form-group">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                @Html.LabelFor(model => model.RequestedSpaces, htmlAttributes: new { @class = "control-label" })
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                @Html.EditorFor(model => model.RequestedSpaces, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.RequestedSpaces, "", new { @class = "text-danger" })
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                @Html.ActionLink("<<", "Index", new { }, new { @class = "btn btn-primary" }) <input type="submit" value="Crear" class="btn btn-success pull-right" />
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+    LoadRouteOptions();
+
+    $('#Date').datetimepicker({
+        mask: false,
+        format: 'd/m/Y',
+        timepicker: false
+    });
+
+    $('#RequestedSpaces').spinner({
+        min: 1,
+        max: 5,
+    }).val(1);
+
+    $("#radioset").buttonset();
+
+    $('#JourneyId').change(function () {
+        LoadRouteOptions();
+    });
+
+    $('#DayPart').change(function () {
+        if ($('#DayPart').val() == "3") {
+            $('#time').removeClass("hidden");
+        } else {
+            $('#time').addClass("hidden");
+        }
+    });
+
+
+    function SetRouteOption(index) {
+        var selectedOption = $('#hiddenOption' + index).val();
+
+        document.getElementById('RouteDetails').innerHTML = selectedOption;
+    }
+
+    function LoadRouteOptions() {
+        var split = $("#JourneyId :selected").text().split(' < - > ');
+
+        $('#RouteDetail').val(split[0]);
+
+        $('#hiddenOption1').val(split[0]);
+        $('#hiddenOption2').val(split[1]);
+
+        $('#ckPlace1').html('<span class="ui-checkboxradio-icon ui-corner-all ui-icon ui-icon-background ui-icon-blank"></span><span class="ui-checkboxradio-icon-space"> </span>' + split[0]);
+        $('#ckPlace2').html('<span class="ui-checkboxradio-icon ui-corner-all ui-icon ui-icon-background ui-icon-blank ui-state-hover"></span><span class="ui-checkboxradio-icon-space"> </span>' + split[1]);
+    }
+</script>

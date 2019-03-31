@@ -1,0 +1,83 @@
+﻿@*@model CarpoolingCR.Objects.Responses.ReservationResponse
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Reserva tu viaje</h2>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <input id="AvailableSpaces" type="hidden" value="@Model.Trip.AvailableSpaces" />
+    <input id="ApplicationUserId" type="hidden" value="@Model." />
+
+    <div class="row form-group">
+        <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
+            <label class="control-label" style="text-align:left">Trayecto</label>
+        </div>
+        <div class="col-lg-10 col-md-12 col-sm-12 col-xs-12">
+            @{
+                var op1 = Model.Trip.Journey.Option1;
+                var op2 = Model.Trip.Journey.Option2;
+                var journeyDetail = "";
+
+                var destination = Model.Trip.RouteDetail;
+
+                if (destination != op1)
+                {
+                    journeyDetail = op1 + " - " + destination;
+                }
+                else
+                {
+                    journeyDetail = op2 + " - " + destination;
+                }
+            }
+
+            @journeyDetail
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
+            <label class="control-label" style="text-align:left">Fecha</label>
+        </div>
+        <div class="col-lg-10 col-md-12 col-sm-12 col-xs-12">
+            @Model.Trip.DateTime.ToString()
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
+            <label class="control-label" style="text-align:left">Conductor</label>
+        </div>
+        <div class="col-lg-10 col-md-12 col-sm-12 col-xs-12">
+            @Model.Trip.ApplicationUser.Name @Model.Trip.ApplicationUser.LastName
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
+            <label class="control-label" style="text-align:left">Espacios</label>
+        </div>
+        <div class="col-lg-10 col-md-12 col-sm-12 col-xs-12">
+            <input id="RequestedSpaces" class="" style="width:40px;" name="RequestedSpaces" onfocus="blur();">
+        </div>
+    </div>
+    <hr />
+
+    <div class="form-group">
+        <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
+
+        </div>
+        <div class="col-lg-10 col-md-12 col-sm-12 col-xs-12">
+            @Html.ActionLink("<<", "Transportation", new { }, new { @class = "btn btn-primary" }) <input type="submit" value="Crear" class="btn btn-success pull-right" />
+        </div>
+    </div>
+}
+
+<script>
+    $('#RequestedSpaces').spinner({
+        min: 1,
+        max: $('#AvailableSpaces').val()
+    }).val(1);
+</script>*@

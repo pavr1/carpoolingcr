@@ -1,0 +1,45 @@
+﻿@model IEnumerable<CarpoolingCR.Models.BankAccount>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Bank.BankName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SavingsAccount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Sinpe)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Bank.BankName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SavingsAccount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Sinpe)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.BankAccountId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.BankAccountId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.BankAccountId })
+        </td>
+    </tr>
+}
+
+</table>

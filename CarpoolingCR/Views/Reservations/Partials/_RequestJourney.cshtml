@@ -1,0 +1,143 @@
+﻿@model CarpoolingCR.Objects.Responses.ReservationTransportationResponse
+
+<div id="RequestJourneyContainer">
+    <hr />
+
+    <div class="row form-group">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <label id="lblFromTo" class="hidden"></label>
+            <p id="tooltip">
+                @*<a href="/RideRequests/Index" class="btn btn-success pull-right" title="¿No has encontrado un viaje que te sirva? Crea una solicitud de viaje y te avisaremos cuando haya alguno disponible">Notificaciones</a>*@
+            </p>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:center">
+            <div id="calendar"></div>
+            <img id="requestJourneyProcessing" src="~/Content/Icons/processing.gif" style="width:50px;height:50px;" />
+        </div>
+    </div>
+
+    <script>
+            var iconRenderedDates = [];
+            //$('#tooltip').tooltip();
+
+        $(document).ready(function () {
+            $('#calendar').fullCalendar({
+                weekends: true,
+                //defaultView: 'agendaMonth',
+                eventClick: function (calEvent, jsEvent, view) {
+                    RedirectToDayTrips(calEvent.start);
+                },
+                eventLimit: true,
+                views: {
+                    agenda: {
+                        eventLimit: 6
+                    }
+                },
+                eventRender: function (event, element, view) {
+                    return $('<p>&nbsp;&nbsp;' + event.count + ' <i class="fas fa-car"></i></p>');
+                },
+                //events: [
+
+                //    ],
+                contentHeight: "auto",
+                selectable: true,
+                navLinks: true,
+                dayClick: function (date, jsEvent, view) {
+                    RedirectToDayTrips(date);
+                },
+                dayRender: function (date, cell) {
+                    cell.css("background-color", "lightgreen");
+                },
+                //locale: 'es',
+                header: {
+                    left: 'title',
+                    center: '',
+                    right: 'prev,today,next'
+                }
+            });
+
+            $('#calendar').removeClass('hidden');
+            $('#requestJourneyProcessing').addClass('hidden');
+
+            ReloadTrips();
+        });
+
+        function ReloadTrips() {
+            var arrayOfTrips = JSON.parse('@Html.Raw(Json.Encode(Model.Trips))');
+            var events = [];
+
+            for (var i = 0; i < arrayOfTrips.length; i++) {
+                var tripId = arrayOfTrips[i].TripId;
+                var availableSpaces = arrayOfTrips[i].AvailableSpaces;
+                var dateTime = arrayOfTrips[i].DateTime;
+                var unixTime = parseInt(dateTime.toString().replace("/Date(", "").replace(")", "").replace("/", ""));
+                var from = arrayOfTrips[i].FromTown;
+                var to = arrayOfTrips[i].ToTown;
+                
+                document.getElementById('lblFromTo').innerHTML = from + ' - ' + to;
+
+                var actualDate = new Date(unixTime);
+                var month = parseInt(actualDate.getMonth() + 1);
+                var monthSrt = '';
+                var day = parseInt(actualDate.getDate());
+                var dayStr = '';
+
+                if (month < 10) {
+                    monthStr = '0' + month;
+                } else {
+                    monthStr = ''+month;
+                }
+
+                if (day < 10) {
+                    dayStr = '0' + day;
+                } else {
+                    dayStr = '' + day;
+                }
+
+                var key = actualDate.getFullYear() + '-' + monthStr + '-' + dayStr;
+                var obj = GetKeyValueObj(key, events);
+
+                if (obj == null) {
+                    obj = { key: key, count: 1, id: tripId, title: ''};
+
+                    events.push(obj);
+                } else {
+                    obj.count = parseInt(obj.count + 1);
+                }
+            }
+
+            for (var index in events) {
+                var obj = events[index];
+
+                 var event = {
+                    id: obj.tripId,
+                    title: availableSpaces + ' espacios',
+                     start: obj.key,
+                     end: obj.key,
+                     //color: '#378006',
+                     count: obj.count,
+                };
+
+                $('#calendar').fullCalendar('renderEvent', event, true);
+            }
+        }
+
+        function GetKeyValueObj(key, events) {
+            for (var index in events) {
+                var currentObj = events[index];
+
+                if (currentObj.key == key) {
+                    return currentObj;
+                }
+            }
+
+            return null;
+        }
+
+        function RedirectToDayTrips(date) {
+            var fromto = document.getElementById('lblFromTo').innerHTML.split(' - ');
+            window.location.href = '/Trips/DayTrips?date=' + date.format() + '&from=' + fromto[0] + '&to=' + fromto[1];
+        }
+
+    </script>
+</div>

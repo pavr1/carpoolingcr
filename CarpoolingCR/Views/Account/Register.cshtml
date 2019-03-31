@@ -1,0 +1,103 @@
+﻿@model CarpoolingCR.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Register";
+}
+
+<h2>Registro de Usuarios</h2>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.TextBoxFor(m => m.UserType, new { @class = "form-control", @Value = "Pasajero", style = "display: none;" })
+    @Html.AntiForgeryToken()
+    <hr />
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    <div class="form-group">
+        <label class="col-md-2 control-label">Correo</label>
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Correo Electrónico" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-2 control-label">Clave</label>
+        <div class="col-md-10">
+            @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Clave" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-2 control-label">Confirmación</label>
+        <div class="col-md-10">
+            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", placeholder = "Confirmación de Clave" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-2 control-label">País</label>
+        <div class="col-md-10">
+            @{
+                if (ViewBag.CountryId != null)
+                {
+                    @Html.DropDownList("CountryId", (SelectList)ViewBag.CountryId, htmlAttributes: new { @class = "form-control" })
+                }
+            }
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-2 control-label">Tipo de Usuario</label>
+        <div id="radioset" role="toolbar" class="ui-controlgroup ui-controlgroup-horizontal ui-helper-clearfix col-md-10">
+            <input type="radio" id="rbPassenger" name="radio" checked="checked" class="ui-checkboxradio ui-helper-hidden-accessible" onclick="SetUserType('Pasajero')"><label for="rbPassenger" class="ui-button ui-widget ui-checkboxradio-radio-label ui-controlgroup-item ui-checkboxradio-label ui-corner-left"><span class="ui-checkboxradio-icon ui-corner-all ui-icon ui-icon-background ui-icon-blank"></span><span class="ui-checkboxradio-icon-space"> </span>Pasajero</label>
+            <input type="radio" id="rbDriver" name="radio" class="ui-checkboxradio ui-helper-hidden-accessible" onclick="SetUserType('Conductor')"><label for="rbDriver" class="ui-button ui-widget ui-checkboxradio-radio-label ui-checkboxradio-checked ui-state-active ui-checkboxradio-label ui-controlgroup-item"><span class="ui-checkboxradio-icon ui-corner-all ui-icon ui-icon-background ui-icon-blank ui-state-hover"></span><span class="ui-checkboxradio-icon-space"> </span>Conductor</label>
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder = "Nombre" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.LastName, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", placeholder = "Primer Apellido" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.SecondLastName, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.SecondLastName, new { @class = "form-control", placeholder = "Segundo Apellido" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Phone1, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Phone1, new { @class = "form-control", placeholder = "Teléfono #1" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Phone2, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Phone2, new { @class = "form-control", placeholder = "Teléfono #2" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-default" value="Registrar" />
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<script>
+    $("#radioset").buttonset();
+
+    $('#SecondLastName').attr('data-val', false);
+    $('#Phone2').attr('data-val', false);
+    $('#FacebookAccount').attr('data-val', false);
+
+    function SetUserType(type) {
+        document.getElementById('UserType').value = type
+    }
+</script>

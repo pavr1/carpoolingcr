@@ -1,0 +1,87 @@
+﻿@model IEnumerable<CarpoolingCR.Models.MonthlyTransactions>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.MonthlyBalance.MonthlyBalanceId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.InitialBalance)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreditAmount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreditType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreditReference)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DebitAmount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DebitType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DebitReference)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FinalBalance)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.MonthlyBalance.MonthlyBalanceId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.InitialBalance)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreditAmount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreditType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreditReference)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DebitAmount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DebitType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DebitReference)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FinalBalance)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Date)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.MonthlyTransactionsId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.MonthlyTransactionsId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.MonthlyTransactionsId })
+        </td>
+    </tr>
+}
+
+</table>

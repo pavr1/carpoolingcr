@@ -1,0 +1,34 @@
+﻿@model IEnumerable<CarpoolingCR.Models.Bank>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Bancos</h2>
+
+<p>
+    @Html.ActionLink("Crear", "Create", new { }, new { @class = "btn btn-primary pull-right" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.BankName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.BankName)
+        </td>
+        <td>
+            <div class="pull-right">
+                @Html.ActionLink("...", "Edit", new { id = item.BankId }, new { @class = "btn btn-info" })
+                @Html.ActionLink("X", "Delete", new { id = item.BankId }, new { @class = "btn btn-danger" })
+            </div>
+        </td>
+    </tr>
+}
+
+</table>

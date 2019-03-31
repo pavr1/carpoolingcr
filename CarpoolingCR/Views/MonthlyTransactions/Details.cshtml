@@ -1,0 +1,98 @@
+﻿@model CarpoolingCR.Models.MonthlyTransactions
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>MonthlyTransactions</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.MonthlyBalance.MonthlyBalanceId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MonthlyBalance.MonthlyBalanceId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.InitialBalance)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.InitialBalance)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreditAmount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreditAmount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreditType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreditType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreditReference)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreditReference)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DebitAmount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DebitAmount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DebitType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DebitType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DebitReference)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DebitReference)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FinalBalance)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FinalBalance)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.MonthlyTransactionsId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

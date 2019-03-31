@@ -1,0 +1,104 @@
+﻿@model CarpoolingCR.Models.MonthlyTransactions
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>MonthlyTransactions</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.MonthlyBalance.MonthlyBalanceId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MonthlyBalance.MonthlyBalanceId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.InitialBalance)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.InitialBalance)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreditAmount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreditAmount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreditType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreditType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreditReference)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreditReference)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DebitAmount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DebitAmount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DebitType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DebitType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DebitReference)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DebitReference)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FinalBalance)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FinalBalance)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

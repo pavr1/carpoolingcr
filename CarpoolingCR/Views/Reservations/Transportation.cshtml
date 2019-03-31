@@ -1,0 +1,125 @@
+﻿@model CarpoolingCR.Objects.Responses.ReservationTransportationResponse
+
+@{
+    ViewBag.Title = "Transportation";
+}
+
+<h3>Transporte</h3>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<div class="row form-group">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div id="tabs" class="ui-tabs ui-corner-all ui-widget ui-widget-content">
+            <ul role="tablist" class="ui-tabs-nav ui-corner-all ui-helper-reset ui-helper-clearfix ui-widget-header">
+                <li role="tab" id="tabRequest" tabindex="0" class="ui-tabs-tab ui-corner-top ui-state-default ui-tab ui-tabs-active ui-state-active" aria-controls="tabs-1" aria-labelledby="ui-id-15" aria-selected="true" aria-expanded="true">
+                    <a href="#tabs-1" role="presentation" tabindex="-1" class="ui-tabs-anchor">Solicitar</a>
+                </li>
+                <li role="tab" id="tabPending" tabindex="1" class="ui-tabs-tab ui-corner-top ui-tab" aria-controls="tabs-2" aria-labelledby="ui-id-16" aria-selected="false" aria-expanded="false">
+                    <a href="#tabs-2" role="presentation" tabindex="-1" class="ui-tabs-anchor">Pendientes</a>
+                </li>
+            </ul>
+            <div id="tabs-1" aria-labelledby="ui-id-15" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true">
+                <div class="row form-group">
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                        <label class="control-label visible-xs">Origen</label>
+                        <label class="control-label pull-right visible-sm visible-md visible-lg">Origen</label>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        <select id="FromTown" name="FromTown" class="form-control">
+                            @{
+                                foreach (var item in Model.Towns)
+                                {
+                                    <option value="@item.Name">@item.Name</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                        <label class="control-label visible-xs">Destino</label>
+                        <label class="control-label pull-right visible-sm visible-md visible-lg">Destino</label>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        <select id="ToTown" name="ToTown" class="form-control">
+                            @{
+                                foreach (var item in Model.Towns)
+                                {
+                                    <option value="@item.Name">@item.Name</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        <input type="button" class="btn btn-default col-lg-12 col-md-12 col-sm-12" onclick="RetrieveTrips()" value="Consultar Viajes" />
+                    </div>
+                </div>
+                @Html.Partial("~/Views/Reservations/Partials/_RequestJourney.cshtml", Model)
+            </div>
+            <div id="tabs-2" aria-labelledby="ui-id-16" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false" style="display: none;">
+                @Html.Partial("~/Views/Reservations/Partials/_PendingReservations.cshtml", Model)
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#tabs').tabs();
+    $('#tabPending').removeClass('ui-state-active');
+    $('#FromTown').editableSelect();
+    $('#ToTown').editableSelect();
+    //$('#tooltipRetrieveTrips').tooltip();
+
+    $(document).ready(function () {
+        $('#tabs').tabs("option", "active", 0);
+    });
+
+    function RetrieveTrips() {
+        $('#btnRetrieveTrips').addClass('hidden');
+        $('#imgProcessing').removeClass('hidden');
+
+        var from = $("#FromTown").val();
+        var to = $("#ToTown").val();
+
+        $.post('/Reservations/Transportation', { from: from, to: to},
+            function (data) {
+                var json = JSON.parse(data);
+
+                var arrayOfTrips = JSON.parse('@Html.Raw(Json.Encode(Model.Trips))');
+
+                $('#RequestJourneyContainer').html(json.Html);
+
+                $('#btnRetrieveTrips').removeClass('hidden');
+                $('#imgProcessing').addClass('hidden');
+            });
+    }
+</script>
+
+<link href="~/fonts/fullcalendar-3.10.0/fullcalendar.min.css" rel="stylesheet" />
+<script src="~/fonts/fullcalendar-3.10.0/moment.min.js"></script>
+<script src="~/fonts/fullcalendar-3.10.0/fullcalendar.min.js"></script>
+
+
+<script src="~/Scripts/jquery.signalR-2.4.0.min.js"></script>
+<script src="~/signalr/hubs"></script>
+<script type="text/javascript">
+    $(function () {
+        $.connection.hub.start();
+        $.connection.hub.qs = "myInfo=12345";
+        var chat = $.connection.SignalHandlerHub;
+        chat.client.broadcastMessage = function (name, message) {
+            if (name == "TripCreated" || name == "TripDeleted") {
+                RetrieveTrips()
+            }
+        };
+        $.connection.hub.start().done(function () {
+        });
+
+    });
+</script>

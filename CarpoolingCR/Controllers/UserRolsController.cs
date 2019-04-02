@@ -1,9 +1,7 @@
 ﻿using CarpoolingCR.Models;
 using CarpoolingCR.Utils;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace CarpoolingCR.Controllers
@@ -14,27 +12,47 @@ namespace CarpoolingCR.Controllers
 
         public ActionResult ValidateUserRol()
         {
-            if (!User.Identity.IsAuthenticated)
+            try
             {
-                return RedirectToAction("Login", "Account");
-            }
-
-            var user = db.Users.Where(x => x.Email == User.Identity.Name).Single();
-
-            if (user != null)
-            {
-                switch (user.UserType)
+                if (!User.Identity.IsAuthenticated)
                 {
-                    case Enums.UserType.Administrador:
-                        return RedirectToAction("AdminIndex", "UserRols");
-                    case Enums.UserType.Conductor:
-                        return RedirectToAction("DriverIndex", "UserRols");
-                    case Enums.UserType.Pasajero:
-                        return RedirectToAction("PassengerIndex", "UserRols");
+                    return RedirectToAction("Login", "Account");
                 }
-            }
 
-            return RedirectToAction("AdminIndex", "UserRols");
+                var user = db.Users.Where(x => x.Email == User.Identity.Name).Single();
+
+                if (user != null)
+                {
+                    switch (user.UserType)
+                    {
+                        case Enums.UserType.Administrador:
+                            return RedirectToAction("AdminIndex", "UserRols");
+                        case Enums.UserType.Conductor:
+                            return RedirectToAction("DriverIndex", "UserRols");
+                        case Enums.UserType.Pasajero:
+                            return RedirectToAction("PassengerIndex", "UserRols");
+                    }
+                }
+
+                return RedirectToAction("AdminIndex", "UserRols");
+            }
+            catch (Exception ex)
+            {
+                Common.LogData(new Log
+                {
+                    Line = Common.GetCurrentLine(),
+                    Location = Enums.LogLocation.Server,
+                    LogType = Enums.LogType.Error,
+                    Message = ex.Message + " / " + ex.StackTrace,
+                    Method = Common.GetCurrentMethod(),
+                    Timestamp = DateTime.Now,
+                    UserEmail = User.Identity.Name
+                });
+
+                ViewBag.Error = "Hubo un error inesperado, por favor intente de nuevo.";
+
+                return View();
+            }
         }
 
         public ActionResult AdminIndex()

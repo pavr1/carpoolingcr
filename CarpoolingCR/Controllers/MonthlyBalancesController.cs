@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using CarpoolingCR.Models;
+using CarpoolingCR.Utils;
+using System;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using CarpoolingCR.Models;
 
 namespace CarpoolingCR.Controllers
 {
@@ -17,7 +15,27 @@ namespace CarpoolingCR.Controllers
         // GET: MonthlyBalances
         public ActionResult Index()
         {
-            return View(db.MonthlyBalances.ToList());
+            try
+            {
+                return View(db.MonthlyBalances.ToList());
+            }
+            catch (Exception ex)
+            {
+                Common.LogData(new Log
+                {
+                    Line = Common.GetCurrentLine(),
+                    Location = Enums.LogLocation.Server,
+                    LogType = Enums.LogType.Error,
+                    Message = ex.Message + " / " + ex.StackTrace,
+                    Method = Common.GetCurrentMethod(),
+                    Timestamp = DateTime.Now,
+                    UserEmail = User.Identity.Name
+                });
+
+                ViewBag.Error = "Hubo un error inesperado, por favor intente de nuevo.";
+
+                return View();
+            }
         }
 
         // GET: MonthlyBalances/Details/5
@@ -48,29 +66,70 @@ namespace CarpoolingCR.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "MonthlyBalanceId,Month,Year,ApplicationUserId")] MonthlyBalance monthlyBalance)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.MonthlyBalances.Add(monthlyBalance);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+                if (ModelState.IsValid)
+                {
+                    db.MonthlyBalances.Add(monthlyBalance);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
 
-            return View(monthlyBalance);
+                return View(monthlyBalance);
+            }
+            catch (Exception ex)
+            {
+                Common.LogData(new Log
+                {
+                    Line = Common.GetCurrentLine(),
+                    Location = Enums.LogLocation.Server,
+                    LogType = Enums.LogType.Error,
+                    Message = ex.Message + " / " + ex.StackTrace,
+                    Method = Common.GetCurrentMethod(),
+                    Timestamp = DateTime.Now,
+                    UserEmail = User.Identity.Name
+                });
+
+                ViewBag.Error = "Hubo un error inesperado, por favor intente de nuevo.";
+
+                return View();
+            }
         }
 
         // GET: MonthlyBalances/Edit/5
         public ActionResult Edit(int? id)
         {
-            if (id == null)
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                MonthlyBalance monthlyBalance = db.MonthlyBalances.Find(id);
+                if (monthlyBalance == null)
+                {
+                    return HttpNotFound();
+                }
+
+                return View(monthlyBalance);
             }
-            MonthlyBalance monthlyBalance = db.MonthlyBalances.Find(id);
-            if (monthlyBalance == null)
+            catch (Exception ex)
             {
-                return HttpNotFound();
+                Common.LogData(new Log
+                {
+                    Line = Common.GetCurrentLine(),
+                    Location = Enums.LogLocation.Server,
+                    LogType = Enums.LogType.Error,
+                    Message = ex.Message + " / " + ex.StackTrace,
+                    Method = Common.GetCurrentMethod(),
+                    Timestamp = DateTime.Now,
+                    UserEmail = User.Identity.Name
+                });
+
+                ViewBag.Error = "Hubo un error inesperado, por favor intente de nuevo.";
+
+                return View();
             }
-            return View(monthlyBalance);
         }
 
         // POST: MonthlyBalances/Edit/5
@@ -80,28 +139,70 @@ namespace CarpoolingCR.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "MonthlyBalanceId,Month,Year,ApplicationUserId")] MonthlyBalance monthlyBalance)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Entry(monthlyBalance).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    db.Entry(monthlyBalance).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+
+                return View(monthlyBalance);
             }
-            return View(monthlyBalance);
+            catch (Exception ex)
+            {
+                Common.LogData(new Log
+                {
+                    Line = Common.GetCurrentLine(),
+                    Location = Enums.LogLocation.Server,
+                    LogType = Enums.LogType.Error,
+                    Message = ex.Message + " / " + ex.StackTrace,
+                    Method = Common.GetCurrentMethod(),
+                    Timestamp = DateTime.Now,
+                    UserEmail = User.Identity.Name
+                });
+
+                ViewBag.Error = "Hubo un error inesperado, por favor intente de nuevo.";
+
+                return View();
+            }
         }
 
         // GET: MonthlyBalances/Delete/5
         public ActionResult Delete(int? id)
         {
-            if (id == null)
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                MonthlyBalance monthlyBalance = db.MonthlyBalances.Find(id);
+                if (monthlyBalance == null)
+                {
+                    return HttpNotFound();
+                }
+
+                return View(monthlyBalance);
             }
-            MonthlyBalance monthlyBalance = db.MonthlyBalances.Find(id);
-            if (monthlyBalance == null)
+            catch (Exception ex)
             {
-                return HttpNotFound();
+                Common.LogData(new Log
+                {
+                    Line = Common.GetCurrentLine(),
+                    Location = Enums.LogLocation.Server,
+                    LogType = Enums.LogType.Error,
+                    Message = ex.Message + " / " + ex.StackTrace,
+                    Method = Common.GetCurrentMethod(),
+                    Timestamp = DateTime.Now,
+                    UserEmail = User.Identity.Name
+                });
+
+                ViewBag.Error = "Hubo un error inesperado, por favor intente de nuevo.";
+
+                return View();
             }
-            return View(monthlyBalance);
         }
 
         // POST: MonthlyBalances/Delete/5
@@ -109,10 +210,31 @@ namespace CarpoolingCR.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            MonthlyBalance monthlyBalance = db.MonthlyBalances.Find(id);
-            db.MonthlyBalances.Remove(monthlyBalance);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            try
+            {
+                MonthlyBalance monthlyBalance = db.MonthlyBalances.Find(id);
+                db.MonthlyBalances.Remove(monthlyBalance);
+                db.SaveChanges();
+
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                Common.LogData(new Log
+                {
+                    Line = Common.GetCurrentLine(),
+                    Location = Enums.LogLocation.Server,
+                    LogType = Enums.LogType.Error,
+                    Message = ex.Message + " / " + ex.StackTrace,
+                    Method = Common.GetCurrentMethod(),
+                    Timestamp = DateTime.Now,
+                    UserEmail = User.Identity.Name
+                });
+
+                ViewBag.Error = "Hubo un error inesperado, por favor intente de nuevo.";
+
+                return View();
+            }
         }
 
         protected override void Dispose(bool disposing)

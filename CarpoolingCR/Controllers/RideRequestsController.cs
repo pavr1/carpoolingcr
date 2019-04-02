@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
-using System.Net;
-using System.Web;
-using System.Web.Mvc;
-using CarpoolingCR.Models;
+﻿using CarpoolingCR.Models;
 using CarpoolingCR.Utils;
+using System;
+using System.Data.Entity;
+using System.Net;
+using System.Web.Mvc;
 using static CarpoolingCR.Utils.Enums;
 
 namespace CarpoolingCR.Controllers
@@ -19,45 +15,105 @@ namespace CarpoolingCR.Controllers
         // GET: RideRequests
         public ActionResult Index()
         {
-            if (!Common.IsAuthorized(User))
+            try
             {
-                return RedirectToAction("Login", "Account");
-            }
+                if (!Common.IsAuthorized(User))
+                {
+                    return RedirectToAction("Login", "Account");
+                }
 
-            //var rideRequests = db.RideRequests.Include(r => r.Journey);
-            return View();
+                //var rideRequests = db.RideRequests.Include(r => r.Journey);
+                return View();
+            }
+            catch (Exception ex)
+            {
+                Common.LogData(new Log
+                {
+                    Line = Common.GetCurrentLine(),
+                    Location = Enums.LogLocation.Server,
+                    LogType = Enums.LogType.Error,
+                    Message = ex.Message + " / " + ex.StackTrace,
+                    Method = Common.GetCurrentMethod(),
+                    Timestamp = DateTime.Now,
+                    UserEmail = User.Identity.Name
+                });
+
+                ViewBag.Error = "Hubo un error inesperado, por favor intente de nuevo.";
+
+                return View();
+            }
         }
 
         // GET: RideRequests/Details/5
         public ActionResult Details(int? id)
         {
-            if (!Common.IsAuthorized(User))
+            try
             {
-                return RedirectToAction("Login", "Account");
-            }
+                if (!Common.IsAuthorized(User))
+                {
+                    return RedirectToAction("Login", "Account");
+                }
 
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                RideRequest rideRequest = db.RideRequests.Find(id);
+                if (rideRequest == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(rideRequest);
             }
-            RideRequest rideRequest = db.RideRequests.Find(id);
-            if (rideRequest == null)
+            catch (Exception ex)
             {
-                return HttpNotFound();
+                Common.LogData(new Log
+                {
+                    Line = Common.GetCurrentLine(),
+                    Location = Enums.LogLocation.Server,
+                    LogType = Enums.LogType.Error,
+                    Message = ex.Message + " / " + ex.StackTrace,
+                    Method = Common.GetCurrentMethod(),
+                    Timestamp = DateTime.Now,
+                    UserEmail = User.Identity.Name
+                });
+
+                ViewBag.Error = "Hubo un error inesperado, por favor intente de nuevo.";
+
+                return View();
             }
-            return View(rideRequest);
         }
 
         // GET: RideRequests/Create
         public ActionResult Create()
         {
-            if (!Common.IsAuthorized(User))
+            try
             {
-                return RedirectToAction("Login", "Account");
-            }
+                if (!Common.IsAuthorized(User))
+                {
+                    return RedirectToAction("Login", "Account");
+                }
 
-            //ViewBag.JourneyId = new SelectList(db.Journeys, "JourneyId", "Name");
-            return View();
+                //ViewBag.JourneyId = new SelectList(db.Journeys, "JourneyId", "Name");
+                return View();
+            }
+            catch (Exception ex)
+            {
+                Common.LogData(new Log
+                {
+                    Line = Common.GetCurrentLine(),
+                    Location = Enums.LogLocation.Server,
+                    LogType = Enums.LogType.Error,
+                    Message = ex.Message + " / " + ex.StackTrace,
+                    Method = Common.GetCurrentMethod(),
+                    Timestamp = DateTime.Now,
+                    UserEmail = User.Identity.Name
+                });
+
+                ViewBag.Error = "Hubo un error inesperado, por favor intente de nuevo.";
+
+                return View();
+            }
         }
 
         // POST: RideRequests/Create
@@ -67,44 +123,74 @@ namespace CarpoolingCR.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "RideRequestId,UserId,JourneyId,RouteDetails,Date,IsTimeSpecific,DayPart,RequestedSpaces,Status")] RideRequest rideRequest)
         {
-            if (!Common.IsAuthorized(User))
+            try
             {
-                return RedirectToAction("Login", "Account");
-            }
+                if (ModelState.IsValid)
+                {
+                    rideRequest.UserEmail = User.Identity.Name;
+                    rideRequest.Status = Status.Pendiente.ToString();
 
-            if (ModelState.IsValid)
+                    db.RideRequests.Add(rideRequest);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+
+                //ViewBag.JourneyId = new SelectList(db.Journeys, "JourneyId", "Name", rideRequest.JourneyId);
+                return View(rideRequest);
+            }
+            catch (Exception ex)
             {
-                rideRequest.UserEmail = User.Identity.Name;
-                rideRequest.Status = Status.Pendiente.ToString();
+                Common.LogData(new Log
+                {
+                    Line = Common.GetCurrentLine(),
+                    Location = Enums.LogLocation.Server,
+                    LogType = Enums.LogType.Error,
+                    Message = ex.Message + " / " + ex.StackTrace,
+                    Method = Common.GetCurrentMethod(),
+                    Timestamp = DateTime.Now,
+                    UserEmail = User.Identity.Name
+                });
 
-                db.RideRequests.Add(rideRequest);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                ViewBag.Error = "Hubo un error inesperado, por favor intente de nuevo.";
+
+                return View();
             }
-
-            //ViewBag.JourneyId = new SelectList(db.Journeys, "JourneyId", "Name", rideRequest.JourneyId);
-            return View(rideRequest);
         }
 
         // GET: RideRequests/Edit/5
         public ActionResult Edit(int? id)
         {
-            if (!Common.IsAuthorized(User))
+            try
             {
-                return RedirectToAction("Login", "Account");
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                RideRequest rideRequest = db.RideRequests.Find(id);
+                if (rideRequest == null)
+                {
+                    return HttpNotFound();
+                }
+                //ViewBag.JourneyId = new SelectList(db.Journeys, "JourneyId", "Name", rideRequest.JourneyId);
+                return View(rideRequest);
             }
+            catch (Exception ex)
+            {
+                Common.LogData(new Log
+                {
+                    Line = Common.GetCurrentLine(),
+                    Location = Enums.LogLocation.Server,
+                    LogType = Enums.LogType.Error,
+                    Message = ex.Message + " / " + ex.StackTrace,
+                    Method = Common.GetCurrentMethod(),
+                    Timestamp = DateTime.Now,
+                    UserEmail = User.Identity.Name
+                });
 
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                ViewBag.Error = "Hubo un error inesperado, por favor intente de nuevo.";
+
+                return View();
             }
-            RideRequest rideRequest = db.RideRequests.Find(id);
-            if (rideRequest == null)
-            {
-                return HttpNotFound();
-            }
-            //ViewBag.JourneyId = new SelectList(db.Journeys, "JourneyId", "Name", rideRequest.JourneyId);
-            return View(rideRequest);
         }
 
         // POST: RideRequests/Edit/5
@@ -114,39 +200,69 @@ namespace CarpoolingCR.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "RideRequestId,UserId,JourneyId,RouteDetails,Date,IsTimeSpecific,DayPart,RequestedSpaces,Status")] RideRequest rideRequest)
         {
-            if (!Common.IsAuthorized(User))
+            try
             {
-                return RedirectToAction("Login", "Account");
+                if (ModelState.IsValid)
+                {
+                    db.Entry(rideRequest).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                //ViewBag.JourneyId = new SelectList(db.Journeys, "JourneyId", "Name", rideRequest.JourneyId);
+                return View(rideRequest);
             }
+            catch (Exception ex)
+            {
+                Common.LogData(new Log
+                {
+                    Line = Common.GetCurrentLine(),
+                    Location = Enums.LogLocation.Server,
+                    LogType = Enums.LogType.Error,
+                    Message = ex.Message + " / " + ex.StackTrace,
+                    Method = Common.GetCurrentMethod(),
+                    Timestamp = DateTime.Now,
+                    UserEmail = User.Identity.Name
+                });
 
-            if (ModelState.IsValid)
-            {
-                db.Entry(rideRequest).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                ViewBag.Error = "Hubo un error inesperado, por favor intente de nuevo.";
+
+                return View();
             }
-            //ViewBag.JourneyId = new SelectList(db.Journeys, "JourneyId", "Name", rideRequest.JourneyId);
-            return View(rideRequest);
         }
 
         // GET: RideRequests/Delete/5
         public ActionResult Delete(int? id)
         {
-            if (!Common.IsAuthorized(User))
+            try
             {
-                return RedirectToAction("Login", "Account");
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                RideRequest rideRequest = db.RideRequests.Find(id);
+                if (rideRequest == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(rideRequest);
             }
+            catch (Exception ex)
+            {
+                Common.LogData(new Log
+                {
+                    Line = Common.GetCurrentLine(),
+                    Location = Enums.LogLocation.Server,
+                    LogType = Enums.LogType.Error,
+                    Message = ex.Message + " / " + ex.StackTrace,
+                    Method = Common.GetCurrentMethod(),
+                    Timestamp = DateTime.Now,
+                    UserEmail = User.Identity.Name
+                });
 
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                ViewBag.Error = "Hubo un error inesperado, por favor intente de nuevo.";
+
+                return View();
             }
-            RideRequest rideRequest = db.RideRequests.Find(id);
-            if (rideRequest == null)
-            {
-                return HttpNotFound();
-            }
-            return View(rideRequest);
         }
 
         // POST: RideRequests/Delete/5
@@ -154,15 +270,30 @@ namespace CarpoolingCR.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            if (!Common.IsAuthorized(User))
+            try
             {
-                return RedirectToAction("Login", "Account");
+                RideRequest rideRequest = db.RideRequests.Find(id);
+                db.RideRequests.Remove(rideRequest);
+                db.SaveChanges();
+                return RedirectToAction("Index");
             }
+            catch (Exception ex)
+            {
+                Common.LogData(new Log
+                {
+                    Line = Common.GetCurrentLine(),
+                    Location = Enums.LogLocation.Server,
+                    LogType = Enums.LogType.Error,
+                    Message = ex.Message + " / " + ex.StackTrace,
+                    Method = Common.GetCurrentMethod(),
+                    Timestamp = DateTime.Now,
+                    UserEmail = User.Identity.Name
+                });
 
-            RideRequest rideRequest = db.RideRequests.Find(id);
-            db.RideRequests.Remove(rideRequest);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+                ViewBag.Error = "Hubo un error inesperado, por favor intente de nuevo.";
+
+                return View();
+            }
         }
 
         protected override void Dispose(bool disposing)

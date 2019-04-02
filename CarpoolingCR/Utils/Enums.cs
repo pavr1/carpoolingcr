@@ -74,5 +74,18 @@ namespace CarpoolingCR.Utils
             [Description("Retiro")]
             Withdraw
         }
+
+        public enum LogLocation
+        {
+            Server,
+            Client
+        }
+
+        public enum LogType
+        {
+            Info,
+            Error,
+            Warning
+        }
     }
 }

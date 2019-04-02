@@ -315,6 +315,10 @@
     <Compile Include="Migrations\201903290308506_Added TownStatus Enum to town.Designer.cs">
       <DependentUpon>201903290308506_Added TownStatus Enum to town.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201904020248587_Changed Log Model.cs" />
+    <Compile Include="Migrations\201904020248587_Changed Log Model.Designer.cs">
+      <DependentUpon>201904020248587_Changed Log Model.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Bank.cs" />
@@ -757,6 +761,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201903290308506_Added TownStatus Enum to town.resx">
       <DependentUpon>201903290308506_Added TownStatus Enum to town.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904020248587_Changed Log Model.resx">
+      <DependentUpon>201904020248587_Changed Log Model.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

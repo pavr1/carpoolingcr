@@ -23,7 +23,10 @@
         $(document).ready(function () {
             $('#calendar').fullCalendar({
                 weekends: true,
-                //defaultView: 'agendaMonth',
+                monthNames: ['Enero', 'Febrero', 'Marzo', 'Abríl', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'],
                 eventClick: function (calEvent, jsEvent, view) {
                     RedirectToDayTrips(calEvent.start);
                 },

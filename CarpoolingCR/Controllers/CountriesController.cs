@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using CarpoolingCR.Models;
+using CarpoolingCR.Utils;
+using System;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using CarpoolingCR;
-using CarpoolingCR.Models;
-using CarpoolingCR.Utils;
 
 namespace CarpoolingCR.Controllers
 {
@@ -19,27 +15,62 @@ namespace CarpoolingCR.Controllers
         // GET: Countries
         public ActionResult Index()
         {
-            if (!Common.IsAuthorized(User))
+            try
             {
-                return RedirectToAction("Login", "Account");
+                return View(db.Countries.ToList());
             }
+            catch (Exception ex)
+            {
+                Common.LogData(new Log
+                {
+                    Line = Common.GetCurrentLine(),
+                    Location = Enums.LogLocation.Server,
+                    LogType = Enums.LogType.Error,
+                    Message = ex.Message + " / " + ex.StackTrace,
+                    Method = Common.GetCurrentMethod(),
+                    Timestamp = DateTime.Now,
+                    UserEmail = User.Identity.Name
+                });
 
-            return View(db.Countries.ToList());
+                ViewBag.Error = "Hubo un error inesperado, por favor intente de nuevo.";
+
+                return View();
+            }
         }
 
         // GET: Countries/Details/5
         public ActionResult Details(int? id)
         {
-            if (id == null)
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Country country = db.Countries.Find(id);
+                if (country == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(country);
             }
-            Country country = db.Countries.Find(id);
-            if (country == null)
+            catch (Exception ex)
             {
-                return HttpNotFound();
+                Common.LogData(new Log
+                {
+                    Line = Common.GetCurrentLine(),
+                    Location = Enums.LogLocation.Server,
+                    LogType = Enums.LogType.Error,
+                    Message = ex.Message + " / " + ex.StackTrace,
+                    Method = Common.GetCurrentMethod(),
+                    Timestamp = DateTime.Now,
+                    UserEmail = User.Identity.Name
+                });
+
+                ViewBag.Error = "Hubo un error inesperado, por favor intente de nuevo.";
+
+                return View();
             }
-            return View(country);
         }
 
         // GET: Countries/Create
@@ -55,39 +86,74 @@ namespace CarpoolingCR.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "CountryId,Name,Status")] Country country)
         {
-            if (!Common.IsAuthorized(User))
+            try
             {
-                return RedirectToAction("Login", "Account");
-            }
+                if (ModelState.IsValid)
+                {
+                    db.Countries.Add(country);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
 
-            if (ModelState.IsValid)
+                return View(country);
+            }
+            catch (Exception ex)
             {
-                db.Countries.Add(country);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+                Common.LogData(new Log
+                {
+                    Line = Common.GetCurrentLine(),
+                    Location = Enums.LogLocation.Server,
+                    LogType = Enums.LogType.Error,
+                    Message = ex.Message + " / " + ex.StackTrace,
+                    Method = Common.GetCurrentMethod(),
+                    Timestamp = DateTime.Now,
+                    UserEmail = User.Identity.Name
+                });
 
-            return View(country);
+                ViewBag.Error = "Hubo un error inesperado, por favor intente de nuevo.";
+
+                return View();
+            }
         }
 
         // GET: Countries/Edit/5
         public ActionResult Edit(int? id)
         {
-            if (!Common.IsAuthorized(User))
+            try
             {
-                return RedirectToAction("Login", "Account");
-            }
+                if (!Common.IsAuthorized(User))
+                {
+                    return RedirectToAction("Login", "Account");
+                }
 
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Country country = db.Countries.Find(id);
+                if (country == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(country);
             }
-            Country country = db.Countries.Find(id);
-            if (country == null)
+            catch (Exception ex)
             {
-                return HttpNotFound();
+                Common.LogData(new Log
+                {
+                    Line = Common.GetCurrentLine(),
+                    Location = Enums.LogLocation.Server,
+                    LogType = Enums.LogType.Error,
+                    Message = ex.Message + " / " + ex.StackTrace,
+                    Method = Common.GetCurrentMethod(),
+                    Timestamp = DateTime.Now,
+                    UserEmail = User.Identity.Name
+                });
+
+                ViewBag.Error = "Hubo un error inesperado, por favor intente de nuevo.";
+
+                return View();
             }
-            return View(country);
         }
 
         // POST: Countries/Edit/5
@@ -97,38 +163,78 @@ namespace CarpoolingCR.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "CountryId,Name,Status")] Country country)
         {
-            if (!Common.IsAuthorized(User))
+            try
             {
-                return RedirectToAction("Login", "Account");
-            }
+                if (!Common.IsAuthorized(User))
+                {
+                    return RedirectToAction("Login", "Account");
+                }
 
-            if (ModelState.IsValid)
-            {
-                db.Entry(country).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    db.Entry(country).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                return View(country);
             }
-            return View(country);
+            catch (Exception ex)
+            {
+                Common.LogData(new Log
+                {
+                    Line = Common.GetCurrentLine(),
+                    Location = Enums.LogLocation.Server,
+                    LogType = Enums.LogType.Error,
+                    Message = ex.Message + " / " + ex.StackTrace,
+                    Method = Common.GetCurrentMethod(),
+                    Timestamp = DateTime.Now,
+                    UserEmail = User.Identity.Name
+                });
+
+                ViewBag.Error = "Hubo un error inesperado, por favor intente de nuevo.";
+
+                return View();
+            }
         }
 
         // GET: Countries/Delete/5
         public ActionResult Delete(int? id)
         {
-            if (!Common.IsAuthorized(User))
+            try
             {
-                return RedirectToAction("Login", "Account");
-            }
+                if (!Common.IsAuthorized(User))
+                {
+                    return RedirectToAction("Login", "Account");
+                }
 
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Country country = db.Countries.Find(id);
+                if (country == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(country);
             }
-            Country country = db.Countries.Find(id);
-            if (country == null)
+            catch (Exception ex)
             {
-                return HttpNotFound();
+                Common.LogData(new Log
+                {
+                    Line = Common.GetCurrentLine(),
+                    Location = Enums.LogLocation.Server,
+                    LogType = Enums.LogType.Error,
+                    Message = ex.Message + " / " + ex.StackTrace,
+                    Method = Common.GetCurrentMethod(),
+                    Timestamp = DateTime.Now,
+                    UserEmail = User.Identity.Name
+                });
+
+                ViewBag.Error = "Hubo un error inesperado, por favor intente de nuevo.";
+
+                return View();
             }
-            return View(country);
         }
 
         // POST: Countries/Delete/5
@@ -136,17 +242,37 @@ namespace CarpoolingCR.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            if (!Common.IsAuthorized(User))
+            try
             {
-                return RedirectToAction("Login", "Account");
+                if (!Common.IsAuthorized(User))
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+
+                id = Convert.ToInt32(Request["countryId"]);
+
+                Country country = db.Countries.Find(id);
+                db.Countries.Remove(country);
+                db.SaveChanges();
+                return RedirectToAction("Index");
             }
+            catch (Exception ex)
+            {
+                Common.LogData(new Log
+                {
+                    Line = Common.GetCurrentLine(),
+                    Location = Enums.LogLocation.Server,
+                    LogType = Enums.LogType.Error,
+                    Message = ex.Message + " / " + ex.StackTrace,
+                    Method = Common.GetCurrentMethod(),
+                    Timestamp = DateTime.Now,
+                    UserEmail = User.Identity.Name
+                });
 
-            id = Convert.ToInt32(Request["countryId"]);
+                ViewBag.Error = "Hubo un error inesperado, por favor intente de nuevo.";
 
-            Country country = db.Countries.Find(id);
-            db.Countries.Remove(country);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+                return View();
+            }
         }
 
         protected override void Dispose(bool disposing)

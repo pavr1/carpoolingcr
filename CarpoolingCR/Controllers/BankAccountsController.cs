@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using CarpoolingCR.Models;
+using CarpoolingCR.Utils;
+using System;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using CarpoolingCR.Models;
 
 namespace CarpoolingCR.Controllers
 {
@@ -17,8 +15,28 @@ namespace CarpoolingCR.Controllers
         // GET: BankAccounts
         public ActionResult Index()
         {
-            var bankAccounts = db.BankAccounts.Include(b => b.Bank);
-            return View(bankAccounts.ToList());
+            try
+            {
+                var bankAccounts = db.BankAccounts.Include(b => b.Bank);
+                return View(bankAccounts.ToList());
+            }
+            catch (Exception ex)
+            {
+                Common.LogData(new Log
+                {
+                    Line = Common.GetCurrentLine(),
+                    Location = Enums.LogLocation.Server,
+                    LogType = Enums.LogType.Error,
+                    Message = ex.Message + " / " + ex.StackTrace,
+                    Method = Common.GetCurrentMethod(),
+                    Timestamp = DateTime.Now,
+                    UserEmail = User.Identity.Name
+                });
+
+                ViewBag.Error = "Hubo un error inesperado, por favor intente de nuevo.";
+
+                return View();
+            }
         }
 
         // GET: BankAccounts/Details/5
@@ -39,8 +57,28 @@ namespace CarpoolingCR.Controllers
         // GET: BankAccounts/Create
         public ActionResult Create()
         {
-            ViewBag.BankId = new SelectList(db.Banks, "BankId", "BankName");
-            return View();
+            try
+            {
+                ViewBag.BankId = new SelectList(db.Banks, "BankId", "BankName");
+                return View();
+            }
+            catch (Exception ex)
+            {
+                Common.LogData(new Log
+                {
+                    Line = Common.GetCurrentLine(),
+                    Location = Enums.LogLocation.Server,
+                    LogType = Enums.LogType.Error,
+                    Message = ex.Message + " / " + ex.StackTrace,
+                    Method = Common.GetCurrentMethod(),
+                    Timestamp = DateTime.Now,
+                    UserEmail = User.Identity.Name
+                });
+
+                ViewBag.Error = "Hubo un error inesperado, por favor intente de nuevo.";
+
+                return View();
+            }
         }
 
         // POST: BankAccounts/Create
@@ -50,31 +88,71 @@ namespace CarpoolingCR.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "BankAccountId,BankId,SavingsAccount,Sinpe")] BankAccount bankAccount)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.BankAccounts.Add(bankAccount);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+                if (ModelState.IsValid)
+                {
+                    db.BankAccounts.Add(bankAccount);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
 
-            ViewBag.BankId = new SelectList(db.Banks, "BankId", "BankName", bankAccount.BankId);
-            return View(bankAccount);
+                ViewBag.BankId = new SelectList(db.Banks, "BankId", "BankName", bankAccount.BankId);
+                return View(bankAccount);
+            }
+            catch (Exception ex)
+            {
+                Common.LogData(new Log
+                {
+                    Line = Common.GetCurrentLine(),
+                    Location = Enums.LogLocation.Server,
+                    LogType = Enums.LogType.Error,
+                    Message = ex.Message + " / " + ex.StackTrace,
+                    Method = Common.GetCurrentMethod(),
+                    Timestamp = DateTime.Now,
+                    UserEmail = User.Identity.Name
+                });
+
+                ViewBag.Error = "Hubo un error inesperado, por favor intente de nuevo.";
+
+                return View(bankAccount);
+            }
         }
 
         // GET: BankAccounts/Edit/5
         public ActionResult Edit(int? id)
         {
-            if (id == null)
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                BankAccount bankAccount = db.BankAccounts.Find(id);
+                if (bankAccount == null)
+                {
+                    return HttpNotFound();
+                }
+                ViewBag.BankId = new SelectList(db.Banks, "BankId", "BankName", bankAccount.BankId);
+                return View(bankAccount);
             }
-            BankAccount bankAccount = db.BankAccounts.Find(id);
-            if (bankAccount == null)
+            catch (Exception ex)
             {
-                return HttpNotFound();
+                Common.LogData(new Log
+                {
+                    Line = Common.GetCurrentLine(),
+                    Location = Enums.LogLocation.Server,
+                    LogType = Enums.LogType.Error,
+                    Message = ex.Message + " / " + ex.StackTrace,
+                    Method = Common.GetCurrentMethod(),
+                    Timestamp = DateTime.Now,
+                    UserEmail = User.Identity.Name
+                });
+
+                ViewBag.Error = "Hubo un error inesperado, por favor intente de nuevo.";
+
+                return View();
             }
-            ViewBag.BankId = new SelectList(db.Banks, "BankId", "BankName", bankAccount.BankId);
-            return View(bankAccount);
         }
 
         // POST: BankAccounts/Edit/5
@@ -84,29 +162,73 @@ namespace CarpoolingCR.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "BankAccountId,BankId,SavingsAccount,Sinpe")] BankAccount bankAccount)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Entry(bankAccount).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    db.Entry(bankAccount).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+
+                ViewBag.BankId = new SelectList(db.Banks, "BankId", "BankName", bankAccount.BankId);
+
+                return View(bankAccount);
             }
-            ViewBag.BankId = new SelectList(db.Banks, "BankId", "BankName", bankAccount.BankId);
-            return View(bankAccount);
+            catch (Exception ex)
+            {
+                Common.LogData(new Log
+                {
+                    Line = Common.GetCurrentLine(),
+                    Location = Enums.LogLocation.Server,
+                    LogType = Enums.LogType.Error,
+                    Message = ex.Message + " / " + ex.StackTrace,
+                    Method = Common.GetCurrentMethod(),
+                    Timestamp = DateTime.Now,
+                    UserEmail = User.Identity.Name
+                });
+
+                ViewBag.Error = "Hubo un error inesperado, por favor intente de nuevo.";
+
+                return View(bankAccount);
+            }
         }
 
         // GET: BankAccounts/Delete/5
         public ActionResult Delete(int? id)
         {
-            if (id == null)
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+
+                BankAccount bankAccount = db.BankAccounts.Find(id);
+                if (bankAccount == null)
+                {
+                    return HttpNotFound();
+                }
+
+                return View(bankAccount);
             }
-            BankAccount bankAccount = db.BankAccounts.Find(id);
-            if (bankAccount == null)
+            catch (Exception ex)
             {
-                return HttpNotFound();
+                Common.LogData(new Log
+                {
+                    Line = Common.GetCurrentLine(),
+                    Location = Enums.LogLocation.Server,
+                    LogType = Enums.LogType.Error,
+                    Message = ex.Message + " / " + ex.StackTrace,
+                    Method = Common.GetCurrentMethod(),
+                    Timestamp = DateTime.Now,
+                    UserEmail = User.Identity.Name
+                });
+
+                ViewBag.Error = "Hubo un error inesperado, por favor intente de nuevo.";
+
+                return View();
             }
-            return View(bankAccount);
         }
 
         // POST: BankAccounts/Delete/5
@@ -114,10 +236,30 @@ namespace CarpoolingCR.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            BankAccount bankAccount = db.BankAccounts.Find(id);
-            db.BankAccounts.Remove(bankAccount);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            try
+            {
+                BankAccount bankAccount = db.BankAccounts.Find(id);
+                db.BankAccounts.Remove(bankAccount);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                Common.LogData(new Log
+                {
+                    Line = Common.GetCurrentLine(),
+                    Location = Enums.LogLocation.Server,
+                    LogType = Enums.LogType.Error,
+                    Message = ex.Message + " / " + ex.StackTrace,
+                    Method = Common.GetCurrentMethod(),
+                    Timestamp = DateTime.Now,
+                    UserEmail = User.Identity.Name
+                });
+
+                ViewBag.Error = "Hubo un error inesperado, por favor intente de nuevo.";
+
+                return View();
+            }
         }
 
         protected override void Dispose(bool disposing)

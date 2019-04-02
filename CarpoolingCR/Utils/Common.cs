@@ -77,5 +77,14 @@ namespace CarpoolingCR.Utils
         {
             new EmailService().SendAsync(msg);
         }
+
+        public static void LogData(Log log)
+        {
+            using (var db = new ApplicationDbContext())
+            {
+                db.Logs.Add(log);
+                db.SaveChanges();
+            }
+        }
     }
 }

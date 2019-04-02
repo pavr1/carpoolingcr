@@ -55,55 +55,75 @@ namespace CarpoolingCR.Controllers
         // GET: /Manage/Index
         public async Task<ActionResult> Index(ManageMessageId? message)
         {
-            ViewBag.StatusMessage =
-                message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
-                : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
-                : message == ManageMessageId.SetTwoFactorSuccess ? "Your two-factor authentication provider has been set."
-                : message == ManageMessageId.Error ? "An error has occurred."
-                : message == ManageMessageId.AddPhoneSuccess ? "Your phone number was added."
-                : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
-                : "";
-
-            var userId = User.Identity.GetUserId();
-            var user = Common.GetUserByEmail(User.Identity.Name);
-            var db = new ApplicationDbContext();
-
-            var month = DateTime.Now.Month;
-            var year = DateTime.Now.Year;
-
-            user.MonthlyBalance = db.MonthlyBalances.Where(x => x.ApplicationUserId == user.Id && x.Month == month && x.Year == year)
-                .SingleOrDefault();
-
-            if (user.MonthlyBalance != null)
+            try
             {
-                user.MonthlyBalance.MonthlyTransactions = db.MonthlyTransactions.Where(x => x.MonthlyBalanceId == user.MonthlyBalance.MonthlyBalanceId)
-                    .ToList();
+                ViewBag.StatusMessage =
+                    message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
+                    : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
+                    : message == ManageMessageId.SetTwoFactorSuccess ? "Your two-factor authentication provider has been set."
+                    : message == ManageMessageId.Error ? "An error has occurred."
+                    : message == ManageMessageId.AddPhoneSuccess ? "Your phone number was added."
+                    : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
+                    : "";
 
-                ViewBag.Balance = 0;
+                var userId = User.Identity.GetUserId();
+                var user = Common.GetUserByEmail(User.Identity.Name);
+                var db = new ApplicationDbContext();
 
-                if (user.MonthlyBalance.MonthlyTransactions.Count > 0)
+                var month = DateTime.Now.Month;
+                var year = DateTime.Now.Year;
+
+                user.MonthlyBalance = db.MonthlyBalances.Where(x => x.ApplicationUserId == user.Id && x.Month == month && x.Year == year)
+                    .SingleOrDefault();
+
+                if (user.MonthlyBalance != null)
                 {
-                    ViewBag.Balance = user.MonthlyBalance.MonthlyTransactions[user.MonthlyBalance.MonthlyTransactions.Count - 1].FinalBalance;
+                    user.MonthlyBalance.MonthlyTransactions = db.MonthlyTransactions.Where(x => x.MonthlyBalanceId == user.MonthlyBalance.MonthlyBalanceId)
+                        .ToList();
+
+                    ViewBag.Balance = 0;
+
+                    if (user.MonthlyBalance.MonthlyTransactions.Count > 0)
+                    {
+                        ViewBag.Balance = user.MonthlyBalance.MonthlyTransactions[user.MonthlyBalance.MonthlyTransactions.Count - 1].FinalBalance;
+                    }
                 }
+
+                if (user.BankAccountId != null)
+                {
+                    user.BankAccount = db.BankAccounts.Where(x => x.BankId == user.BankAccountId).SingleOrDefault();
+                }
+
+                ViewBag.BankId = new SelectList(db.Banks, "BankId", "BankName");
+
+                var model = new IndexViewModel
+                {
+                    HasPassword = HasPassword(),
+                    PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
+                    TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
+                    Logins = await UserManager.GetLoginsAsync(userId),
+                    BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId),
+                    User = user
+                };
+                return View(model);
             }
-
-            if (user.BankAccountId != null)
+            catch (Exception ex)
             {
-                user.BankAccount = db.BankAccounts.Where(x => x.BankId == user.BankAccountId).SingleOrDefault();
+                Common.LogData(new Log
+                {
+                    Line = Common.GetCurrentLine(),
+                    Location = Enums.LogLocation.Server,
+                    LogType = Enums.LogType.Error,
+                    Message = ex.Message + " / " + ex.StackTrace,
+                    Method = Common.GetCurrentMethod(),
+                    Timestamp = DateTime.Now,
+                    UserEmail = User.Identity.Name
+                });
+
+                ViewBag.Error = "Hubo un error inesperado, por favor intente de nuevo.";
+
+                return View();
             }
-
-            ViewBag.BankId = new SelectList(db.Banks, "BankId", "BankName");
-
-            var model = new IndexViewModel
-            {
-                HasPassword = HasPassword(),
-                PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
-                TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
-                Logins = await UserManager.GetLoginsAsync(userId),
-                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId),
-                User = user
-            };
-            return View(model);
         }
 
         //
@@ -257,22 +277,42 @@ namespace CarpoolingCR.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ChangePassword(ChangePasswordViewModel model)
         {
-            if (!ModelState.IsValid)
+            try
             {
+                if (!ModelState.IsValid)
+                {
+                    return View(model);
+                }
+                var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
+                if (result.Succeeded)
+                {
+                    var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+                    if (user != null)
+                    {
+                        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    }
+                    return RedirectToAction("Index", new { Message = ManageMessageId.ChangePasswordSuccess });
+                }
+                AddErrors(result);
                 return View(model);
             }
-            var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
-            if (result.Succeeded)
+            catch (Exception ex)
             {
-                var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-                if (user != null)
+                Common.LogData(new Log
                 {
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                }
-                return RedirectToAction("Index", new { Message = ManageMessageId.ChangePasswordSuccess });
+                    Line = Common.GetCurrentLine(),
+                    Location = Enums.LogLocation.Server,
+                    LogType = Enums.LogType.Error,
+                    Message = ex.Message + " / " + ex.StackTrace,
+                    Method = Common.GetCurrentMethod(),
+                    Timestamp = DateTime.Now,
+                    UserEmail = User.Identity.Name
+                });
+
+                ViewBag.Error = "Hubo un error inesperado, por favor intente de nuevo.";
+
+                return View(model);
             }
-            AddErrors(result);
-            return View(model);
         }
 
         //
@@ -288,23 +328,43 @@ namespace CarpoolingCR.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> SetPassword(SetPasswordViewModel model)
         {
-            if (ModelState.IsValid)
+            try
             {
-                var result = await UserManager.AddPasswordAsync(User.Identity.GetUserId(), model.NewPassword);
-                if (result.Succeeded)
+                if (ModelState.IsValid)
                 {
-                    var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-                    if (user != null)
+                    var result = await UserManager.AddPasswordAsync(User.Identity.GetUserId(), model.NewPassword);
+                    if (result.Succeeded)
                     {
-                        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                        var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+                        if (user != null)
+                        {
+                            await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                        }
+                        return RedirectToAction("Index", new { Message = ManageMessageId.SetPasswordSuccess });
                     }
-                    return RedirectToAction("Index", new { Message = ManageMessageId.SetPasswordSuccess });
+                    AddErrors(result);
                 }
-                AddErrors(result);
-            }
 
-            // If we got this far, something failed, redisplay form
-            return View(model);
+                // If we got this far, something failed, redisplay form
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                Common.LogData(new Log
+                {
+                    Line = Common.GetCurrentLine(),
+                    Location = Enums.LogLocation.Server,
+                    LogType = Enums.LogType.Error,
+                    Message = ex.Message + " / " + ex.StackTrace,
+                    Method = Common.GetCurrentMethod(),
+                    Timestamp = DateTime.Now,
+                    UserEmail = User.Identity.Name
+                });
+
+                ViewBag.Error = "Hubo un error inesperado, por favor intente de nuevo.";
+
+                return View(model);
+            }
         }
 
         //

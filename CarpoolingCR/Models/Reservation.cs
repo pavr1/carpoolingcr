@@ -3,15 +3,19 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Web;
+using static CarpoolingCR.Utils.Enums;
 
 namespace CarpoolingCR.Models
 {
+    [DataContract(IsReference = true)]
     public class Reservation
     {
         public int ReservationId { get; set; }
 
         public int TripId { get; set; }
+        [NotMapped]
         public Trip Trip { get; set; }
 
         public string ApplicationUserId { get; set; }
@@ -25,9 +29,8 @@ namespace CarpoolingCR.Models
         public DateTime Date { get; set; }
         [Required]
         [Display(Name = "Estado")]
-        public string Status { get; set; }
-
-        [NotMapped]
+        public ReservationStatus Status { get; set; }
+        
         public string PassengerName { get; set; }
     }
 }

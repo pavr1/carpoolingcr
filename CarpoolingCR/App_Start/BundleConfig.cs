@@ -24,6 +24,8 @@ namespace CarpoolingCR
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
+                      //"~/Content/bootswatch/journal/bootstrap.min.css",
+                      //"~/Content/bootswatch/journal/bootstrap.css",
                       "~/Content/site.css"));
         }
     }

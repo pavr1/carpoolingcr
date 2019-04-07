@@ -101,9 +101,9 @@
                     </div>
                 </div>
             </div>
-                            }
-                            else
-                            {
+        }
+        else
+        {
             <div class="navbar navbar-inverse navbar-fixed-top" style="border-radius: 0px 0px 15px 15px">
                 <div class="container">
                     <div class="navbar-header">
@@ -119,20 +119,20 @@
                     </div>
                 </div>
             </div>
-                            }
+        }
     }
     <div class="container body-content">
+        <div class="row form-group" style="height:20px">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="border-radius:50px;">
+                <p class="" style="border-radius:50px" id="errorMsgContainer"></p>
+                <p class="" style="border-radius:50px" id="warningMsgContainer"></p>
+                <p class="" style="border-radius:50px" id="infoMsgContainer"></p>
+            </div>
+        </div>
         @RenderBody()
         <hr />
         <footer>
-            <div class="row form-group">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="border-radius:50px;">
-                    <p class="" style="border-radius:50px" id="errorMsgContainer"></p>
-                    <p class="" style="border-radius:50px" id="warningMsgContainer"></p>
-                    <p class="" style="border-radius:50px" id="infoMsgContainer"></p>
-                </div>
-            </div>
-            <p><img src="~/Content/Icons/Car.png" style="width:50px; height:20px" /> &copy; @DateTime.Now.Year - www.buscoride.com</p>
+            <p><img src="~/Content/Icons/Car.png" style="width:50px; height:15px" /> &copy; @DateTime.Now.Year - www.buscoride.com</p>
         </footer>
     </div>
     <div class="modal fade" id="loadMe" tabindex="-1" role="dialog" aria-labelledby="loadMeLabel">
@@ -170,8 +170,8 @@
 
                     setTimeout(function () {
                         $('#errorMsgContainer').slideUp();
-                    }, 5000);
-                }, 1000);
+                    }, 10000);
+                }, 100);
             }
 
             if (warning != '') {
@@ -184,8 +184,8 @@
                     setTimeout(function () {
                         $('#warningMsgContainer').slideUp();
 
-                    }, 5000);
-                }, 1000);
+                    }, 10000);
+                }, 100);
             }
 
             if (info != '') {
@@ -198,8 +198,51 @@
                     setTimeout(function () {
                         $('#infoMsgContainer').slideUp();
 
-                    }, 5000);
-                }, 1000);
+                    }, 10000);
+                }, 100);
+            }
+        }
+
+        function displayMessages(message, type) {
+            if (type == 'error') {
+                setTimeout(function () {
+                    $('#errorMsgContainer').slideUp();
+                    $('#errorMsgContainer').html('&nbsp;&nbsp;&nbsp;' + message);
+                    $('#errorMsgContainer').addClass('alert-danger');
+                    $('#errorMsgContainer').slideDown();
+
+                    setTimeout(function () {
+                        $('#errorMsgContainer').slideUp();
+                    }, 10000);
+                }, 100);
+            }
+
+            if (type == 'warning') {
+                setTimeout(function () {
+                    $('#warningMsgContainer').slideUp();
+                    $('#warningMsgContainer').html('&nbsp;&nbsp;&nbsp;' + message);
+                    $('#warningMsgContainer').addClass('alert-warning');
+                    $('#warningMsgContainer').slideDown();
+
+                    setTimeout(function () {
+                        $('#warningMsgContainer').slideUp();
+
+                    }, 10000);
+                }, 100);
+            }
+
+            if (type == 'info') {
+                setTimeout(function () {
+                    $('#infoMsgContainer').slideUp();
+                    $('#infoMsgContainer').html('&nbsp;&nbsp;&nbsp;' + message);
+                    $('#infoMsgContainer').addClass('alert-info');
+                    $('#infoMsgContainer').slideDown();
+
+                    setTimeout(function () {
+                        $('#infoMsgContainer').slideUp();
+
+                    }, 10000);
+                }, 100);
             }
         }
     </script>

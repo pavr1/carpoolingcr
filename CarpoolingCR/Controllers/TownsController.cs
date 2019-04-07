@@ -14,10 +14,15 @@ namespace CarpoolingCR.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Towns
-        public ActionResult Index()
+        public ActionResult Index(string message)
         {
             try
             {
+                if (!string.IsNullOrEmpty(message))
+                {
+                    ViewBag.Info = message;
+                }
+
                 var user = Common.GetUserByEmail(User.Identity.Name);
 
                 TownIndexResponse response = new TownIndexResponse
@@ -134,7 +139,7 @@ namespace CarpoolingCR.Controllers
 
                     EmailHandler.SendEmailNewTown();
 
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Index", new { message = "Localidad creada satisfactoriamente pero no será visible hasta la aprobación del administrador."});
                 }
 
                 return View(town);
@@ -198,7 +203,7 @@ namespace CarpoolingCR.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "TownId,Name")] Town town)
+        public ActionResult Edit([Bind(Include = "TownId,CountryId,Status,Name")] Town town)
         {
             try
             {
@@ -206,8 +211,10 @@ namespace CarpoolingCR.Controllers
                 {
                     db.Entry(town).State = EntityState.Modified;
                     db.SaveChanges();
-                    return RedirectToAction("Index");
+
+                    return RedirectToAction("Index", new { message = "La localidad ha sido actualizada!" });
                 }
+
                 return View(town);
             }
             catch (Exception ex)

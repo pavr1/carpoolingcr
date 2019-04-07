@@ -25,6 +25,14 @@
         <th>
             @Html.DisplayNameFor(model => model.Town.Name)
         </th>
+        @{
+            if (Model.UserType == CarpoolingCR.Utils.Enums.UserType.Administrador)
+            {
+                <th>
+                    @Html.DisplayNameFor(model => model.Town.Status)
+                </th>
+            }
+        }
         <th></th>
     </tr>
 
@@ -43,6 +51,15 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
+            @{
+                if (Model.UserType == CarpoolingCR.Utils.Enums.UserType.Administrador)
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+                }
+
+            }
             <td>
                 @{
                     if (Model.UserType == CarpoolingCR.Utils.Enums.UserType.Administrador)

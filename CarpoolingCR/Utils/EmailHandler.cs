@@ -1,9 +1,5 @@
 ﻿using CarpoolingCR.Models;
 using Microsoft.AspNet.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Configuration;
 
 namespace CarpoolingCR.Utils
@@ -26,7 +22,7 @@ namespace CarpoolingCR.Utils
         {
             var userInfo = "Nombre: " + user.Name + " " + user.LastName + " " + user.SecondLastName + "<br/>Correo: " + user.Email + "<br/>Teléfono: " + user.Phone1 + " - " + user.Phone2;
 
-            
+
             var html = "<html><header></header><body>Un nuevo " + user.UserType.ToString() + " ha sido registrado en el sistema! <br/><a href='" + callbackUrl + "'><b>Ver datos de usuario</a></a></body></html>";
 
             Common.SendEmail(new IdentityMessage
@@ -51,7 +47,19 @@ namespace CarpoolingCR.Utils
 
         public static void SendEmailNewTown()
         {
-            var html = "<html><header></header><body>Un usuario ha creado una nueva localidad, la cuál está pendiente de aprovación. Vaya a localidades pendientes para aprobar o rechazar.</body></html>";// de click <a href='" + callbackUrl + "'>AQUÍ</a></body></html>";
+            var html = "<html><header></header><body>Un usuario ha creado una nueva localidad, la cuál está pendiente de aprovación. Da click ac.</body></html>";// de click <a href='" + callbackUrl + "'>AQUÍ</a></body></html>";
+
+            Common.SendEmail(new IdentityMessage
+            {
+                Destination = WebConfigurationManager.AppSettings["AdminEmails"],
+                Subject = "Nueva localidad creada",
+                Body = html
+            });
+        }
+
+        public static void SendReservationStatusChange(string email, string trip, string date, string status)
+        {
+            var html = "<html><header></header><body>La reservación para el viaje " + trip + " el " + date + " ha sido " + status + ". Para ver más información da click AQUí.</body></html>";// de click <a href='" + callbackUrl + "'>AQUÍ</a></body></html>";
 
             Common.SendEmail(new IdentityMessage
             {

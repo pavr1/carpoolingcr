@@ -3,9 +3,8 @@
 @{
     ViewBag.Title = "Index";
 }
-
-<h2>Consulta de Reservas</h2>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<h2>Consulta de Reservas</h2>
 
 <p>
     @Html.ActionLink("Menú Principal", "ValidateUserRol", "UserRols", new { }, new { @class = "btn btn-success " })
@@ -18,9 +17,9 @@
         <tr>
             <td>
                 @{
-                    var from = item.Trip.Journey.Name.Replace(item.Trip.RouteDetail, "").Replace(" - ", "");
+                    @*var from = item.Trip.Journey.Name.Replace(item.Trip.RouteDetail, "").Replace(" - ", "");
                     var to = item.Trip.RouteDetail;
-                    <label class="control-label">@from  - @to</label> <h6>@Html.DisplayFor(modelItem => item.Date)</h6>
+                    <label class="control-label">@from  - @to</label> <h6>@Html.DisplayFor(modelItem => item.Date)</h6>*@
                     <h6>Conductor: @Html.DisplayFor(modelItem => item.ApplicationUser.Email)</h6>
                     <h6>Espacios Solicitados: @Html.DisplayFor(modelItem => item.RequestedSpaces)</h6>
                     <h6>Estado: @Html.DisplayFor(modelItem => item.Status)</h6>

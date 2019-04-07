@@ -131,7 +131,7 @@ namespace CarpoolingCR.Controllers
 
                                 EmailHandler.SendEmailConfirmation(callbackUrl, model.Email);
 
-                                ViewBag.EmailNotConfirmed = "El correo electrónico de esta cuenta no ha sido confirmado. El sistema ha reenviado un correo de confirmación  a '" + model.Email + "' para su respectiva activación.";
+                                ViewBag.Error = "El correo electrónico de esta cuenta no ha sido confirmado. El sistema ha reenviado un correo de confirmación  a '" + model.Email + "' para su respectiva activación.";
 
                                 AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
 

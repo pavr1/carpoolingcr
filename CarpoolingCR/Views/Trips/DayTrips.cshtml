@@ -16,7 +16,7 @@
 
     <div class="row form-group">
         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-            @Html.ActionLink("<<", "Transportation", "Reservations", new { }, new { @class = "btn btn-primary" })
+            @Html.ActionLink("<<", "Transportation", "Reservations", new { from = @Model.From, to = @Model.To }, new { @class = "btn btn-primary" })
         </div>
         <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
             <label class="control-label" style="text-align:left">Trayecto: </label>  @Model.From -> @Model.To
@@ -162,7 +162,7 @@
         // page is now ready, initialize the calendar...
         $('#dayCalendar').fullCalendar({
             weekends: true,
-            monthNames: ['Enero', 'Febrero', 'Marzo', 'Abríl', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+            monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
             monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
             dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
             dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'],
@@ -228,7 +228,6 @@
 
             $('#dayCalendar').fullCalendar('renderEvent', event, true);
         }
-
             $('#dayCalendar').fullCalendar('gotoDate', currentDate)
     });
 

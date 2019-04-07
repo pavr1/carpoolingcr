@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 <div>
-    @using (Html.BeginForm("Create", "Reservations", new { TripId = @Model.TripId, UserEmail = @Model.UserEmail }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+    @using (Html.BeginForm("Create", "Reservations", new { TripId = @Model.TripId, UserEmail = @Model.ApplicationUser.Email }, FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
         @Html.AntiForgeryToken()
         <hr />
@@ -23,7 +23,7 @@
             </div>
         </div>
 
-        <div class="row form-group">
+        @*<div class="row form-group">
             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
                 <label class="control-label" style="text-align:left">Trayecto</label>
             </div>
@@ -35,7 +35,7 @@
 
                 @journey
             </div>
-        </div>
+        </div>*@
 
         <div class="row form-group">
             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">

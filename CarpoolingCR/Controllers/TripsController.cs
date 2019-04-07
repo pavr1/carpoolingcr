@@ -16,10 +16,15 @@ namespace CarpoolingCR.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Trips
-        public ActionResult Index()
+        public ActionResult Index(string message)
         {
             try
             {
+                if (!string.IsNullOrEmpty(message))
+                {
+                    ViewBag.Info = message;
+                }
+
                 List<Trip> trips = new List<Trip>();
 
                 if (Common.GetUserType(User.Identity.Name) == Enums.UserType.Administrador)
@@ -240,7 +245,7 @@ namespace CarpoolingCR.Controllers
 
                     new SignalHandler().SendMessage(Enums.EventTriggered.TripCreated.ToString(), "");
 
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Index", new { message = "¡El viaje ha sido creado!"});
                 }
 
                 //ViewBag.JourneyId = new SelectList(db.Journeys, "JourneyId", "Name", trip.JourneyId);
@@ -418,7 +423,7 @@ namespace CarpoolingCR.Controllers
 
                 new SignalHandler().SendMessage(Enums.EventTriggered.TripDeleted.ToString(), "");
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { message = "¡EL viaje ha sido eliminado!"});
             }
             catch (Exception ex)
             {

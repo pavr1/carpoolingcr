@@ -1,72 +1,194 @@
 ﻿@model CarpoolingCR.Objects.Responses.ReservationTransportationResponse
 
-<table class="table">
-    @{
-        if (Model.PendingReservations.Count == 0)
-        {
-            <tr>
-                <td align="center">
-                    No se encontraron registros
-                </td>
-            </tr>
-        }
-        else
-        {
-            foreach (var item in Model.PendingReservations)
-            {
-                if (Model.CurrentUserType == CarpoolingCR.Utils.Enums.UserType.Conductor)
+<div class="row form-group">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <table class="table">
+            <h4>Tus Reservaciones</h4>
+            @{
+                if (Model.PassengerReservations.Count == 0)
                 {
                     <tr>
-                        <td>
-                            @{
-                                var from = item.Trip.FromTown;
-                                var to = item.Trip.ToTown;
-                                <label class="control-label">@from < - > @to</label> <h6>@Html.DisplayFor(modelItem => item.Date)</h6>
-                                <h6>Pasajero: @item.PassengerName</h6>
-                                <h6>Espacios Solicitados: @Html.DisplayFor(modelItem => item.RequestedSpaces)</h6>
-                                <h6>Estado: @Html.DisplayFor(modelItem => item.Status)</h6>
-                            }
+                        <td align="center">
+                            No se encontraron reservaciones
                         </td>
                     </tr>
                 }
-                else if (Model.CurrentUserType == CarpoolingCR.Utils.Enums.UserType.Pasajero)
+                else
                 {
-                    <tr>
-                        <td>
-                            @{
-                                var from = item.Trip.FromTown;
-                                var to = item.Trip.ToTown;
-                                <label class="control-label">@from < - > @to</label> <h6>@Html.DisplayFor(modelItem => item.Date)</h6>
-                                <h6>Conductor: @item.Trip.ApplicationUser.Name  @item.Trip.ApplicationUser.LastName</h6>
-                                <h6>Espacios Solicitados: @Html.DisplayFor(modelItem => item.RequestedSpaces)</h6>
-                                <h6>Estado: @Html.DisplayFor(modelItem => item.Status)</h6>
-                            }
-                        </td>
-                        <td class="">
-                            @Html.ActionLink("X", "Delete", "Reservations", new { id = item.ReservationId }, new { @class = "btn btn-danger " })
-                        </td>
-                    </tr>
-                }
-                else if (Model.CurrentUserType == CarpoolingCR.Utils.Enums.UserType.Administrador)
-                {
-                    <tr>
-                        <td>
-                            @{
-                                var from = item.Trip.FromTown;
-                                var to = item.Trip.ToTown;
-                                <label class="control-label">@from < - > @to</label> <h6>@Html.DisplayFor(modelItem => item.Date)</h6>
-                                <h6>Pasajero: @item.PassengerName</h6>
-                                <h6>Espacios Solicitados: @Html.DisplayFor(modelItem => item.RequestedSpaces)</h6>
-                                <h6>Estado: @Html.DisplayFor(modelItem => item.Status)</h6>
-                            }
-                        </td>
-                        <td class="">
-                            @Html.ActionLink("X", "Delete", "Reservations", new { id = item.ReservationId }, new { @class = "btn btn-danger " })
-                        </td>
-                    </tr>
+                    foreach (var item in Model.PassengerReservations)
+                    {
+                        <tr>
+                            <td>
+                                @{
+
+                                    var from = item.Trip.FromTown;
+                                    var to = item.Trip.ToTown;
+                                    <label class="control-label">@from -> @to</label>
+                                    <small>@item.Date</small>
+                                    <small><b>Cuota:</b> @item.Trip.Price</small>
+
+                                    <div class="row form-group">
+                                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+
+                                        </div>
+                                        <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11">
+                                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                                <b>- Conductor: </b> @item.Trip.ApplicationUser.Name  @item.Trip.ApplicationUser.LastName @item.Trip.ApplicationUser.SecondLastName<br />
+                                            </div>
+                                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                                <b>&nbsp;&nbsp;Espacios Solicitados: </b> @item.RequestedSpaces<br />
+                                                @*@Html.ActionLink("Cancelar", "Delete", "Reservations", new { id = item.ReservationId }, new { @class = "btn btn-danger " })*@
+                                                <input type="button" class="btn btn-danger" value="Cancelar" onclick="ConfirmAction(@item.ReservationId, '@CarpoolingCR.Utils.Enums.ReservationStatus.Cancelled','cancelar esta reservación','Cancelaión de Reservación')" />
+                                            </div>
+                                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                                <b>&nbsp;&nbsp;Total a Pagar: </b> @Convert.ToDecimal(item.RequestedSpaces * @item.Trip.Price)<br />
+                                                <b>&nbsp;&nbsp;Estado: </b>@item.Status
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </td>
+                        </tr>
+                    }
                 }
             }
-        }
-    }
+        </table>
+    </div>
+</div>
+<div class="row form-group">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <table class="table">
+            @{
+                if (Model.CurrentUserType == CarpoolingCR.Utils.Enums.UserType.Conductor)
+                {
+                    <h4>Tus Viajes</h4>
+                    if (Model.DriverTrips.Count == 0)
+                    {
+                        <tr>
+                            <td align="center">
+                                No se encontraron viajes
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        foreach (var trip in Model.DriverTrips)
+                        {
+                            <tr>
+                                <td>
+                                    @{
+                                        var from = trip.FromTown;
+                                        var to = trip.ToTown;
 
-</table>
+                                        if (trip.Reservations.Count == 0)
+                                        {
+                                            <label class="control-label">&nbsp;&nbsp;@from -> @to</label>
+                                            <small>@trip.DateTime</small>
+                                            <small><b>Cuota:</b> @trip.Price</small>
+
+                                            <h6 align="center">No se encontraron reservaciones para este viaje</h6>
+                                        }
+                                        else
+                                        {
+                                            <div class="row form-group">
+                                                <label class="control-label">&nbsp;&nbsp;@from -> @to</label>
+                                                <small>@trip.DateTime</small>
+                                                <small><b>Cuota:</b> @trip.Price</small>
+
+                                                @foreach (var reservation in trip.Reservations)
+                                                {
+                                                    <div class="row form-group">
+                                                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+
+                                                        </div>
+                                                        <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11">
+                                                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                                                <b>- Solicitante: </b> @reservation.PassengerName<br />
+                                                                @{
+                                                                    if (reservation.Status == CarpoolingCR.Utils.Enums.ReservationStatus.Pending)
+                                                                    {
+                                                                        <input type="button" class="btn btn-success pull-right" value="Aprobar" onclick="ConfirmAction(@reservation.ReservationId, '@CarpoolingCR.Utils.Enums.ReservationStatus.Accepted', 'aprobar esta reservación', 'Aprobación de Reservación')"/>
+                                                                    }
+                                                                }
+                                                            </div>
+                                                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                                                <b>&nbsp;&nbsp;Espacios Solicitados: </b> @reservation.RequestedSpaces<br />
+                                                                @{
+                                                                    if (reservation.Status == CarpoolingCR.Utils.Enums.ReservationStatus.Pending)
+                                                                    {
+                                                                        <input type="button" class="btn btn-danger" value="Rechazar"  onclick="ConfirmAction(@reservation.ReservationId, '@CarpoolingCR.Utils.Enums.ReservationStatus.Rejected','rechazar esta reservación','Rechazo de Reservación')"/>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        if (reservation.Status == CarpoolingCR.Utils.Enums.ReservationStatus.Accepted)
+                                                                        {
+                                                                            <input type="button" class="btn btn-danger" value="Rechazar" onclick="ConfirmAction(@reservation.ReservationId, '@CarpoolingCR.Utils.Enums.ReservationStatus.Rejected','rechazar esta reservación','Rechazo de Reservación')"/>
+                                                                        }
+                                                                    }
+                                                                }
+                                                            </div>
+                                                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                                                <b>&nbsp;&nbsp;Total a Pagar: </b> @Convert.ToDecimal(reservation.RequestedSpaces * trip.Price)<br />
+                                                                <b>&nbsp;&nbsp;Estado: </b>@reservation.Status
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row form-group">
+                                                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                                                        </div>
+                                                        <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11">
+                                                            <hr />
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </div>
+                                        }
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    }
+                }
+            }
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="confirmReservationsAction" tabindex="-1" role="dialog" aria-labelledby="confirmReservationModalLabel" aria-hidden="true">
+    <form action="/Reservations/ChangeReservationStatus/0" method="post">
+        @Html.AntiForgeryToken()
+        <div class="vertical-alignment-helper">
+            <div class="modal-dialog vertical-align-center">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+
+                        </button>
+                        <h4 class="modal-title" id="confirmReservationModalLabel">TITLE</h4>
+                    </div>
+                    <div class="modal-body">
+                        <input type="text" id="reservationId" name="reservationId" class="hidden" />
+                        <input type="text" id="status" name="status" class="hidden" />
+                        <p id="confirmText">CONFIRMATION TITLE?</p>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script language="javascript">
+    function ConfirmAction(reservationId, status, detail, title) {
+        $('#confirmReservationModalLabel').html(title);
+        $('#confirmText').html('¿Está seguro que deseas ' + detail + ' ?');
+        $('#reservationId').val(reservationId);
+        $('#status').val(status);
+
+        $("#confirmReservationsAction").modal();
+    }
+</script>

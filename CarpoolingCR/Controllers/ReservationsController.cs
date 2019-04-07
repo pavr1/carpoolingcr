@@ -48,7 +48,7 @@ namespace CarpoolingCR.Controllers
             }
         }
 
-        public ActionResult Transportation(string message)
+        public ActionResult Transportation(string message, string from, string to, int? tabIndex)
         {
             try
             {
@@ -57,31 +57,43 @@ namespace CarpoolingCR.Controllers
                     ViewBag.Info = message;
                 }
 
-                var reservations = new List<Reservation>();
+                var passengerReservations = new List<Reservation>();
+                var driverTrips = new List<Trip>();
                 var user = Common.GetUserByEmail(User.Identity.Name);
                 var driverName = string.Empty;
 
                 if (user.UserType == Enums.UserType.Pasajero)
                 {
-                    reservations = db.Reservations.Where(x => x.ApplicationUser.Email == User.Identity.Name && (x.Status == Enums.Status.Activo.ToString() || x.Status == Enums.Status.Pendiente.ToString()))
+                    passengerReservations = db.Reservations.Where(x => x.ApplicationUser.Email == User.Identity.Name && (x.Status == ReservationStatus.Accepted || x.Status == ReservationStatus.Pending))
                         .Include(x => x.ApplicationUser)
-                        .Include(x => x.Trip)
-                        .Include(x => x.Trip.ApplicationUser)
                         .ToList();
+
+                    foreach (var reservation in passengerReservations)
+                    {
+                        reservation.Trip = db.Trips.Where(x => x.TripId == reservation.TripId)
+                            .Include(x => x.ApplicationUser)
+                            .SingleOrDefault();
+                    }
                 }
                 else if (user.UserType == Enums.UserType.Conductor)
                 {
-                    var trips = db.Trips.Where(x => x.Status == Status.Activo && x.ApplicationUser.Email == User.Identity.Name).ToList();
+                    driverTrips = db.Trips.Where(x => x.ApplicationUser.Email == User.Identity.Name && x.Status == Status.Activo || x.Status == Enums.Status.Pendiente)
+                        .Include(x => x.ApplicationUser)
+                        .ToList();
 
-                    foreach (var trip in trips)
+                    foreach (var trip in driverTrips)
                     {
-                        var tripReservations = db.Reservations.Where(x => x.TripId == trip.TripId)
-                            .Include(x => x.ApplicationUser)
-                            .Include(x => x.Trip)
-                            .Include(x => x.Trip.ApplicationUser)
+                        trip.Reservations = db.Reservations.Where(x => x.TripId == trip.TripId && x.Status == ReservationStatus.Accepted || x.Status == ReservationStatus.Pending)
                             .ToList();
+                    }
 
-                        reservations.AddRange(tripReservations);
+                    passengerReservations = db.Reservations.Where(x => x.ApplicationUser.Email == User.Identity.Name && (x.Status == ReservationStatus.Accepted || x.Status == ReservationStatus.Pending))
+                        .Include(x => x.ApplicationUser)
+                        .ToList();
+
+                    foreach (var reservation in passengerReservations)
+                    {
+                        reservation.Trip = db.Trips.Where(x => x.TripId == reservation.TripId).SingleOrDefault();
                     }
                 }
                 else if (user.UserType == Enums.UserType.Administrador)
@@ -96,22 +108,205 @@ namespace CarpoolingCR.Controllers
                             .Include(x => x.Trip.ApplicationUser)
                             .ToList();
 
-                        reservations.AddRange(tripReservations);
+                        passengerReservations.AddRange(tripReservations);
+                    }
+                }
+
+                int tabIndexAux = (tabIndex == null) ? 0 : Convert.ToInt32(tabIndex);
+
+                ReservationTransportationResponse response = new ReservationTransportationResponse
+                {
+                    Trips = new List<Trip>(),
+                    PassengerReservations = passengerReservations,
+                    DriverTrips = driverTrips,
+                    SelectedJourneyId = -1,
+                    SelectedRouteIndex = -1,
+                    CurrentUserType = user.UserType,
+                    Towns = db.Towns.ToList(),
+                    From = from,
+                    To = to,
+                    TabIndex = tabIndexAux
+                };
+
+                //if from/to are provided, load the trips for them
+                if (!string.IsNullOrEmpty(from) && !string.IsNullOrEmpty(to))
+                {
+                    response.Trips = db.Trips.Where(x => x.FromTown == from && x.ToTown == to && x.Status == Status.Activo).ToList();
+                }
+
+                return View(response);
+            }
+            catch (Exception ex)
+            {
+                Common.LogData(new Log
+                {
+                    Line = Common.GetCurrentLine(),
+                    Location = Enums.LogLocation.Server,
+                    LogType = Enums.LogType.Error,
+                    Message = ex.Message + " / " + ex.StackTrace,
+                    Method = Common.GetCurrentMethod(),
+                    Timestamp = DateTime.Now,
+                    UserEmail = User.Identity.Name
+                });
+
+                ViewBag.Error = "Hubo un error inesperado, por favor intente de nuevo.";
+
+                return View();
+            }
+        }
+
+        [HttpPost]
+        public string Transportation(string from, string to)
+        {
+            try
+            {
+                List<Trip> trips = db.Trips.Where(x => x.FromTown == from && x.ToTown == to && x.Status == Status.Activo)
+                    .ToList();
+
+                List<Reservation> passengerReservations = new List<Reservation>();
+                List<Trip> driverTrips = new List<Trip>();
+
+                var user = Common.GetUserByEmail(User.Identity.Name);
+
+                if (user.UserType == Enums.UserType.Pasajero)
+                {
+                    passengerReservations = db.Reservations.Where(x => x.ApplicationUser.Email == User.Identity.Name && (x.Status == ReservationStatus.Accepted || x.Status == ReservationStatus.Pending))
+                        .Include(x => x.ApplicationUser)
+                        .ToList();
+
+                    foreach (var reservation in passengerReservations)
+                    {
+                        reservation.Trip = db.Trips.Where(x => x.TripId == reservation.TripId)
+                            .Include(x => x.ApplicationUser)
+                            .SingleOrDefault();
+                    }
+                }
+                else if (user.UserType == Enums.UserType.Conductor)
+                {
+                    driverTrips = db.Trips.Where(x => x.ApplicationUser.Email == User.Identity.Name && x.Status == Status.Activo || x.Status == Enums.Status.Pendiente)
+                        .Include(x => x.ApplicationUser)
+                        .ToList();
+
+                    foreach (var trip in driverTrips)
+                    {
+                        trip.Reservations = db.Reservations.Where(x => x.TripId == trip.TripId && x.Status == ReservationStatus.Accepted || x.Status == ReservationStatus.Pending)
+                            .ToList();
+                    }
+
+                    passengerReservations = db.Reservations.Where(x => x.ApplicationUser.Email == User.Identity.Name && (x.Status == ReservationStatus.Accepted || x.Status == ReservationStatus.Pending))
+                        .Include(x => x.ApplicationUser)
+                        .ToList();
+
+                    foreach (var reservation in passengerReservations)
+                    {
+                        reservation.Trip = db.Trips.Where(x => x.TripId == reservation.TripId).SingleOrDefault();
+                    }
+                }
+                else if (user.UserType == Enums.UserType.Administrador)
+                {
+                    trips = db.Trips.Where(x => x.Status == Status.Activo).ToList();
+
+                    foreach (var trip in trips)
+                    {
+                        var tripReservations = db.Reservations.Where(x => x.TripId == trip.TripId)
+                            .Include(x => x.ApplicationUser)
+                            .Include(x => x.Trip)
+                            .Include(x => x.Trip.ApplicationUser)
+                            .ToList();
+
+                        passengerReservations.AddRange(tripReservations);
                     }
                 }
 
                 ReservationTransportationResponse response = new ReservationTransportationResponse
                 {
-                    Trips = new List<Trip>(),
-                    //JourneyList = new SelectList(journeys, "Key", "Value"),
-                    PendingReservations = reservations,
-                    SelectedJourneyId = -1,
-                    SelectedRouteIndex = -1,
-                    CurrentUserType = user.UserType,
+                    Trips = trips,
+                    PassengerReservations = passengerReservations,
+                    DriverTrips = driverTrips,
                     Towns = db.Towns.ToList()
                 };
 
-                return View(response);
+                response.Html = Serializer.RenderViewToString(this.ControllerContext, "Partials/_RequestJourney", response);
+
+                if (response.Trips.Count == 0)
+                {
+                    ViewBag.Warning = "No se encontraron viajes para la ruta seleccionada!";
+                }
+
+                return Serializer.Serialize(response);
+            }
+            catch (Exception ex)
+            {
+                Common.LogData(new Log
+                {
+                    Line = Common.GetCurrentLine(),
+                    Location = Enums.LogLocation.Server,
+                    LogType = Enums.LogType.Error,
+                    Message = ex.Message + " / " + ex.StackTrace,
+                    Method = Common.GetCurrentMethod(),
+                    Timestamp = DateTime.Now,
+                    UserEmail = User.Identity.Name
+                });
+
+                ViewBag.Error = "Hubo un error inesperado, por favor intente de nuevo.";
+
+                return string.Empty;
+            }
+        }
+
+
+        public ActionResult ChangeReservationStatus()
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(Request["reservationId"]))
+                {
+                    throw new Exception("reservationId not found in form");
+                }
+                if (string.IsNullOrEmpty(Request["status"]))
+                {
+                    throw new Exception("status not found in form");
+                }
+
+                var reservationId = Convert.ToInt32(Request["reservationId"]);
+
+                ReservationStatus stat = ReservationStatus.Accepted;
+
+                if (!Enum.TryParse(Request["status"], out stat))
+                {
+                    throw new Exception("Invalid ReservationStatus value: " + Request["Status"]);
+                }
+
+                var reservation = db.Reservations.Find(reservationId);
+
+                if (reservation == null)
+                {
+                    throw new Exception("No se pudo encontrar la reservación. Código: " + reservationId);
+                }
+
+                reservation.Status = stat;
+
+                db.Entry(reservation).State = EntityState.Modified;
+                db.SaveChanges();
+
+                var message = "Reservación ";
+
+                if (stat == ReservationStatus.Accepted)
+                {
+                    message += "Aceptada!";
+
+                    
+                }
+                else if (stat == ReservationStatus.Cancelled)
+                {
+                    message += "Cancelada!";
+                }
+                else if (stat == ReservationStatus.Rejected)
+                {
+                    message += "Rechazada!";
+                }
+
+                return RedirectToAction("Transportation", "Reservations", new { message = message, from = "", to = "", tabIndex = 1 });
             }
             catch (Exception ex)
             {
@@ -135,75 +330,6 @@ namespace CarpoolingCR.Controllers
         public ActionResult ChatTest()
         {
             return View();
-        }
-
-        [HttpPost]
-        public string Transportation(string from, string to)
-        {
-            try
-            {
-                //var journeys = db.Journeys.Where(x => x.Status == Enums.Status.Activo).Select(s => new { s.JourneyId, s.Name }).ToDictionary(d => d.JourneyId, d => d.Name);
-                List<Trip> trips = db.Trips.Where(x => x.FromTown == from && x.ToTown == to && x.Status == Status.Activo).ToList();
-                List<Reservation> reservations = new List<Reservation>();
-
-                var user = Common.GetUserByEmail(User.Identity.Name);
-
-                if (user.UserType == UserType.Administrador)
-                {
-                    reservations = db.Reservations.Where(x => x.Status == Enums.Status.Activo.ToString() || x.Status == Enums.Status.Pendiente.ToString())
-                        .Include(x => x.ApplicationUser)
-                        .Include(x => x.Trip)
-                        .Include(x => x.Trip.ApplicationUser)
-                        .ToList();
-                }
-                else if (user.UserType == UserType.Conductor)
-                {
-                    reservations = db.Reservations.Where(x => x.Trip.ApplicationUser.Email == User.Identity.Name)
-                       .Include(x => x.ApplicationUser)
-                       .Include(x => x.Trip)
-                       .Include(x => x.Trip.ApplicationUser)
-                       .ToList();
-                }
-                else if (user.UserType == UserType.Pasajero)
-                {
-                    reservations = db.Reservations.Where(x => x.ApplicationUser.Email == User.Identity.Name)
-                       .Include(x => x.ApplicationUser)
-                       .Include(x => x.Trip)
-                       .Include(x => x.Trip.ApplicationUser)
-                       .ToList();
-                }
-
-                ReservationTransportationResponse response = new ReservationTransportationResponse
-                {
-                    Trips = trips,
-                    //JourneyList = new SelectList(journeys, "Key", "Value"),
-                    PendingReservations = reservations,
-                    //SelectedJourneyId = journeyId,
-                    //SelectedRouteIndex = routeDetailIndex,
-                    Towns = db.Towns.ToList()
-                };
-
-                response.Html = Serializer.RenderViewToString(this.ControllerContext, "Partials/_RequestJourney", response);
-
-                return Serializer.Serialize(response);
-            }
-            catch (Exception ex)
-            {
-                Common.LogData(new Log
-                {
-                    Line = Common.GetCurrentLine(),
-                    Location = Enums.LogLocation.Server,
-                    LogType = Enums.LogType.Error,
-                    Message = ex.Message + " / " + ex.StackTrace,
-                    Method = Common.GetCurrentMethod(),
-                    Timestamp = DateTime.Now,
-                    UserEmail = User.Identity.Name
-                });
-
-                ViewBag.Error = "Hubo un error inesperado, por favor intente de nuevo.";
-
-                return string.Empty;
-            }
         }
 
         // GET: Reservations/Details/5
@@ -282,7 +408,7 @@ namespace CarpoolingCR.Controllers
                     Date = DateTime.Now,
                     PassengerName = passenger.Name + " " + passenger.LastName + " " + passenger.SecondLastName,
                     RequestedSpaces = Convert.ToInt32(Request["RequestedSpaces"]),
-                    Status = Enums.Status.Pendiente.ToString(),
+                    Status = ReservationStatus.Pending,
                     TripId = Convert.ToInt32(Request["TripId"])
                 };
 
@@ -292,16 +418,14 @@ namespace CarpoolingCR.Controllers
 
                 reservation.ApplicationUserId = passenger.Id;
                 reservation.Date = DateTime.Now;
-                reservation.Status = Enums.Status.Pendiente.ToString();
 
                 db.Reservations.Add(reservation);
                 db.SaveChanges();
 
-                var passengerName = passenger.Name + " " + passenger.LastName;
                 var tripInfo = trip.FromTown + " a " + trip.ToTown + " el " + trip.DateTime.ToString();
                 var spaces = reservation.RequestedSpaces;
 
-                var html = "<html><header></header><body>" + passengerName + " ha solicitado " + spaces + " espacios para tu viaje de " + tripInfo + "<br/><br/>Da click <b><a href='" + "callbackUrl" + "'>aquí</a></b> para ver la reserva!</body></html>";
+                var html = "<html><header></header><body>" + reservation.PassengerName + " ha solicitado " + spaces + " espacios para tu viaje de " + tripInfo + "<br/><br/>Da click <b><a href='" + "callbackUrl" + "'>aquí</a></b> para ver la reserva!</body></html>";
 
                 Common.SendEmail(new IdentityMessage
                 {
@@ -310,7 +434,13 @@ namespace CarpoolingCR.Controllers
                     Body = html
                 });
 
-                return RedirectToAction("Transportation", "Reservations", new { message = "Reservación Creada! Se ha notificado al conductor para su respectiva aprovación" });
+                return RedirectToAction("Transportation", "Reservations", new
+                {
+                    message = "Reservación Creada! Se ha notificado al conductor para su respectiva aprobación",
+                    from = string.Empty,
+                    to = string.Empty,
+                    tabIndex = 1
+                });
             }
             catch (Exception ex)
             {

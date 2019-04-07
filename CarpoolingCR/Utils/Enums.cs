@@ -19,6 +19,18 @@ namespace CarpoolingCR.Utils
             Finalizado
         }
 
+        public enum ReservationStatus
+        {
+            [Description("Aceptado")]
+            Accepted,
+            [Description("Rechazado")]
+            Rejected,
+            [Description("Pendiente")]
+            Pending,
+            [Description("Cancelado")]
+            Cancelled
+        }
+
         public enum ProfileStatus
         {
             [Description("Activo")]

@@ -13,7 +13,8 @@ namespace CarpoolingCR.Objects.Responses
     public class ReservationTransportationResponse : BaseResponse
     {
         public List<Trip> Trips { get; set; }
-        public List<Reservation> PendingReservations { get; set; }
+        public List<Reservation> PassengerReservations { get; set; }
+        public List<Trip> DriverTrips { get; set; }
 
         public int SelectedJourneyId { get; set; }
         public int SelectedRouteIndex { get; set; }
@@ -21,5 +22,9 @@ namespace CarpoolingCR.Objects.Responses
         public Enums.UserType CurrentUserType { get; set; }
 
         public List<Town> Towns { get; set; }
+
+        public string From { get; set; }
+        public string To { get; set; }
+        public int TabIndex { get; set; }
     }
 }

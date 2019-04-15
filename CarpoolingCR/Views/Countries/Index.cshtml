@@ -7,40 +7,37 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <h2>Países</h2>
 
-<p>
-    @Html.ActionLink("Crear", "Create", new { }, new { @class = "btn btn-primary pull-right" })
-</p>
+<div id="countries">
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-11 col-xs-11">
+            <input class="search form-control" style="border-radius:25px" placeholder="Búsqueda" />
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-1 col-xs-1">
+            <a class="btn btn-primary pull-right" href="/Countries/Create" style="border-radius:25px">Crear</a>
+        </div>
+    </div>
+    <br />
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Status)
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                <div class="pull-right">
-                    @Html.ActionLink("...", "Edit", new { id = item.CountryId }, new { @class = "btn btn-info" })
-                    <input type="button" class="btn btn-danger" onclick="ConfirmDelete(@item.CountryId, '@item.Name')" value="X" />
+    <ul class="list">
+        @{
+            foreach (var item in Model)
+            {
+                <div class="row">
+                    <li>
+                        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-6">
+                            <h4 class="country">@item.Name</h4>
+                            <small class="status">@item.Status</small>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6">
+                            @Html.ActionLink("...", "Edit", new { id = item.CountryId }, new { @class = "btn btn-info" })
+                            <input type="button" class="btn btn-danger" onclick="ConfirmDelete(@item.CountryId, '@item.Name')" value="X" />
+                        </div>
+                    </li>
                 </div>
-            </td>
-        </tr>
-    }
-
-</table>
+            }
+        }
+    </ul>
+</div>
 
 <div class="modal fade" id="confirmCountryDelete" tabindex="-1" role="dialog" aria-labelledby="dayTripModalLabel" aria-hidden="true">
     <form action="/Countries/Delete/0" method="post">
@@ -59,8 +56,8 @@
                         <input type="text" id="countryId" name="countryId" class="hidden" />
                         <p id="deleteText">Está seguro que desea eliminar xxxxx?</p>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
+                            <input type="submit" class="btn btn-danger" value="Eliminar">
                         </div>
                     </div>
                 </div>
@@ -70,6 +67,12 @@
 </div>
 
 <script language="javascript">
+    var options = {
+        valueNames: ['country', 'status']
+    };
+
+    var userList = new List('countries', options);
+
     function ConfirmDelete(id, name) {
         $('#deleteText').html('¿Está seguro que desea eliminar ' + name + '?')
         $('#countryId').val(id);

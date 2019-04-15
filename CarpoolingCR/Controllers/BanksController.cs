@@ -13,10 +13,15 @@ namespace CarpoolingCR.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Banks
-        public ActionResult Index()
+        public ActionResult Index(string message)
         {
             try
             {
+                if (!string.IsNullOrEmpty(message))
+                {
+                    ViewBag.Info = message;
+                }
+
                 return View(db.Banks.ToList());
             }
             catch (Exception ex)
@@ -229,10 +234,12 @@ namespace CarpoolingCR.Controllers
         {
             try
             {
+                id = Convert.ToInt32(Request["bankId"]);
+
                 Bank bank = db.Banks.Find(id);
                 db.Banks.Remove(bank);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { message = "Banco Eliminado!"});
             }
             catch (Exception ex)
             {

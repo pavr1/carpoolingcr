@@ -4,60 +4,101 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Logs</h2>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Timestamp)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.LogType)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Location)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Message)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Method)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Line)
-        </th>
-        <th></th>
-    </tr>
+<div id="logs">
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-11 col-xs-11">
+            <input class="search form-control" style="border-radius:25px" placeholder="Búsqueda" />
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-1 col-xs-1">
+            <a class="btn btn-primary pull-right" href="/Trips/Create" style="border-radius:25px">Crear</a>
+        </div>
+    </div>
+    <br />
+    @*<div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <button class="sort btn btn-secondary pull-right" style="border-radius:25px" data-sort="country">
+                    <small>Por País</small>
+                </button>&nbsp;
+                <button class="sort btn btn-secondary pull-right" style="border-radius:25px" data-sort="town">
+                    <small>Por Localidad</small>
+                </button>
+            </div>
+        </div>*@
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Timestamp)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LogType)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Location)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Message)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Method)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Line)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.LogId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.LogId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.LogId })
-        </td>
-    </tr>
-}
+    @{
+        if (Model.ToList().Count == 0)
+        {
+            <div class="row">
+                <div class="row form-group">
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
 
-</table>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        <p style="align-content:center">No se encontraror logs creados</p>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <ul class="list">
+                @{
+                    foreach (var item in Model)
+                    {
+                        <li>
+                            <p><h4 class="datetime">@item.Timestamp</h4></p>
+                            <div class="row">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <small class="logtype">Tipo: @item.LogType</small>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <small class="location"><b>Localización: </b>@item.Location</small>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <small class="method"><b>Método: </b>@item.Method</small>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <small class="line"><b>Línea: </b>@item.Line</small>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <small class="log"><b>Log: </b>@item.Message</small>
+                                </div>
+                            </div>
+                            <hr />
+                        </li>
+                    }
+                }
+            </ul>
+        }
+    }
+</div>
+
+<script language="javascript">
+    var options = {
+        valueNames: ['datetime', 'logtype', 'location', 'method', 'line', 'log']
+    };
+
+    var userList = new List('logs', options);
+
+    function ConfirmDelete(id, name) {
+        $('#deleteText').html('¿Está seguro que desea eliminar ' + name + '?')
+        $('#tripId').val(id);
+
+        $("#confirmTripDelete").modal();
+    }
+</script>

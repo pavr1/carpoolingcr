@@ -6,78 +6,67 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <h2>Usuarios</h2>
 
-<table class="table">
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @{
+<div id="users">
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-11 col-xs-11">
+            <input class="search form-control" style="border-radius:25px" placeholder="Búsqueda" />
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-1 col-xs-1">
+            <a class="btn btn-primary pull-right" href="/Trips/Create" style="border-radius:25px">Crear</a>
+        </div>
+    </div>
+    <br />
+    <ul class="list">
+        @{
+            foreach (var item in Model)
+            {
+                <li>
+                    <label class="control-label passenger">@item.Name @item.LastName</label>
                     <div class="row">
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            <label class="control-label">@item.Name @item.LastName @item.SecondLastName</label>
-                            <br />
-                            <h6>@item.Country.Name</h6>
+                            <small>@item.Country.Name</small>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
-                            <h6>Correo</h6>
+                            <small class="email"><b>Correo:</b> @item.Email</small>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
-                            <h6>@item.Email</h6>
+                            <small class="email"><b>¿Confirmado?:</b><input type="checkbox" checked="@item.EmailConfirmed" disabled /></small>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
-                            <h6>¿Correo Confirmado?</h6>
+                            <small class="usertype"><b>Tipo de Usuario:</b> @item.UserType</small>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
-                            <input type="checkbox" checked="@item.EmailConfirmed" disabled />
+                            <small class="phones">Teléfonos: @item.Phone1 - @item.Phone2</small>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
-                            <h6>Tipo de Usuario:</h6>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
-                            <h6>@item.UserType</h6>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
-                            <h6>Teléfonos:</h6>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
-                            <h6>@item.Phone1 - @item.Phone2</h6>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
-                            <h6>Estado:</h6>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
-                            <h6>@item.Status</h6>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                            <small class="usertype"><b>Estado:</b> @item.Status</small>
                             @Html.ActionLink("...", "EditUser", new { id = item.Id }, new { @class = "btn btn-info pull-right" })
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
                             @Html.ActionLink("X", "Delete", new { id = item.Id }, new { @class = "btn btn-danger " })
                         </div>
                     </div>
-                }
-            </td>
-        </tr>
-    }
+                    <hr />
+                </li>
+            }
+        }
+    </ul>
+</div>
 
-</table>
+<script language="javascript">
+    var options = {
+        valueNames: ['passenger', 'email', 'country', 'phones', 'status', 'usertype']
+    };
+
+    var userList = new List('users', options);
+</script>

@@ -3,79 +3,62 @@
 @{
     ViewBag.Title = "Index";
 }
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <h2>Localidades</h2>
 
-<p>
-    @Html.ActionLink("Crear", "Create", new { }, new { @class = "btn btn-primary pull-right" })
-</p>
+<div id="towns">
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-11 col-xs-11">
+            <input class="search form-control" style="border-radius:25px" placeholder="Búsqueda" />
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-1 col-xs-1">
+            <a class="btn btn-primary pull-right" href="/Towns/Create" style="border-radius:25px">Crear</a>
+        </div>
+    </div>
+    <br />
+    @*<div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <button class="sort btn btn-secondary pull-right" style="border-radius:25px" data-sort="country">
+                    <small>Por País</small>
+                </button>&nbsp;
+                <button class="sort btn btn-secondary pull-right" style="border-radius:25px" data-sort="town">
+                    <small>Por Localidad</small>
+                </button>
+            </div>
+        </div>*@
 
-
-<table class="table">
-    <tr>
+    <ul class="list">
         @{
-            if (Model.UserType == CarpoolingCR.Utils.Enums.UserType.Administrador)
+            foreach (var item in Model.Towns)
             {
-                <th>
-                    @Html.DisplayNameFor(model => model.Town.Country.Name)
-                </th>
-            }
-        }
+                <li>
+                    @{
+                        <h4 class="town">@item.Name</h4>
 
-        <th>
-            @Html.DisplayNameFor(model => model.Town.Name)
-        </th>
-        @{
-            if (Model.UserType == CarpoolingCR.Utils.Enums.UserType.Administrador)
-            {
-                <th>
-                    @Html.DisplayNameFor(model => model.Town.Status)
-                </th>
-            }
-        }
-        <th></th>
-    </tr>
+                        if (Model.UserType == CarpoolingCR.Utils.Enums.UserType.Administrador)
+                        {
+                            <small class="country">@item.Country.Name</small>
+                        }
 
-    @foreach (var item in Model.Towns)
-    {
-        <tr>
-            @{
-                if (Model.UserType == CarpoolingCR.Utils.Enums.UserType.Administrador)
-                {
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Country.Name)
-                    </td>
-                }
+                        if (Model.UserType == CarpoolingCR.Utils.Enums.UserType.Administrador)
+                        {
+                            <small class="status">@item.Status</small>
 
-            }
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            @{
-                if (Model.UserType == CarpoolingCR.Utils.Enums.UserType.Administrador)
-                {
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Status)
-                    </td>
-                }
+                            if (Model.UserType == CarpoolingCR.Utils.Enums.UserType.Administrador)
+                            {
+                                <div class="pull-right">
+                                    <a class="btn btn-info" href="/Towns/Edit/5" style="border-radius:25px">...</a>
+                                    <input type="button" class="btn btn-danger" style="border-radius:25px" onclick="ConfirmDelete(@item.TownId, '@item.Name')" value="X" />
+                                </div>
+                            }
+                        }
 
-            }
-            <td>
-                @{
-                    if (Model.UserType == CarpoolingCR.Utils.Enums.UserType.Administrador)
-                    {
-                        <div class="pull-right">
-                            @Html.ActionLink("...", "Edit", new { id = item.TownId }, new { @class = "btn btn-info" })
-                            <input type="button" class="btn btn-danger" onclick="ConfirmDelete(@item.TownId, '@item.Name')" value="X" />
-                        </div>
                     }
-
-                }
-            </td>
-        </tr>
-    }
-
-</table>
+                </li>
+            }
+        }
+    </ul>
+</div>
 
 <div class="modal fade" id="confirmTownDelete" tabindex="-1" role="dialog" aria-labelledby="dayTripModalLabel" aria-hidden="true">
     <form action="/Towns/Delete/0" method="post">
@@ -105,6 +88,12 @@
 </div>
 
 <script language="javascript">
+    var options = {
+        valueNames: ['town', 'country', 'status']
+    };
+
+    var userList = new List('towns', options);
+
     function ConfirmDelete(id, name) {
         $('#deleteText').html('¿Está seguro que desea eliminar ' + name + '?')
         $('#townId').val(id);

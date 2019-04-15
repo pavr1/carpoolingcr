@@ -57,14 +57,26 @@ namespace CarpoolingCR.Utils
             });
         }
 
-        public static void SendReservationStatusChange(string email, string trip, string date, string status)
+        public static void SendReservationStatusChangeByDriver(string email, string trip, string date, string status)
         {
-            var html = "<html><header></header><body>La reservación para el viaje " + trip + " el " + date + " ha sido " + status + ". Para ver más información da click AQUí.</body></html>";// de click <a href='" + callbackUrl + "'>AQUÍ</a></body></html>";
+            var html = "<html><header></header><body>Tu reservación para el viaje " + trip + " el " + date + " ha sido " + status + " por el conductor. Para ver más información da click AQUí.</body></html>";// de click <a href='" + callbackUrl + "'>AQUÍ</a></body></html>";
 
             Common.SendEmail(new IdentityMessage
             {
                 Destination = WebConfigurationManager.AppSettings["AdminEmails"],
-                Subject = "Nueva localidad creada",
+                Subject = "Reservación " + status,
+                Body = html
+            });
+        }
+
+        public static void SendReservationStatusCancelledByPassenger(string email, string trip, string date)
+        {
+            var html = "<html><header></header><body>Tu reservación para el viaje " + trip + " el " + date + " ha sido cancelado por el pasajero. Para ver más información da click AQUí.</body></html>";// de click <a href='" + callbackUrl + "'>AQUÍ</a></body></html>";
+
+            Common.SendEmail(new IdentityMessage
+            {
+                Destination = WebConfigurationManager.AppSettings["AdminEmails"],
+                Subject = "Reservación Cancelada",
                 Body = html
             });
         }

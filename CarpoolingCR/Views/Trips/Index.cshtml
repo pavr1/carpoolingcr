@@ -9,43 +9,71 @@
 <h2>Viajes</h2>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-<p>
-    @Html.ActionLink("Crear", "Create", new { }, new { @class = "btn btn-primary pull-right" })
-</p>
-<br />
-<table class="table">
+<div id="trips">
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-11 col-xs-11">
+            <input class="search form-control" style="border-radius:25px" placeholder="Búsqueda" />
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-1 col-xs-1">
+            <a class="btn btn-primary pull-right" href="/Trips/Create" style="border-radius:25px">Crear</a>
+        </div>
+    </div>
+    <br />
+    @*<div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <button class="sort btn btn-secondary pull-right" style="border-radius:25px" data-sort="country">
+                    <small>Por País</small>
+                </button>&nbsp;
+                <button class="sort btn btn-secondary pull-right" style="border-radius:25px" data-sort="town">
+                    <small>Por Localidad</small>
+                </button>
+            </div>
+        </div>*@
+
     @{
         if (Model.Trips.Count == 0)
         {
-            <tr>
-                <td align="center">
-                    No se encontraron registros
-                </td>
-            </tr>
+            <div class="row">
+                <div class="row form-group">
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        <p style="align-content:center">No se encontraror viajes creados</p>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+
+                    </div>
+                </div>
+            </div>
         }
         else
         {
-            foreach (var item in Model.Trips)
-            {
-                <tr>
-                    <td>
-                        @{
-                            <label class="control-label">@item.FromTown - > @item.ToTown</label> <label class="control-label pull-right">@Html.DisplayFor(modelItem => item.AvailableSpaces) Espacios</label>
-                        }
-                        <br />
-                        @{
-                            @Html.DisplayFor(modelItem => item.DateTime) <label class="control-label pull-right">@Html.DisplayFor(modelItem => item.Price)</label>
-                        }
-                    </td>
-                    <td class="">
-                        @Html.ActionLink("...", "Edit", new { id = item.TripId }, new { @class = "btn btn-info " })
-                        <input type="button" class="btn btn-danger" onclick="ConfirmDelete(@item.TripId, '@item.FromTown -> @item.ToTown')" value="X" />
-                    </td>
-                </tr>
-            }
+            <ul class="list">
+                @{
+                    foreach (var item in Model.Trips)
+                    {
+                        <li>
+                            <p><h4 class="fromto">@item.FromTown -> @item.ToTown. Cuota: @item.Price</h4></p>
+                            <div class="row">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <small class="date">@item.DateTime.ToString()</small>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <small class="spaces">@item.AvailableSpaces Espacio(s)</small>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <a class="btn btn-info " href="/Trips/Edit/@item.TripId">...</a>
+                                    <input type="button" class="btn btn-danger" onclick="ConfirmDelete(@item.TripId, '@item.FromTown -> @item.ToTown')" value="X" />
+                                </div>
+                            </div>
+                        </li>
+                    }
+                }
+            </ul>
         }
     }
-</table>
+</div>
 
 <div class="modal fade" id="confirmTripDelete" tabindex="-1" role="dialog" aria-labelledby="dayTripModalLabel" aria-hidden="true">
     <form action="/Trips/Delete/0" method="post">
@@ -57,14 +85,14 @@
                         <button type="button" class="close" data-dismiss="modal">
                             <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
                         </button>
-                        <h4 class="modal-title" id="dayTripModalLabel">Eliminación de Localidades</h4>
+                        <h4 class="modal-title" id="dayTripModalLabel">Eliminación de Viajes</h4>
                     </div>
                     <div class="modal-body">
                         <input type="text" id="tripId" name="tripId" class="hidden" />
                         <p id="deleteText">Está seguro que desea eliminar xxxxx?</p>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
+                            <input type="submit" class="btn btn-danger" value="Eliminar">
                         </div>
                     </div>
                 </div>
@@ -74,6 +102,12 @@
 </div>
 
 <script language="javascript">
+    var options = {
+        valueNames: ['fromto', 'date', 'spaces', 'price']
+    };
+
+    var userList = new List('trips', options);
+
     function ConfirmDelete(id, name) {
         $('#deleteText').html('¿Está seguro que desea eliminar ' + name + '?')
         $('#tripId').val(id);

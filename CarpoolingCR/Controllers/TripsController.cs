@@ -223,12 +223,41 @@ namespace CarpoolingCR.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var currentUser = db.Users.Where(x => x.Email == User.Identity.Name).Single();
+                    var user = Common.GetUserByEmail(User.Identity.Name);
+                    var fromRequest = Request["FromTown"];
+                    var from = db.Towns.Where(x => x.Name == fromRequest).SingleOrDefault();
+
+                    if (from == null)
+                    {
+                        ViewBag.Warning = "Origen no valido.";
+
+                        var response = new TripCreateResponse
+                        {
+                            Towns = db.Towns.Where(x => x.Status == Enums.TownStatus.Active && x.CountryId == user.CountryId).ToList()
+                        };
+
+                        return View(response);
+                    }
+
+                    var toRequest = Request["ToTown"];
+                    var to = db.Towns.Where(x => x.Name == toRequest).SingleOrDefault();
+
+                    if (to == null)
+                    {
+                        ViewBag.Warning = "Destino no valido.";
+
+                        var response = new TripCreateResponse
+                        {
+                            Towns = db.Towns.Where(x => x.Status == Enums.TownStatus.Active && x.CountryId == user.CountryId).ToList()
+                        };
+
+                        return View(response);
+                    }
 
                     trip = new Trip
                     {
-                        ApplicationUser = currentUser,
-                        ApplicationUserId = currentUser.Id,
+                        ApplicationUser = user,
+                        ApplicationUserId = user.Id,
                         AvailableSpaces = Convert.ToInt32(Request["AvailableSpaces"]),
                         CreatedTime = DateTime.Now,
                         DateTime = Convert.ToDateTime(Request["DateTime"]),

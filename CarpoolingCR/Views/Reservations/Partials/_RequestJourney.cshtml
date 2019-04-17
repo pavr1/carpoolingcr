@@ -23,6 +23,13 @@
 
         $(document).ready(function () {
             $('#calendar').fullCalendar({
+                buttonText: {
+                    today: 'Hoy',
+                    month: 'Mes',
+                    week: 'Semana',
+                    day: 'Dia',
+                    list: 'Lista'
+                },
                 weekends: true,
                 monthNames: ['Enero', 'Febrero', 'Marzo', 'Abríl', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
                 monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],

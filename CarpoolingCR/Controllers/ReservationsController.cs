@@ -60,7 +60,6 @@ namespace CarpoolingCR.Controllers
                 var passengerReservations = new List<Reservation>();
                 var driverTrips = new List<Trip>();
                 var user = Common.GetUserByEmail(User.Identity.Name);
-                var driverName = string.Empty;
 
                 if (user.UserType == Enums.UserType.Pasajero)
                 {
@@ -165,13 +164,13 @@ namespace CarpoolingCR.Controllers
         {
             try
             {
-                List<Trip> trips = db.Trips.Where(x => x.FromTown == from && x.ToTown == to && x.Status == Status.Activo)
-                    .ToList();
-
+                var user = Common.GetUserByEmail(User.Identity.Name);
+               
                 List<Reservation> passengerReservations = new List<Reservation>();
                 List<Trip> driverTrips = new List<Trip>();
+                ReservationTransportationResponse response = new ReservationTransportationResponse();
 
-                var user = Common.GetUserByEmail(User.Identity.Name);
+                //var user = Common.GetUserByEmail(User.Identity.Name);
 
                 if (user.UserType == Enums.UserType.Pasajero)
                 {
@@ -209,9 +208,9 @@ namespace CarpoolingCR.Controllers
                 }
                 else if (user.UserType == Enums.UserType.Administrador)
                 {
-                    trips = db.Trips.Where(x => x.Status == Status.Activo).ToList();
+                    var adminTrips = db.Trips.Where(x => x.Status == Status.Activo).ToList();
 
-                    foreach (var trip in trips)
+                    foreach (var trip in adminTrips)
                     {
                         var tripReservations = db.Reservations.Where(x => x.TripId == trip.TripId)
                             .Include(x => x.ApplicationUser)
@@ -221,7 +220,47 @@ namespace CarpoolingCR.Controllers
                     }
                 }
 
-                ReservationTransportationResponse response = new ReservationTransportationResponse
+                List<Trip> trips = new List<Trip>();
+
+                var fromRequest = db.Towns.Where(x => x.Name == from).SingleOrDefault();
+
+                if (fromRequest == null)
+                {
+                    response = new ReservationTransportationResponse
+                    {
+                        Trips = trips,
+                        PassengerReservations = passengerReservations,
+                        DriverTrips = driverTrips,
+                        Towns = db.Towns.ToList(),
+                        Message = "Origen no valido"
+                    };
+
+                    response.Html = Serializer.RenderViewToString(this.ControllerContext, "Partials/_RequestJourney", response);
+
+                    return Serializer.Serialize(response);
+                }
+
+                var toRequest = db.Towns.Where(x => x.Name == to).SingleOrDefault();
+
+                if (toRequest == null)
+                {
+                    response = new ReservationTransportationResponse
+                    {
+                        Trips = trips,
+                        PassengerReservations = passengerReservations,
+                        DriverTrips = driverTrips,
+                        Towns = db.Towns.ToList(),
+                        Message = "Destino no valido"
+                    };
+
+                    response.Html = Serializer.RenderViewToString(this.ControllerContext, "Partials/_RequestJourney", response);
+
+                    return Serializer.Serialize(response);
+                }
+
+                trips = db.Trips.Where(x => x.FromTown == from && x.ToTown == to && x.Status == Status.Activo).ToList();
+
+                response = new ReservationTransportationResponse
                 {
                     Trips = trips,
                     PassengerReservations = passengerReservations,

@@ -130,6 +130,18 @@
             return;
         }
 
+        if (from == '') {
+            displayMessages('¡El origen no puede estar vacío!', 'warning')
+
+            return;
+        }
+
+        if (to == '') {
+            displayMessages('¡El destino no puede estar vacío!', 'warning')
+
+            return;
+        }
+
         $.post('/Reservations/Transportation', { from: from, to: to},
             function (data) {
                 var json = JSON.parse(data);
@@ -141,8 +153,8 @@
 
                 var tripsCount = $('#TripsCount').html();
 
-                if (tripsCount == '0') {
-                    displayMessages('¡No se encontraron viajes para esta ruta!', 'warning')
+                if (json.Message != '') {
+                    displayMessages(json.Message, 'warning')
                 }
             });
     }

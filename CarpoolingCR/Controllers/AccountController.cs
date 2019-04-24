@@ -348,6 +348,19 @@ namespace CarpoolingCR.Controllers
 
                             return RedirectToAction("CheckEmail", "Account");
                         }
+                        else
+                        {
+                            var message = result.Errors.ToList()[0].ToString();
+
+                            if (result.Errors.ToList()[0].ToString().Contains("Passwords must have at least one non letter or digit character"))
+                            {
+                                message = "Formato de clave inválida. Tome en cuenta mayúsculas, minúsculas y decimales.";
+                            }
+
+                            ViewBag.Warning = message;
+
+                            return View();
+                        }
                     }
                 }
             }

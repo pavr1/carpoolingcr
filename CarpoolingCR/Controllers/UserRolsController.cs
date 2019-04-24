@@ -57,16 +57,47 @@ namespace CarpoolingCR.Controllers
 
         public ActionResult AdminIndex()
         {
+            var user = db.Users.Where(x => x.Email == User.Identity.Name).Single();
+
+            if (user != null)
+            {
+               if(user.UserType != Enums.UserType.Administrador)
+                {
+                    return ValidateUserRol();
+                }
+            }
+
+
             return View();
         }
 
         public ActionResult DriverIndex()
         {
+            var user = db.Users.Where(x => x.Email == User.Identity.Name).Single();
+
+            if (user != null)
+            {
+                if (user.UserType != Enums.UserType.Conductor)
+                {
+                    return ValidateUserRol();
+                }
+            }
+
             return View();
         }
 
         public ActionResult PassengerIndex()
         {
+            var user = db.Users.Where(x => x.Email == User.Identity.Name).Single();
+
+            if (user != null)
+            {
+                if (user.UserType != Enums.UserType.Pasajero)
+                {
+                    return ValidateUserRol();
+                }
+            }
+
             return View();
         }
     }

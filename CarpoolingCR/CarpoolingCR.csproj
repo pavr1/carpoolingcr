@@ -665,6 +665,7 @@
     <None Include="Properties\PublishProfiles\buscoridecr.com %28smarteraspnet%29.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\gifttreecr.com %28smarteraspnet%29.pubxml" />
+    <Content Include="Scripts\Growl\jquery.bootstrap-growl.js" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />

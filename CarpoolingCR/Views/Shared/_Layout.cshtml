@@ -176,6 +176,8 @@
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 
+    <script src="~/Scripts/Growl/jquery.bootstrap-growl.js"></script>
+
     <script>
         $(document).ready(function () {
             checkMessages();
@@ -187,93 +189,29 @@
             var info = '@ViewBag.Info';
 
             if (error != '') {
-                setTimeout(function () {
-                    $('#errorMsgContainer').slideUp();
-                    $('#errorMsgContainer').html('&nbsp;&nbsp;&nbsp;' + error);
-                    $('#errorMsgContainer').slideDown();
-
-                    ScrollUp();
-
-                    setTimeout(function () {
-                        $('#errorMsgContainer').slideUp();
-                    }, 10000);
-                }, 100);
+                DisplayGrowlMessage(error, 'danger');
             }
 
             if (warning != '') {
-                setTimeout(function () {
-                    $('#warningMsgContainer').slideUp();
-                    $('#warningMsgContainer').html('&nbsp;&nbsp;&nbsp;' + warning);
-                    $('#warningMsgContainer').slideDown();
-
-                    ScrollUp();
-
-                    setTimeout(function () {
-                        $('#warningMsgContainer').slideUp();
-
-                    }, 10000);
-                }, 100);
+                DisplayGrowlMessage(warning, 'warning');
             }
 
             if (info != '') {
-                setTimeout(function () {
-                    $('#infoMsgContainer').slideUp();
-                    $('#infoMsgContainer').html('&nbsp;&nbsp;&nbsp;' + info);
-                    $('#infoMsgContainer').slideDown();
-
-                    ScrollUp();
-
-                    setTimeout(function () {
-                        $('#infoMsgContainer').slideUp();
-
-                    }, 10000);
-                }, 100);
+                DisplayGrowlMessage(info, 'success');
             }
         }
 
         function displayMessages(message, type) {
             if (type == 'error') {
-                setTimeout(function () {
-                    $('#errorMsgContainer').slideUp();
-                    $('#errorMsgContainer').html('&nbsp;&nbsp;&nbsp;' + message);
-                    $('#errorMsgContainer').slideDown();
-
-                    ScrollUp();
-
-                    setTimeout(function () {
-                        $('#errorMsgContainer').slideUp();
-                    }, 10000);
-                }, 100);
+                DisplayGrowlMessage(message, 'error');
             }
 
             if (type == 'warning') {
-                setTimeout(function () {
-                    $('#warningMsgContainer').slideUp();
-                    $('#warningMsgContainer').html('&nbsp;&nbsp;&nbsp;' + message);
-                    $('#warningMsgContainer').slideDown();
-
-                    ScrollUp();
-
-                    setTimeout(function () {
-                        $('#warningMsgContainer').slideUp();
-
-                    }, 10000);
-                }, 100);
+                DisplayGrowlMessage(message, 'warning');
             }
 
             if (type == 'info') {
-                setTimeout(function () {
-                    $('#infoMsgContainer').slideUp();
-                    $('#infoMsgContainer').html('&nbsp;&nbsp;&nbsp;' + message);
-                    $('#infoMsgContainer').slideDown();
-
-                    ScrollUp();
-
-                    setTimeout(function () {
-                        $('#infoMsgContainer').slideUp();
-
-                    }, 10000);
-                }, 100);
+                DisplayGrowlMessage(message, 'success');
             }
         }
 
@@ -281,6 +219,23 @@
             $('html, body').animate({
                 scrollTop: 0
             }, 1000);
+        }
+
+        function DisplayGrowlMessage(message, type) {
+            $.bootstrapGrowl(message, // Messages
+                { // options
+                    type: type, // info, success, warning and danger
+                    ele: "body", // parent container
+                    offset: {
+                        from: "top",
+                        amount: 54
+                    },
+                    align: "right", // right, left or center
+                    width: 385,
+                    delay: 4000,
+                    allow_dismiss: true, // add a close button to the message
+                    stackup_spacing: 10
+                });
         }
     </script>
 </body>

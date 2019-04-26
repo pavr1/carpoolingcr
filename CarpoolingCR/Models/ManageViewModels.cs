@@ -14,6 +14,7 @@ namespace CarpoolingCR.Models
         public bool BrowserRemembered { get; set; }
 
         public ApplicationUser User { get; set; }
+        public string ProfileHtml { get; set; }
     }
 
     public class ManageLoginsViewModel

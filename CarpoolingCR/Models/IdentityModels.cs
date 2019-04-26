@@ -54,6 +54,10 @@ namespace CarpoolingCR.Models
 
         [NotMapped]
         public MonthlyBalance MonthlyBalance { get; set; }
+        [NotMapped]
+        public string Message { get; set; }
+        [NotMapped]
+        public string MessageType { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {

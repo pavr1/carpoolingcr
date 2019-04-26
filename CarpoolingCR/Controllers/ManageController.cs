@@ -14,6 +14,8 @@ namespace CarpoolingCR.Controllers
     [Authorize]
     public class ManageController : Controller
     {
+        private ApplicationDbContext db = new ApplicationDbContext();
+
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
@@ -68,7 +70,6 @@ namespace CarpoolingCR.Controllers
 
                 var userId = User.Identity.GetUserId();
                 var user = Common.GetUserByEmail(User.Identity.Name);
-                var db = new ApplicationDbContext();
 
                 var month = DateTime.Now.Month;
                 var year = DateTime.Now.Year;
@@ -103,8 +104,10 @@ namespace CarpoolingCR.Controllers
                     TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
                     Logins = await UserManager.GetLoginsAsync(userId),
                     BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId),
-                    User = user
+                    User = user,
+                    ProfileHtml = Serializer.RenderViewToString(this.ControllerContext, "Partials/_ProfileInfo", user)
                 };
+
                 return View(model);
             }
             catch (Exception ex)
@@ -123,6 +126,75 @@ namespace CarpoolingCR.Controllers
                 ViewBag.Error = "Hubo un error inesperado, por favor intente de nuevo.";
 
                 return View();
+            }
+        }
+
+        public ActionResult ProfileInfo()
+        {
+            try
+            {
+                return View();
+            }
+            catch (Exception ex)
+            {
+                Common.LogData(new Log
+                {
+                    Line = Common.GetCurrentLine(),
+                    Location = Enums.LogLocation.Server,
+                    LogType = Enums.LogType.Error,
+                    Message = ex.Message + " / " + ex.StackTrace,
+                    Method = Common.GetCurrentMethod(),
+                    Timestamp = DateTime.Now,
+                    UserEmail = User.Identity.Name
+                });
+
+                ViewBag.Error = "Hubo un error inesperado, por favor intente de nuevo.";
+
+                return View();
+            }
+        }
+
+        [HttpPost]
+        public string ProfileInfo(string name, string lastName, string secLastName, string phone1, string phone2)
+        {
+            var user = Common.GetUserByEmail(User.Identity.Name);
+
+            try
+            {
+                if (user != null)
+                {
+                    user.Name = name;
+                    user.LastName = lastName;
+                    user.SecondLastName = secLastName;
+                    user.Phone1 = phone1;
+                    user.Phone2 = phone2;
+
+                    db.Entry(user).State = System.Data.Entity.EntityState.Modified;
+                    db.SaveChanges();
+
+                    user.Message = "Perfíl Actualizado!";
+                    user.MessageType = "info";
+                }
+
+                return Serializer.RenderViewToString(this.ControllerContext, "Partials/_ProfileInfo", user);
+            }
+            catch (Exception ex)
+            {
+                Common.LogData(new Log
+                {
+                    Line = Common.GetCurrentLine(),
+                    Location = Enums.LogLocation.Server,
+                    LogType = Enums.LogType.Error,
+                    Message = ex.Message + " / " + ex.StackTrace,
+                    Method = Common.GetCurrentMethod(),
+                    Timestamp = DateTime.Now,
+                    UserEmail = User.Identity.Name
+                });
+
+                user.Message = "Hubo un error inesperado, por favor intente de nuevo.";
+                user.MessageType = "error";
+
+                return Serializer.RenderViewToString(this.ControllerContext, "Partials/_ProfileInfo", user);
             }
         }
 

@@ -10,108 +10,9 @@
 <hr />
 
 <div class="row form-group">
-    <input type="hidden" id="ApplicationUserId" />
-
-    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-        <div class="row form-group">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <label class="control-label">Información de Usuario</label>
-                <hr />
-            </div>
-        </div>
-        <div class="row form-group">
-            <div class="col-lg-4 col-md-2 col-sm-3 col-xs-4">
-                <label class="control-label pull-right">Correo Electrónico</label>
-            </div>
-            <div class="col-lg-8 col-md-10 col-sm-9 col-xs-8">
-                @Html.TextBoxFor(m => m.User.Email, new { @class = "form-control", @placeholder = "Correo Electrónico" })
-            </div>
-        </div>
-
-        <div class="row form-group">
-            <div class="col-lg-4 col-md-2 col-sm-3 col-xs-4">
-                <label class="control-label pull-right">Nombre</label>
-            </div>
-            <div class="col-lg-8 col-md-10 col-sm-9 col-xs-8">
-                @Html.TextBoxFor(m => m.User.Name, new { @class = "form-control", @placeholder = "Nombre" })
-            </div>
-        </div>
-
-        <div class="row form-group">
-            <div class="col-lg-4 col-md-2 col-sm-3 col-xs-4">
-                <label class="control-label pull-right">Primer Apellido</label>
-            </div>
-            <div class="col-lg-8 col-md-10 col-sm-9 col-xs-8">
-                @Html.TextBoxFor(m => m.User.LastName, new { @class = "form-control", @placeholder = "Primer Apellido" })
-            </div>
-        </div>
-
-        <div class="row form-group">
-            <div class="col-lg-4 col-md-2 col-sm-3 col-xs-4">
-                <label class="control-label pull-right">Segundo Apellido</label>
-            </div>
-            <div class="col-lg-8 col-md-10 col-sm-9 col-xs-8">
-                @Html.TextBoxFor(m => m.User.SecondLastName, new { @class = "form-control", @placeholder = "Segundo Apellido" })
-            </div>
-        </div>
-
-        <div class="row form-group">
-            <div class="col-lg-4 col-md-2 col-sm-3 col-xs-4">
-                <label class="control-label pull-right">Teléfono #1</label>
-            </div>
-            <div class="col-lg-8 col-md-10 col-sm-9 col-xs-8">
-                @Html.TextBoxFor(m => m.User.Phone1, new { @class = "form-control", @placeholder = "Teléfono #1" })
-            </div>
-        </div>
-
-        <div class="row form-group">
-            <div class="col-lg-4 col-md-2 col-sm-3 col-xs-4">
-                <label class="control-label pull-right">Teléfono #2</label>
-            </div>
-            <div class="col-lg-8 col-md-10 col-sm-9 col-xs-8">
-                @Html.TextBoxFor(m => m.User.Phone2, new { @class = "form-control", @placeholder = "Teléfono #2" })
-            </div>
-        </div>
-
-        <div class="row form-group">
-            <div class="col-lg-4 col-md-2 col-sm-3 col-xs-4">
-                <label class="control-label pull-right">Tipo de Usuario</label>
-            </div>
-            <div class="col-lg-8 col-md-10 col-sm-9 col-xs-8">
-                @Html.TextBoxFor(m => m.User.UserType, new { @class = "form-control", @placeholder = "Tipo de Usuario", @disabled = "disabled" })
-            </div>
-        </div>
-
-        <div class="row form-group">
-            <div class="col-lg-4 col-md-2 col-sm-3 col-xs-4">
-                <label class="control-label pull-right">Estado</label>
-            </div>
-            <div class="col-lg-8 col-md-10 col-sm-9 col-xs-8">
-                @Html.TextBoxFor(m => m.User.Status, new { @class = "form-control", @placeholder = "Estado", @disabled = "disabled" })
-            </div>
-        </div>
-
-        <div class="row form-group">
-            <div class="col-lg-4 col-md-2 col-sm-3 col-xs-4">
-                <label class="control-label pull-right">¿Correo Confirmado?</label>
-            </div>
-            <div class="col-lg-8 col-md-10 col-sm-9 col-xs-8">
-                @{
-                    if (Model.User.EmailConfirmed)
-                    {
-                        <input type="checkbox" class="disabled" onclick="return false;" checked />
-                    }
-                    else
-                    {
-                        <input type="checkbox" class="disabled" onclick="return false;" />
-
-
-                    }
-                }
-            </div>
-        </div>
+    <div id="profileAccountContainer">
+        @Html.Raw(Model.ProfileHtml)
     </div>
-
 
     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
         <div class="row form-group">
@@ -200,66 +101,23 @@
             }
             ]
         </dd>
-        @*
-            <dt>External Logins:</dt>
-            <dd>
-                @Model.Logins.Count [
-                @Html.ActionLink("Manage", "ManageLogins") ]
-            </dd>
-
-                Phone Numbers can used as a second factor of verification in a two-factor authentication system.
-
-                 See <a href="https://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
-                    for details on setting up this ASP.NET application to support two-factor authentication using SMS.
-
-                 Uncomment the following block after you have set up two-factor authentication
-        *@
-        @*
-            <dt>Phone Number:</dt>
-            <dd>
-                @(Model.PhoneNumber ?? "None")
-                @if (Model.PhoneNumber != null)
-                {
-                    <br />
-                    <text>[&nbsp;&nbsp;@Html.ActionLink("Change", "AddPhoneNumber")&nbsp;&nbsp;]</text>
-                    using (Html.BeginForm("RemovePhoneNumber", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                    {
-                        @Html.AntiForgeryToken()
-                        <text>[<input type="submit" value="Remove" class="btn-link" />]</text>
-                    }
-                }
-                else
-                {
-                    <text>[&nbsp;&nbsp;@Html.ActionLink("Add", "AddPhoneNumber")
-                }
-            </dd>
-        *@
-        @*<dt>Two-Factor Authentication:</dt>
-            <dd>
-                <p>
-                    There are no two-factor authentication providers configured. See <a href="https://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
-                    for details on setting up this ASP.NET application to support two-factor authentication.
-                </p>*@
-        @*@if (Model.TwoFactor)
-            {
-                using (Html.BeginForm("DisableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                {
-                    @Html.AntiForgeryToken()
-                    <text>Enabled
-                    <input type="submit" value="Disable" class="btn btn-link" />
-                    </text>
-                }
-            }
-            else
-            {
-                using (Html.BeginForm("EnableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                {
-                    @Html.AntiForgeryToken()
-                    <text>Disabled
-                    <input type="submit" value="Enable" class="btn btn-link" />
-                    </text>
-                }
-            }*@
-        </dd>
     </dl>
 </div>
+
+<script>
+    function SaveProfileInfo() {
+        $.post('/Manage/ProfileInfo', { name: $('#Name').val(), lastName: $('#LastName').val(), secLastName: $('#SecondLastName').val(), phone1: $('#Phone1').val(), phone2: $('#Phone2').val() },
+            function (data) {
+                var json = JSON.stringify(data);
+
+                $('#profileAccountContainer').html(JSON.parse(json));
+
+                var message = $('#message').val();
+                var type = $('#messageType').val();
+
+                if (message != '') {
+                    displayMessages(message, type);
+                }
+            });
+    }
+</script>

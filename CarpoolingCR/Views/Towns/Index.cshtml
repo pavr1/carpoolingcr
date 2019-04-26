@@ -47,7 +47,7 @@
                             if (Model.UserType == CarpoolingCR.Utils.Enums.UserType.Administrador)
                             {
                                 <div class="pull-right">
-                                    <a class="btn btn-info" href="/Towns/Edit/5" style="border-radius:25px">...</a>
+                                    <a class="btn btn-info" href="/Towns/Edit/@item.TownId" style="border-radius:25px">...</a>
                                     <input type="button" class="btn btn-danger" style="border-radius:25px" onclick="ConfirmDelete(@item.TownId, '@item.Name')" value="X" />
                                 </div>
                             }

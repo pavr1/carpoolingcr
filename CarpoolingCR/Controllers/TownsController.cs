@@ -14,13 +14,24 @@ namespace CarpoolingCR.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Towns
-        public ActionResult Index(string message)
+        public ActionResult Index(string message, string type)
         {
             try
             {
                 if (!string.IsNullOrEmpty(message))
                 {
-                    ViewBag.Info = message;
+                    if (type == "info")
+                    {
+                        ViewBag.Info = message;
+                    }
+                    else if (type == "error")
+                    {
+                        ViewBag.Error = message;
+                    }
+                    else if (type == "warining")
+                    {
+                        ViewBag.Warning = message;
+                    }
                 }
 
                 var user = Common.GetUserByEmail(User.Identity.Name);
@@ -121,6 +132,19 @@ namespace CarpoolingCR.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    var existentTown = db.Towns.Where(x => x.Name.ToUpper() == town.Name.ToUpper()).SingleOrDefault();
+
+                    if (existentTown != null)
+                    {
+                        ViewBag.Error = "La localidad ya existe!";
+
+                        return View(new TownCreateResponse
+                        {
+                            UserType = Common.GetUserType(User.Identity.Name),
+                            Town = town
+                        });
+                    }
+
                     var user = Common.GetUserByEmail(User.Identity.Name);
 
                     town.CountryId = user.CountryId;
@@ -139,7 +163,7 @@ namespace CarpoolingCR.Controllers
 
                     EmailHandler.SendEmailNewTown();
 
-                    return RedirectToAction("Index", new { message = "Localidad creada satisfactoriamente pero no será visible hasta la aprobación del administrador."});
+                    return RedirectToAction("Index", new { message = "Localidad Creada!", type = "info" });
                 }
 
                 return View(town);
@@ -212,7 +236,7 @@ namespace CarpoolingCR.Controllers
                     db.Entry(town).State = EntityState.Modified;
                     db.SaveChanges();
 
-                    return RedirectToAction("Index", new { message = "La localidad ha sido actualizada!" });
+                    return RedirectToAction("Index", new { message = "Localidad Actualizada!", type = "info" });
                 }
 
                 return View(town);
@@ -283,7 +307,8 @@ namespace CarpoolingCR.Controllers
                 Town town = db.Towns.Find(id);
                 db.Towns.Remove(town);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                return RedirectToAction("Index", new { message = "Localidad Eliminada!", type = "info" });
             }
             catch (Exception ex)
             {

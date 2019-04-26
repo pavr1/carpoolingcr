@@ -13,10 +13,26 @@ namespace CarpoolingCR.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Countries
-        public ActionResult Index()
+        public ActionResult Index(string message, string type)
         {
             try
             {
+                if (!string.IsNullOrEmpty(message))
+                {
+                    if (type == "info")
+                    {
+                        ViewBag.Info = message;
+                    }
+                    else if (type == "error")
+                    {
+                        ViewBag.Error = message;
+                    }
+                    else if (type == "warining")
+                    {
+                        ViewBag.Warning = message;
+                    }
+                }
+
                 return View(db.Countries.ToList());
             }
             catch (Exception ex)
@@ -90,9 +106,19 @@ namespace CarpoolingCR.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    var existentCountry = db.Countries.Where(x => x.Name.ToUpper() == country.Name.ToUpper()).SingleOrDefault();
+
+                    if (existentCountry != null)
+                    {
+                        ViewBag.Error = "El país ya existe!";
+
+                        return View(country);
+                    }
+
                     db.Countries.Add(country);
                     db.SaveChanges();
-                    return RedirectToAction("Index");
+
+                    return RedirectToAction("Index", new { message = "País Creado!", type = "info" });
                 }
 
                 return View(country);
@@ -174,7 +200,8 @@ namespace CarpoolingCR.Controllers
                 {
                     db.Entry(country).State = EntityState.Modified;
                     db.SaveChanges();
-                    return RedirectToAction("Index");
+
+                    return RedirectToAction("Index", new { message = "País Actualizado!", type = "info" });
                 }
                 return View(country);
             }
@@ -254,7 +281,8 @@ namespace CarpoolingCR.Controllers
                 Country country = db.Countries.Find(id);
                 db.Countries.Remove(country);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                return RedirectToAction("Index", new { message = "País Eliminado!", type = "info" });
             }
             catch (Exception ex)
             {

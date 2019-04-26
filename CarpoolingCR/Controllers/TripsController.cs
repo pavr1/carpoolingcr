@@ -16,13 +16,24 @@ namespace CarpoolingCR.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Trips
-        public ActionResult Index(string message)
+        public ActionResult Index(string message, string type)
         {
             try
             {
                 if (!string.IsNullOrEmpty(message))
                 {
-                    ViewBag.Info = message;
+                    if (type == "info")
+                    {
+                        ViewBag.Info = message;
+                    }
+                    else if (type == "error")
+                    {
+                        ViewBag.Error = message;
+                    }
+                    else if (type == "warining")
+                    {
+                        ViewBag.Warning = message;
+                    }
                 }
 
                 List<Trip> trips = new List<Trip>();
@@ -256,7 +267,6 @@ namespace CarpoolingCR.Controllers
 
                     trip = new Trip
                     {
-                        ApplicationUser = user,
                         ApplicationUserId = user.Id,
                         AvailableSpaces = Convert.ToInt32(Request["AvailableSpaces"]),
                         CreatedTime = DateTime.Now,
@@ -274,7 +284,7 @@ namespace CarpoolingCR.Controllers
 
                     new SignalHandler().SendMessage(Enums.EventTriggered.TripCreated.ToString(), "");
 
-                    return RedirectToAction("Index", new { message = "¡El viaje ha sido creado!"});
+                    return RedirectToAction("Index", new { message = "Viaje Creado!", type = "info" });
                 }
 
                 //ViewBag.JourneyId = new SelectList(db.Journeys, "JourneyId", "Name", trip.JourneyId);
@@ -374,7 +384,7 @@ namespace CarpoolingCR.Controllers
                     db.Entry(trip).State = EntityState.Modified;
                     db.SaveChanges();
 
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Index", new { message = "Viaje Actualizado!", type = "info" });
                 }
                 //ViewBag.JourneyId = new SelectList(db.Journeys, "JourneyId", "Name", trip.JourneyId);
                 return View(trip);
@@ -452,7 +462,7 @@ namespace CarpoolingCR.Controllers
 
                 new SignalHandler().SendMessage(Enums.EventTriggered.TripDeleted.ToString(), "");
 
-                return RedirectToAction("Index", new { message = "¡EL viaje ha sido eliminado!"});
+                return RedirectToAction("Index", new { message = "Viaje Eliminado!", type = "info" });
             }
             catch (Exception ex)
             {

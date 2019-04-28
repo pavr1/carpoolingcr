@@ -5,6 +5,9 @@
 
     <div class="row form-group">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <input type="hidden" id="message" value="@Model.Message"/>
+            <input type="hidden" id="messageType" value="@Model.MessageType"/>
+
             <label id="lblFromTo" class="hidden"></label>
             <label id="TripsCount" class="hidden">@Model.Trips.Count</label>
             <p id="tooltip">
@@ -130,6 +133,13 @@
                 };
 
                 $('#calendar').fullCalendar('renderEvent', event, true);
+            }
+
+            var message = $('#message').val();
+            var messageType = $('#messageType').val();
+
+            if (message != '') {
+                displayMessages(message, messageType);
             }
         }
 

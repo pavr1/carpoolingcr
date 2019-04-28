@@ -244,7 +244,8 @@ namespace CarpoolingCR.Controllers
 
                         var response = new TripCreateResponse
                         {
-                            Towns = db.Towns.Where(x => x.Status == Enums.TownStatus.Active && x.CountryId == user.CountryId).ToList()
+                            Towns = db.Towns.Where(x => x.Status == Enums.TownStatus.Active && x.CountryId == user.CountryId).ToList(),
+                            Trip = trip
                         };
 
                         return View(response);
@@ -259,7 +260,21 @@ namespace CarpoolingCR.Controllers
 
                         var response = new TripCreateResponse
                         {
-                            Towns = db.Towns.Where(x => x.Status == Enums.TownStatus.Active && x.CountryId == user.CountryId).ToList()
+                            Towns = db.Towns.Where(x => x.Status == Enums.TownStatus.Active && x.CountryId == user.CountryId).ToList(),
+                            Trip = trip
+                        };
+
+                        return View(response);
+                    }
+
+                    if(fromRequest.ToUpper() == toRequest.ToUpper())
+                    {
+                        ViewBag.Warning = "El origen y destino no pueden ser iguales.";
+
+                        var response = new TripCreateResponse
+                        {
+                            Towns = db.Towns.Where(x => x.Status == Enums.TownStatus.Active && x.CountryId == user.CountryId).ToList(),
+                            Trip = trip
                         };
 
                         return View(response);

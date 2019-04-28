@@ -27,5 +27,6 @@ namespace CarpoolingCR.Objects.Responses
         public string To { get; set; }
         public int TabIndex { get; set; }
         public string Message { get; set; }
+        public string MessageType { get; set; }
     }
 }

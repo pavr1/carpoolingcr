@@ -93,6 +93,7 @@ namespace CarpoolingCR.Controllers
                     foreach (var reservation in passengerReservations)
                     {
                         reservation.Trip = db.Trips.Where(x => x.TripId == reservation.TripId).SingleOrDefault();
+                        reservation.Trip.ApplicationUser = db.Users.Where(x => x.Id == reservation.Trip.ApplicationUserId).SingleOrDefault();
                     }
                 }
                 else if (user.UserType == Enums.UserType.Administrador)
@@ -272,7 +273,8 @@ namespace CarpoolingCR.Controllers
 
                 if (response.Trips.Count == 0)
                 {
-                    ViewBag.Warning = "No se encontraron viajes para la ruta seleccionada!";
+                    response.Message = "No se encontraron viajes para la ruta seleccionada!";
+                    response.MessageType = "warning";
                 }
 
                 return Serializer.Serialize(response);

@@ -29,7 +29,14 @@
                     @{
                         foreach (var item in Model.Towns)
                         {
-                            <option value="@item.Name">@item.Name</option>
+                            if (item.Name == Model.Trip.FromTown)
+                            {
+                                <option value="@item.Name" selected>@item.Name</option>
+                            }
+                            else
+                            {
+                                <option value="@item.Name">@item.Name</option>
+                            }
                         }
                     }
                 </select>
@@ -42,7 +49,14 @@
                     @{
                         foreach (var item in Model.Towns)
                         {
-                            <option value="@item.Name">@item.Name</option>
+                            if (item.Name == Model.Trip.ToTown)
+                            {
+                                <option value="@item.Name" selected>@item.Name</option>
+                            }
+                            else
+                            {
+                                <option value="@item.Name">@item.Name</option>
+                            }
                         }
                     }
                 </select>

@@ -130,18 +130,6 @@
             return;
         }
 
-        if (from == '') {
-            displayMessages('¡El origen no puede estar vacío!', 'warning')
-
-            return;
-        }
-
-        if (to == '') {
-            displayMessages('¡El destino no puede estar vacío!', 'warning')
-
-            return;
-        }
-
         $.post('/Reservations/Transportation', { from: from, to: to},
             function (data) {
                 var json = JSON.parse(data);

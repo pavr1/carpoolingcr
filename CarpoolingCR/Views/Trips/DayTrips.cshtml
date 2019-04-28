@@ -190,8 +190,8 @@
                 $('#modelDate').html(calEvent.formatteddate);
                 $('#modelDriver').html(calEvent.driver);
                 $('#AvailableSpaces').val(calEvent.availableSpaces);
-                $('#modelPrice').html(calEvent.price);
-                $('#modelTotal').html(calEvent.price);
+                $('#modelPrice').html(calEvent.price.toFixed(2));
+                $('#modelTotal').html(calEvent.price.toFixed(2));
                 $('#TripId').val(calEvent.id);
                 $("#dayTripModal").modal();
                 //window.location.href = '/Reservations/Create?tripId=' + calEvent.id;
@@ -223,7 +223,7 @@
                 driver: driver,
                 availableSpaces: availableSpaces,
                 formatteddate: formattedDate,
-                price: price
+                price: price.toFixed(2)
             };
 
             $('#dayCalendar').fullCalendar('renderEvent', event, true);

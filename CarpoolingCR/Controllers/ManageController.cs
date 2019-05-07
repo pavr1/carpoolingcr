@@ -68,7 +68,6 @@ namespace CarpoolingCR.Controllers
                     : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
                     : "";
 
-                var userId = User.Identity.GetUserId();
                 var user = Common.GetUserByEmail(User.Identity.Name);
 
                 var month = DateTime.Now.Month;
@@ -100,10 +99,10 @@ namespace CarpoolingCR.Controllers
                 var model = new IndexViewModel
                 {
                     HasPassword = HasPassword(),
-                    PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
-                    TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
-                    Logins = await UserManager.GetLoginsAsync(userId),
-                    BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId),
+                    PhoneNumber = await UserManager.GetPhoneNumberAsync(user.Id),
+                    TwoFactor = await UserManager.GetTwoFactorEnabledAsync(user.Id),
+                    Logins = await UserManager.GetLoginsAsync(user.Id),
+                    BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(user.Id),
                     User = user,
                     ProfileHtml = Serializer.RenderViewToString(this.ControllerContext, "Partials/_ProfileInfo", user)
                 };
@@ -125,7 +124,7 @@ namespace CarpoolingCR.Controllers
 
                 ViewBag.Error = "Hubo un error inesperado, por favor intente de nuevo.";
 
-                return View();
+                return RedirectToAction("Login", "Account");
             }
         }
 

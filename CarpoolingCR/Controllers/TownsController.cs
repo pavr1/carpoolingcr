@@ -160,8 +160,10 @@ namespace CarpoolingCR.Controllers
 
                     db.Towns.Add(town);
                     db.SaveChanges();
+                    
+                    var callbackUrl = Url.Action("Index", "Towns", new { }, protocol: Request.Url.Scheme);
 
-                    EmailHandler.SendEmailNewTown();
+                    EmailHandler.SendEmailNewTown(callbackUrl);
 
                     return RedirectToAction("Index", new { message = "Localidad Creada!", type = "info" });
                 }

@@ -30,49 +30,162 @@
             </div>
         </div>*@
 
-    @{
-        if (Model.Trips.Count == 0)
-        {
-            <div class="row">
+    <div class="row form-group">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <b class="pull-right">Viajes: @Model.Trips.Count</b>
+        </div>
+    </div>
+    <ul class="list">
+        @{
+            if (Model.Trips.Count == 0)
+            {
                 <div class="row form-group">
                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
 
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                        <p style="align-content:center">No se encontraror viajes creados</p>
+                        <small style="align-content:center">No se encontraror viajes</small>
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
 
                     </div>
                 </div>
-            </div>
-        }
-        else
-        {
-            <ul class="list">
-                @{
-                    foreach (var item in Model.Trips)
-                    {
-                        <li>
-                            <p><h4 class="fromto">@item.FromTown -> @item.ToTown. Cuota: @item.Price</h4></p>
-                            <div class="row">
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                    <small class="date">@item.DateTime.ToString()</small>
+            }
+            else
+            {
+                foreach (var trip in Model.Trips)
+                {
+                    <hr />
+                    var from = trip.FromTown;
+                    var to = trip.ToTown;
+
+                    <li>
+                        <div class="row form-group">
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <label class="control-label fromto">@from -> @to</label>
+                                <small class="date">@trip.DateTime.ToString("dd/MM/yyyy hh:mm tt")</small>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                @{
+                                    if (Model.IsAdmin)
+                                    {
+                                        <small class="price"><b>Conductor:</b> @trip.ApplicationUser.Name  @trip.ApplicationUser.LastName @trip.ApplicationUser.SecondLastName</small>
+                                    }
+                                }
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                <small class="price"><b>Cuota:</b> @trip.Price</small>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                <small class="price"><b>Espacios:</b> @trip.AvailableSpaces</small>
+                                <input type="button" class="btn btn-danger pull-right" value="X" onclick="ConfirmDelete(@trip.TripId, '@from -> @to')" />
+                            </div>
+                        </div>
+
+                        @{
+                            var totalAmount = 0m;
+
+                            foreach (var reservation in trip.Reservations)
+                            {
+                                <div class="row form-group">
+                                    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+
+                                    </div>
+                                    <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11">
+                                        <hr />
+                                        <div class="col-lg-4 col-md-2 col-sm-12 col-xs-12">
+                                            <small class="driver"><b>- Pasajero: </b> @reservation.PassengerName<br /></small>
+                                        </div>
+                                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                            <small class="spaces"><b>&nbsp;&nbsp;Espacios: </b> @reservation.RequestedSpaces<br /></small>
+                                        </div>
+                                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                            @if (reservation.Status == CarpoolingCR.Utils.Enums.ReservationStatus.Accepted)
+                                            {
+                                                <small><b>&nbsp;&nbsp;Total a Pagar: @Convert.ToDecimal(reservation.RequestedSpaces * trip.Price).ToString("N2")</b><br /></small>
+                                            }
+                                            else
+                                            {
+                                                <small><b>&nbsp;&nbsp;Total a Pagar: </b> @Convert.ToDecimal(reservation.RequestedSpaces * trip.Price).ToString("N2")<br /></small>
+                                            }
+                                        </div>
+                                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                            <small class="status"><b>&nbsp;&nbsp;Estado: </b>@reservation.Status</small>
+                                        </div>
+                                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                            @{
+                                                if (reservation.Status == CarpoolingCR.Utils.Enums.ReservationStatus.Pending)
+                                                {
+                                                    <input type="button" class="btn btn-success" value="&#10003;" onclick="ConfirmAction(@reservation.ReservationId, 'Accepted', 'aceptar esta reservación', 'Aceptar Reservación', 'Aceptar', 'btn-success', 'driver')" />
+                                                    <input type="button" class="btn btn-danger" value="X" onclick="ConfirmAction(@reservation.ReservationId, 'Rejected', 'rechazar esta reservación', 'Rechazar Reservación', 'Rechazar', 'btn-danger', 'driver')" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="button" class="btn btn-danger" value="X" onclick="ConfirmAction(@reservation.ReservationId, 'Cancelled', 'cancelar esta reservación', 'Cancelar Reservación', 'Cancelar', 'btn-danger', 'driver')" />
+                                                }
+                                            }
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                    <small class="spaces">@item.AvailableSpaces Espacio(s)</small>
+
+                                if (reservation.Status == CarpoolingCR.Utils.Enums.ReservationStatus.Accepted)
+                                {
+                                    totalAmount += Convert.ToDecimal(reservation.RequestedSpaces * trip.Price);
+                                }
+                            }
+
+                            <div class="row form-group">
+                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+
                                 </div>
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                    @*<a class="btn btn-info " href="/Trips/Edit/@item.TripId">...</a>*@
-                                    <input type="button" class="btn btn-danger" onclick="ConfirmDelete(@item.TripId, '@item.FromTown -> @item.ToTown')" value="X" />
+                                <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11">
+                                    <hr />
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                        <small><b>&nbsp;&nbsp;Ganancias: @totalAmount.ToString("N2")</b><br /></small>
+                                    </div>
                                 </div>
                             </div>
-                        </li>
-                    }
+                        }
+                    </li>
                 }
-            </ul>
+            }
         }
-    }
+    </ul>
+</div>
+
+<div class="modal fade" id="confirmReservationsAction" tabindex="-1" role="dialog" aria-labelledby="confirmReservationModalLabel" aria-hidden="true">
+    <form action="/Reservations/ChangeReservationStatus/0" method="post">
+        @Html.AntiForgeryToken()
+        <div class="vertical-alignment-helper">
+            <div class="modal-dialog vertical-align-center">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+
+                        </button>
+                        <h4 class="modal-title" id="confirmReservationModalLabel">TITLE</h4>
+                    </div>
+                    <div class="modal-body">
+                        <input type="text" id="reservationId" name="reservationId" class="hidden" />
+                        <input type="text" id="status" name="status" class="hidden" />
+                        <input type="text" id="cancelledFrom" name="cancelledFrom" class="hidden" />
+                        <p id="confirmText">CONFIRMATION TITLE?</p>
+                        <div class="modal-footer">
+                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Salir" />
+                            <input type="submit" id="modalButton" class="btn btn-danger" value="Eliminar" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
 </div>
 
 <div class="modal fade" id="confirmTripDelete" tabindex="-1" role="dialog" aria-labelledby="dayTripModalLabel" aria-hidden="true">
@@ -109,9 +222,33 @@
     var userList = new List('trips', options);
 
     function ConfirmDelete(id, name) {
-        $('#deleteText').html('¿Está seguro que desea eliminar ' + name + '?')
+        $('#deleteText').html('¿Está seguro que desea eliminar tu viaje de ' + name + '?<br/></b>Todas las reservaciones serán canceladas y notificadas!')
         $('#tripId').val(id);
 
         $("#confirmTripDelete").modal();
     }
+
+    function ConfirmAction(reservationId, status, detail, title, btnVal, btnClass, cancelledFrom) {
+        $('#confirmReservationModalLabel').html(title);
+        $('#confirmText').html('¿Está seguro que desea ' + detail + ' ?');
+        $('#reservationId').val(reservationId);
+        $('#status').val(status);
+
+        $('#modalButton').removeClass('btn-danger');
+        $('#modalButton').removeClass('btn-success');
+
+        $('#modalButton').val(btnVal);
+        $('#modalButton').addClass(btnClass);
+        $('#cancelledFrom').val(cancelledFrom);
+
+        $("#confirmReservationsAction").modal();
+    }
+
+    function ChangeReservationStatus(reservationId, status, modal) {
+        $('#reservationId').val(reservationId);
+        $('#status').val(status);
+
+        $(modal).modal();
+    }
+
 </script>

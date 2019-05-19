@@ -12,7 +12,16 @@
             <input class="search form-control" style="border-radius:25px" placeholder="Búsqueda" />
         </div>
         <div class="col-lg-6 col-md-6 col-sm-1 col-xs-1">
-            <a class="btn btn-primary pull-right" href="/Towns/Create" style="border-radius:25px">Crear</a>
+            @{
+                if (Model.UserType == CarpoolingCR.Utils.Enums.UserType.Administrador)
+                {
+                    <a class="btn btn-primary pull-right" href="/Towns/Create" style="border-radius:25px">Crear</a>
+                }
+                else
+                {
+                    <a class="btn btn-primary pull-right" href="/Towns/Create" style="border-radius:25px">Solicitar</a>
+                }
+            }
         </div>
     </div>
     <br />
@@ -38,19 +47,12 @@
                         if (Model.UserType == CarpoolingCR.Utils.Enums.UserType.Administrador)
                         {
                             <small class="country">@item.Country.Name</small>
-                        }
-
-                        if (Model.UserType == CarpoolingCR.Utils.Enums.UserType.Administrador)
-                        {
                             <small class="status">@item.Status</small>
 
-                            if (Model.UserType == CarpoolingCR.Utils.Enums.UserType.Administrador)
-                            {
-                                <div class="pull-right">
-                                    <a class="btn btn-info" href="/Towns/Edit/@item.TownId" style="border-radius:25px">...</a>
-                                    <input type="button" class="btn btn-danger" style="border-radius:25px" onclick="ConfirmDelete(@item.TownId, '@item.Name')" value="X" />
-                                </div>
-                            }
+                            <div class="pull-right">
+                                <a class="btn btn-info" href="/Towns/Edit/@item.TownId" style="border-radius:25px">...</a>
+                                <input type="button" class="btn btn-danger" style="border-radius:25px" onclick="ConfirmDelete(@item.TownId, '@item.Name')" value="X" />
+                            </div>
                         }
 
                     }

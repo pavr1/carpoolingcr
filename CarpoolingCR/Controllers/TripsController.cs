@@ -8,6 +8,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
+using static CarpoolingCR.Utils.Enums;
 
 namespace CarpoolingCR.Controllers
 {
@@ -30,30 +31,51 @@ namespace CarpoolingCR.Controllers
                     {
                         ViewBag.Error = message;
                     }
-                    else if (type == "warining")
+                    else if (type == "warning")
                     {
                         ViewBag.Warning = message;
                     }
                 }
 
                 List<Trip> trips = new List<Trip>();
+                var isAdmin = false;
 
                 if (Common.GetUserType(User.Identity.Name) == Enums.UserType.Administrador)
                 {
-                    trips = db.Trips.Where(x => x.Status == Enums.Status.Activo).ToList();
+                    isAdmin = true;
+
+                    trips = db.Trips.Where(x => x.Status == Enums.Status.Activo)
+                        .Include(x => x.ApplicationUser)
+                        .ToList();
+
+                    foreach (var trip in trips)
+                    {
+                        trip.Reservations = db.Reservations.Where(x => x.TripId == trip.TripId)
+                            .Where(x => x.Status == ReservationStatus.Accepted || x.Status == ReservationStatus.Pending)
+                            .ToList();
+                    }
                 }
                 else
                 {
                     if (Common.GetUserType(User.Identity.Name) == Enums.UserType.Conductor)
                     {
-                        trips = db.Trips.Where(x => x.Status == Enums.Status.Activo && x.ApplicationUser.Email == User.Identity.Name)
+                        trips = db.Trips.Where(x => x.ApplicationUser.Email == User.Identity.Name)
+                            .Where(x => x.Status == Status.Activo || x.Status == Status.Pendiente)
                             .Include(x => x.ApplicationUser)
                             .ToList();
+
+                        foreach (var trip in trips)
+                        {
+                            trip.Reservations = db.Reservations.Where(x => x.TripId == trip.TripId)
+                                .Where(x => x.Status == ReservationStatus.Accepted || x.Status == ReservationStatus.Pending)
+                                .ToList();
+                        }
                     }
                 }
 
                 var response = new TripIndexResponse
                 {
+                    IsAdmin = isAdmin,
                     Trips = trips
                 };
 
@@ -267,7 +289,7 @@ namespace CarpoolingCR.Controllers
                         return View(response);
                     }
 
-                    if(fromRequest.ToUpper() == toRequest.ToUpper())
+                    if (fromRequest.ToUpper() == toRequest.ToUpper())
                     {
                         ViewBag.Warning = "El origen y destino no pueden ser iguales.";
 
@@ -467,20 +489,53 @@ namespace CarpoolingCR.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            var tran = db.Database.BeginTransaction();
+
             try
             {
                 id = Convert.ToInt32(Request["tripId"]);
 
                 Trip trip = db.Trips.Find(id);
-                db.Trips.Remove(trip);
+
+                if (trip == null)
+                {
+                    return RedirectToAction("Index", new { message = "Viaje no encontrado!", type = "warning" });
+                }
+
+                trip.Reservations = db.Reservations.Where(x => x.TripId == id)
+                    .Where(x => x.Status == ReservationStatus.Accepted || x.Status == ReservationStatus.Pending)
+                    .Include(x => x.ApplicationUser)
+                    .ToList();
+
+                var passengersToNoticeEmail = string.Empty;
+
+                foreach (var reservation in trip.Reservations)
+                {
+                    reservation.Status = ReservationStatus.Cancelled;
+                    db.Entry(reservation).State = EntityState.Modified;
+                    db.SaveChanges();
+
+                    passengersToNoticeEmail += reservation.ApplicationUser.Email + ",";
+                }
+
+                passengersToNoticeEmail = passengersToNoticeEmail.Substring(0, passengersToNoticeEmail.Length - 1);
+
+                trip.Status = Status.Cancelado;
+
+                db.Entry(trip).State = EntityState.Modified;
                 db.SaveChanges();
 
                 new SignalHandler().SendMessage(Enums.EventTriggered.TripDeleted.ToString(), "");
+                EmailHandler.SendTripsCancelledByDriver(passengersToNoticeEmail, trip.FromTown + " -> " + trip.ToTown, trip.DateTime.ToString(), string.Empty);
+
+                tran.Commit();
 
                 return RedirectToAction("Index", new { message = "Viaje Eliminado!", type = "info" });
             }
             catch (Exception ex)
             {
+                tran.Rollback();
+
                 Common.LogData(new Log
                 {
                     Line = Common.GetCurrentLine(),

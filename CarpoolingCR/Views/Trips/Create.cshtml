@@ -29,14 +29,7 @@
                     @{
                         foreach (var item in Model.Towns)
                         {
-                            if (item.Name == Model.Trip.FromTown)
-                            {
-                                <option value="@item.Name" selected>@item.Name</option>
-                            }
-                            else
-                            {
-                                <option value="@item.Name">@item.Name</option>
-                            }
+                            <option value="@item.Name">@item.Name</option>
                         }
                     }
                 </select>
@@ -49,14 +42,7 @@
                     @{
                         foreach (var item in Model.Towns)
                         {
-                            if (item.Name == Model.Trip.ToTown)
-                            {
-                                <option value="@item.Name" selected>@item.Name</option>
-                            }
-                            else
-                            {
-                                <option value="@item.Name">@item.Name</option>
-                            }
+                            <option value="@item.Name">@item.Name</option>
                         }
                     }
                 </select>
@@ -68,7 +54,8 @@
                 <label class="control-label" style="text-align:left">Fecha</label>
             </div>
             <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
-                <input id="DateTime" name="DateTime" autocomplete="off" class="form-control" type="text" onfocus="blur();">
+                <input id="DateTimeDisplay" name="DateTimeDisplay" autocomplete="off" class="form-control" type="text" onfocus="blur();">
+                <input type="text" id="DateTime" name="DateTime" class="hidden" />
                 @Html.ValidationMessageFor(model => model.Trip.DateTime, "", new { @class = "text-danger col-lg-10 col-md-10 col-sm-12 col-xs-12" })
             </div>
         </div>
@@ -125,7 +112,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                @Html.ActionLink("<<", "Index", new { }, new { @class = "btn btn-primary" }) <input type="submit" value="Crear" class="btn btn-success pull-right" />
+                @Html.ActionLink("<<", "Index", new { }, new { @class = "btn btn-primary" }) <input type="submit" onclick="return SetDateTimeFormats()" value="Crear" class="btn btn-success pull-right" />
             </div>
         </div>
     </div>
@@ -136,16 +123,15 @@
 }
 
 <script>
-
     $('#FromTown').editableSelect();
     $('#ToTown').editableSelect();
 
     LoadRouteOptions();
     $('#fade').editableSelect({ effects: 'fade' });
 
-    $('#DateTime').datetimepicker({
+    $('#DateTimeDisplay').datetimepicker({
         mask: false,
-        //format: 'd/m/Y g:i a',
+        format: 'd/m/Y g:i a',
         formatTime: 'g:i a',
         step: 15,
         onChangeDateTime: function (current_time, $input) {
@@ -182,6 +168,12 @@
         var selectedOption = $('#hiddenOption' + index).val();
 
         $('#RouteDetail').val(selectedOption);
+    }
+
+    function SetDateTimeFormats() {
+        var formattedValue = document.getElementById('DateTimeDisplay').value;
+
+        $('#DateTime').val(formattedValue);
     }
 
     function LoadRouteOptions() {

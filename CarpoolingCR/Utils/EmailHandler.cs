@@ -35,7 +35,7 @@ namespace CarpoolingCR.Utils
 
         public static void SendEmailForgotPassword(string callbackUrl, string email)
         {
-            var html = "<html><header></header><body>Para resetear la clave, de click <a href='" + callbackUrl + "'>AQUÍ</a></body></html>";
+            var html = "<html><header></header><body>Para resetear la clave, por favor de click <a href='" + callbackUrl + "'>AQUÍ</a></body></html>";
 
             Common.SendEmail(new IdentityMessage
             {
@@ -45,9 +45,9 @@ namespace CarpoolingCR.Utils
             });
         }
 
-        public static void SendEmailNewTown()
+        public static void SendEmailNewTown(string callbakUrl)
         {
-            var html = "<html><header></header><body>Un usuario ha creado una nueva localidad, la cuál está pendiente de aprovación. Da click ac.</body></html>";// de click <a href='" + callbackUrl + "'>AQUÍ</a></body></html>";
+            var html = "<html><header></header><body>Un usuario ha creado una nueva localidad, la cuál está pendiente de aprobación. Por favor de click <a href='" + callbakUrl + "'>AQUÍ</a> para ir a localidades</body></html>";
 
             Common.SendEmail(new IdentityMessage
             {
@@ -57,9 +57,9 @@ namespace CarpoolingCR.Utils
             });
         }
 
-        public static void SendReservationStatusChangeByDriver(string email, string trip, string date, string status)
+        public static void SendReservationStatusChangeByDriver(string email, string trip, string date, string status, string callbackUrl)
         {
-            var html = "<html><header></header><body>Tu reservación para el viaje " + trip + " el " + date + " ha sido " + status + " por el conductor. Para ver más información da click AQUí.</body></html>";// de click <a href='" + callbackUrl + "'>AQUÍ</a></body></html>";
+            var html = "<html><header></header><body>Tu reservación para el viaje " + trip + " el " + date + " ha sido " + status + " por el conductor. Para ver más información por favor de click <a href='" + callbackUrl + "'>AQUÍ</a>.</body></html>";
 
             Common.SendEmail(new IdentityMessage
             {
@@ -69,14 +69,26 @@ namespace CarpoolingCR.Utils
             });
         }
 
-        public static void SendReservationStatusCancelledByPassenger(string email, string trip, string date)
+        public static void SendReservationStatusCancelledByPassenger(string email, string trip, string date, int spaces, string callbackUrl)
         {
-            var html = "<html><header></header><body>Tu reservación para el viaje " + trip + " el " + date + " ha sido cancelado por el pasajero. Para ver más información da click AQUí.</body></html>";// de click <a href='" + callbackUrl + "'>AQUÍ</a></body></html>";
+            var html = "<html><header></header><body>Tu reservación para el viaje " + trip + " el " + date + ", de " + spaces + " espacios, ha sido cancelada por el pasajero. Para ver más información por favor de click <a href='" + callbackUrl + "'>AQUÍ</a>.</body></html>";
 
             Common.SendEmail(new IdentityMessage
             {
-                Destination = WebConfigurationManager.AppSettings["AdminEmails"],
+                Destination = email,
                 Subject = "Reservación Cancelada",
+                Body = html
+            });
+        }
+
+        public static void SendTripsCancelledByDriver(string email, string trip, string date, string callbackUrl)
+        {
+            var html = "<html><header></header><body>Lo sentimos, parece que el viaje a " + trip + " el " + date + " ha sido cancelado por el conductor. Para ver otras opciones de viaje, por favor de click <a href='" + callbackUrl + "'>AQUÍ</a>.</body></html>";
+
+            Common.SendEmail(new IdentityMessage
+            {
+                Destination = email,
+                Subject = "Viaje Cancelado",
                 Body = html
             });
         }

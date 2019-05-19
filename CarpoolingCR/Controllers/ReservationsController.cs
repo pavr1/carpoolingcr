@@ -61,60 +61,20 @@ namespace CarpoolingCR.Controllers
                 var driverTrips = new List<Trip>();
                 var user = Common.GetUserByEmail(User.Identity.Name);
 
-                if (user.UserType == Enums.UserType.Pasajero)
+                if (user == null)
                 {
-                    passengerReservations = db.Reservations.Where(x => x.ApplicationUser.Email == User.Identity.Name && (x.Status == ReservationStatus.Accepted || x.Status == ReservationStatus.Pending))
-                        .Include(x => x.ApplicationUser)
-                        .ToList();
-
-                    foreach (var reservation in passengerReservations)
-                    {
-                        reservation.Trip = db.Trips.Where(x => x.TripId == reservation.TripId)
-                            .Include(x => x.ApplicationUser)
-                            .SingleOrDefault();
-                    }
+                    return RedirectToAction("Login", "Account");
                 }
-                else if (user.UserType == Enums.UserType.Conductor)
+
+                passengerReservations = db.Reservations.Where(x => x.ApplicationUser.Email == User.Identity.Name && (x.Status == ReservationStatus.Accepted || x.Status == ReservationStatus.Pending))
+                    .Include(x => x.ApplicationUser)
+                    .ToList();
+
+                foreach (var reservation in passengerReservations)
                 {
-                    driverTrips = db.Trips.Where(x => x.ApplicationUser.Email == User.Identity.Name && x.Status == Status.Activo || x.Status == Enums.Status.Pendiente)
+                    reservation.Trip = db.Trips.Where(x => x.TripId == reservation.TripId)
                         .Include(x => x.ApplicationUser)
-                        .ToList();
-
-                    foreach (var trip in driverTrips)
-                    {
-                        trip.Reservations = db.Reservations.Where(x => x.TripId == trip.TripId && x.Status == ReservationStatus.Accepted || x.Status == ReservationStatus.Pending)
-                            .ToList();
-                    }
-
-                    passengerReservations = db.Reservations.Where(x => x.ApplicationUser.Email == User.Identity.Name && (x.Status == ReservationStatus.Accepted || x.Status == ReservationStatus.Pending))
-                        .Include(x => x.ApplicationUser)
-                        .ToList();
-
-                    foreach (var reservation in passengerReservations)
-                    {
-                        reservation.Trip = db.Trips.Where(x => x.TripId == reservation.TripId).SingleOrDefault();
-                        reservation.Trip.ApplicationUser = db.Users.Where(x => x.Id == reservation.Trip.ApplicationUserId).SingleOrDefault();
-                    }
-                }
-                else if (user.UserType == Enums.UserType.Administrador)
-                {
-                    var trips = db.Trips.Where(x => x.Status == Status.Activo).ToList();
-
-                    foreach (var trip in trips)
-                    {
-                        var tripReservations = db.Reservations.Where(x => x.TripId == trip.TripId && x.Status != ReservationStatus.Cancelled)
-                            .Include(x => x.ApplicationUser)
-                            .ToList();
-
-                        foreach (var reservation in tripReservations)
-                        {
-                            reservation.Trip = db.Trips.Where(x => x.TripId == reservation.TripId)
-                                .Include(x => x.ApplicationUser)
-                                .SingleOrDefault();
-                        }
-
-                        passengerReservations.AddRange(tripReservations);
-                    }
+                        .SingleOrDefault();
                 }
 
                 int tabIndexAux = (tabIndex == null) ? 0 : Convert.ToInt32(tabIndex);
@@ -166,7 +126,7 @@ namespace CarpoolingCR.Controllers
             try
             {
                 var user = Common.GetUserByEmail(User.Identity.Name);
-               
+
                 List<Reservation> passengerReservations = new List<Reservation>();
                 List<Trip> driverTrips = new List<Trip>();
                 ReservationTransportationResponse response = new ReservationTransportationResponse();
@@ -202,10 +162,10 @@ namespace CarpoolingCR.Controllers
                         .Include(x => x.ApplicationUser)
                         .ToList();
 
-                    foreach (var reservation in passengerReservations)
-                    {
-                        reservation.Trip = db.Trips.Where(x => x.TripId == reservation.TripId).SingleOrDefault();
-                    }
+                    //foreach (var reservation in passengerReservations)
+                    //{
+                    //    reservation.Trip = db.Trips.Where(x => x.TripId == reservation.TripId).SingleOrDefault();
+                    //}
                 }
                 else if (user.UserType == Enums.UserType.Administrador)
                 {
@@ -301,6 +261,8 @@ namespace CarpoolingCR.Controllers
 
         public ActionResult ChangeReservationStatus()
         {
+            var tran = db.Database.BeginTransaction();
+
             try
             {
                 if (string.IsNullOrEmpty(Request["reservationId"]))
@@ -338,13 +300,26 @@ namespace CarpoolingCR.Controllers
                 var trip = db.Trips.Find(reservation.TripId);
                 reservation.ApplicationUser = db.Users.Find(reservation.ApplicationUserId);
 
+                var callbackUrl = Url.Action("Transportation", "Reservations", new { tabIndex = 1 }, protocol: Request.Url.Scheme);
+
                 var message = "Reservación ";
 
                 if (stat == ReservationStatus.Accepted)
                 {
+                    if(trip.AvailableSpaces - reservation.RequestedSpaces < 0)
+                    {
+                        tran.Rollback();
+
+                        return RedirectToAction("Index", "Trips", new { message = "No hay suficientes espacios!", type = "warning" });
+                    }
+
+                    trip.AvailableSpaces -= reservation.RequestedSpaces;
+                    db.Entry(trip).State = EntityState.Modified;
+                    db.SaveChanges();
+
                     message += "Aceptada!";
 
-                    EmailHandler.SendReservationStatusChangeByDriver(reservation.ApplicationUser.Email, trip.FromTown + " -> " + trip.ToTown, trip.DateTime.ToString(), "aceptada");
+                    EmailHandler.SendReservationStatusChangeByDriver(reservation.ApplicationUser.Email, trip.FromTown + " -> " + trip.ToTown, trip.DateTime.ToString(), "aceptada", callbackUrl);
                 }
                 else if (stat == ReservationStatus.Cancelled)
                 {
@@ -356,25 +331,33 @@ namespace CarpoolingCR.Controllers
 
                         if (cancelledFrom == "passenger")
                         {
-                            EmailHandler.SendReservationStatusCancelledByPassenger(trip.ApplicationUser.Email, trip.FromTown + " -> " + trip.ToTown, trip.DateTime.ToString());
+                            EmailHandler.SendReservationStatusCancelledByPassenger(trip.ApplicationUser.Email, trip.FromTown + " -> " + trip.ToTown, trip.DateTime.ToString(), reservation.RequestedSpaces, callbackUrl);
                         }
-                        else if(cancelledFrom == "driver")
+                        else if (cancelledFrom == "driver")
                         {
-                            EmailHandler.SendReservationStatusCancelledByPassenger(reservation.ApplicationUser.Email, trip.FromTown + " -> " + trip.ToTown, trip.DateTime.ToString());
+                            EmailHandler.SendReservationStatusCancelledByPassenger(reservation.ApplicationUser.Email, trip.FromTown + " -> " + trip.ToTown, trip.DateTime.ToString(), reservation.RequestedSpaces, callbackUrl);
                         }
+
+                        trip.AvailableSpaces += reservation.RequestedSpaces;
+                        db.Entry(trip).State = EntityState.Modified;
+                        db.SaveChanges();
                     }
                 }
                 else if (stat == ReservationStatus.Rejected)
                 {
                     message += "Rechazada!";
 
-                    EmailHandler.SendReservationStatusChangeByDriver(reservation.ApplicationUser.Email, trip.FromTown + " -> " + trip.ToTown, trip.DateTime.ToString(), "rechazada");
+                    EmailHandler.SendReservationStatusChangeByDriver(reservation.ApplicationUser.Email, trip.FromTown + " -> " + trip.ToTown, trip.DateTime.ToString(), "rechazada", callbackUrl);
                 }
 
-                return RedirectToAction("Transportation", "Reservations", new { message = message, from = "", to = "", tabIndex = 1 });
+                tran.Commit();
+
+                return RedirectToAction("Index", "Trips", new { message = message, type = "info" });
             }
             catch (Exception ex)
             {
+                tran.Rollback();
+
                 Common.LogData(new Log
                 {
                     Line = Common.GetCurrentLine(),
@@ -470,7 +453,7 @@ namespace CarpoolingCR.Controllers
                 Reservation reservation = new Reservation
                 {
                     ApplicationUserId = passenger.Id,
-                    Date = DateTime.Now,
+                    Date = Convert.ToDateTime(Request["ReservationDate"].Replace(",", "")),
                     PassengerName = passenger.Name + " " + passenger.LastName + " " + passenger.SecondLastName,
                     RequestedSpaces = Convert.ToInt32(Request["RequestedSpaces"]),
                     Status = ReservationStatus.Pending,

@@ -112,6 +112,7 @@
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
                                 <small id="modelDate"></small>
+                                <input type="text" id="ReservationDate" name="ReservationDate" class="hidden" />
                             </div>
                         </div>
                         <div class="row form-group">
@@ -126,7 +127,7 @@
                                 <b>Precio</b>
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
-                                <small id="modelPrice"></small>
+                                ₡<small id="modelPrice"></small>
                             </div>
                         </div>
                         <div class="row form-group">
@@ -138,7 +139,7 @@
                                 <b>Total</b>
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
-                                <small id="modelTotal"></small>
+                                ₡<small id="modelTotal"></small>
                             </div>
                         </div>
                     </div>
@@ -176,7 +177,6 @@
             allDaySlot: false,
             contentHeight: "auto",
             eventTextColor: 'black',
-            //Moment: currentDate.Format("yyyy-MM-dd"),
             views: {
                 timelineDay: {
                     selectable: true
@@ -184,14 +184,19 @@
             },
             events: [],
             eventClick: function (calEvent, jsEvent, view) {
+                var date = new Date(calEvent.formatteddate);
+                var crStr = date.toLocaleString('es-CR', { year: "numeric", month: "2-digit", day: "numeric", hour: "2-digit", minute: "2-digit", hour12: true });
+                var usStr = date.toLocaleString('en-US', { year: "numeric", month: "2-digit", day: "numeric", hour: "2-digit", minute: "2-digit", hour12: true });
+
                 $("#dialog").dialog("open");
                 $('#ui-id-1').html("Reserva tu viaje");
                 $('#modelFromTo').html(calEvent.fromto);
-                $('#modelDate').html(calEvent.formatteddate);
+                $('#modelDate').html(crStr);
+                $('#ReservationDate').val(crStr);
                 $('#modelDriver').html(calEvent.driver);
                 $('#AvailableSpaces').val(calEvent.availableSpaces);
-                $('#modelPrice').html(calEvent.price.toFixed(2));
-                $('#modelTotal').html(calEvent.price.toFixed(2));
+                $('#modelPrice').html(calEvent.price);
+                $('#modelTotal').html(calEvent.price);
                 $('#TripId').val(calEvent.id);
                 $("#dayTripModal").modal();
                 //window.location.href = '/Reservations/Create?tripId=' + calEvent.id;
@@ -216,19 +221,20 @@
 
             var event = {
                 id: tripId,
-                title: 'Conductor: ' + driver + ' [' + availableSpaces + ' espacios]. Precio: ' + price,
+                title: availableSpaces + ' espacios. ₡' + price.toFixed(2),
                 start: new Date(startUnixTime), end: new Date(endUnixTime),
                 color: 'lightgreen',
                 fromto: from + ' -> ' + to,
                 driver: driver,
                 availableSpaces: availableSpaces,
-                formatteddate: formattedDate,
+                formatteddate: d,
                 price: price.toFixed(2)
             };
 
             $('#dayCalendar').fullCalendar('renderEvent', event, true);
         }
-            $('#dayCalendar').fullCalendar('gotoDate', currentDate)
+        
+        $('#dayCalendar').fullCalendar('gotoDate', d)
     });
 
     $('#RequestedSpaces').spinner({
@@ -238,7 +244,7 @@
 
             var total = price * requestedSpaces;
 
-            $('#modelTotal').html(total);
+            $('#modelTotal').html(total.toFixed(2));
         },
         min: 1,
         max: $('#AvailableSpaces').val()

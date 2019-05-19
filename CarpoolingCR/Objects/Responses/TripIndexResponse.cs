@@ -8,6 +8,7 @@ namespace CarpoolingCR.Objects.Responses
 {
     public class TripIndexResponse
     {
+        public bool IsAdmin { get; set; }
         public List<Trip> Trips{ get; set; }
     }
 }

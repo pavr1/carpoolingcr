@@ -28,5 +28,6 @@ namespace CarpoolingCR.Objects.Responses
         public int TabIndex { get; set; }
         public string Message { get; set; }
         public string MessageType { get; set; }
+        public bool IsAdmin { get; set; }
     }
 }

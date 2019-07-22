@@ -2593,38 +2593,38 @@ fieldset:disabled a.btn {
           box-shadow: 0 0 0 0.2rem rgba(153, 153, 153, 0.5);
 }
 
-.btn-success {
+.btn-info {
   color: #fff;
   background-color: #3CB521;
   border-color: #3CB521;
 }
 
-.btn-success:hover {
+.btn-info:hover {
   color: #fff;
   background-color: #31951b;
   border-color: #2e8a19;
 }
 
-.btn-success:focus, .btn-success.focus {
+.btn-info:focus, .btn-info.focus {
   -webkit-box-shadow: 0 0 0 0.2rem rgba(60, 181, 33, 0.5);
           box-shadow: 0 0 0 0.2rem rgba(60, 181, 33, 0.5);
 }
 
-.btn-success.disabled, .btn-success:disabled {
+.btn-info.disabled, .btn-info:disabled {
   color: #fff;
   background-color: #3CB521;
   border-color: #3CB521;
 }
 
-.btn-success:not(:disabled):not(.disabled):active, .btn-success:not(:disabled):not(.disabled).active,
-.show > .btn-success.dropdown-toggle {
+.btn-info:not(:disabled):not(.disabled):active, .btn-info:not(:disabled):not(.disabled).active,
+.show > .btn-info.dropdown-toggle {
   color: #fff;
   background-color: #2e8a19;
   border-color: #2a7f17;
 }
 
-.btn-success:not(:disabled):not(.disabled):active:focus, .btn-success:not(:disabled):not(.disabled).active:focus,
-.show > .btn-success.dropdown-toggle:focus {
+.btn-info:not(:disabled):not(.disabled):active:focus, .btn-info:not(:disabled):not(.disabled).active:focus,
+.show > .btn-info.dropdown-toggle:focus {
   -webkit-box-shadow: 0 0 0 0.2rem rgba(60, 181, 33, 0.5);
           box-shadow: 0 0 0 0.2rem rgba(60, 181, 33, 0.5);
 }
@@ -9122,7 +9122,7 @@ a.text-dark:hover, a.text-dark:focus {
   border: 1px solid #757575;
 }
 
-.btn-success {
+.btn-info {
   background-image: -webkit-gradient(linear, left top, left bottom, from(#61dd45), color-stop(50%, #3CB521), to(#36a41e));
   background-image: linear-gradient(#61dd45, #3CB521 50%, #36a41e);
   background-repeat: no-repeat;
@@ -9131,7 +9131,7 @@ a.text-dark:hover, a.text-dark:focus {
   border: 1px solid #2e8a19;
 }
 
-.btn-success:hover {
+.btn-info:hover {
   background-image: -webkit-gradient(linear, left top, left bottom, from(#52da34), color-stop(50%, #36a41e), to(#31921b));
   background-image: linear-gradient(#52da34, #36a41e 50%, #31921b);
   background-repeat: no-repeat;

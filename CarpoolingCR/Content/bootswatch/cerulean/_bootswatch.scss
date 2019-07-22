@@ -42,7 +42,7 @@ $text-shadow: 0 1px 0 rgba(0, 0, 0, 0.05) !default;
   color: $gray-700;
 }
 
-.btn-success {
+.btn-info {
   @include btn-shadow($success);
 }
 

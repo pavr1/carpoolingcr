@@ -66,7 +66,8 @@ namespace CarpoolingCR.Utils
         public enum EventTriggered
         {
             TripCreated,
-            TripDeleted
+            TripDeleted,
+
         }
 
         public enum CreditTypes

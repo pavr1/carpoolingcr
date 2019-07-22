@@ -11,7 +11,7 @@
             <label id="lblFromTo" class="hidden"></label>
             <label id="TripsCount" class="hidden">@Model.Trips.Count</label>
             <p id="tooltip">
-                @*<a href="/RideRequests/Index" class="btn btn-success pull-right" title="¿No has encontrado un viaje que te sirva? Crea una solicitud de viaje y te avisaremos cuando haya alguno disponible">Notificaciones</a>*@
+                @*<a href="/RideRequests/Index" class="btn btn-info pull-right" title="¿No has encontrado un viaje que te sirva? Crea una solicitud de viaje y te avisaremos cuando haya alguno disponible">Notificaciones</a>*@
             </p>
         </div>
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:center">
@@ -60,7 +60,7 @@
                     RedirectToDayTrips(date);
                 },
                 dayRender: function (date, cell) {
-                    cell.css("background-color", "lightgreen");
+                    cell.css("background-color", "#638CB8");
                 },
                 //locale: 'es',
                 header: {
@@ -80,6 +80,12 @@
             var arrayOfTrips = JSON.parse('@Html.Raw(Json.Encode(Model.Trips))');
             var events = [];
 
+            if (arrayOfTrips.length == 1) {
+                DisplayGrowlMessage(arrayOfTrips.length + " viaje disponible!", "success")
+            } else if (arrayOfTrips.length > 1) {
+                DisplayGrowlMessage(arrayOfTrips.length + " viajes disponibles!", "success")
+            }
+
             for (var i = 0; i < arrayOfTrips.length; i++) {
                 var tripId = arrayOfTrips[i].TripId;
                 var availableSpaces = arrayOfTrips[i].AvailableSpaces;
@@ -90,7 +96,9 @@
                 
                 document.getElementById('lblFromTo').innerHTML = from + ' - ' + to;
 
-                var actualDate = new Date(unixTime);
+                alert(unixTime);
+
+                var actualDate = new Date(unixTime / 1000);
                 var month = parseInt(actualDate.getMonth() + 1);
                 var monthSrt = '';
                 var day = parseInt(actualDate.getDate());

@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="https://rawgithub.com/indrimuska/jquery-editable-select/master/dist/jquery-editable-select.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/highlight.min.js"></script>
     <script src="https://rawgithub.com/indrimuska/jquery-editable-select/master/dist/jquery-editable-select.min.js"></script>
+    <script src="~/Scripts/notify.js"></script>
     <script src="~/Scripts/List.js"></script>
     @*<link rel="stylesheet" href="~/Content/processingmodal.css">*@
 
@@ -152,7 +153,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p><img src="~/Content/Icons/Car.png" style="width:50px; height:15px" /> &copy; @DateTime.Now.Year - www.buscoride.com</p>
+            <p><img src="~/Content/Icons/Car.png" style="width:50px; height:15px" /> &copy; @DateTime.Now.Year - www.buscoridecr.com</p>
         </footer>
     </div>
     <div class="modal fade" id="loadMe" tabindex="-1" role="dialog" aria-labelledby="loadMeLabel">
@@ -184,11 +185,11 @@
             var info = '@ViewBag.Info';
 
             if (error != '') {
-                DisplayGrowlMessage(error, 'danger');
+                DisplayGrowlMessage(error, 'error');
             }
 
             if (warning != '') {
-                DisplayGrowlMessage(warning, 'warning');
+                DisplayGrowlMessage(warning, 'warn');
             }
 
             if (info != '') {
@@ -198,11 +199,11 @@
 
         function displayMessages(message, type) {
             if (type == 'error') {
-                DisplayGrowlMessage(message, 'danger');
+                DisplayGrowlMessage(message, 'error');
             }
 
             if (type == 'warning') {
-                DisplayGrowlMessage(message, 'warning');
+                DisplayGrowlMessage(message, 'warn');
             }
 
             if (type == 'info') {
@@ -217,22 +218,24 @@
         }
 
         function DisplayGrowlMessage(message, type) {
-            if (message != '' && message != null) {
-                $.bootstrapGrowl(message, // Messages
-                    { // options
-                        type: type, // info, success, warning and danger
-                        ele: "body", // parent container
-                        offset: {
-                            from: "top",
-                            amount: 54
-                        },
-                        align: "right", // right, left or center
-                        width: 385,
-                        delay: 4000,
-                        allow_dismiss: true, // add a close button to the message
-                        stackup_spacing: 10
-                    });
-            }
+
+            //if (message != '' && message != null) {
+            //    $.bootstrapGrowl(message, // Messages
+            //        { // options
+            //            type: type, // info, success, warning and danger
+            //            ele: "body", // parent container
+            //            offset: {
+            //                from: "top",
+            //                amount: 54
+            //            },
+            //            align: "right", // right, left or center
+            //            width: 385,
+            //            delay: 4000,
+            //            allow_dismiss: true, // add a close button to the message
+            //            stackup_spacing: 10
+            //        });
+            //}
+            $.notify(message, type);
         }
     </script>
 </body>

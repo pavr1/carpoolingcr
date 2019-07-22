@@ -11,10 +11,10 @@
 
 <div id="trips">
     <div class="row">
-        <div class="col-lg-6 col-md-6 col-sm-11 col-xs-11">
+        <div class="col-lg-6 col-md-6 col-sm-11 col-xs-9">
             <input class="search form-control" style="border-radius:25px" placeholder="Búsqueda" />
         </div>
-        <div class="col-lg-6 col-md-6 col-sm-1 col-xs-1">
+        <div class="col-lg-6 col-md-6 col-sm-1 col-xs-3">
             <a class="btn btn-primary pull-right" href="/Trips/Create" style="border-radius:25px">Crear</a>
         </div>
     </div>
@@ -56,6 +56,7 @@
                 foreach (var trip in Model.Trips)
                 {
                     <hr />
+                    <hr />
                     var from = trip.FromTown;
                     var to = trip.ToTown;
 
@@ -93,13 +94,17 @@
                                     </div>
                                     <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11">
                                         <hr />
-                                        <div class="col-lg-4 col-md-2 col-sm-12 col-xs-12">
-                                            <small class="driver"><b>- Pasajero: </b> @reservation.PassengerName<br /></small>
+                                        <div class="col-lg-4 col-md-2 col-sm-6 col-xs-12">
+                                            <small class="driver"><b>- Pasajero: </b> @reservation.PassengerName</small><br />
+                                            @if (reservation.Status == CarpoolingCR.Utils.Enums.ReservationStatus.Accepted)
+                                            {
+                                                <small class="driver"><b>- Contacto: </b> @reservation.ApplicationUser.Phone1 - @reservation.ApplicationUser.Phone2</small>
+                                            }
                                         </div>
-                                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
                                             <small class="spaces"><b>&nbsp;&nbsp;Espacios: </b> @reservation.RequestedSpaces<br /></small>
                                         </div>
-                                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
                                             @if (reservation.Status == CarpoolingCR.Utils.Enums.ReservationStatus.Accepted)
                                             {
                                                 <small><b>&nbsp;&nbsp;Total a Pagar: @Convert.ToDecimal(reservation.RequestedSpaces * trip.Price).ToString("N2")</b><br /></small>
@@ -109,19 +114,20 @@
                                                 <small><b>&nbsp;&nbsp;Total a Pagar: </b> @Convert.ToDecimal(reservation.RequestedSpaces * trip.Price).ToString("N2")<br /></small>
                                             }
                                         </div>
-                                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
                                             <small class="status"><b>&nbsp;&nbsp;Estado: </b>@reservation.Status</small>
                                         </div>
-                                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
                                             @{
                                                 if (reservation.Status == CarpoolingCR.Utils.Enums.ReservationStatus.Pending)
                                                 {
-                                                    <input type="button" class="btn btn-success" value="&#10003;" onclick="ConfirmAction(@reservation.ReservationId, 'Accepted', 'aceptar esta reservación', 'Aceptar Reservación', 'Aceptar', 'btn-success', 'driver')" />
-                                                    <input type="button" class="btn btn-danger" value="X" onclick="ConfirmAction(@reservation.ReservationId, 'Rejected', 'rechazar esta reservación', 'Rechazar Reservación', 'Rechazar', 'btn-danger', 'driver')" />
+                                                    @*<input type="button" class="btn btn-info" value="Chat" onclick="OpenChat(@reservation.ReservationId)" />*@
+                                                    <input type="button" class="btn btn-info" value="&#10003;" onclick="ConfirmAction(@reservation.ReservationId, 'Accepted', 'Confirmar Reservación', 'Reservación', 'Confirmar', 'btn-info', 'driver')" />
+                                                    <input type="button" class="btn btn-danger" value="X" onclick="ConfirmAction(@reservation.ReservationId, 'Rejected', 'Rechazar Reservación', 'Reservación', 'Rechazar', 'btn-danger', 'driver')" />
                                                 }
                                                 else
                                                 {
-                                                    <input type="button" class="btn btn-danger" value="X" onclick="ConfirmAction(@reservation.ReservationId, 'Cancelled', 'cancelar esta reservación', 'Cancelar Reservación', 'Cancelar', 'btn-danger', 'driver')" />
+                                                    <input type="button" class="btn btn-danger" value="X" onclick="ConfirmAction(@reservation.ReservationId, 'Cancelled', 'Cancelar Reservación', 'Reservación', 'Cancelar', 'btn-danger', 'driver')" />
                                                 }
                                             }
                                         </div>
@@ -179,7 +185,7 @@
                         <p id="confirmText">CONFIRMATION TITLE?</p>
                         <div class="modal-footer">
                             <input type="button" class="btn btn-default" data-dismiss="modal" value="Salir" />
-                            <input type="submit" id="modalButton" class="btn btn-danger" value="Eliminar" />
+                            <input type="submit" id="modalButton" class="btn btn-danger" value="" />
                         </div>
                     </div>
                 </div>
@@ -214,6 +220,14 @@
     </form>
 </div>
 
+<div class="modal fade" id="reservationChatModal" tabindex="-1" role="dialog" aria-labelledby="reservationChatModalLabel" aria-hidden="true">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="chatContainer">
+            @Html.Partial("~/Views/ChattingMessages/_Index.cshtml", new CarpoolingCR.Objects.Responses.ChatMessageResponse { Messages = new List<CarpoolingCR.Models.ChattingMessage>() })
+        </div>
+    </div>
+</div>
+
 <script language="javascript">
     var options = {
         valueNames: ['fromto', 'date', 'spaces', 'price']
@@ -230,12 +244,12 @@
 
     function ConfirmAction(reservationId, status, detail, title, btnVal, btnClass, cancelledFrom) {
         $('#confirmReservationModalLabel').html(title);
-        $('#confirmText').html('¿Está seguro que desea ' + detail + ' ?');
+        $('#confirmText').html(detail);
         $('#reservationId').val(reservationId);
         $('#status').val(status);
 
         $('#modalButton').removeClass('btn-danger');
-        $('#modalButton').removeClass('btn-success');
+        $('#modalButton').removeClass('btn-info');
 
         $('#modalButton').val(btnVal);
         $('#modalButton').addClass(btnClass);
@@ -251,4 +265,28 @@
         $(modal).modal();
     }
 
+    function OpenChat(reservationId, fromName, toName) {
+        $.get('/ChattingMessages/Index', { reservationId: reservationId },
+            function (data) {
+                $('#chatContainer').html(data);
+            });
+
+        $("#reservationChatModal").modal();
+        $('#chatMessageContainer').scrollTop($('#chatMessageContainer')[0].scrollHeight);
+    }
+
+    $.connection.hub.start();
+    $.connection.hub.qs = "myInfo=12345";
+    var chat = $.connection.SignalHandlerHub;
+
+    function SendMessage(reservationId, from) {
+        var message = $('#messageChatText').val();
+
+        $.post('/ChattingMessages/Create', { reservationId: reservationId, userId: from, message: message },
+            function (data) {
+                $('#chatContainer').html(data);
+
+                $('#chatMessageContainer').scrollTop($('#chatMessageContainer')[0].scrollHeight);
+            });
+    }
 </script>

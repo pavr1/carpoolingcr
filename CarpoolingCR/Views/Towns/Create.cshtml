@@ -26,11 +26,11 @@
                 @{
                     if (Model.UserType != CarpoolingCR.Utils.Enums.UserType.Administrador)
                     {
-                        @Html.ActionLink("<<", "Index", new { }, new { @class = "btn btn-primary" }) <input type="submit" value="Solicitar" class="btn btn-success pull-right" />
+                        @Html.ActionLink("<<", "Index", new { }, new { @class = "btn btn-primary" }) <input type="submit" value="Solicitar" class="btn btn-info pull-right" />
                     }
                     else
                     {
-                        @Html.ActionLink("<<", "Index", new { }, new { @class = "btn btn-primary" }) <input type="submit" value="Crear" class="btn btn-success pull-right" />
+                        @Html.ActionLink("<<", "Index", new { }, new { @class = "btn btn-primary" }) <input type="submit" value="Crear" class="btn btn-info pull-right" />
                     }
 
                 }

@@ -233,7 +233,7 @@ namespace CarpoolingCR.Controllers
 
                 if (response.Trips.Count == 0)
                 {
-                    response.Message = "No se encontraron viajes para la ruta seleccionada!";
+                    response.Message = "No hay viajes disponibles!";
                     response.MessageType = "warning";
                 }
 
@@ -259,6 +259,7 @@ namespace CarpoolingCR.Controllers
         }
 
 
+        [HttpPost]
         public ActionResult ChangeReservationStatus()
         {
             var tran = db.Database.BeginTransaction();
@@ -297,16 +298,19 @@ namespace CarpoolingCR.Controllers
                 db.Entry(reservation).State = EntityState.Modified;
                 db.SaveChanges();
 
-                var trip = db.Trips.Find(reservation.TripId);
+                var trip = db.Trips.Where(x => x.TripId == reservation.TripId).
+                    Include(x => x.ApplicationUser).SingleOrDefault();
+
                 reservation.ApplicationUser = db.Users.Find(reservation.ApplicationUserId);
 
                 var callbackUrl = Url.Action("Transportation", "Reservations", new { tabIndex = 1 }, protocol: Request.Url.Scheme);
 
                 var message = "Reservación ";
+                var cancelledFrom = Request["cancelledFrom"];
 
                 if (stat == ReservationStatus.Accepted)
                 {
-                    if(trip.AvailableSpaces - reservation.RequestedSpaces < 0)
+                    if (trip.AvailableSpaces - reservation.RequestedSpaces < 0)
                     {
                         tran.Rollback();
 
@@ -327,8 +331,6 @@ namespace CarpoolingCR.Controllers
 
                     if (oldStatus == ReservationStatus.Accepted)
                     {
-                        var cancelledFrom = Request["cancelledFrom"];
-
                         if (cancelledFrom == "passenger")
                         {
                             EmailHandler.SendReservationStatusCancelledByPassenger(trip.ApplicationUser.Email, trip.FromTown + " -> " + trip.ToTown, trip.DateTime.ToString(), reservation.RequestedSpaces, callbackUrl);
@@ -352,7 +354,20 @@ namespace CarpoolingCR.Controllers
 
                 tran.Commit();
 
-                return RedirectToAction("Index", "Trips", new { message = message, type = "info" });
+                if (cancelledFrom == "passenger")
+                {
+                    return RedirectToAction("Transportation", "Reservations", new
+                    {
+                        message = message,
+                        from = string.Empty,
+                        to = string.Empty,
+                        tabIndex = 1
+                    });
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Trips", new { message = message, type = "info" });
+                }
             }
             catch (Exception ex)
             {
@@ -368,10 +383,8 @@ namespace CarpoolingCR.Controllers
                     Timestamp = DateTime.Now,
                     UserEmail = User.Identity.Name
                 });
-
-                ViewBag.Error = "Hubo un error inesperado, por favor intente de nuevo.";
-
-                return View();
+                
+                return RedirectToAction("Index", "Trips", new { message = "Hubo un error inesperado, por favor intente de nuevo.", type = "error" });
             }
         }
 
@@ -449,11 +462,12 @@ namespace CarpoolingCR.Controllers
                 }
 
                 var passenger = Common.GetUserByEmail(User.Identity.Name);
+                var date = Common.ConvertFromUnixTimestamp(Convert.ToDouble(Request["ReservationDate"]));
 
                 Reservation reservation = new Reservation
                 {
                     ApplicationUserId = passenger.Id,
-                    Date = Convert.ToDateTime(Request["ReservationDate"].Replace(",", "")),
+                    Date = date,
                     PassengerName = passenger.Name + " " + passenger.LastName + " " + passenger.SecondLastName,
                     RequestedSpaces = Convert.ToInt32(Request["RequestedSpaces"]),
                     Status = ReservationStatus.Pending,

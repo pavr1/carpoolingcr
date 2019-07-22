@@ -73,7 +73,7 @@
 
             </div>
             <div class="col-lg-10 col-md-12 col-sm-12 col-xs-12">
-                Html.ActionLink("<<", "Transportation", new { }, new { @class = "btn btn-primary" }) <input type="submit" value="Crear" class="btn btn-success pull-right" />
+                Html.ActionLink("<<", "Transportation", new { }, new { @class = "btn btn-primary" }) <input type="submit" value="Crear" class="btn btn-info pull-right" />
             </div>
         </div>
     </div>*@
@@ -192,7 +192,7 @@
                 $('#ui-id-1').html("Reserva tu viaje");
                 $('#modelFromTo').html(calEvent.fromto);
                 $('#modelDate').html(crStr);
-                $('#ReservationDate').val(crStr);
+                $('#ReservationDate').val(calEvent.formatteddate);
                 $('#modelDriver').html(calEvent.driver);
                 $('#AvailableSpaces').val(calEvent.availableSpaces);
                 $('#modelPrice').html(calEvent.price);
@@ -209,7 +209,7 @@
             var tripId = arrayOfTrips[i].TripId;
             var availableSpaces = arrayOfTrips[i].AvailableSpaces;
             var dateTime = arrayOfTrips[i].DateTime;
-            var startUnixTime = parseInt(dateTime.toString().replace("/Date(", "").replace(")", "").replace("/", ""));
+            var startUnixTime = parseInt(dateTime.toString().replace("/Date(", "").replace(")", "").replace("/", ""))/1000;
             var endUnixTime = startUnixTime + (30 * 60 * 1000);
             var driver = arrayOfTrips[i].ApplicationUser.Name + ' ' + arrayOfTrips[i].ApplicationUser.LastName;
             var price = arrayOfTrips[i].Price;
@@ -217,7 +217,7 @@
             var to = arrayOfTrips[i].ToTown;
 
             var d = new Date(startUnixTime);
-            var formattedDate = d.getDate() + '/' + d.getMonth() + '/' + d.getFullYear() + ' ' + d.getHours() + ':' + d.getMinutes();
+            //var formattedDate = d.getDate() + '/' + d.getMonth() + '/' + d.getFullYear() + ' ' + d.getHours() + ':' + d.getMinutes();
 
             var event = {
                 id: tripId,
@@ -227,7 +227,7 @@
                 fromto: from + ' -> ' + to,
                 driver: driver,
                 availableSpaces: availableSpaces,
-                formatteddate: d,
+                formatteddate: startUnixTime,
                 price: price.toFixed(2)
             };
 

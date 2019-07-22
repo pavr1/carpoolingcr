@@ -5,7 +5,7 @@
  */
 .btn-default,
 .btn-primary,
-.btn-success,
+.btn-info,
 .btn-info,
 .btn-warning,
 .btn-danger {
@@ -15,13 +15,13 @@
 }
 .btn-default:active,
 .btn-primary:active,
-.btn-success:active,
+.btn-info:active,
 .btn-info:active,
 .btn-warning:active,
 .btn-danger:active,
 .btn-default.active,
 .btn-primary.active,
-.btn-success.active,
+.btn-info.active,
 .btn-info.active,
 .btn-warning.active,
 .btn-danger.active {
@@ -30,19 +30,19 @@
 }
 .btn-default.disabled,
 .btn-primary.disabled,
-.btn-success.disabled,
+.btn-info.disabled,
 .btn-info.disabled,
 .btn-warning.disabled,
 .btn-danger.disabled,
 .btn-default[disabled],
 .btn-primary[disabled],
-.btn-success[disabled],
+.btn-info[disabled],
 .btn-info[disabled],
 .btn-warning[disabled],
 .btn-danger[disabled],
 fieldset[disabled] .btn-default,
 fieldset[disabled] .btn-primary,
-fieldset[disabled] .btn-success,
+fieldset[disabled] .btn-info,
 fieldset[disabled] .btn-info,
 fieldset[disabled] .btn-warning,
 fieldset[disabled] .btn-danger {
@@ -51,7 +51,7 @@ fieldset[disabled] .btn-danger {
 }
 .btn-default .badge,
 .btn-primary .badge,
-.btn-success .badge,
+.btn-info .badge,
 .btn-info .badge,
 .btn-warning .badge,
 .btn-danger .badge {
@@ -145,7 +145,7 @@ fieldset[disabled] .btn-primary.active {
   background-color: #265a88;
   background-image: none;
 }
-.btn-success {
+.btn-info {
   background-image: -webkit-linear-gradient(top, #5cb85c 0%, #419641 100%);
   background-image:      -o-linear-gradient(top, #5cb85c 0%, #419641 100%);
   background-image: -webkit-gradient(linear, left top, left bottom, from(#5cb85c), to(#419641));
@@ -155,34 +155,34 @@ fieldset[disabled] .btn-primary.active {
   background-repeat: repeat-x;
   border-color: #3e8f3e;
 }
-.btn-success:hover,
-.btn-success:focus {
+.btn-info:hover,
+.btn-info:focus {
   background-color: #419641;
   background-position: 0 -15px;
 }
-.btn-success:active,
-.btn-success.active {
+.btn-info:active,
+.btn-info.active {
   background-color: #419641;
   border-color: #3e8f3e;
 }
-.btn-success.disabled,
-.btn-success[disabled],
-fieldset[disabled] .btn-success,
-.btn-success.disabled:hover,
-.btn-success[disabled]:hover,
-fieldset[disabled] .btn-success:hover,
-.btn-success.disabled:focus,
-.btn-success[disabled]:focus,
-fieldset[disabled] .btn-success:focus,
-.btn-success.disabled.focus,
-.btn-success[disabled].focus,
-fieldset[disabled] .btn-success.focus,
-.btn-success.disabled:active,
-.btn-success[disabled]:active,
-fieldset[disabled] .btn-success:active,
-.btn-success.disabled.active,
-.btn-success[disabled].active,
-fieldset[disabled] .btn-success.active {
+.btn-info.disabled,
+.btn-info[disabled],
+fieldset[disabled] .btn-info,
+.btn-info.disabled:hover,
+.btn-info[disabled]:hover,
+fieldset[disabled] .btn-info:hover,
+.btn-info.disabled:focus,
+.btn-info[disabled]:focus,
+fieldset[disabled] .btn-info:focus,
+.btn-info.disabled.focus,
+.btn-info[disabled].focus,
+fieldset[disabled] .btn-info.focus,
+.btn-info.disabled:active,
+.btn-info[disabled]:active,
+fieldset[disabled] .btn-info:active,
+.btn-info.disabled.active,
+.btn-info[disabled].active,
+fieldset[disabled] .btn-info.active {
   background-color: #419641;
   background-image: none;
 }

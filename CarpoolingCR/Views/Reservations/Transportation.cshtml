@@ -84,7 +84,7 @@
                     <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                        <input type="button" class="btn btn-success col-lg-12 col-md-12 col-sm-12" onclick="RetrieveTrips()" value="Consultar Viajes" />
+                        <input type="button" class="btn btn-info col-lg-12 col-md-12 col-sm-12" onclick="RetrieveTrips()" value="Consultar Viajes" />
                     </div>
                 </div>
                 @Html.Partial("~/Views/Reservations/Partials/_RequestJourney.cshtml", Model)
@@ -167,6 +167,5 @@
         };
         $.connection.hub.start().done(function () {
         });
-
     });
 </script>

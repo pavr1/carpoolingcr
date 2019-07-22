@@ -1,0 +1,118 @@
+﻿@model CarpoolingCR.Objects.Responses.ChatMessageResponse
+
+<form action="/ChattingMessages/Create" method="post">
+    @Html.AntiForgeryToken()
+    @*<div class="vertical-alignment-helper">*@
+    <div class="modal-dialog vertical-align-center">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="reservationChatModalLabel">Chatea con el conductor</h4>
+            </div>
+            @*<input type="hidden" id="chatReservationId" name="chatReservationId" />
+        <input type="hidden" id="chatFrom" name="chatFrom" />*@
+            <input type="hidden" id="currentUserId" name="currentUserId" value="@Model.CurrentUserId" />
+            <div id="chatMessageContainer" style="height:200px; overflow-y: scroll; margin-left:20px; padding-right:40px;" class="modal-body">
+                @{
+                    if (Model.Messages.Count == 0)
+                    {
+                        <div class="row">
+                            <div class="col">
+                                <small>No existen mensajes</small>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div id="chatContainer">
+                            @{
+                                foreach (var message in Model.Messages)
+                                {
+                                    <div class="row">
+                                        @{
+                                            if (message.UserId == Model.CurrentUserId)
+                                            {
+                                                <div class="pull-left" style="background-color:#5cb85c; color:white; border-radius:25px; margin-bottom:5px">
+                                                    <small><b>&nbsp;&nbsp;@message.Date.ToString("dd/MM/yyyy hh:mm tt")&nbsp;&nbsp;</b></small><br />
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="pull-right" style="background-color:darkcyan; color:white; border-radius:25px; margin-bottom:5px">
+                                                    <small><b>&nbsp;&nbsp;@message.Date.ToString("dd/MM/yyyy hh:mm tt")&nbsp;&nbsp;</b></small>
+                                                </div>
+                                            }
+                                        }
+                                    </div>
+                                    <div class="row">
+                                        @{
+                                            if (message.UserId == Model.CurrentUserId)
+                                            {
+                                                <div style="text-align:left">
+                                                    <small>@message.Message</small>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div style="text-align:right">
+                                                    <small>@message.Message</small>
+                                                </div>
+                                            }
+                                        }
+                                    </div>
+                                }
+                            }
+                        </div>
+                    }
+                }
+            </div>
+            <hr />
+            <div class="row modal-body">
+                <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
+                    <input id="messageChatText" name="messageChatText" type="text" placeholder="&nbsp;&nbsp;Mensaje" style="width:500px" />
+                </div>
+                <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Salir" />
+                    <input type="button" id="modalButton" class="btn btn-info" value="Enviar" onclick="SendMessage(@Model.ReservationId, '@Model.CurrentUserId')" />
+                </div>
+            </div>
+        </div>
+    </div>
+    @*</div>*@
+</form>
+
+<script src="~/Scripts/jquery.signalR-2.4.0.min.js"></script>
+<script src="~/signalr/hubs"></script>
+<script type="text/javascript">
+    $(function () {
+        $.connection.hub.start();
+        $.connection.hub.qs = "myInfo=12345";
+        var chat = $.connection.SignalHandlerHub;
+
+        chat.client.broadcastMessage = function (name, message) {
+            var userId = $("#currentUserId").val();
+
+            //alert("Chat received!!! " + name + " = " + userId);
+
+            var div = ` <div class="row">
+                            <div class="pull-right" style="background-color:darkcyan; color:white; border-radius:25px; margin-bottom:5px">
+                                <small><b>&nbsp;&nbsp;@DateTime.Now.ToString("dd/MM/yyyy hh:mm tt")&nbsp;&nbsp;</b></small>
+                            </div>
+                            <div style="text-align:right">
+                                <small>` + message + `</small>
+                            </div>
+                         </div>`;
+            
+            if (name == userId) {
+                //alert("For User!!!" + userId);
+                $('#chatContainer').appendTo(div);
+                $("#reservationChatModal").modal();
+            }
+        };
+        $.connection.hub.start().done(function () {
+        });
+
+    });
+</script>

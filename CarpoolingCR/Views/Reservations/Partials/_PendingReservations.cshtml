@@ -43,22 +43,26 @@
 
                             </div>
                             <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11">
-                                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                                    <small class="driver"><b>- Conductor: </b> @item.Trip.ApplicationUser.Name  @item.Trip.ApplicationUser.LastName @item.Trip.ApplicationUser.SecondLastName<br /></small>
-                                </div>
-                                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                                    <small class="spaces"><b>&nbsp;&nbsp;Espacios Solicitados: </b> @item.RequestedSpaces<br /></small>
+                                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <small class="driver"><b>- Conductor: </b> @item.Trip.ApplicationUser.Name  @item.Trip.ApplicationUser.LastName @item.Trip.ApplicationUser.SecondLastName</small><br />
 
+                                    @if (item.Status == CarpoolingCR.Utils.Enums.ReservationStatus.Accepted)
+                                    {
+                                        <small class="driver"><b>- Contacto: </b> @item.Trip.ApplicationUser.Phone1 - @item.Trip.ApplicationUser.Phone2</small><br />
+                                    }
+                                </div>
+                                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <small class="spaces"><b>&nbsp;&nbsp;Espacios Solicitados: </b> @item.RequestedSpaces<br /></small>
+                                    <small class="status"><b>&nbsp;&nbsp;Estado: </b>@item.Status</small>                                   
+                                </div>
+                                <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                                    <small><b>&nbsp;&nbsp;Total a Pagar: </b> @Convert.ToDecimal(item.RequestedSpaces * @item.Trip.Price)</small><br />
                                     @{
                                         if (item.Status != CarpoolingCR.Utils.Enums.ReservationStatus.Cancelled)
                                         {
-                                            <input type="button" class="btn btn-danger" value="Cancelar" style="border-radius:25px" onclick="ConfirmAction(@item.ReservationId, '@CarpoolingCR.Utils.Enums.ReservationStatus.Cancelled','cancelar esta reservación','Cancelar Reservación', 'Cancelar', 'btn-danger', 'passenger')" />
+                                            <input type="button" class="btn btn-danger pull-right" value="X" style="border-radius:25px" onclick="ConfirmAction(@item.ReservationId, '@CarpoolingCR.Utils.Enums.ReservationStatus.Cancelled','cancelar esta reservación','Cancelar Reservación', 'Cancelar', 'btn-danger', 'passenger')" />
                                         }
                                     }
-                                </div>
-                                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                                    <small><b>&nbsp;&nbsp;Total a Pagar: </b> @Convert.ToDecimal(item.RequestedSpaces * @item.Trip.Price)<br /></small>
-                                    <small class="status"><b>&nbsp;&nbsp;Estado: </b>@item.Status</small>
                                 </div>
                             </div>
                         </div>
@@ -90,14 +94,22 @@
                         <input type="text" id="cancelledFrom" name="cancelledFrom" class="hidden" />
                         <p id="confirmText">CONFIRMATION TITLE?</p>
                         <div class="modal-footer">
-                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Salir"/>
-                            <input type="submit" id="modalButton" class="btn btn-danger" value="Eliminar"/>
+                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Salir" />
+                            <input type="submit" id="modalButton" class="btn btn-danger" value="Eliminar" />
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </form>
+</div>
+
+<div class="modal fade" id="reservationChatModal" tabindex="-1" role="dialog" aria-labelledby="reservationChatModalLabel" aria-hidden="true">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="chatContainer">
+            @Html.Partial("~/Views/ChattingMessages/_Index.cshtml", new CarpoolingCR.Objects.Responses.ChatMessageResponse { Messages = new List<CarpoolingCR.Models.ChattingMessage>() })
+        </div>
+    </div>
 </div>
 
 <script language="javascript">
@@ -114,12 +126,38 @@
         $('#status').val(status);
 
         $('#modalButton').removeClass('btn-danger');
-        $('#modalButton').removeClass('btn-success');
+        $('#modalButton').removeClass('btn-info');
 
         $('#modalButton').html(btnVal);
         $('#modalButton').addClass(btnClass);
         $('#cancelledFrom').val(cancelledFrom);
 
         $("#confirmReservationsAction").modal();
+    }
+
+    function OpenChat(reservationId, fromName, toName) {
+        $.get('/ChattingMessages/Index', { reservationId: reservationId },
+            function (data) {
+                $('#chatContainer').html(data);
+            });
+
+        $("#reservationChatModal").modal();
+        $('#chatMessageContainer').scrollTop($('#chatMessageContainer')[0].scrollHeight);
+    }
+
+    $.connection.hub.start();
+    $.connection.hub.qs = "myInfo=12345";
+    var chat = $.connection.SignalHandlerHub;
+
+    function SendMessage(reservationId, from) {
+        var message = $('#messageChatText').val();
+
+        $.post('/ChattingMessages/Create', { reservationId: reservationId, userId: from, message: message },
+            function (data) {
+                $('#chatContainer').html(data);
+
+                $('#chatMessageContainer').scrollTop($('#chatMessageContainer')[0].scrollHeight);
+            });
+
     }
 </script>

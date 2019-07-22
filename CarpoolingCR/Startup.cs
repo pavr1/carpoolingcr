@@ -15,8 +15,8 @@ namespace CarpoolingCR
     {
         public async void Configuration(IAppBuilder app)
         {
-            //Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("es-CR");
-            //Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("es-CR");
+            Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("es-CR");
+            Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("es-CR");
 
             app.MapSignalR();
 

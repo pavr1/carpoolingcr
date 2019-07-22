@@ -2593,38 +2593,38 @@ fieldset:disabled a.btn {
           box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.5);
 }
 
-.btn-success {
+.btn-info {
   color: #fff;
   background-color: #4CAF50;
   border-color: #4CAF50;
 }
 
-.btn-success:hover {
+.btn-info:hover {
   color: #fff;
   background-color: #409444;
   border-color: #3d8b40;
 }
 
-.btn-success:focus, .btn-success.focus {
+.btn-info:focus, .btn-info.focus {
   -webkit-box-shadow: 0 0 0 0.2rem rgba(76, 175, 80, 0.5);
           box-shadow: 0 0 0 0.2rem rgba(76, 175, 80, 0.5);
 }
 
-.btn-success.disabled, .btn-success:disabled {
+.btn-info.disabled, .btn-info:disabled {
   color: #fff;
   background-color: #4CAF50;
   border-color: #4CAF50;
 }
 
-.btn-success:not(:disabled):not(.disabled):active, .btn-success:not(:disabled):not(.disabled).active,
-.show > .btn-success.dropdown-toggle {
+.btn-info:not(:disabled):not(.disabled):active, .btn-info:not(:disabled):not(.disabled).active,
+.show > .btn-info.dropdown-toggle {
   color: #fff;
   background-color: #3d8b40;
   border-color: #39833c;
 }
 
-.btn-success:not(:disabled):not(.disabled):active:focus, .btn-success:not(:disabled):not(.disabled).active:focus,
-.show > .btn-success.dropdown-toggle:focus {
+.btn-info:not(:disabled):not(.disabled):active:focus, .btn-info:not(:disabled):not(.disabled).active:focus,
+.show > .btn-info.dropdown-toggle:focus {
   -webkit-box-shadow: 0 0 0 0.2rem rgba(76, 175, 80, 0.5);
           box-shadow: 0 0 0 0.2rem rgba(76, 175, 80, 0.5);
 }
@@ -9258,26 +9258,26 @@ a.text-dark:hover, a.text-dark:focus {
   display: none;
 }
 
-.btn-success {
+.btn-info {
   position: relative;
 }
 
-.btn-success:focus {
+.btn-info:focus {
   background-color: #4CAF50;
   -webkit-box-shadow: 0 0 0 2px rgba(204, 204, 204, 0.5);
           box-shadow: 0 0 0 2px rgba(204, 204, 204, 0.5);
 }
 
-.btn-success:hover, .btn-success:active:hover {
+.btn-info:hover, .btn-info:active:hover {
   background-color: #439a46;
 }
 
-.btn-success:active {
+.btn-info:active {
   -webkit-box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
           box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
 }
 
-.btn-success:after {
+.btn-info:after {
   content: "";
   display: block;
   position: absolute;
@@ -9297,14 +9297,14 @@ a.text-dark:hover, a.text-dark:focus {
   transition: background .5s, opacity 1s;
 }
 
-.btn-success:active:after {
+.btn-info:active:after {
   background-size: 0 0;
   opacity: .2;
   -webkit-transition: 0s;
   transition: 0s;
 }
 
-.btn-success.disabled:after, .btn-success[disabled]:after {
+.btn-info.disabled:after, .btn-info[disabled]:after {
   display: none;
 }
 

@@ -52,6 +52,7 @@ namespace CarpoolingCR.Controllers
                     {
                         trip.Reservations = db.Reservations.Where(x => x.TripId == trip.TripId)
                             .Where(x => x.Status == ReservationStatus.Accepted || x.Status == ReservationStatus.Pending)
+                            .Include(x => x.ApplicationUser)
                             .ToList();
                     }
                 }
@@ -68,6 +69,7 @@ namespace CarpoolingCR.Controllers
                         {
                             trip.Reservations = db.Reservations.Where(x => x.TripId == trip.TripId)
                                 .Where(x => x.Status == ReservationStatus.Accepted || x.Status == ReservationStatus.Pending)
+                                .Include(x => x.ApplicationUser)
                                 .ToList();
                         }
                     }
@@ -518,15 +520,22 @@ namespace CarpoolingCR.Controllers
                     passengersToNoticeEmail += reservation.ApplicationUser.Email + ",";
                 }
 
-                passengersToNoticeEmail = passengersToNoticeEmail.Substring(0, passengersToNoticeEmail.Length - 1);
+                if (passengersToNoticeEmail.Length > 0)
+                {
+                    passengersToNoticeEmail = passengersToNoticeEmail.Substring(0, passengersToNoticeEmail.Length - 1);
+                }
 
                 trip.Status = Status.Cancelado;
 
                 db.Entry(trip).State = EntityState.Modified;
                 db.SaveChanges();
 
-                new SignalHandler().SendMessage(Enums.EventTriggered.TripDeleted.ToString(), "");
-                EmailHandler.SendTripsCancelledByDriver(passengersToNoticeEmail, trip.FromTown + " -> " + trip.ToTown, trip.DateTime.ToString(), string.Empty);
+                //new SignalHandler().SendMessage(Enums.EventTriggered.TripDeleted.ToString(), "");
+
+                if (passengersToNoticeEmail.Length > 0)
+                {
+                    EmailHandler.SendTripsCancelledByDriver(passengersToNoticeEmail, trip.FromTown + " -> " + trip.ToTown, trip.DateTime.ToString(), string.Empty);
+                }
 
                 tran.Commit();
 

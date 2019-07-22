@@ -2592,38 +2592,38 @@ fieldset:disabled a.btn {
           box-shadow: 0 0 0 0.2rem rgba(122, 130, 136, 0.5);
 }
 
-.btn-success {
+.btn-info {
   color: #272B30;
   background-color: #62c462;
   border-color: #62c462;
 }
 
-.btn-success:hover {
+.btn-info:hover {
   color: #fff;
   background-color: #46ba46;
   border-color: #42b142;
 }
 
-.btn-success:focus, .btn-success.focus {
+.btn-info:focus, .btn-info.focus {
   -webkit-box-shadow: 0 0 0 0.2rem rgba(98, 196, 98, 0.5);
           box-shadow: 0 0 0 0.2rem rgba(98, 196, 98, 0.5);
 }
 
-.btn-success.disabled, .btn-success:disabled {
+.btn-info.disabled, .btn-info:disabled {
   color: #272B30;
   background-color: #62c462;
   border-color: #62c462;
 }
 
-.btn-success:not(:disabled):not(.disabled):active, .btn-success:not(:disabled):not(.disabled).active,
-.show > .btn-success.dropdown-toggle {
+.btn-info:not(:disabled):not(.disabled):active, .btn-info:not(:disabled):not(.disabled).active,
+.show > .btn-info.dropdown-toggle {
   color: #fff;
   background-color: #42b142;
   border-color: #3fa73f;
 }
 
-.btn-success:not(:disabled):not(.disabled):active:focus, .btn-success:not(:disabled):not(.disabled).active:focus,
-.show > .btn-success.dropdown-toggle:focus {
+.btn-info:not(:disabled):not(.disabled):active:focus, .btn-info:not(:disabled):not(.disabled).active:focus,
+.show > .btn-info.dropdown-toggle:focus {
   -webkit-box-shadow: 0 0 0 0.2rem rgba(98, 196, 98, 0.5);
           box-shadow: 0 0 0 0.2rem rgba(98, 196, 98, 0.5);
 }
@@ -9165,7 +9165,7 @@ a.text-dark:hover, a.text-dark:focus {
           filter: none;
 }
 
-.btn-success {
+.btn-info {
   background-image: -webkit-gradient(linear, left top, left bottom, from(#78cc78), color-stop(60%, #62c462), to(#53be53));
   background-image: linear-gradient(#78cc78, #62c462 60%, #53be53);
   background-repeat: no-repeat;
@@ -9174,7 +9174,7 @@ a.text-dark:hover, a.text-dark:focus {
   color: #fff;
 }
 
-.btn-success:not([disabled]):not(.disabled):hover, .btn-success:not([disabled]):not(.disabled):focus, .btn-success:not([disabled]):not(.disabled):active, .btn-success:not([disabled]):not(.disabled).active {
+.btn-info:not([disabled]):not(.disabled):hover, .btn-info:not([disabled]):not(.disabled):focus, .btn-info:not([disabled]):not(.disabled):active, .btn-info:not([disabled]):not(.disabled).active {
   background-image: -webkit-gradient(linear, left top, left bottom, from(#379337), color-stop(40%, #3b9e3b), to(#3ea63e));
   background-image: linear-gradient(#379337, #3b9e3b 40%, #3ea63e);
   background-repeat: no-repeat;

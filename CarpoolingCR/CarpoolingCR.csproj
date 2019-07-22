@@ -217,6 +217,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BankAccountsController.cs" />
     <Compile Include="Controllers\BanksController.cs" />
+    <Compile Include="Controllers\ChattingMessagesController.cs" />
     <Compile Include="Controllers\MonthlyBalancesController.cs" />
     <Compile Include="Controllers\MonthlyTransactionsController.cs" />
     <Compile Include="Controllers\RideRequestsController.cs" />
@@ -325,10 +326,27 @@
     <Compile Include="Migrations\201904071617137_Changed circular issues btw trip and reservation.Designer.cs">
       <DependentUpon>201904071617137_Changed circular issues btw trip and reservation.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201905200321150_Created ChatMessage.cs" />
+    <Compile Include="Migrations\201905200321150_Created ChatMessage.Designer.cs">
+      <DependentUpon>201905200321150_Created ChatMessage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905200325477_CreatedSecondChatMessage.cs" />
+    <Compile Include="Migrations\201905200325477_CreatedSecondChatMessage.Designer.cs">
+      <DependentUpon>201905200325477_CreatedSecondChatMessage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905200345245_CreatedChattingMessages.cs" />
+    <Compile Include="Migrations\201905200345245_CreatedChattingMessages.Designer.cs">
+      <DependentUpon>201905200345245_CreatedChattingMessages.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905200414349_ChangedChattingMessage.cs" />
+    <Compile Include="Migrations\201905200414349_ChangedChattingMessage.Designer.cs">
+      <DependentUpon>201905200414349_ChangedChattingMessage.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Bank.cs" />
     <Compile Include="Models\BankAccount.cs" />
+    <Compile Include="Models\ChattingMessage.cs" />
     <Compile Include="Models\Country.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Log.cs" />
@@ -341,6 +359,7 @@
     <Compile Include="Models\Town.cs" />
     <Compile Include="Models\Trip.cs" />
     <Compile Include="Objects\Responses\Base\BaseResponse.cs" />
+    <Compile Include="Objects\Responses\ChatMessageResponse.cs" />
     <Compile Include="Objects\Responses\TownCreateResponse.cs" />
     <Compile Include="Objects\Responses\TownIndexResponse.cs" />
     <Compile Include="Objects\Responses\TripDayTripsResponse.cs" />
@@ -362,6 +381,8 @@
     <Compile Include="Utils\Whatsapp.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap-darkly.css" />
+    <Content Include="Content\bootstrap-spacelab.css" />
     <Content Include="Content\bootswatch\cerulean\bootstrap.css" />
     <Content Include="Content\bootswatch\cerulean\bootstrap.min.css" />
     <Content Include="Content\bootswatch\cosmo\bootstrap.css" />
@@ -674,6 +695,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\List.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\notify.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -776,6 +798,11 @@
     <Content Include="Views\Towns\Edit.cshtml" />
     <Content Include="Views\Towns\Index.cshtml" />
     <Content Include="Views\Manage\Partials\_ProfileInfo.cshtml" />
+    <Content Include="Views\ChattingMessages\Create.cshtml" />
+    <Content Include="Views\ChattingMessages\Delete.cshtml" />
+    <Content Include="Views\ChattingMessages\Details.cshtml" />
+    <Content Include="Views\ChattingMessages\Edit.cshtml" />
+    <Content Include="Views\ChattingMessages\_Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -866,6 +893,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201904071617137_Changed circular issues btw trip and reservation.resx">
       <DependentUpon>201904071617137_Changed circular issues btw trip and reservation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905200321150_Created ChatMessage.resx">
+      <DependentUpon>201905200321150_Created ChatMessage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905200325477_CreatedSecondChatMessage.resx">
+      <DependentUpon>201905200325477_CreatedSecondChatMessage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905200345245_CreatedChattingMessages.resx">
+      <DependentUpon>201905200345245_CreatedChattingMessages.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905200414349_ChangedChattingMessage.resx">
+      <DependentUpon>201905200414349_ChangedChattingMessage.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

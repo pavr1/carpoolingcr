@@ -90,10 +90,17 @@ namespace CarpoolingCR.Utils
         public static DateTime ConvertFromUnixTimestamp(double timestamp)
         {
             DateTime origin = new DateTime(1970, 1, 1, 0, 0, 0, 0);
-            return origin.AddSeconds(timestamp);
+            origin = origin.AddSeconds(timestamp);
+
+            TimeZoneInfo cstZone = TimeZoneInfo.FindSystemTimeZoneById("Central America Standard Time");
+            DateTime cstTime = TimeZoneInfo.ConvertTimeFromUtc(origin, cstZone);
+
+            return cstTime;
         }
 
-        Convert to Unix
-        Int32 unixTimestamp = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+        public static Int32 ConvertFromTimestampToUnix(DateTime date)
+        {
+            return (Int32)(date.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+        }
     }
 }

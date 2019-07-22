@@ -20,8 +20,6 @@ namespace CarpoolingCR.Models
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy hh:mm tt}", ApplyFormatInEditMode = true)]
         [Display(Name = "Fecha")]
         public DateTime DateTime { get; set; }
-        [NotMapped]
-        public double UnixDateTime { get; set; }
         [Required]
         [Display(Name = "Total de espacios")]
         [Range(0, 10)]
@@ -48,5 +46,12 @@ namespace CarpoolingCR.Models
 
         [NotMapped]
         public List<Reservation> Reservations { get; set; }
+        [NotMapped]
+        public Int32 UnixDate {
+            get
+            {
+                return Common.ConvertFromTimestampToUnix(DateTime);
+            }
+        }
     }
 }

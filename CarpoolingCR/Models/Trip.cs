@@ -46,12 +46,12 @@ namespace CarpoolingCR.Models
 
         [NotMapped]
         public List<Reservation> Reservations { get; set; }
-        [NotMapped]
-        public Int32 UnixDate {
-            get
-            {
-                return Common.ConvertFromTimestampToUnix(DateTime);
-            }
-        }
+        //[NotMapped]
+        //public Int32 UnixDate {
+        //    get
+        //    {
+        //        return Common.ConvertFromTimestampToUnix(DateTime);
+        //    }
+        //}
     }
 }

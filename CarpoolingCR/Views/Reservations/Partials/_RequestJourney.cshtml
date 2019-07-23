@@ -89,18 +89,19 @@
             for (var i = 0; i < arrayOfTrips.length; i++) {
                 var tripId = arrayOfTrips[i].TripId;
                 var availableSpaces = arrayOfTrips[i].AvailableSpaces;
-                var unixTime = arrayOfTrips[i].UnixDate;
-                //var unixTime = parseInt(dateTime.toString().replace("/Date(", "").replace(")", "").replace("/", ""));
+                var unixTime = arrayOfTrips[i].DateTime.match(/\d+/)[0] * 1;
                 var from = arrayOfTrips[i].FromTown;
                 var to = arrayOfTrips[i].ToTown;
 
                 document.getElementById('lblFromTo').innerHTML = from + ' - ' + to;
 
                 alert(unixTime);
+                alert(unixTime/1000)
 
-                var actualDate = new Date(unixTime * 1000);
-
+                var actualDate = new Date(unixTime / 1000);
+                var crTime = moment.tz(actualDate, "America/Costa_Rica");
                 alert(actualDate);
+                alert(crTime);
 
                 var month = parseInt(actualDate.getMonth() + 1);
                 var monthSrt = '';

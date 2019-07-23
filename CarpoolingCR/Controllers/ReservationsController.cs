@@ -462,12 +462,12 @@ namespace CarpoolingCR.Controllers
                 }
 
                 var passenger = Common.GetUserByEmail(User.Identity.Name);
-                var date = Common.ConvertFromUnixTimestamp(Convert.ToDouble(Request["ReservationDate"]));
+                var date = Convert.ToDateTime(Request["ReservationDate"]);
 
                 Reservation reservation = new Reservation
                 {
                     ApplicationUserId = passenger.Id,
-                    Date = date,
+                    Date = date.ToUniversalTime(),
                     PassengerName = passenger.Name + " " + passenger.LastName + " " + passenger.SecondLastName,
                     RequestedSpaces = Convert.ToInt32(Request["RequestedSpaces"]),
                     Status = ReservationStatus.Pending,

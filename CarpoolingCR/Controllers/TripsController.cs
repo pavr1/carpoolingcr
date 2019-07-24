@@ -54,6 +54,8 @@ namespace CarpoolingCR.Controllers
                             .Where(x => x.Status == ReservationStatus.Accepted || x.Status == ReservationStatus.Pending)
                             .Include(x => x.ApplicationUser)
                             .ToList();
+
+                        trip.DateTime = trip.ConvertToLocalTime(trip.DateTime);
                     }
                 }
                 else
@@ -71,6 +73,8 @@ namespace CarpoolingCR.Controllers
                                 .Where(x => x.Status == ReservationStatus.Accepted || x.Status == ReservationStatus.Pending)
                                 .Include(x => x.ApplicationUser)
                                 .ToList();
+
+                            trip.DateTime = trip.ConvertToLocalTime(trip.DateTime);
                         }
                     }
                 }
@@ -122,6 +126,10 @@ namespace CarpoolingCR.Controllers
                     .Include(x => x.ApplicationUser)
                     .ToList();
 
+                foreach (var trip in result)
+                {
+                    trip.DateTime = trip.ConvertToLocalTime(trip.DateTime);
+                }
 
                 return View(new TripDayTripsResponse
                 {
@@ -158,6 +166,8 @@ namespace CarpoolingCR.Controllers
                     .Include(x => x.ApplicationUser)
                     .Single();
 
+                trip.DateTime = trip.ConvertToLocalTime(trip.DateTime);
+
                 return View(trip);
             }
             catch (Exception ex)
@@ -193,6 +203,9 @@ namespace CarpoolingCR.Controllers
                 {
                     return HttpNotFound();
                 }
+
+                trip.DateTime = trip.ConvertToLocalTime(trip.DateTime);
+
                 return View(trip);
             }
             catch (Exception ex)
@@ -309,7 +322,7 @@ namespace CarpoolingCR.Controllers
                         ApplicationUserId = user.Id,
                         AvailableSpaces = Convert.ToInt32(Request["AvailableSpaces"]),
                         CreatedTime = DateTime.Now,
-                        DateTime = Convert.ToDateTime(Request["DateTime"]),
+                        DateTime = trip.ConvertToUTCTime(Convert.ToDateTime(Request["DateTime"])),
                         Details = Request["Trip.Details"],
                         FromTown = Request["FromTown"],
                         Price = Convert.ToDecimal(Request["Trip.Price"]),
@@ -370,6 +383,8 @@ namespace CarpoolingCR.Controllers
                 {
                     return HttpNotFound();
                 }
+
+                response.Trip.DateTime = response.Trip.ConvertToLocalTime(response.Trip.DateTime);
                 //ViewBag.JourneyId = new SelectList(db.Journeys, "JourneyId", "Name", trip.JourneyId);
                 return View(response);
             }
@@ -419,6 +434,8 @@ namespace CarpoolingCR.Controllers
                         TotalSpaces = Convert.ToInt32(Request["TotalSpaces"]),
                         ToTown = Request["ToTown"]
                     };
+
+                    trip.DateTime = trip.ConvertToUTCTime(trip.DateTime);
 
                     db.Entry(trip).State = EntityState.Modified;
                     db.SaveChanges();

@@ -209,14 +209,16 @@
             var tripId = arrayOfTrips[i].TripId;
             var availableSpaces = arrayOfTrips[i].AvailableSpaces;
             var dateTime = arrayOfTrips[i].DateTime;
-            var startUnixTime = parseInt(dateTime.toString().replace("/Date(", "").replace(")", "").replace("/", ""))/1000;
+            var startUnixTime = dateTime.match(/\d+/)[0] * 1;
             var endUnixTime = startUnixTime + (30 * 60 * 1000);
             var driver = arrayOfTrips[i].ApplicationUser.Name + ' ' + arrayOfTrips[i].ApplicationUser.LastName;
             var price = arrayOfTrips[i].Price;
             var from = arrayOfTrips[i].FromTown;
             var to = arrayOfTrips[i].ToTown;
 
+            alert(startUnixTime);
             var d = new Date(startUnixTime);
+            alert(d)
             //var formattedDate = d.getDate() + '/' + d.getMonth() + '/' + d.getFullYear() + ' ' + d.getHours() + ':' + d.getMinutes();
 
             var event = {

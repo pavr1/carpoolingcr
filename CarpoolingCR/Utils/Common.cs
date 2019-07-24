@@ -87,20 +87,21 @@ namespace CarpoolingCR.Utils
             }
         }
 
-        //public static DateTime ConvertFromUnixTimestamp(double timestamp)
-        //{
-        //    DateTime origin = new DateTime(1970, 1, 1, 0, 0, 0, 0);
-        //    origin = origin.AddSeconds(timestamp);
+        public static string GetCurrentTimeZoneId()
+        {
+            ApplicationDbContext db = new ApplicationDbContext();
 
-        //    TimeZoneInfo cstZone = TimeZoneInfo.FindSystemTimeZoneById("Central America Standard Time");
-        //    DateTime cstTime = TimeZoneInfo.ConvertTimeFromUtc(origin, cstZone);
+            var statement = "DECLARE @TimeZone VARCHAR(50) EXEC MASTER.dbo.xp_regread 'HKEY_LOCAL_MACHINE','SYSTEM\\CurrentControlSet\\Control\\TimeZoneInformation','TimeZoneKeyName',@TimeZone OUT SELECT @TimeZone as TimeZone";
 
-        //    return cstTime;
-        //}
+            var results = db.Database.SqlQuery<string>(statement, new object[] { });
+            var tZ = string.Empty;
 
-        //public static Int32 ConvertFromTimestampToUnix(DateTime date)
-        //{
-        //    return (Int32)(date.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
-        //}
+            foreach (var item in results)
+            {
+                return item;
+            }
+
+            return string.Empty;
+        }
     }
 }

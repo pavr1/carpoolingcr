@@ -94,17 +94,9 @@
                 var to = arrayOfTrips[i].ToTown;
 
                 document.getElementById('lblFromTo').innerHTML = from + ' - ' + to;
-
-                alert(unixTime);
-                alert(unixTime/1000)
-
-                var actualDate = new Date(unixTime / 1000);
-                var crTime = moment.tz(actualDate, "America/Costa_Rica");
-                alert(actualDate);
-                alert(crTime);
-
+                
+                var actualDate = new Date(unixTime);
                 var month = parseInt(actualDate.getMonth() + 1);
-                var monthSrt = '';
                 var day = parseInt(actualDate.getDate());
                 var dayStr = '';
 

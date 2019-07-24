@@ -97,6 +97,13 @@ namespace CarpoolingCR.Controllers
                 if (!string.IsNullOrEmpty(from) && !string.IsNullOrEmpty(to))
                 {
                     response.Trips = db.Trips.Where(x => x.FromTown == from && x.ToTown == to && x.Status == Status.Activo).ToList();
+
+                    var timeZone = TimeZoneInfo.FindSystemTimeZoneById("Central America Standard Time");
+
+                    foreach (var trip in response.Trips)
+                    {
+                        trip.DateTime = TimeZoneInfo.ConvertTimeToUtc(trip.DateTime, timeZone);
+                    }
                 }
 
                 return View(response);
@@ -464,10 +471,12 @@ namespace CarpoolingCR.Controllers
                 var passenger = Common.GetUserByEmail(User.Identity.Name);
                 var date = Convert.ToDateTime(Request["ReservationDate"]);
 
+                var timeZone = TimeZoneInfo.FindSystemTimeZoneById("Central America Standard Time");
+                
                 Reservation reservation = new Reservation
                 {
                     ApplicationUserId = passenger.Id,
-                    Date = date.ToUniversalTime(),
+                    Date = TimeZoneInfo.ConvertTimeToUtc(date, timeZone),
                     PassengerName = passenger.Name + " " + passenger.LastName + " " + passenger.SecondLastName,
                     RequestedSpaces = Convert.ToInt32(Request["RequestedSpaces"]),
                     Status = ReservationStatus.Pending,

@@ -3,9 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Web;
 
 namespace CarpoolingCR.Models
 {
@@ -19,7 +17,41 @@ namespace CarpoolingCR.Models
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy hh:mm tt}", ApplyFormatInEditMode = true)]
         [Display(Name = "Fecha")]
-        public DateTime DateTime { get; set; }
+        private DateTime _DateTime;
+
+        public DateTime DateTime
+        {
+            get
+            {
+                return _DateTime;
+            }
+            set
+            {
+                if (value != DateTime.MinValue)
+                {
+                    _DateTime = value;
+                }
+            }
+        }
+
+        public DateTime ConvertToLocalTime(DateTime dateTime)
+        {
+            var timeZone = TimeZoneInfo.FindSystemTimeZoneById(Common.GetCurrentTimeZoneId());
+            var utcDate = Convert.ToDateTime(dateTime);
+            var localDate = TimeZoneInfo.ConvertTimeFromUtc(utcDate, timeZone);
+
+            return localDate;
+        }
+        
+        public DateTime ConvertToUTCTime(DateTime dateTime)
+        {
+            var timeZone = TimeZoneInfo.FindSystemTimeZoneById(Common.GetCurrentTimeZoneId());
+            var utcDate = Convert.ToDateTime(dateTime);
+            var localDate = TimeZoneInfo.ConvertTimeToUtc(utcDate, timeZone);
+
+            return localDate;
+        }
+
         [Required]
         [Display(Name = "Total de espacios")]
         [Range(0, 10)]
@@ -46,12 +78,5 @@ namespace CarpoolingCR.Models
 
         [NotMapped]
         public List<Reservation> Reservations { get; set; }
-        //[NotMapped]
-        //public Int32 UnixDate {
-        //    get
-        //    {
-        //        return Common.ConvertFromTimestampToUnix(DateTime);
-        //    }
-        //}
     }
 }

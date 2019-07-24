@@ -102,7 +102,7 @@ namespace CarpoolingCR.Controllers
 
                     foreach (var trip in response.Trips)
                     {
-                        trip.DateTime = TimeZoneInfo.ConvertTimeToUtc(trip.DateTime, timeZone);
+                        trip.DateTime = TimeZoneInfo.ConvertTimeFromUtc(trip.DateTime, timeZone);
                     }
                 }
 

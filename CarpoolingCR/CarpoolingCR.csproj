@@ -447,10 +447,6 @@
     <Content Include="Content\Icons\Car.png" />
     <Content Include="Content\Icons\questionMark.jpg" />
     <Content Include="Content\processingmodal.css" />
-    <Content Include="Content\RoundButtons\css\style.css" />
-    <Content Include="Content\RoundButtons\fonts\fontello.svg" />
-    <Content Include="Content\RoundButtons\images\bg.png" />
-    <Content Include="Content\RoundButtons\index.html" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\datetimepicker-master\build\jquery.datetimepicker.full.js" />
     <Content Include="fonts\datetimepicker-master\build\jquery.datetimepicker.full.min.js" />
@@ -623,11 +619,6 @@
     <Content Include="fonts\datetimepicker-master\package.json" />
     <Content Include="fonts\datetimepicker-master\README.md" />
     <Content Include="fonts\fullcalendar-3.10.0\demos\json\events.json" />
-    <Content Include="Content\RoundButtons\.DS_Store" />
-    <Content Include="Content\RoundButtons\fonts\fontello.eot" />
-    <Content Include="Content\RoundButtons\fonts\fontello.ttf" />
-    <Content Include="Content\RoundButtons\fonts\fontello.woff" />
-    <Content Include="Content\RoundButtons\images\Thumbs.db" />
     <Content Include="Content\__MACOSX\jquery-weekcalendar-1.2.2\full_demo\._.DS_Store" />
     <Content Include="Content\jquery-weekcalendar-1.2.2\events.json" />
     <Content Include="Content\jquery-weekcalendar-1.2.2\full_demo\.DS_Store" />

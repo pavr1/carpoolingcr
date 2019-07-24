@@ -87,6 +87,24 @@ namespace CarpoolingCR.Utils
             }
         }
 
+        public static DateTime ConvertToLocalTime(DateTime dateTime)
+        {
+            var timeZone = TimeZoneInfo.FindSystemTimeZoneById("Central America Standard Time");//Common.GetCurrentTimeZoneId());
+            var utcDate = Convert.ToDateTime(dateTime);
+            var localDate = TimeZoneInfo.ConvertTimeFromUtc(utcDate, timeZone);
+
+            return localDate;
+        }
+
+        public static DateTime ConvertToUTCTime(DateTime dateTime)
+        {
+            var timeZone = TimeZoneInfo.FindSystemTimeZoneById("Central America Standard Time");//Common.GetCurrentTimeZoneId());
+            var utcDate = Convert.ToDateTime(dateTime);
+            var localDate = TimeZoneInfo.ConvertTimeToUtc(utcDate, timeZone);
+
+            return localDate;
+        }
+
         public static string GetCurrentTimeZoneId()
         {
             ApplicationDbContext db = new ApplicationDbContext();

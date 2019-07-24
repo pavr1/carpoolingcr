@@ -21,6 +21,13 @@ namespace CarpoolingCR.Controllers
         {
             try
             {
+                var user = Common.GetUserByEmail(User.Identity.Name);
+
+                if (user == null)
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+
                 if (!string.IsNullOrEmpty(message))
                 {
                     if (type == "info")
@@ -55,7 +62,7 @@ namespace CarpoolingCR.Controllers
                             .Include(x => x.ApplicationUser)
                             .ToList();
 
-                        trip.DateTime = trip.ConvertToLocalTime(trip.DateTime);
+                        trip.DateTime = Common.ConvertToLocalTime(trip.DateTime);
                     }
                 }
                 else
@@ -74,7 +81,7 @@ namespace CarpoolingCR.Controllers
                                 .Include(x => x.ApplicationUser)
                                 .ToList();
 
-                            trip.DateTime = trip.ConvertToLocalTime(trip.DateTime);
+                            trip.DateTime = Common.ConvertToLocalTime(trip.DateTime);
                         }
                     }
                 }
@@ -126,9 +133,13 @@ namespace CarpoolingCR.Controllers
                     .Include(x => x.ApplicationUser)
                     .ToList();
 
-                foreach (var trip in result)
+                var text = "";
+
+                for (int i = 0; i < result.Count; i++)
                 {
-                    trip.DateTime = trip.ConvertToLocalTime(trip.DateTime);
+                    text += "UTC: " + result[i].DateTime + " Local: ";
+                    result[i].DateTime = Common.ConvertToLocalTime(result[i].DateTime);
+                    text += result[i].DateTime + "\n";
                 }
 
                 return View(new TripDayTripsResponse
@@ -166,7 +177,7 @@ namespace CarpoolingCR.Controllers
                     .Include(x => x.ApplicationUser)
                     .Single();
 
-                trip.DateTime = trip.ConvertToLocalTime(trip.DateTime);
+                trip.DateTime = Common.ConvertToLocalTime(trip.DateTime);
 
                 return View(trip);
             }
@@ -204,7 +215,7 @@ namespace CarpoolingCR.Controllers
                     return HttpNotFound();
                 }
 
-                trip.DateTime = trip.ConvertToLocalTime(trip.DateTime);
+                trip.DateTime = Common.ConvertToLocalTime(trip.DateTime);
 
                 return View(trip);
             }
@@ -322,7 +333,7 @@ namespace CarpoolingCR.Controllers
                         ApplicationUserId = user.Id,
                         AvailableSpaces = Convert.ToInt32(Request["AvailableSpaces"]),
                         CreatedTime = DateTime.Now,
-                        DateTime = trip.ConvertToUTCTime(Convert.ToDateTime(Request["DateTime"])),
+                        DateTime = Common.ConvertToUTCTime(Convert.ToDateTime(Request["DateTime"])),
                         Details = Request["Trip.Details"],
                         FromTown = Request["FromTown"],
                         Price = Convert.ToDecimal(Request["Trip.Price"]),
@@ -384,7 +395,7 @@ namespace CarpoolingCR.Controllers
                     return HttpNotFound();
                 }
 
-                response.Trip.DateTime = response.Trip.ConvertToLocalTime(response.Trip.DateTime);
+                response.Trip.DateTime = Common.ConvertToLocalTime(response.Trip.DateTime);
                 //ViewBag.JourneyId = new SelectList(db.Journeys, "JourneyId", "Name", trip.JourneyId);
                 return View(response);
             }
@@ -435,7 +446,7 @@ namespace CarpoolingCR.Controllers
                         ToTown = Request["ToTown"]
                     };
 
-                    trip.DateTime = trip.ConvertToUTCTime(trip.DateTime);
+                    trip.DateTime = Common.ConvertToUTCTime(trip.DateTime);
 
                     db.Entry(trip).State = EntityState.Modified;
                     db.SaveChanges();

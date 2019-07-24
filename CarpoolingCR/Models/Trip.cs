@@ -34,24 +34,6 @@ namespace CarpoolingCR.Models
             }
         }
 
-        public DateTime ConvertToLocalTime(DateTime dateTime)
-        {
-            var timeZone = TimeZoneInfo.FindSystemTimeZoneById(Common.GetCurrentTimeZoneId());
-            var utcDate = Convert.ToDateTime(dateTime);
-            var localDate = TimeZoneInfo.ConvertTimeFromUtc(utcDate, timeZone);
-
-            return localDate;
-        }
-        
-        public DateTime ConvertToUTCTime(DateTime dateTime)
-        {
-            var timeZone = TimeZoneInfo.FindSystemTimeZoneById(Common.GetCurrentTimeZoneId());
-            var utcDate = Convert.ToDateTime(dateTime);
-            var localDate = TimeZoneInfo.ConvertTimeToUtc(utcDate, timeZone);
-
-            return localDate;
-        }
-
         [Required]
         [Display(Name = "Total de espacios")]
         [Range(0, 10)]
@@ -78,5 +60,13 @@ namespace CarpoolingCR.Models
 
         [NotMapped]
         public List<Reservation> Reservations { get; set; }
+        [NotMapped]
+        public string DateTimeStr
+        {
+            get
+            {
+                return _DateTime.ToString("MM/dd/yyyy HH:mm:ss");
+            }
+        }
     }
 }

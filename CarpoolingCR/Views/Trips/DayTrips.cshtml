@@ -208,35 +208,32 @@
         for (var i = 0; i < arrayOfTrips.length; i++) {
             var tripId = arrayOfTrips[i].TripId;
             var availableSpaces = arrayOfTrips[i].AvailableSpaces;
-            var dateTime = arrayOfTrips[i].DateTime;
-            var startUnixTime = dateTime.match(/\d+/)[0] * 1;
-            var endUnixTime = startUnixTime + (30 * 60 * 1000);
+            var dateTime = arrayOfTrips[i].DateTimeStr;
             var driver = arrayOfTrips[i].ApplicationUser.Name + ' ' + arrayOfTrips[i].ApplicationUser.LastName;
             var price = arrayOfTrips[i].Price;
             var from = arrayOfTrips[i].FromTown;
             var to = arrayOfTrips[i].ToTown;
 
-            alert(startUnixTime);
-            var d = new Date(startUnixTime);
-            alert(d)
-            //var formattedDate = d.getDate() + '/' + d.getMonth() + '/' + d.getFullYear() + ' ' + d.getHours() + ':' + d.getMinutes();
+            var startDate = new Date(dateTime);
+            //enddate is 30 mins more than startdate, getTime is in milliseconds so 30 mins will be 30*60*100 = 1,800,000 millisecods
+            var endDate = new Date(startDate.getTime() + 1800000);
 
             var event = {
                 id: tripId,
                 title: availableSpaces + ' espacios. ₡' + price.toFixed(2),
-                start: new Date(startUnixTime), end: new Date(endUnixTime),
+                start: startDate, end: endDate,
                 color: 'lightgreen',
                 fromto: from + ' -> ' + to,
                 driver: driver,
                 availableSpaces: availableSpaces,
-                formatteddate: startUnixTime,
+                formatteddate: dateTime,
                 price: price.toFixed(2)
             };
 
             $('#dayCalendar').fullCalendar('renderEvent', event, true);
         }
         
-        $('#dayCalendar').fullCalendar('gotoDate', d)
+        $('#dayCalendar').fullCalendar('gotoDate', startDate)
     });
 
     $('#RequestedSpaces').spinner({

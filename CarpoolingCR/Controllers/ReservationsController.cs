@@ -151,6 +151,8 @@ namespace CarpoolingCR.Controllers
                         reservation.Trip = db.Trips.Where(x => x.TripId == reservation.TripId)
                             .Include(x => x.ApplicationUser)
                             .SingleOrDefault();
+
+                        reservation.Trip.DateTime = Common.ConvertToLocalTime(reservation.Trip.DateTime);
                     }
                 }
                 else if (user.UserType == Enums.UserType.Conductor)
@@ -163,6 +165,8 @@ namespace CarpoolingCR.Controllers
                     {
                         trip.Reservations = db.Reservations.Where(x => x.TripId == trip.TripId && x.Status == ReservationStatus.Accepted || x.Status == ReservationStatus.Pending)
                             .ToList();
+
+                        trip.DateTime = Common.ConvertToLocalTime(trip.DateTime);
                     }
 
                     passengerReservations = db.Reservations.Where(x => x.ApplicationUser.Email == User.Identity.Name && (x.Status == ReservationStatus.Accepted || x.Status == ReservationStatus.Pending))
@@ -227,6 +231,11 @@ namespace CarpoolingCR.Controllers
                 }
 
                 trips = db.Trips.Where(x => x.FromTown == from && x.ToTown == to && x.Status == Status.Activo).ToList();
+
+                foreach (var trip in trips)
+                {
+                    trip.DateTime = Common.ConvertToLocalTime(trip.DateTime);
+                }
 
                 response = new ReservationTransportationResponse
                 {
@@ -469,7 +478,7 @@ namespace CarpoolingCR.Controllers
                 }
 
                 var passenger = Common.GetUserByEmail(User.Identity.Name);
-                var date = Convert.ToDateTime(Request["ReservationDate"]);
+                var date = Convert.ToDateTime(Request["ReservationDate"].Replace("a. m.", "am").Replace("p. m.", "pm"));
 
                 var timeZone = TimeZoneInfo.FindSystemTimeZoneById("Central America Standard Time");
                 

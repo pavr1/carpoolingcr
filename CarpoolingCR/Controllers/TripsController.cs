@@ -132,14 +132,10 @@ namespace CarpoolingCR.Controllers
                     && x.FromTown == from && x.ToTown == to)
                     .Include(x => x.ApplicationUser)
                     .ToList();
-
-                var text = "";
-
+                
                 for (int i = 0; i < result.Count; i++)
                 {
-                    text += "UTC: " + result[i].DateTime + " Local: ";
                     result[i].DateTime = Common.ConvertToLocalTime(result[i].DateTime);
-                    text += result[i].DateTime + "\n";
                 }
 
                 return View(new TripDayTripsResponse

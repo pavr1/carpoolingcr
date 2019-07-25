@@ -42,25 +42,36 @@
                     RedirectToDayTrips(calEvent.start);
                 },
                 eventLimit: true,
+                eventTextColor: '#378006',
                 views: {
                     agenda: {
                         eventLimit: 6
                     }
                 },
                 eventRender: function (event, element, view) {
+                    //element.css('color', '#378006')
+                    
                     return $('<p>&nbsp;&nbsp;' + event.count + ' <i class="fas fa-car"></i></p>');
                 },
                 //events: [
 
-                //    ],
+                //],
                 contentHeight: "auto",
                 selectable: true,
-                navLinks: true,
+                navLinks: false,
                 dayClick: function (date, jsEvent, view) {
-                    RedirectToDayTrips(date);
+                    alert(moment() + ' - - - - - ' + date + ' - - - - - + ' + moment().diff(date));
+
+                    if (moment().diff(date) <= 0) {
+                        RedirectToDayTrips(date);
+                    }
                 },
                 dayRender: function (date, cell) {
-                    cell.css("background-color", "#638CB8");
+                    if (moment().diff(date) <= 0) {
+                        cell.css("background-color", "#638CB8");
+                    } else {
+                        cell.css("background-color", "#1F618D");
+                    }
                 },
                 //locale: 'es',
                 header: {
@@ -94,7 +105,7 @@
                 var to = arrayOfTrips[i].ToTown;
 
                 document.getElementById('lblFromTo').innerHTML = from + ' - ' + to;
-                
+
                 var actualDate = new Date(unixTime);
                 var month = parseInt(actualDate.getMonth() + 1);
                 var day = parseInt(actualDate.getDate());

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Web.Configuration;
 using System.Web.Mvc;
 using static CarpoolingCR.Utils.Enums;
 
@@ -42,7 +43,7 @@ namespace CarpoolingCR.Controllers
                     UserEmail = User.Identity.Name
                 });
 
-                ViewBag.Error = "Hubo un error inesperado, por favor intente de nuevo.";
+                ViewBag.Error = "Error inesperado, intente de nuevo!";
 
                 return View();
             }
@@ -98,7 +99,7 @@ namespace CarpoolingCR.Controllers
                 {
                     response.Trips = db.Trips.Where(x => x.FromTown == from && x.ToTown == to && x.Status == Status.Activo).ToList();
 
-                    var timeZone = TimeZoneInfo.FindSystemTimeZoneById("Central America Standard Time");
+                    var timeZone = TimeZoneInfo.FindSystemTimeZoneById(WebConfigurationManager.AppSettings["CR_TimeZone"]);
 
                     foreach (var trip in response.Trips)
                     {
@@ -121,7 +122,7 @@ namespace CarpoolingCR.Controllers
                     UserEmail = User.Identity.Name
                 });
 
-                ViewBag.Error = "Hubo un error inesperado, por favor intente de nuevo.";
+                ViewBag.Error = "Error inesperado, intente de nuevo!";
 
                 return View();
             }
@@ -268,7 +269,7 @@ namespace CarpoolingCR.Controllers
                     UserEmail = User.Identity.Name
                 });
 
-                ViewBag.Error = "Hubo un error inesperado, por favor intente de nuevo.";
+                ViewBag.Error = "Error inesperado, intente de nuevo!";
 
                 return string.Empty;
             }
@@ -399,8 +400,8 @@ namespace CarpoolingCR.Controllers
                     Timestamp = DateTime.Now,
                     UserEmail = User.Identity.Name
                 });
-                
-                return RedirectToAction("Index", "Trips", new { message = "Hubo un error inesperado, por favor intente de nuevo.", type = "error" });
+
+                return RedirectToAction("Index", "Trips", new { message = "Error inesperado, intente de nuevo!", type = "error" });
             }
         }
 
@@ -458,7 +459,7 @@ namespace CarpoolingCR.Controllers
                     UserEmail = User.Identity.Name
                 });
 
-                ViewBag.Error = "Hubo un error inesperado, por favor intente de nuevo.";
+                ViewBag.Error = "Error inesperado, intente de nuevo!";
 
                 return View();
             }
@@ -470,6 +471,8 @@ namespace CarpoolingCR.Controllers
         [HttpPost]
         public ActionResult Create()
         {
+            var fields = "Fields => ";
+
             try
             {
                 if (!Common.IsAuthorized(User))
@@ -477,11 +480,17 @@ namespace CarpoolingCR.Controllers
                     return RedirectToAction("Login", "Account");
                 }
 
+                #region Fields
+                fields += "ReservationDate: " + Request["ReservationDate"] + ", ";
+                fields += "RequestedSpaces: " + Request["ReservationDate"].Replace("a. m.", "am").Replace("p. m.", "pm") + ", ";
+                fields += "TripId: " + Request["TripId"]; 
+                #endregion
+
                 var passenger = Common.GetUserByEmail(User.Identity.Name);
                 var date = Convert.ToDateTime(Request["ReservationDate"].Replace("a. m.", "am").Replace("p. m.", "pm"));
 
-                var timeZone = TimeZoneInfo.FindSystemTimeZoneById("Central America Standard Time");
-                
+                var timeZone = TimeZoneInfo.FindSystemTimeZoneById(WebConfigurationManager.AppSettings["CR_TimeZone"]);
+
                 Reservation reservation = new Reservation
                 {
                     ApplicationUserId = passenger.Id,
@@ -516,7 +525,7 @@ namespace CarpoolingCR.Controllers
 
                 return RedirectToAction("Transportation", "Reservations", new
                 {
-                    message = "Reservación Creada! Se ha notificado al conductor para su respectiva aprobación",
+                    message = "Reservacion Creada! Notificacion pendiente de aprobacion",
                     from = string.Empty,
                     to = string.Empty,
                     tabIndex = 1
@@ -532,10 +541,11 @@ namespace CarpoolingCR.Controllers
                     Message = ex.Message + " / " + ex.StackTrace,
                     Method = Common.GetCurrentMethod(),
                     Timestamp = DateTime.Now,
-                    UserEmail = User.Identity.Name
+                    UserEmail = User.Identity.Name,
+                    Fields = fields
                 });
 
-                ViewBag.Error = "Hubo un error inesperado, por favor intente de nuevo.";
+                ViewBag.Error = "Error inesperado, intente de nuevo!";
 
                 return View();
             }
@@ -575,7 +585,7 @@ namespace CarpoolingCR.Controllers
                     UserEmail = User.Identity.Name
                 });
 
-                ViewBag.Error = "Hubo un error inesperado, por favor intente de nuevo.";
+                ViewBag.Error = "Error inesperado, intente de nuevo!";
 
                 return View();
             }
@@ -616,7 +626,7 @@ namespace CarpoolingCR.Controllers
                     UserEmail = User.Identity.Name
                 });
 
-                ViewBag.Error = "Hubo un error inesperado, por favor intente de nuevo.";
+                ViewBag.Error = "Error inesperado, intente de nuevo!";
 
                 return View();
             }
@@ -656,7 +666,7 @@ namespace CarpoolingCR.Controllers
                     UserEmail = User.Identity.Name
                 });
 
-                ViewBag.Error = "Hubo un error inesperado, por favor intente de nuevo.";
+                ViewBag.Error = "Error inesperado, intente de nuevo!";
 
                 return View();
             }
@@ -692,7 +702,7 @@ namespace CarpoolingCR.Controllers
                     UserEmail = User.Identity.Name
                 });
 
-                ViewBag.Error = "Hubo un error inesperado, por favor intente de nuevo.";
+                ViewBag.Error = "Error inesperado, intente de nuevo!";
 
                 return View();
             }

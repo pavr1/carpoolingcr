@@ -342,6 +342,10 @@
     <Compile Include="Migrations\201905200414349_ChangedChattingMessage.Designer.cs">
       <DependentUpon>201905200414349_ChangedChattingMessage.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201907251819513_UpdateDB.cs" />
+    <Compile Include="Migrations\201907251819513_UpdateDB.Designer.cs">
+      <DependentUpon>201907251819513_UpdateDB.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Bank.cs" />
@@ -896,6 +900,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201905200414349_ChangedChattingMessage.resx">
       <DependentUpon>201905200414349_ChangedChattingMessage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907251819513_UpdateDB.resx">
+      <DependentUpon>201907251819513_UpdateDB.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

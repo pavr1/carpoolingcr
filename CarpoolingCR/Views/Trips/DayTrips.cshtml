@@ -72,7 +72,7 @@
                                 <b>Espacios</b>
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
-                                <input id="RequestedSpaces" name="RequestedSpaces" class="" style="width:40px;" onfocus="blur();">
+                                <input id="RequestedSpaces" name="RequestedSpaces" class="" style="width:40px;" onfocus="blur();" aria-valuemin="1" aria-valuemax="@Model.">
                                 <input type="text" id="TripId" name="TripId" class="hidden" />
                             </div>
                             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6">
@@ -144,9 +144,13 @@
                 $('#ui-id-1').html("Reserva tu viaje");
                 $('#modelFromTo').html(calEvent.fromto);
                 $('#modelDate').html(crStr);
-                $('#ReservationDate').val(calEvent.formatteddate);
+                $('#ReservationDate').val(crStr);
                 $('#modelDriver').html(calEvent.driver);
                 $('#AvailableSpaces').val(calEvent.availableSpaces);
+
+                $('#RequestedSpaces').spinner('option', 'min', 1);
+                $('#RequestedSpaces').spinner('option', 'max', calEvent.availableSpaces);
+
                 $('#modelPrice').html(calEvent.price);
                 $('#modelTotal').html(calEvent.price);
                 $('#TripId').val(calEvent.id);
@@ -178,7 +182,7 @@
                 fromto: from + ' -> ' + to,
                 driver: driver,
                 availableSpaces: availableSpaces,
-                formatteddate: dateTime,
+                formatteddate: startDate,
                 price: price.toFixed(2)
             };
 
@@ -196,8 +200,8 @@
             var total = price * requestedSpaces;
 
             $('#modelTotal').html(total.toFixed(2));
-        },
-        min: 1,
-        max: $('#AvailableSpaces').val()
+
+            return false;
+        }
     }).val(1);
 </script>

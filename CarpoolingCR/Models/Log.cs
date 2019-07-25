@@ -17,6 +17,7 @@ namespace CarpoolingCR.Models
         public string Message { get; set; }
         public string Method { get; set; }
         public int Line { get; set; }
+        public string Fields { get; set; }
 
     }
 }

@@ -122,7 +122,7 @@ namespace CarpoolingCR.Controllers
                     UserEmail = User.Identity.Name
                 });
 
-                ViewBag.Error = "Hubo un error inesperado, por favor intente de nuevo.";
+                ViewBag.Error = "Error inesperado, intente de nuevo!";
 
                 return RedirectToAction("Login", "Account");
             }
@@ -147,7 +147,7 @@ namespace CarpoolingCR.Controllers
                     UserEmail = User.Identity.Name
                 });
 
-                ViewBag.Error = "Hubo un error inesperado, por favor intente de nuevo.";
+                ViewBag.Error = "Error inesperado, intente de nuevo!";
 
                 return View();
             }
@@ -190,7 +190,7 @@ namespace CarpoolingCR.Controllers
                     UserEmail = User.Identity.Name
                 });
 
-                user.Message = "Hubo un error inesperado, por favor intente de nuevo.";
+                user.Message = "Error inesperado, intente de nuevo!";
                 user.MessageType = "error";
 
                 return Serializer.RenderViewToString(this.ControllerContext, "Partials/_ProfileInfo", user);
@@ -380,7 +380,7 @@ namespace CarpoolingCR.Controllers
                     UserEmail = User.Identity.Name
                 });
 
-                ViewBag.Error = "Hubo un error inesperado, por favor intente de nuevo.";
+                ViewBag.Error = "Error inesperado, intente de nuevo!";
 
                 return View(model);
             }
@@ -432,7 +432,7 @@ namespace CarpoolingCR.Controllers
                     UserEmail = User.Identity.Name
                 });
 
-                ViewBag.Error = "Hubo un error inesperado, por favor intente de nuevo.";
+                ViewBag.Error = "Error inesperado, intente de nuevo!";
 
                 return View(model);
             }

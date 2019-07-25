@@ -37,7 +37,7 @@ namespace CarpoolingCR.Controllers
                     UserEmail = User.Identity.Name
                 });
 
-                ViewBag.Error = "Hubo un error inesperado, por favor intente de nuevo.";
+                ViewBag.Error = "Error inesperado, intente de nuevo!";
 
                 return View();
             }
@@ -72,7 +72,7 @@ namespace CarpoolingCR.Controllers
                     UserEmail = User.Identity.Name
                 });
 
-                ViewBag.Error = "Hubo un error inesperado, por favor intente de nuevo.";
+                ViewBag.Error = "Error inesperado, intente de nuevo!";
 
                 return View();
             }
@@ -115,7 +115,7 @@ namespace CarpoolingCR.Controllers
                     UserEmail = User.Identity.Name
                 });
 
-                ViewBag.Error = "Hubo un error inesperado, por favor intente de nuevo.";
+                ViewBag.Error = "Error inesperado, intente de nuevo!";
 
                 return View();
             }
@@ -150,7 +150,7 @@ namespace CarpoolingCR.Controllers
                     UserEmail = User.Identity.Name
                 });
 
-                ViewBag.Error = "Hubo un error inesperado, por favor intente de nuevo.";
+                ViewBag.Error = "Error inesperado, intente de nuevo!";
 
                 return View();
             }
@@ -186,7 +186,7 @@ namespace CarpoolingCR.Controllers
                     UserEmail = User.Identity.Name
                 });
 
-                ViewBag.Error = "Hubo un error inesperado, por favor intente de nuevo.";
+                ViewBag.Error = "Error inesperado, intente de nuevo!";
 
                 return View();
             }
@@ -221,7 +221,7 @@ namespace CarpoolingCR.Controllers
                     UserEmail = User.Identity.Name
                 });
 
-                ViewBag.Error = "Hubo un error inesperado, por favor intente de nuevo.";
+                ViewBag.Error = "Error inesperado, intente de nuevo!";
 
                 return View();
             }
@@ -254,7 +254,7 @@ namespace CarpoolingCR.Controllers
                     UserEmail = User.Identity.Name
                 });
 
-                ViewBag.Error = "Hubo un error inesperado, por favor intente de nuevo.";
+                ViewBag.Error = "Error inesperado, intente de nuevo!";
 
                 return View();
             }

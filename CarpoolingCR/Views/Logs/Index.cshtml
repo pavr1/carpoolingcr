@@ -54,29 +54,33 @@
                         <li>
                             <p><h4 class="datetime">@item.Timestamp</h4></p>
                             <div class="row">
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <small class="logtype">Tipo: @item.LogType</small>
                                 </div>
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <small class="location"><b>Localización: </b>@item.Location</small>
                                 </div>
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <small class="method"><b>Método: </b>@item.Method</small>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-
-                                </div>
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <small class="line"><b>Línea: </b>@item.Line</small>
-                                </div>
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <small class="log"><b>Log: </b>@item.Message</small>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <small class="fields"><b>Fields: </b>@item.Fields</small>
                                 </div>
                             </div>
                             <hr />
@@ -90,7 +94,7 @@
 
 <script language="javascript">
     var options = {
-        valueNames: ['datetime', 'logtype', 'location', 'method', 'line', 'log']
+        valueNames: ['datetime', 'logtype', 'location', 'method', 'line', 'log', 'fields']
     };
 
     var userList = new List('logs', options);

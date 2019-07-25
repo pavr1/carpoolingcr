@@ -7,6 +7,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Security.Principal;
 using System.Web;
+using System.Web.Configuration;
 using System.Web.Mvc;
 
 namespace CarpoolingCR.Utils
@@ -89,7 +90,7 @@ namespace CarpoolingCR.Utils
 
         public static DateTime ConvertToLocalTime(DateTime dateTime)
         {
-            var timeZone = TimeZoneInfo.FindSystemTimeZoneById("Central America Standard Time");//Common.GetCurrentTimeZoneId());
+            var timeZone = TimeZoneInfo.FindSystemTimeZoneById(WebConfigurationManager.AppSettings["CR_TimeZone"]);//Common.GetCurrentTimeZoneId());
             var utcDate = Convert.ToDateTime(dateTime);
             var localDate = TimeZoneInfo.ConvertTimeFromUtc(utcDate, timeZone);
 
@@ -98,7 +99,7 @@ namespace CarpoolingCR.Utils
 
         public static DateTime ConvertToUTCTime(DateTime dateTime)
         {
-            var timeZone = TimeZoneInfo.FindSystemTimeZoneById("Central America Standard Time");//Common.GetCurrentTimeZoneId());
+            var timeZone = TimeZoneInfo.FindSystemTimeZoneById(WebConfigurationManager.AppSettings["CR_TimeZone"]);//Common.GetCurrentTimeZoneId());
             var utcDate = Convert.ToDateTime(dateTime);
             var localDate = TimeZoneInfo.ConvertTimeToUtc(utcDate, timeZone);
 

@@ -124,8 +124,16 @@
         var from = $("#FromTown").val();
         var to = $("#ToTown").val();
 
-        if (from == to) {
-            displayMessages('¡El origen no puede ser el mismo que el destino!', 'warning')
+        if (from == '') {
+            displayMessages('¡Seleccione el origen!', 'warning')
+
+            return;
+        } else if (to == '') {
+            displayMessages('¡Seleccione el destino!', 'warning')
+
+            return;
+        }else if (from == to) {
+            displayMessages('¡Origen y destino iguales!', 'warning')
 
             return;
         }
@@ -133,7 +141,7 @@
         $.post('/Reservations/Transportation', { from: from, to: to},
             function (data) {
                 var json = JSON.parse(data);
-                
+
                 $('#RequestJourneyContainer').html(json.Html);
 
                 $('#btnRetrieveTrips').removeClass('hidden');

@@ -39,7 +39,9 @@
                 dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
                 dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'],
                 eventClick: function (calEvent, jsEvent, view) {
-                    RedirectToDayTrips(calEvent.start);
+                    if (moment().diff(calEvent.date, 'days') <= 0) {
+                        RedirectToDayTrips(calEvent.start);
+                    }
                 },
                 eventLimit: true,
                 eventTextColor: '#378006',
@@ -49,9 +51,7 @@
                     }
                 },
                 eventRender: function (event, element, view) {
-                    //element.css('color', '#378006')
-                    
-                    return $('<p>&nbsp;&nbsp;' + event.count + ' <i class="fas fa-car"></i></p>');
+                    return $('<p onclick="RedirectToDayTrips(event.start)">&nbsp;&nbsp;' + event.count + ' <i class="fas fa-car"></i></p>');
                 },
                 //events: [
 
@@ -60,20 +60,20 @@
                 selectable: true,
                 navLinks: false,
                 dayClick: function (date, jsEvent, view) {
-                    alert(moment() + ' - - - - - ' + date + ' - - - - - + ' + moment().diff(date));
-
-                    if (moment().diff(date) <= 0) {
+                    if (moment().diff(date, 'days') <= 0) {
                         RedirectToDayTrips(date);
                     }
                 },
                 dayRender: function (date, cell) {
-                    if (moment().diff(date) <= 0) {
-                        cell.css("background-color", "#638CB8");
-                    } else {
+                    if (moment().diff(date, 'days') > 0) {
+                        //disabled
                         cell.css("background-color", "#1F618D");
+                        $(cell).addClass('disabled');
+                    } else {
+                        //enabled
+                        cell.css("background-color", "#638CB8");
                     }
                 },
-                //locale: 'es',
                 header: {
                     left: 'title',
                     center: '',
@@ -172,7 +172,12 @@
 
         function RedirectToDayTrips(date) {
             var fromto = document.getElementById('lblFromTo').innerHTML.split(' - ');
-            window.location.href = '/Trips/DayTrips?date=' + date.format() + '&from=' + fromto[0] + '&to=' + fromto[1];
+
+            if (fromto != '') {
+                window.location.href = '/Trips/DayTrips?date=' + date.format() + '&from=' + fromto[0] + '&to=' + fromto[1];
+            } else {
+                displayMessages('¡Consulta Pendiente!', 'warning')
+            }
         }
 
     </script>

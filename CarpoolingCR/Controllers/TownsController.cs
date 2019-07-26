@@ -50,12 +50,14 @@ namespace CarpoolingCR.Controllers
                 {
                     response.Towns = db.Towns
                         .Include(x => x.Country)
+                        .OrderBy(x => x.Name)
                         .ToList();
                 }
                 else
                 {
                     response.Towns = db.Towns.Where(x => x.CountryId == user.CountryId && x.Status == Enums.TownStatus.Active)
                        .Include(x => x.Country)
+                       .OrderBy(x => x.Name)
                        .ToList();
                 }
 

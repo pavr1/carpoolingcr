@@ -144,7 +144,7 @@
                 $('#ui-id-1').html("Reserva tu viaje");
                 $('#modelFromTo').html(calEvent.fromto);
                 $('#modelDate').html(crStr);
-                $('#ReservationDate').val(crStr);
+                $('#ReservationDate').val(date.getFullYear() + "/" + (date.getMonth() + 1) + "/" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds());
                 $('#modelDriver').html(calEvent.driver);
                 $('#AvailableSpaces').val(calEvent.availableSpaces);
 

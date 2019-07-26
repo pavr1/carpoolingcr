@@ -481,13 +481,13 @@ namespace CarpoolingCR.Controllers
                 }
 
                 #region Fields
-                fields += "ReservationDate: " + Request["ReservationDate"] + ", ";
-                fields += "RequestedSpaces: " + Request["ReservationDate"].Replace("a. m.", "am").Replace("p. m.", "pm") + ", ";
+                fields += "ReservationDate: " + Request["ReservationDate"];
+                fields += "RequestedSpaces: " + Request["RequestedSpaces"] + ", ";
                 fields += "TripId: " + Request["TripId"]; 
                 #endregion
 
                 var passenger = Common.GetUserByEmail(User.Identity.Name);
-                var date = Convert.ToDateTime(Request["ReservationDate"].Replace("a. m.", "am").Replace("p. m.", "pm"));
+                var date = Convert.ToDateTime(Request["ReservationDate"]);
 
                 var timeZone = TimeZoneInfo.FindSystemTimeZoneById(WebConfigurationManager.AppSettings["CR_TimeZone"]);
 
@@ -525,7 +525,7 @@ namespace CarpoolingCR.Controllers
 
                 return RedirectToAction("Transportation", "Reservations", new
                 {
-                    message = "Reservacion Creada! Notificacion pendiente de aprobacion",
+                    message = "Reservacion Creada! Conductor Notificado!",
                     from = string.Empty,
                     to = string.Empty,
                     tabIndex = 1

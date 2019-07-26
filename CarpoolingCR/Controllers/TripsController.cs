@@ -127,6 +127,9 @@ namespace CarpoolingCR.Controllers
                 var startDate = new DateTime(d.Year, d.Month, d.Day, 0, 0, 0);
                 var endDate = new DateTime(d.Year, d.Month, d.Day, 23, 59, 0);
 
+                startDate = Common.ConvertToUTCTime(startDate);
+                endDate = Common.ConvertToUTCTime(endDate);
+
                 var result = db.Trips.Where(x => x.Status == Enums.Status.Activo
                     && x.DateTime >= startDate && x.DateTime <= endDate
                     && x.FromTown == from && x.ToTown == to)

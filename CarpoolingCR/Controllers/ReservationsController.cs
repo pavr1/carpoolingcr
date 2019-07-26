@@ -22,6 +22,11 @@ namespace CarpoolingCR.Controllers
         {
             try
             {
+                if (!Common.IsAuthorized(User))
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+
                 var response = new ReservationIndexResponse
                 {
                     Reservations = db.Reservations.ToList(),
@@ -53,6 +58,11 @@ namespace CarpoolingCR.Controllers
         {
             try
             {
+                if (!Common.IsAuthorized(User))
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+
                 if (!string.IsNullOrEmpty(message))
                 {
                     ViewBag.Info = message;
@@ -61,11 +71,6 @@ namespace CarpoolingCR.Controllers
                 var passengerReservations = new List<Reservation>();
                 var driverTrips = new List<Trip>();
                 var user = Common.GetUserByEmail(User.Identity.Name);
-
-                if (user == null)
-                {
-                    return RedirectToAction("Login", "Account");
-                }
 
                 passengerReservations = db.Reservations.Where(x => x.ApplicationUser.Email == User.Identity.Name && (x.Status == ReservationStatus.Accepted || x.Status == ReservationStatus.Pending))
                     .Include(x => x.ApplicationUser)
@@ -133,13 +138,16 @@ namespace CarpoolingCR.Controllers
         {
             try
             {
+                if (!Common.IsAuthorized(User))
+                {
+                    RedirectToAction("Login", "Account");
+                }
+
                 var user = Common.GetUserByEmail(User.Identity.Name);
 
                 List<Reservation> passengerReservations = new List<Reservation>();
                 List<Trip> driverTrips = new List<Trip>();
                 ReservationTransportationResponse response = new ReservationTransportationResponse();
-
-                //var user = Common.GetUserByEmail(User.Identity.Name);
 
                 if (user.UserType == Enums.UserType.Pasajero)
                 {
@@ -173,11 +181,6 @@ namespace CarpoolingCR.Controllers
                     passengerReservations = db.Reservations.Where(x => x.ApplicationUser.Email == User.Identity.Name && (x.Status == ReservationStatus.Accepted || x.Status == ReservationStatus.Pending))
                         .Include(x => x.ApplicationUser)
                         .ToList();
-
-                    //foreach (var reservation in passengerReservations)
-                    //{
-                    //    reservation.Trip = db.Trips.Where(x => x.TripId == reservation.TripId).SingleOrDefault();
-                    //}
                 }
                 else if (user.UserType == Enums.UserType.Administrador)
                 {
@@ -283,6 +286,11 @@ namespace CarpoolingCR.Controllers
 
             try
             {
+                if (!Common.IsAuthorized(User))
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+
                 if (string.IsNullOrEmpty(Request["reservationId"]))
                 {
                     throw new Exception("reservationId not found in form");
@@ -407,6 +415,11 @@ namespace CarpoolingCR.Controllers
 
         public ActionResult ChatTest()
         {
+            if (!Common.IsAuthorized(User))
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             return View();
         }
 
@@ -435,6 +448,11 @@ namespace CarpoolingCR.Controllers
         {
             try
             {
+                if (!Common.IsAuthorized(User))
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+
                 var trip = db.Trips.Where(x => x.TripId == tripId)
                     .Include(x => x.ApplicationUser)
                     .SingleOrDefault();

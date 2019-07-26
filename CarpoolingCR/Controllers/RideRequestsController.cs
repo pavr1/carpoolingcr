@@ -125,6 +125,11 @@ namespace CarpoolingCR.Controllers
         {
             try
             {
+                if (!Common.IsAuthorized(User))
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+
                 if (ModelState.IsValid)
                 {
                     rideRequest.UserEmail = User.Identity.Name;
@@ -162,6 +167,11 @@ namespace CarpoolingCR.Controllers
         {
             try
             {
+                if (!Common.IsAuthorized(User))
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+
                 if (id == null)
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -202,6 +212,11 @@ namespace CarpoolingCR.Controllers
         {
             try
             {
+                if (!Common.IsAuthorized(User))
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+
                 if (ModelState.IsValid)
                 {
                     db.Entry(rideRequest).State = EntityState.Modified;
@@ -235,6 +250,11 @@ namespace CarpoolingCR.Controllers
         {
             try
             {
+                if (!Common.IsAuthorized(User))
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+
                 if (id == null)
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -272,6 +292,11 @@ namespace CarpoolingCR.Controllers
         {
             try
             {
+                if (!Common.IsAuthorized(User))
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+
                 RideRequest rideRequest = db.RideRequests.Find(id);
                 db.RideRequests.Remove(rideRequest);
                 db.SaveChanges();

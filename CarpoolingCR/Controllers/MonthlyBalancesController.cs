@@ -17,6 +17,11 @@ namespace CarpoolingCR.Controllers
         {
             try
             {
+                if (!Common.IsAuthorized(User))
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+
                 return View(db.MonthlyBalances.ToList());
             }
             catch (Exception ex)
@@ -56,6 +61,11 @@ namespace CarpoolingCR.Controllers
         // GET: MonthlyBalances/Create
         public ActionResult Create()
         {
+            if (!Common.IsAuthorized(User))
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             return View();
         }
 
@@ -68,6 +78,11 @@ namespace CarpoolingCR.Controllers
         {
             try
             {
+                if (!Common.IsAuthorized(User))
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+
                 if (ModelState.IsValid)
                 {
                     db.MonthlyBalances.Add(monthlyBalance);
@@ -101,6 +116,11 @@ namespace CarpoolingCR.Controllers
         {
             try
             {
+                if (!Common.IsAuthorized(User))
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+
                 if (id == null)
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -141,6 +161,11 @@ namespace CarpoolingCR.Controllers
         {
             try
             {
+                if (!Common.IsAuthorized(User))
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+
                 if (ModelState.IsValid)
                 {
                     db.Entry(monthlyBalance).State = EntityState.Modified;
@@ -174,6 +199,11 @@ namespace CarpoolingCR.Controllers
         {
             try
             {
+                if (!Common.IsAuthorized(User))
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+
                 if (id == null)
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -212,6 +242,11 @@ namespace CarpoolingCR.Controllers
         {
             try
             {
+                if (!Common.IsAuthorized(User))
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+
                 MonthlyBalance monthlyBalance = db.MonthlyBalances.Find(id);
                 db.MonthlyBalances.Remove(monthlyBalance);
                 db.SaveChanges();

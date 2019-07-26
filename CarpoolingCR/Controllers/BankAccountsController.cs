@@ -17,6 +17,11 @@ namespace CarpoolingCR.Controllers
         {
             try
             {
+                if (!Common.IsAuthorized(User))
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+
                 var bankAccounts = db.BankAccounts.Include(b => b.Bank);
                 return View(bankAccounts.ToList());
             }
@@ -59,6 +64,11 @@ namespace CarpoolingCR.Controllers
         {
             try
             {
+                if (!Common.IsAuthorized(User))
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+
                 ViewBag.BankId = new SelectList(db.Banks, "BankId", "BankName");
                 return View();
             }
@@ -90,6 +100,11 @@ namespace CarpoolingCR.Controllers
         {
             try
             {
+                if (!Common.IsAuthorized(User))
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+
                 if (ModelState.IsValid)
                 {
                     db.BankAccounts.Add(bankAccount);
@@ -124,6 +139,11 @@ namespace CarpoolingCR.Controllers
         {
             try
             {
+                if (!Common.IsAuthorized(User))
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+
                 if (id == null)
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -164,6 +184,11 @@ namespace CarpoolingCR.Controllers
         {
             try
             {
+                if (!Common.IsAuthorized(User))
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+
                 if (ModelState.IsValid)
                 {
                     db.Entry(bankAccount).State = EntityState.Modified;
@@ -199,6 +224,11 @@ namespace CarpoolingCR.Controllers
         {
             try
             {
+                if (!Common.IsAuthorized(User))
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+
                 if (id == null)
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -238,6 +268,11 @@ namespace CarpoolingCR.Controllers
         {
             try
             {
+                if (!Common.IsAuthorized(User))
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+
                 BankAccount bankAccount = db.BankAccounts.Find(id);
                 db.BankAccounts.Remove(bankAccount);
                 db.SaveChanges();

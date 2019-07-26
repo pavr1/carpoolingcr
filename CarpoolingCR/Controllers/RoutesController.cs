@@ -50,6 +50,11 @@ namespace CarpoolingCR.Controllers
         // GET: Routes/Create
         public ActionResult Create()
         {
+            if (!Common.IsAuthorized(User))
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             //ViewBag.JourneyId = new SelectList(db.Journeys, "JourneyId", "Name");
             return View();
         }
@@ -123,6 +128,11 @@ namespace CarpoolingCR.Controllers
         // GET: Routes/Delete/5
         public ActionResult Delete(int? id)
         {
+            if (!Common.IsAuthorized(User))
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);

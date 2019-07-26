@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using CarpoolingCR;
 using CarpoolingCR.Models;
+using CarpoolingCR.Utils;
 
 namespace CarpoolingCR.Controllers
 {
@@ -18,12 +19,22 @@ namespace CarpoolingCR.Controllers
         // GET: Logs
         public ActionResult Index()
         {
+            if (!Common.IsAuthorized(User))
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             return View(db.Logs.ToList());
         }
 
         // GET: Logs/Details/5
         public ActionResult Details(int? id)
         {
+            if (!Common.IsAuthorized(User))
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -39,6 +50,11 @@ namespace CarpoolingCR.Controllers
         // GET: Logs/Create
         public ActionResult Create()
         {
+            if (!Common.IsAuthorized(User))
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             return View();
         }
 
@@ -49,6 +65,11 @@ namespace CarpoolingCR.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "LogId,Timestamp,LogType,Location,Message,Method,Line")] Log log)
         {
+            if (!Common.IsAuthorized(User))
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             if (ModelState.IsValid)
             {
                 db.Logs.Add(log);
@@ -62,6 +83,11 @@ namespace CarpoolingCR.Controllers
         // GET: Logs/Edit/5
         public ActionResult Edit(int? id)
         {
+            if (!Common.IsAuthorized(User))
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -81,6 +107,11 @@ namespace CarpoolingCR.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "LogId,Timestamp,LogType,Location,Message,Method,Line")] Log log)
         {
+            if (!Common.IsAuthorized(User))
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             if (ModelState.IsValid)
             {
                 db.Entry(log).State = EntityState.Modified;
@@ -93,6 +124,11 @@ namespace CarpoolingCR.Controllers
         // GET: Logs/Delete/5
         public ActionResult Delete(int? id)
         {
+            if (!Common.IsAuthorized(User))
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -110,6 +146,11 @@ namespace CarpoolingCR.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            if (!Common.IsAuthorized(User))
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             Log log = db.Logs.Find(id);
             db.Logs.Remove(log);
             db.SaveChanges();

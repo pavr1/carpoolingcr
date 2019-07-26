@@ -57,6 +57,11 @@ namespace CarpoolingCR.Controllers
 
         public ActionResult AdminIndex()
         {
+            if (!Common.IsAuthorized(User))
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             var user = db.Users.Where(x => x.Email == User.Identity.Name).Single();
 
             if (user != null)
@@ -73,6 +78,11 @@ namespace CarpoolingCR.Controllers
 
         public ActionResult DriverIndex()
         {
+            if (!Common.IsAuthorized(User))
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             var user = db.Users.Where(x => x.Email == User.Identity.Name).Single();
 
             if (user != null)
@@ -88,6 +98,11 @@ namespace CarpoolingCR.Controllers
 
         public ActionResult PassengerIndex()
         {
+            if (!Common.IsAuthorized(User))
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             var user = db.Users.Where(x => x.Email == User.Identity.Name).Single();
 
             if (user != null)

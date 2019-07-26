@@ -17,6 +17,12 @@ namespace CarpoolingCR.Controllers
         {
             try
             {
+                if (!Common.IsAuthorized(User))
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+
+
                 if (!string.IsNullOrEmpty(message))
                 {
                     if (type == "info")
@@ -59,6 +65,11 @@ namespace CarpoolingCR.Controllers
         {
             try
             {
+                if (!Common.IsAuthorized(User))
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+
                 if (id == null)
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -92,6 +103,11 @@ namespace CarpoolingCR.Controllers
         // GET: Countries/Create
         public ActionResult Create()
         {
+            if (!Common.IsAuthorized(User))
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             return View();
         }
 
@@ -104,6 +120,11 @@ namespace CarpoolingCR.Controllers
         {
             try
             {
+                if (!Common.IsAuthorized(User))
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+
                 if (ModelState.IsValid)
                 {
                     var existentCountry = db.Countries.Where(x => x.Name.ToUpper() == country.Name.ToUpper()).SingleOrDefault();
@@ -147,6 +168,11 @@ namespace CarpoolingCR.Controllers
         {
             try
             {
+                if (!Common.IsAuthorized(User))
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+
                 if (!Common.IsAuthorized(User))
                 {
                     return RedirectToAction("Login", "Account");

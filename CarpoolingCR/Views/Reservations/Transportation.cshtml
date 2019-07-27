@@ -19,11 +19,11 @@
             </ul>
             <div id="tabs-1" aria-labelledby="ui-id-15" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true">
                 <div class="row form-group">
-                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                        <label class="control-label visible-xs">Origen</label>
-                        <label class="control-label pull-right visible-sm visible-md visible-lg">Origen</label>
+                    <div class="col-lg-1 col-md-1 col-sm-6 col-xs-12">
+                        <label class="control-label visible-xs visible-sm">Origen</label>
+                        <label class="control-label pull-right visible-md visible-lg">Origen</label>
                     </div>
-                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12 form-inline">
                         <select id="FromTown" name="FromTown" class="form-control" onfocus="this.select()">
                             @{
                                 foreach (var item in Model.Towns)
@@ -46,12 +46,14 @@
                                 }
                             }
                         </select>
+                        <input type="button" class="form-control btn btn-info btn-sm visible-xs pull-right" onclick="EraseValue('#FromTown')" style="width:42px" value="&#9003;" />
+                        <input type="button" class="form-control btn btn-info btn-sm hidden-xs" onclick="EraseValue('#FromTown')" style="width:42px" value="&#9003;" />
                     </div>
-                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                        <label class="control-label visible-xs">Destino</label>
-                        <label class="control-label pull-right visible-sm visible-md visible-lg">Destino</label>
+                    <div class="col-lg-1 col-md-1 col-sm-6 col-xs-12">
+                        <label class="control-label visible-xs visible-sm">Destino</label>
+                        <label class="control-label pull-right visible-md visible-lg">Destino</label>
                     </div>
-                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12 form-inline">
                         <select id="ToTown" name="ToTown" class="form-control" onfocus="this.select()">
                             @{
                                 foreach (var item in Model.Towns)
@@ -74,16 +76,18 @@
                                 }
                             }
                         </select>
+                        <input type="button" class="form-control btn btn-info btn-sm visible-xs pull-right" onclick="EraseValue('#ToTown')" style="width:42px" value="&#9003;" />
+                        <input type="button" class="form-control btn btn-info btn-sm hidden-xs" onclick="EraseValue('#ToTown')" style="width:42px" value="&#9003;" />
                     </div>
                 </div>
                 <div class="row form-group">
-                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                    <div class="col-lg-1 col-md-1 col-sm-6 col-xs-12">
                     </div>
-                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12">
                     </div>
-                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                    <div class="col-lg-1 col-md-1 col-sm-6 col-xs-12">
                     </div>
-                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12">
                         <input type="button" class="btn btn-info col-lg-12 col-md-12 col-sm-12" onclick="RetrieveTrips()" value="Consultar Viajes" />
                     </div>
                 </div>
@@ -117,6 +121,9 @@
         }
     });
 
+    function EraseValue(controlId) {
+        $(controlId).val('');
+    }
     function RetrieveTrips() {
         $('#btnRetrieveTrips').addClass('hidden');
         $('#imgProcessing').removeClass('hidden');

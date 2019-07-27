@@ -14,7 +14,7 @@
         @Html.Raw(Model.ProfileHtml)
     </div>
 
-    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+    @*<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="row form-group">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <label class="control-label">Información Bancaria</label>
@@ -25,7 +25,7 @@
         @{
             if (Model.User.BankAccountId == null)
             {
-                @*<p>Información bancaria no registrada!   @Html.ActionLink("Regístrela Aquí", "Index", "BankAccounts", new { }, new { @class = "" })</p>*@
+                <p>Información bancaria no registrada!   @Html.ActionLink("Regístrela Aquí", "Index", "BankAccounts", new { }, new { @class = "" })</p>
                 <p>[Funcionalidad disponible próximamente]</p>
             }
             else
@@ -68,7 +68,7 @@
                 @{
                     if (Model.User.MonthlyBalance == null)
                     {
-                        @*<p>No se encontró el balance mensual actual. Contacte al administrador!</p>*@
+                        <p>No se encontró el balance mensual actual. Contacte al administrador!</p>
                         <p>[Funcionalidad disponible próximamente]</p>
                     }
                     else
@@ -79,16 +79,13 @@
                 }
             </div>
         </div>
-    </div>
+    </div>*@
 </div>
 
 
 
 <div>
-    <label class="control-label">Información Financiera</label>
-    <hr />
     <dl class="dl-horizontal">
-        <dt>Clave: </dt>
         <dd>
             [
             @if (Model.HasPassword)

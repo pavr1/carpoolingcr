@@ -103,12 +103,10 @@ namespace CarpoolingCR.Controllers
                 if (!string.IsNullOrEmpty(from) && !string.IsNullOrEmpty(to))
                 {
                     response.Trips = db.Trips.Where(x => x.FromTown == from && x.ToTown == to && x.Status == Status.Activo).ToList();
-
-                    var timeZone = TimeZoneInfo.FindSystemTimeZoneById(WebConfigurationManager.AppSettings["CR_TimeZone"]);
-
+                    
                     foreach (var trip in response.Trips)
                     {
-                        trip.DateTime = TimeZoneInfo.ConvertTimeFromUtc(trip.DateTime, timeZone);
+                        trip.DateTime = Common.ConvertToUTCTime(trip.DateTime);
                     }
                 }
 
@@ -234,7 +232,11 @@ namespace CarpoolingCR.Controllers
                     return Serializer.Serialize(response);
                 }
 
-                trips = db.Trips.Where(x => x.FromTown == from && x.ToTown == to && x.Status == Status.Activo).ToList();
+                trips = db.Trips.Where(x => x.FromTown == from && x.ToTown == to)
+                    .Where(x => x.Status == Status.Activo)
+                    .Where(x => x.ApplicationUserId != user.Id)
+                    .Where(x => x.AvailableSpaces > 0)
+                    .ToList();
 
                 foreach (var trip in trips)
                 {

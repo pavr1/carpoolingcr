@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Web.Configuration;
 using System.Web.Mvc;
 using static CarpoolingCR.Utils.Enums;
 
@@ -27,6 +28,9 @@ namespace CarpoolingCR.Controllers
                 }
 
                 var user = Common.GetUserByEmail(User.Identity.Name);
+                var maxTripsPerUser = Convert.ToInt32(WebConfigurationManager.AppSettings["MaxTripsPerUser"]);
+                var currentTrips = db.Trips.Where(x => x.ApplicationUserId == user.Id)
+                    .Where(x => x.Status == Status.Activo).ToList();
 
                 if (user == null)
                 {
@@ -51,6 +55,7 @@ namespace CarpoolingCR.Controllers
 
                 List<Trip> trips = new List<Trip>();
                 var isAdmin = false;
+                var reachedMaxCount = false;
 
                 if (Common.GetUserType(User.Identity.Name) == Enums.UserType.Administrador)
                 {
@@ -88,13 +93,16 @@ namespace CarpoolingCR.Controllers
 
                             trip.DateTime = Common.ConvertToLocalTime(trip.DateTime);
                         }
+
+                        reachedMaxCount = (currentTrips.Count == maxTripsPerUser);
                     }
                 }
 
                 var response = new TripIndexResponse
                 {
                     IsAdmin = isAdmin,
-                    Trips = trips
+                    Trips = trips,
+                    ReachedMaxCount = reachedMaxCount
                 };
 
                 return View(response);
@@ -145,7 +153,7 @@ namespace CarpoolingCR.Controllers
                     && x.FromTown == from && x.ToTown == to)
                     .Include(x => x.ApplicationUser)
                     .ToList();
-                
+
                 for (int i = 0; i < result.Count; i++)
                 {
                     result[i].DateTime = Common.ConvertToLocalTime(result[i].DateTime);
@@ -271,7 +279,7 @@ namespace CarpoolingCR.Controllers
 
                 var response = new TripCreateResponse
                 {
-                    Towns = db.Towns.Where(x => x.Status == Enums.TownStatus.Active && x.CountryId == user.CountryId).ToList()
+                    Towns = db.Towns.Where(x => x.Status == Enums.TownStatus.Active && x.CountryId == user.CountryId).ToList(),
                 };
 
                 return View(response);

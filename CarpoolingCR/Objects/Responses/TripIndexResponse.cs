@@ -10,5 +10,6 @@ namespace CarpoolingCR.Objects.Responses
     {
         public bool IsAdmin { get; set; }
         public List<Trip> Trips{ get; set; }
+        public bool ReachedMaxCount { get; set; }
     }
 }

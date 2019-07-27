@@ -14,5 +14,7 @@ namespace CarpoolingCR.Objects.Responses
         public List<Trip> Trips { get; set; }
 
         public DateTime CurrentDate { get; set; }
+
+        public List<Reservation> ExistentReservations { get; set; }
     }
 }

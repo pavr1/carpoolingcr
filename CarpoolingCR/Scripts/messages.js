@@ -41,10 +41,10 @@
         return "¡Destino/Origen Actualizado!";
     } else if (code === "100021") {
         return "¡Origen/Destino Eliminado!";
-    } else if (code === "xxxxxxxxx") {
-        return "zzzzzzzzzzzzzzzzzzzzzz";
-    } else if (code === "xxxxxxxxx") {
-        return "zzzzzzzzzzzzzzzzzzzzzz";
+    } else if (code === "100022") {
+        return "¡Cuenta no verificada!";
+    } else if (code === "100023") {
+        return "¡Reservación ya existente!";
     } else if (code === "xxxxxxxxx") {
         return "zzzzzzzzzzzzzzzzzzzzzz";
     } else if (code === "xxxxxxxxx") {

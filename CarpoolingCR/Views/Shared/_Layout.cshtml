@@ -23,6 +23,7 @@
     <script src="https://rawgithub.com/indrimuska/jquery-editable-select/master/dist/jquery-editable-select.min.js"></script>
     <script src="~/Scripts/notify.js"></script>
     <script src="~/Scripts/List.js"></script>
+    <script src="~/Scripts/messages.js"></script>
     @*<link rel="stylesheet" href="~/Content/processingmodal.css">*@
 
     <style type="text/css">
@@ -236,7 +237,7 @@
             //        });
             //}
 
-            var codingmessage = GetMessage(code);
+            var codingmessage = GetMessage(message);
 
             if (codingmessage === "") {
                 $.notify(message, type);

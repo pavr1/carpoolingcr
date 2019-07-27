@@ -33,6 +33,7 @@
 <!-- Modal -->
 <div class="modal fade" id="dayTripModal" tabindex="-1" role="dialog" aria-labelledby="dayTripModalLabel" aria-hidden="true">
     <form action="/Reservations/Create" method="post">
+        @Html.AntiForgeryToken()
         <div class="vertical-alignment-helper">
             <div class="modal-dialog vertical-align-center">
                 <div class="modal-content">
@@ -72,7 +73,7 @@
                                 <b>Espacios</b>
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
-                                <input id="RequestedSpaces" name="RequestedSpaces" class="" style="width:40px;" onfocus="blur();" aria-valuemin="1" aria-valuemax="@Model.">
+                                <input id="RequestedSpaces" disabled name="RequestedSpaces" class="" style="width:40px;" onfocus="blur();">
                                 <input type="text" id="TripId" name="TripId" class="hidden" />
                             </div>
                             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6">
@@ -95,9 +96,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
+                    <div id="btnsContainer" class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-primary">Reservar</button>
+                        <button id="btnSubmitReservations" type="submit" class="btn btn-primary">Reservar</button>
                     </div>
                 </div>
             </div>
@@ -154,6 +155,16 @@
                 $('#modelPrice').html(calEvent.price);
                 $('#modelTotal').html(calEvent.price);
                 $('#TripId').val(calEvent.id);
+
+                var reservationAlreadyExistent = ExistReservationToTrip(calEvent.id)
+
+                if (reservationAlreadyExistent) {
+                    $('#btnsContainer').html('<small class="pull-left">*** ¡Ya posee una reservación activa para este viaje!</small><button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button><button type="button" disabled class="btn btn-primary">Reservar</button>');
+                } else {
+                    $('#msgTextModal').val('')
+                    $('#btnsContainer').html('<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button><button type="submit" class="btn btn-primary">Reservar</button>');
+                }
+
                 $("#dayTripModal").modal();
                 //window.location.href = '/Reservations/Create?tripId=' + calEvent.id;
             }
@@ -188,7 +199,7 @@
 
             $('#dayCalendar').fullCalendar('renderEvent', event, true);
         }
-        
+
         $('#dayCalendar').fullCalendar('gotoDate', startDate)
     });
 
@@ -204,4 +215,18 @@
             return false;
         }
     }).val(1);
+
+    function ExistReservationToTrip(currentTripId) {
+        var passengerReservations = JSON.parse('@Html.Raw(Json.Encode(Model.ExistentReservations))');
+
+        for (var i = 0; i < passengerReservations.length; i++) {
+            var existentReservationTripId = passengerReservations[i].TripId;
+
+            if (existentReservationTripId == currentTripId) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 </script>

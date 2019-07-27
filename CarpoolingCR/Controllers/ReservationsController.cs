@@ -103,7 +103,7 @@ namespace CarpoolingCR.Controllers
                 if (!string.IsNullOrEmpty(from) && !string.IsNullOrEmpty(to))
                 {
                     response.Trips = db.Trips.Where(x => x.FromTown == from && x.ToTown == to && x.Status == Status.Activo).ToList();
-                    
+
                     foreach (var trip in response.Trips)
                     {
                         trip.DateTime = Common.ConvertToUTCTime(trip.DateTime);
@@ -498,7 +498,7 @@ namespace CarpoolingCR.Controllers
         public ActionResult Create()
         {
             var fields = "Fields => ";
-            
+
             try
             {
                 if (!Common.IsAuthorized(User))
@@ -509,11 +509,12 @@ namespace CarpoolingCR.Controllers
                 #region Fields
                 fields += "ReservationDate: " + Request["ReservationDate"];
                 fields += "RequestedSpaces: " + Request["RequestedSpaces"] + ", ";
-                fields += "TripId: " + Request["TripId"]; 
+                fields += "TripId: " + Request["TripId"];
                 #endregion
 
                 var passenger = Common.GetUserByEmail(User.Identity.Name);
                 var date = Convert.ToDateTime(Request["ReservationDate"]);
+                var tripId = Convert.ToInt32(Request["TripId"]);
 
                 Reservation reservation = new Reservation
                 {
@@ -522,7 +523,7 @@ namespace CarpoolingCR.Controllers
                     PassengerName = passenger.Name + " " + passenger.LastName + " " + passenger.SecondLastName,
                     RequestedSpaces = Convert.ToInt32(Request["RequestedSpaces"]),
                     Status = ReservationStatus.Pending,
-                    TripId = Convert.ToInt32(Request["TripId"])
+                    TripId = tripId
                 };
 
                 var trip = db.Trips.Where(x => x.TripId == reservation.TripId)

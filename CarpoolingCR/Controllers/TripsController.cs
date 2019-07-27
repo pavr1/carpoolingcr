@@ -160,12 +160,19 @@ namespace CarpoolingCR.Controllers
                     result[i].DateTime = Common.ConvertToLocalTime(result[i].DateTime);
                 }
 
+                var user = Common.GetUserByEmail(User.Identity.Name);
+
+                var existentReservation = db.Reservations.Where(x => x.ApplicationUserId == user.Id)
+                    .Where(x => x.Status == ReservationStatus.Accepted || x.Status == ReservationStatus.Pending)
+                    .ToList();
+
                 return View(new TripDayTripsResponse
                 {
                     Trips = result,
                     From = from,
                     To = to,
-                    CurrentDate = d
+                    CurrentDate = d,
+                    ExistentReservations = existentReservation
                 });
             }
             catch (Exception ex)

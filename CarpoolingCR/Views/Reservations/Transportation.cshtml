@@ -122,8 +122,9 @@
     });
 
     function EraseValue(controlId) {
-        $(controlId).val('');
+        $(controlId).val(null).trigger('change');
     }
+
     function RetrieveTrips() {
         $('#btnRetrieveTrips').addClass('hidden');
         $('#imgProcessing').removeClass('hidden');

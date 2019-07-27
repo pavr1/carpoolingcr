@@ -30,7 +30,8 @@ namespace CarpoolingCR.Controllers
                 var user = Common.GetUserByEmail(User.Identity.Name);
                 var maxTripsPerUser = Convert.ToInt32(WebConfigurationManager.AppSettings["MaxTripsPerUser"]);
                 var currentTrips = db.Trips.Where(x => x.ApplicationUserId == user.Id)
-                    .Where(x => x.Status == Status.Activo).ToList();
+                    .Where(x => x.Status == Status.Activo)
+                    .ToList();
 
                 if (user == null)
                 {

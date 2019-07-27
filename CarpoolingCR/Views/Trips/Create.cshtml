@@ -133,6 +133,7 @@
         format: 'd/m/Y g:i a',
         formatTime: 'g:i a',
         minDate: Date.now(),
+        maxDate: addDays(Date.now(), 31),
         step: 15,
         onChangeDateTime: function (current_time, $input) {
             $('#TotalSpaces').focus();
@@ -188,4 +189,9 @@
         $('#ckPlace2').html('<span class="ui-checkboxradio-icon ui-corner-all ui-icon ui-icon-background ui-icon-blank ui-state-hover"></span><span class="ui-checkboxradio-icon-space"> </span>' + split[1]);
     }
 
+    function addDays(date, days) {
+        var result = new Date(date);
+        result.setDate(result.getDate() + days);
+        return result;
+    }
 </script>

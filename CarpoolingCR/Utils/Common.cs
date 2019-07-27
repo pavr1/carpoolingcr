@@ -90,18 +90,18 @@ namespace CarpoolingCR.Utils
 
         public static DateTime ConvertToLocalTime(DateTime dateTime)
         {
-            var timeZone = TimeZoneInfo.FindSystemTimeZoneById(WebConfigurationManager.AppSettings["CR_TimeZone"]);//Common.GetCurrentTimeZoneId());
-            var utcDate = Convert.ToDateTime(dateTime);
-            var localDate = TimeZoneInfo.ConvertTimeFromUtc(utcDate, timeZone);
+            //var timeZone = TimeZoneInfo.FindSystemTimeZoneById(WebConfigurationManager.AppSettings["CR_TimeZone"]);//Common.GetCurrentTimeZoneId());
+            //var utcDate = Convert.ToDateTime(dateTime);
+            var localDate = DateTime.SpecifyKind(dateTime, DateTimeKind.Local);
 
             return localDate;
         }
 
         public static DateTime ConvertToUTCTime(DateTime dateTime)
         {
-            var timeZone = TimeZoneInfo.FindSystemTimeZoneById(WebConfigurationManager.AppSettings["CR_TimeZone"]);//Common.GetCurrentTimeZoneId());
-            var utcDate = Convert.ToDateTime(dateTime);
-            var localDate = TimeZoneInfo.ConvertTimeToUtc(utcDate, timeZone);
+            //var timeZone = TimeZoneInfo.FindSystemTimeZoneById(WebConfigurationManager.AppSettings["CR_TimeZone"]);//Common.GetCurrentTimeZoneId());
+            //var utcDate = Convert.ToDateTime(dateTime);
+            var localDate = DateTime.SpecifyKind(dateTime, DateTimeKind.Utc);
 
             return localDate;
         }

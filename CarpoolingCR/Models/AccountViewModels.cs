@@ -67,7 +67,8 @@ namespace CarpoolingCR.Models
     public class RegisterViewModel
     {
         [Required]
-        [EmailAddress]
+        //[EmailAddress]
+        [RegularExpression("^[a-zA-Z0-9_\\.-]+@([a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$", ErrorMessage = "Formato de correo incorrecto")]
         [Display(Name = "Email")]
         public string Email { get; set; }
 

@@ -13,7 +13,6 @@
     <input type="hidden" id="hiddenOption1" />
     <input type="hidden" id="hiddenOption2" />
 
-
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
@@ -133,6 +132,7 @@
         mask: false,
         format: 'd/m/Y g:i a',
         formatTime: 'g:i a',
+        minDate: Date.now(),
         step: 15,
         onChangeDateTime: function (current_time, $input) {
             $('#TotalSpaces').focus();

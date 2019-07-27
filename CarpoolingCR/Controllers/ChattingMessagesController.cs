@@ -76,7 +76,7 @@ namespace CarpoolingCR.Controllers
                 ReservationId = (int)reservationId,
                 UserId = userId,
                 Message = message,
-                Date = DateTime.Now
+                Date = Common.ConvertToUTCTime(DateTime.Now)
             };
 
             var reservation = db.Reservations.Where(x => x.ReservationId == reservationId).SingleOrDefault();

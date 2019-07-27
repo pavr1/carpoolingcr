@@ -38,7 +38,7 @@ namespace CarpoolingCR.Controllers
                     UserEmail = User.Identity.Name
                 });
 
-                ViewBag.Error = "Error inesperado, intente de nuevo!";
+                ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
                 return View();
             }
@@ -85,7 +85,7 @@ namespace CarpoolingCR.Controllers
                     UserEmail = User.Identity.Name
                 });
 
-                ViewBag.Error = "Error inesperado, intente de nuevo!";
+                ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
                 return View();
             }
@@ -128,7 +128,7 @@ namespace CarpoolingCR.Controllers
                     UserEmail = User.Identity.Name
                 });
 
-                ViewBag.Error = "Error inesperado, intente de nuevo!";
+                ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
                 return View(bankAccount);
             }
@@ -169,7 +169,7 @@ namespace CarpoolingCR.Controllers
                     UserEmail = User.Identity.Name
                 });
 
-                ViewBag.Error = "Error inesperado, intente de nuevo!";
+                ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
                 return View();
             }
@@ -213,7 +213,7 @@ namespace CarpoolingCR.Controllers
                     UserEmail = User.Identity.Name
                 });
 
-                ViewBag.Error = "Error inesperado, intente de nuevo!";
+                ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
                 return View(bankAccount);
             }
@@ -255,7 +255,7 @@ namespace CarpoolingCR.Controllers
                     UserEmail = User.Identity.Name
                 });
 
-                ViewBag.Error = "Error inesperado, intente de nuevo!";
+                ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
                 return View();
             }
@@ -291,7 +291,7 @@ namespace CarpoolingCR.Controllers
                     UserEmail = User.Identity.Name
                 });
 
-                ViewBag.Error = "Error inesperado, intente de nuevo!";
+                ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
                 return View();
             }

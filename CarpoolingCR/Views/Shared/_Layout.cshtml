@@ -235,7 +235,14 @@
             //            stackup_spacing: 10
             //        });
             //}
-            $.notify(message, type);
+
+            var codingmessage = GetMessage(code);
+
+            if (codingmessage === "") {
+                $.notify(message, type);
+            } else {
+                $.notify(codingmessage, type);
+            }
         }
     </script>
 </body>

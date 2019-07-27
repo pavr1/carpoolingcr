@@ -54,7 +54,7 @@ namespace CarpoolingCR.Controllers
                     UserEmail = User.Identity.Name
                 });
 
-                ViewBag.Error = "Error inesperado, intente de nuevo!";
+                ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
                 return View();
             }
@@ -94,7 +94,7 @@ namespace CarpoolingCR.Controllers
                     UserEmail = User.Identity.Name
                 });
 
-                ViewBag.Error = "Error inesperado, intente de nuevo!";
+                ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
                 return View();
             }
@@ -131,7 +131,8 @@ namespace CarpoolingCR.Controllers
 
                     if (existentCountry != null)
                     {
-                        ViewBag.Error = "El país ya existe!";
+                        //¡El país ya existe!
+                        ViewBag.Error = "10002";
 
                         return View(country);
                     }
@@ -139,7 +140,8 @@ namespace CarpoolingCR.Controllers
                     db.Countries.Add(country);
                     db.SaveChanges();
 
-                    return RedirectToAction("Index", new { message = "País Creado!", type = "info" });
+                    //¡País Creado!
+                    return RedirectToAction("Index", new { message = "10003", type = "info" });
                 }
 
                 return View(country);
@@ -157,7 +159,7 @@ namespace CarpoolingCR.Controllers
                     UserEmail = User.Identity.Name
                 });
 
-                ViewBag.Error = "Error inesperado, intente de nuevo!";
+                ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
                 return View();
             }
@@ -202,7 +204,7 @@ namespace CarpoolingCR.Controllers
                     UserEmail = User.Identity.Name
                 });
 
-                ViewBag.Error = "Error inesperado, intente de nuevo!";
+                ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
                 return View();
             }
@@ -227,7 +229,8 @@ namespace CarpoolingCR.Controllers
                     db.Entry(country).State = EntityState.Modified;
                     db.SaveChanges();
 
-                    return RedirectToAction("Index", new { message = "País Actualizado!", type = "info" });
+                    //¡País Actualizado!
+                    return RedirectToAction("Index", new { message = "10009", type = "info" });
                 }
                 return View(country);
             }
@@ -244,7 +247,7 @@ namespace CarpoolingCR.Controllers
                     UserEmail = User.Identity.Name
                 });
 
-                ViewBag.Error = "Error inesperado, intente de nuevo!";
+                ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
                 return View();
             }
@@ -284,7 +287,7 @@ namespace CarpoolingCR.Controllers
                     UserEmail = User.Identity.Name
                 });
 
-                ViewBag.Error = "Error inesperado, intente de nuevo!";
+                ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
                 return View();
             }
@@ -308,7 +311,8 @@ namespace CarpoolingCR.Controllers
                 db.Countries.Remove(country);
                 db.SaveChanges();
 
-                return RedirectToAction("Index", new { message = "País Eliminado!", type = "info" });
+                //¡País Eliminado!
+                return RedirectToAction("Index", new { message = "100010", type = "info" });
             }
             catch (Exception ex)
             {
@@ -323,7 +327,7 @@ namespace CarpoolingCR.Controllers
                     UserEmail = User.Identity.Name
                 });
 
-                ViewBag.Error = "Error inesperado, intente de nuevo!";
+                ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
                 return View();
             }

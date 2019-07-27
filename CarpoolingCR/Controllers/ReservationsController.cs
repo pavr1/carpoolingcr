@@ -48,7 +48,7 @@ namespace CarpoolingCR.Controllers
                     UserEmail = User.Identity.Name
                 });
 
-                ViewBag.Error = "Error inesperado, intente de nuevo!";
+                ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
                 return View();
             }
@@ -125,7 +125,7 @@ namespace CarpoolingCR.Controllers
                     UserEmail = User.Identity.Name
                 });
 
-                ViewBag.Error = "Error inesperado, intente de nuevo!";
+                ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
                 return View();
             }
@@ -206,7 +206,8 @@ namespace CarpoolingCR.Controllers
                         PassengerReservations = passengerReservations,
                         DriverTrips = driverTrips,
                         Towns = db.Towns.ToList(),
-                        Message = "Origen no valido"
+                        //¡Origen no válido!
+                        Message = "100012"
                     };
 
                     response.Html = Serializer.RenderViewToString(this.ControllerContext, "Partials/_RequestJourney", response);
@@ -224,7 +225,8 @@ namespace CarpoolingCR.Controllers
                         PassengerReservations = passengerReservations,
                         DriverTrips = driverTrips,
                         Towns = db.Towns.ToList(),
-                        Message = "Destino no valido"
+                        //¡Destino no válido!
+                        Message = "100013"
                     };
 
                     response.Html = Serializer.RenderViewToString(this.ControllerContext, "Partials/_RequestJourney", response);
@@ -255,7 +257,8 @@ namespace CarpoolingCR.Controllers
 
                 if (response.Trips.Count == 0)
                 {
-                    response.Message = "No hay viajes disponibles!";
+                    //¡No hay viajes disponibles!
+                    response.Message = "100014";
                     response.MessageType = "warning";
                 }
 
@@ -274,7 +277,7 @@ namespace CarpoolingCR.Controllers
                     UserEmail = User.Identity.Name
                 });
 
-                ViewBag.Error = "Error inesperado, intente de nuevo!";
+                ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
                 return string.Empty;
             }
@@ -332,7 +335,7 @@ namespace CarpoolingCR.Controllers
 
                 var callbackUrl = Url.Action("Transportation", "Reservations", new { tabIndex = 1 }, protocol: Request.Url.Scheme);
 
-                var message = "Reservación ";
+                var message = string.Empty;
                 var cancelledFrom = Request["cancelledFrom"];
 
                 if (stat == ReservationStatus.Accepted)
@@ -348,13 +351,15 @@ namespace CarpoolingCR.Controllers
                     db.Entry(trip).State = EntityState.Modified;
                     db.SaveChanges();
 
-                    message += "Aceptada!";
+                    //¡Reservación Aceptada!
+                    message = "100015";
 
                     EmailHandler.SendReservationStatusChangeByDriver(reservation.ApplicationUser.Email, trip.FromTown + " -> " + trip.ToTown, Common.ConvertToLocalTime(trip.DateTime).ToString("dd/MM/yyyy hh:mm:ss tt"), "aceptada", callbackUrl);
                 }
                 else if (stat == ReservationStatus.Cancelled)
                 {
-                    message += "Cancelada!";
+                    //¡Reservación Cancelada!
+                    message = "100016";
 
                     if (oldStatus == ReservationStatus.Accepted)
                     {
@@ -374,7 +379,8 @@ namespace CarpoolingCR.Controllers
                 }
                 else if (stat == ReservationStatus.Rejected)
                 {
-                    message += "Rechazada!";
+                    //¡Reservación Rechazada!
+                    message += "100017";
 
                     EmailHandler.SendReservationStatusChangeByDriver(reservation.ApplicationUser.Email, trip.FromTown + " -> " + trip.ToTown, Common.ConvertToLocalTime(trip.DateTime).ToString("dd/MM/yyyy hh:mm:ss tt"), "rechazada", callbackUrl);
                 }
@@ -479,7 +485,7 @@ namespace CarpoolingCR.Controllers
                     UserEmail = User.Identity.Name
                 });
 
-                ViewBag.Error = "Error inesperado, intente de nuevo!";
+                ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
                 return View();
             }
@@ -543,7 +549,8 @@ namespace CarpoolingCR.Controllers
 
                 return RedirectToAction("Transportation", "Reservations", new
                 {
-                    message = "Reservacion Creada! Conductor Notificado!",
+                    //¡Reservación Creada, conductor notificado!
+                    message = "100018",
                     from = string.Empty,
                     to = string.Empty,
                     tabIndex = 1
@@ -563,7 +570,7 @@ namespace CarpoolingCR.Controllers
                     Fields = fields
                 });
 
-                ViewBag.Error = "Error inesperado, intente de nuevo!";
+                ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
                 return View();
             }
@@ -603,7 +610,7 @@ namespace CarpoolingCR.Controllers
                     UserEmail = User.Identity.Name
                 });
 
-                ViewBag.Error = "Error inesperado, intente de nuevo!";
+                ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
                 return View();
             }
@@ -644,7 +651,7 @@ namespace CarpoolingCR.Controllers
                     UserEmail = User.Identity.Name
                 });
 
-                ViewBag.Error = "Error inesperado, intente de nuevo!";
+                ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
                 return View();
             }
@@ -684,7 +691,7 @@ namespace CarpoolingCR.Controllers
                     UserEmail = User.Identity.Name
                 });
 
-                ViewBag.Error = "Error inesperado, intente de nuevo!";
+                ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
                 return View();
             }
@@ -720,7 +727,7 @@ namespace CarpoolingCR.Controllers
                     UserEmail = User.Identity.Name
                 });
 
-                ViewBag.Error = "Error inesperado, intente de nuevo!";
+                ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
                 return View();
             }

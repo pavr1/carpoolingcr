@@ -42,7 +42,7 @@ namespace CarpoolingCR.Controllers
                     UserEmail = User.Identity.Name
                 });
 
-                ViewBag.Error = "Error inesperado, intente de nuevo!";
+                ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
                 return View();
             }
@@ -82,7 +82,7 @@ namespace CarpoolingCR.Controllers
                     UserEmail = User.Identity.Name
                 });
 
-                ViewBag.Error = "Error inesperado, intente de nuevo!";
+                ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
                 return View();
             }
@@ -135,7 +135,7 @@ namespace CarpoolingCR.Controllers
                     UserEmail = User.Identity.Name
                 });
 
-                ViewBag.Error = "Error inesperado, intente de nuevo!";
+                ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
                 return View();
             }
@@ -175,7 +175,7 @@ namespace CarpoolingCR.Controllers
                     UserEmail = User.Identity.Name
                 });
 
-                ViewBag.Error = "Error inesperado, intente de nuevo!";
+                ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
                 return View();
             }
@@ -216,7 +216,7 @@ namespace CarpoolingCR.Controllers
                     UserEmail = User.Identity.Name
                 });
 
-                ViewBag.Error = "Error inesperado, intente de nuevo!";
+                ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
                 return View();
             }
@@ -256,7 +256,7 @@ namespace CarpoolingCR.Controllers
                     UserEmail = User.Identity.Name
                 });
 
-                ViewBag.Error = "Error inesperado, intente de nuevo!";
+                ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
                 return View();
             }
@@ -279,7 +279,9 @@ namespace CarpoolingCR.Controllers
                 Bank bank = db.Banks.Find(id);
                 db.Banks.Remove(bank);
                 db.SaveChanges();
-                return RedirectToAction("Index", new { message = "Banco Eliminado!"});
+
+                //¡Banco Eliminado!
+                return RedirectToAction("Index", new { message = "10008"});
             }
             catch (Exception ex)
             {
@@ -294,7 +296,7 @@ namespace CarpoolingCR.Controllers
                     UserEmail = User.Identity.Name
                 });
 
-                ViewBag.Error = "Error inesperado, intente de nuevo!";
+                ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
                 return View();
             }

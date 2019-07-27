@@ -121,7 +121,7 @@ namespace CarpoolingCR.Controllers
                     UserEmail = User.Identity.Name
                 });
 
-                ViewBag.Error = "Error inesperado, intente de nuevo!";
+                ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
                 return View();
             }
@@ -181,7 +181,7 @@ namespace CarpoolingCR.Controllers
                     UserEmail = User.Identity.Name
                 });
 
-                ViewBag.Error = "Error inesperado, intente de nuevo!";
+                ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
                 return View();
             }
@@ -217,7 +217,7 @@ namespace CarpoolingCR.Controllers
                     UserEmail = User.Identity.Name
                 });
 
-                ViewBag.Error = "Error inesperado, intente de nuevo!";
+                ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
                 return View();
             }
@@ -260,7 +260,7 @@ namespace CarpoolingCR.Controllers
                     UserEmail = User.Identity.Name
                 });
 
-                ViewBag.Error = "Error inesperado, intente de nuevo!";
+                ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
                 return View();
             }
@@ -298,7 +298,7 @@ namespace CarpoolingCR.Controllers
                     UserEmail = User.Identity.Name
                 });
 
-                ViewBag.Error = "Error inesperado, intente de nuevo!";
+                ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
                 return View();
             }
@@ -339,7 +339,8 @@ namespace CarpoolingCR.Controllers
 
                     if (from == null)
                     {
-                        ViewBag.Warning = "Origen no valido.";
+                        //¡Origen no válido!
+                        ViewBag.Warning = "10005";
 
                         var response = new TripCreateResponse
                         {
@@ -355,7 +356,8 @@ namespace CarpoolingCR.Controllers
 
                     if (to == null)
                     {
-                        ViewBag.Warning = "Destino no valido.";
+                        //¡Destino no válido!
+                        ViewBag.Warning = "10006";
 
                         var response = new TripCreateResponse
                         {
@@ -366,18 +368,18 @@ namespace CarpoolingCR.Controllers
                         return View(response);
                     }
 
-                    if (fromRequest.ToUpper() == toRequest.ToUpper())
-                    {
-                        ViewBag.Warning = "El origen y destino no pueden ser iguales.";
+                    //if (fromRequest.ToUpper() == toRequest.ToUpper())
+                    //{
+                    //    ViewBag.Warning = "El origen y destino no pueden ser iguales.";
 
-                        var response = new TripCreateResponse
-                        {
-                            Towns = db.Towns.Where(x => x.Status == Enums.TownStatus.Active && x.CountryId == user.CountryId).ToList(),
-                            Trip = trip
-                        };
+                    //    var response = new TripCreateResponse
+                    //    {
+                    //        Towns = db.Towns.Where(x => x.Status == Enums.TownStatus.Active && x.CountryId == user.CountryId).ToList(),
+                    //        Trip = trip
+                    //    };
 
-                        return View(response);
-                    }
+                    //    return View(response);
+                    //}
 
                     trip = new Trip
                     {
@@ -398,7 +400,8 @@ namespace CarpoolingCR.Controllers
 
                     new SignalHandler().SendMessage(Enums.EventTriggered.TripCreated.ToString(), "");
 
-                    return RedirectToAction("Index", new { message = "Viaje Creado!", type = "info" });
+                    //¡Viaje Creado!
+                    return RedirectToAction("Index", new { message = "10007", type = "info" });
                 }
 
                 //ViewBag.JourneyId = new SelectList(db.Journeys, "JourneyId", "Name", trip.JourneyId);
@@ -418,7 +421,7 @@ namespace CarpoolingCR.Controllers
                     Fields = fields
                 });
 
-                ViewBag.Error = "Error inesperado, intente de nuevo!";
+                ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
                 return View();
             }
@@ -469,7 +472,7 @@ namespace CarpoolingCR.Controllers
                     UserEmail = User.Identity.Name
                 });
 
-                ViewBag.Error = "Error inesperado, intente de nuevo!";
+                ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
                 return View();
             }
@@ -511,7 +514,7 @@ namespace CarpoolingCR.Controllers
                     db.Entry(trip).State = EntityState.Modified;
                     db.SaveChanges();
 
-                    return RedirectToAction("Index", new { message = "Viaje Actualizado!", type = "info" });
+                    return RedirectToAction("Index", new { message = "", type = "info" });
                 }
                 //ViewBag.JourneyId = new SelectList(db.Journeys, "JourneyId", "Name", trip.JourneyId);
                 return View(trip);
@@ -529,7 +532,7 @@ namespace CarpoolingCR.Controllers
                     UserEmail = User.Identity.Name
                 });
 
-                ViewBag.Error = "Error inesperado, intente de nuevo!";
+                ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
                 return View();
             }
@@ -573,7 +576,7 @@ namespace CarpoolingCR.Controllers
                     UserEmail = User.Identity.Name
                 });
 
-                ViewBag.Error = "Error inesperado, intente de nuevo!";
+                ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
                 return View();
             }
@@ -654,7 +657,7 @@ namespace CarpoolingCR.Controllers
                     UserEmail = User.Identity.Name
                 });
 
-                ViewBag.Error = "Error inesperado, intente de nuevo!";
+                ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
                 return View();
             }

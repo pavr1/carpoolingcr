@@ -108,7 +108,7 @@ namespace CarpoolingCR.Controllers
                     LogType = Enums.LogType.Error,
                     Message = ex.Message + " / " + ex.StackTrace,
                     Method = Common.GetCurrentMethod(),
-                    Timestamp = DateTime.Now,
+                    Timestamp = Common.ConvertToUTCTime(DateTime.Now),
                     UserEmail = User.Identity.Name
                 });
 
@@ -168,7 +168,7 @@ namespace CarpoolingCR.Controllers
                     LogType = Enums.LogType.Error,
                     Message = ex.Message + " / " + ex.StackTrace,
                     Method = Common.GetCurrentMethod(),
-                    Timestamp = DateTime.Now,
+                    Timestamp = Common.ConvertToUTCTime(DateTime.Now),
                     UserEmail = User.Identity.Name
                 });
 
@@ -204,7 +204,7 @@ namespace CarpoolingCR.Controllers
                     LogType = Enums.LogType.Error,
                     Message = ex.Message + " / " + ex.StackTrace,
                     Method = Common.GetCurrentMethod(),
-                    Timestamp = DateTime.Now,
+                    Timestamp = Common.ConvertToUTCTime(DateTime.Now),
                     UserEmail = User.Identity.Name
                 });
 
@@ -247,7 +247,7 @@ namespace CarpoolingCR.Controllers
                     LogType = Enums.LogType.Error,
                     Message = ex.Message + " / " + ex.StackTrace,
                     Method = Common.GetCurrentMethod(),
-                    Timestamp = DateTime.Now,
+                    Timestamp = Common.ConvertToUTCTime(DateTime.Now),
                     UserEmail = User.Identity.Name
                 });
 
@@ -285,7 +285,7 @@ namespace CarpoolingCR.Controllers
                     LogType = Enums.LogType.Error,
                     Message = ex.Message + " / " + ex.StackTrace,
                     Method = Common.GetCurrentMethod(),
-                    Timestamp = DateTime.Now,
+                    Timestamp = Common.ConvertToUTCTime(DateTime.Now),
                     UserEmail = User.Identity.Name
                 });
 
@@ -302,6 +302,8 @@ namespace CarpoolingCR.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "")] Trip trip)
         {
+            var fields = "Fields => ";
+
             try
             {
                 if (!Common.IsAuthorized(User))
@@ -309,11 +311,22 @@ namespace CarpoolingCR.Controllers
                     return RedirectToAction("Login", "Account");
                 }
 
+                #region Fields
+                fields += "FromTown: " + Request["FromTown"];
+                fields += "ToTown: " + Request["ToTown"] + ", ";
+                fields += "AvailableSpaces: " + Request["AvailableSpaces"];
+                fields += "DateTime: " + Request["DateTime"];
+                fields += "Trip.Details: " + Request["Trip.Details"];
+                fields += "Trip.Price: " + Request["Trip.Price"];
+                fields += "TotalSpaces: " + Request["TotalSpaces"];
+                #endregion
+
                 if (ModelState.IsValid)
                 {
                     var user = Common.GetUserByEmail(User.Identity.Name);
                     var fromRequest = Request["FromTown"];
                     var from = db.Towns.Where(x => x.Name == fromRequest).SingleOrDefault();
+                    var tripDate = Convert.ToDateTime(Request["DateTime"]);
 
                     if (from == null)
                     {
@@ -361,8 +374,8 @@ namespace CarpoolingCR.Controllers
                     {
                         ApplicationUserId = user.Id,
                         AvailableSpaces = Convert.ToInt32(Request["AvailableSpaces"]),
-                        CreatedTime = DateTime.Now,
-                        DateTime = Common.ConvertToUTCTime(Convert.ToDateTime(Request["DateTime"])),
+                        CreatedTime = Common.ConvertToUTCTime(DateTime.Now),
+                        DateTime = Common.ConvertToUTCTime(tripDate),
                         Details = Request["Trip.Details"],
                         FromTown = Request["FromTown"],
                         Price = Convert.ToDecimal(Request["Trip.Price"]),
@@ -391,8 +404,9 @@ namespace CarpoolingCR.Controllers
                     LogType = Enums.LogType.Error,
                     Message = ex.Message + " / " + ex.StackTrace,
                     Method = Common.GetCurrentMethod(),
-                    Timestamp = DateTime.Now,
-                    UserEmail = User.Identity.Name
+                    Timestamp = Common.ConvertToUTCTime(DateTime.Now),
+                    UserEmail = User.Identity.Name,
+                    Fields = fields
                 });
 
                 ViewBag.Error = "Error inesperado, intente de nuevo!";
@@ -442,7 +456,7 @@ namespace CarpoolingCR.Controllers
                     LogType = Enums.LogType.Error,
                     Message = ex.Message + " / " + ex.StackTrace,
                     Method = Common.GetCurrentMethod(),
-                    Timestamp = DateTime.Now,
+                    Timestamp = Common.ConvertToUTCTime(DateTime.Now),
                     UserEmail = User.Identity.Name
                 });
 
@@ -475,8 +489,8 @@ namespace CarpoolingCR.Controllers
                         TripId = Convert.ToInt32(Request["Trip.TripId"]),
                         ApplicationUserId = Request["Trip.ApplicationUserId"],
                         AvailableSpaces = Convert.ToInt32(Request["AvailableSpaces"]),
-                        CreatedTime = Convert.ToDateTime(Request["DateTime"]),
-                        DateTime = Convert.ToDateTime(Request["DateTime"]),
+                        CreatedTime = Common.ConvertToUTCTime(Convert.ToDateTime(Request["DateTime"])),
+                        DateTime = Common.ConvertToUTCTime(Convert.ToDateTime(Request["DateTime"])),
                         Details = Request["Trip.Details"],
                         FromTown = Request["FromTown"],
                         Price = Convert.ToDecimal(Request["Trip.Price"]),
@@ -484,8 +498,6 @@ namespace CarpoolingCR.Controllers
                         TotalSpaces = Convert.ToInt32(Request["TotalSpaces"]),
                         ToTown = Request["ToTown"]
                     };
-
-                    trip.DateTime = Common.ConvertToUTCTime(trip.DateTime);
 
                     db.Entry(trip).State = EntityState.Modified;
                     db.SaveChanges();
@@ -504,7 +516,7 @@ namespace CarpoolingCR.Controllers
                     LogType = Enums.LogType.Error,
                     Message = ex.Message + " / " + ex.StackTrace,
                     Method = Common.GetCurrentMethod(),
-                    Timestamp = DateTime.Now,
+                    Timestamp = Common.ConvertToUTCTime(DateTime.Now),
                     UserEmail = User.Identity.Name
                 });
 
@@ -548,7 +560,7 @@ namespace CarpoolingCR.Controllers
                     LogType = Enums.LogType.Error,
                     Message = ex.Message + " / " + ex.StackTrace,
                     Method = Common.GetCurrentMethod(),
-                    Timestamp = DateTime.Now,
+                    Timestamp = Common.ConvertToUTCTime(DateTime.Now),
                     UserEmail = User.Identity.Name
                 });
 
@@ -611,7 +623,7 @@ namespace CarpoolingCR.Controllers
 
                 if (passengersToNoticeEmail.Length > 0)
                 {
-                    EmailHandler.SendTripsCancelledByDriver(passengersToNoticeEmail, trip.FromTown + " -> " + trip.ToTown, trip.DateTime.ToString(), string.Empty);
+                    EmailHandler.SendTripsCancelledByDriver(passengersToNoticeEmail, trip.FromTown + " -> " + trip.ToTown, Common.ConvertToLocalTime(trip.DateTime).ToString("dd/MM/yyyy hh:mm:ss tt"), string.Empty);
                 }
 
                 tran.Commit();
@@ -629,7 +641,7 @@ namespace CarpoolingCR.Controllers
                     LogType = Enums.LogType.Error,
                     Message = ex.Message + " / " + ex.StackTrace,
                     Method = Common.GetCurrentMethod(),
-                    Timestamp = DateTime.Now,
+                    Timestamp = Common.ConvertToUTCTime(DateTime.Now),
                     UserEmail = User.Identity.Name
                 });
 

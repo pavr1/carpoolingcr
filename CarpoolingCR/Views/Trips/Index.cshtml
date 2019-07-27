@@ -75,7 +75,7 @@
                                 }
                             </div>
                             <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
-                                <small class="price"><b>Cuota:</b> @trip.Price</small>
+                                <small class="price"><b>Cuota :</b> ₡ @trip.Price</small>
                             </div>
                             <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
                                 <small class="price"><b>Espacios:</b> @trip.AvailableSpaces</small>
@@ -107,11 +107,11 @@
                                         <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
                                             @if (reservation.Status == CarpoolingCR.Utils.Enums.ReservationStatus.Accepted)
                                             {
-                                                <small><b>&nbsp;&nbsp;Total a Pagar: @Convert.ToDecimal(reservation.RequestedSpaces * trip.Price).ToString("N2")</b><br /></small>
+                                                <small><b>&nbsp;&nbsp;Total: ₡ @Convert.ToDecimal(reservation.RequestedSpaces * trip.Price).ToString("N2")</b><br /></small>
                                             }
                                             else
                                             {
-                                                <small><b>&nbsp;&nbsp;Total a Pagar: </b> @Convert.ToDecimal(reservation.RequestedSpaces * trip.Price).ToString("N2")<br /></small>
+                                                <small><b>&nbsp;&nbsp;Total: </b> ₡ @Convert.ToDecimal(reservation.RequestedSpaces * trip.Price).ToString("N2")<br /></small>
                                             }
                                         </div>
                                         <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
@@ -122,12 +122,12 @@
                                                 if (reservation.Status == CarpoolingCR.Utils.Enums.ReservationStatus.Pending)
                                                 {
                                                     @*<input type="button" class="btn btn-info" value="Chat" onclick="OpenChat(@reservation.ReservationId)" />*@
-                                                    <input type="button" class="btn btn-info" value="&#10003;" onclick="ConfirmAction(@reservation.ReservationId, 'Accepted', 'Confirmar Reservación', 'Reservación', 'Confirmar', 'btn-info', 'driver')" />
-                                                    <input type="button" class="btn btn-danger" value="X" onclick="ConfirmAction(@reservation.ReservationId, 'Rejected', 'Rechazar Reservación', 'Reservación', 'Rechazar', 'btn-danger', 'driver')" />
+                                                    <input type="button" class="btn btn-info" value="&#10003;" onclick="ConfirmAction(@reservation.ReservationId, 'Accepted', '¡Confirme que desea confirmar esta reservación!', 'Reservaciones', 'Confirmar', 'btn-info', 'driver')" />
+                                                    <input type="button" class="btn btn-danger" value="X" onclick="ConfirmAction(@reservation.ReservationId, 'Rejected', '¡Confirme que desea rechazar esta reservación!', 'Reservaciones', 'Rechazar', 'btn-danger', 'driver')" />
                                                 }
                                                 else
                                                 {
-                                                    <input type="button" class="btn btn-danger" value="X" onclick="ConfirmAction(@reservation.ReservationId, 'Cancelled', 'Cancelar Reservación', 'Reservación', 'Cancelar', 'btn-danger', 'driver')" />
+                                                    <input type="button" class="btn btn-danger" value="X" onclick="ConfirmAction(@reservation.ReservationId, 'Cancelled', '¡Confirme que desea cancelar esta reservación!', 'Reservaciones', 'Cancelar', 'btn-danger', 'driver')" />
                                                 }
                                             }
                                         </div>
@@ -153,7 +153,7 @@
 
                                     </div>
                                     <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                                        <small><b>&nbsp;&nbsp;Ganancias: @totalAmount.ToString("N2")</b><br /></small>
+                                        <small><b>&nbsp;&nbsp;Ganancias: ₡ @totalAmount.ToString("N2")</b><br /></small>
                                     </div>
                                 </div>
                             </div>
@@ -182,7 +182,7 @@
                         <input type="text" id="reservationId" name="reservationId" class="hidden" />
                         <input type="text" id="status" name="status" class="hidden" />
                         <input type="text" id="cancelledFrom" name="cancelledFrom" class="hidden" />
-                        <p id="confirmText">CONFIRMATION TITLE?</p>
+                        <small id="confirmText">CONFIRMATION TITLE?</small>
                         <div class="modal-footer">
                             <input type="button" class="btn btn-default" data-dismiss="modal" value="Salir" />
                             <input type="submit" id="modalButton" class="btn btn-danger" value="" />
@@ -236,7 +236,7 @@
     var userList = new List('trips', options);
 
     function ConfirmDelete(id, name) {
-        $('#deleteText').html('¿Está seguro que desea eliminar tu viaje de ' + name + '?<br/></b>Todas las reservaciones serán canceladas y notificadas!')
+        $('#deleteText').html('¿Está seguro que desea cancelar tu viaje de ' + name + '?<br/></b></b>***Todas las reservaciones serán canceladas y los pasajeros serán notificados!')
         $('#tripId').val(id);
 
         $("#confirmTripDelete").modal();

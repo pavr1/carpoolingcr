@@ -9,24 +9,11 @@
 
 <div id="logs">
     <div class="row">
-        <div class="col-lg-6 col-md-6 col-sm-11 col-xs-11">
+        <div class="col-lg-12 col-md-12 col-form-label-sm col-xs-12">
             <input class="search form-control" style="border-radius:25px" placeholder="Búsqueda" />
-        </div>
-        <div class="col-lg-6 col-md-6 col-sm-1 col-xs-1">
-            <a class="btn btn-primary pull-right" href="/Trips/Create" style="border-radius:25px">Crear</a>
         </div>
     </div>
     <br />
-    @*<div class="row">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <button class="sort btn btn-secondary pull-right" style="border-radius:25px" data-sort="country">
-                    <small>Por País</small>
-                </button>&nbsp;
-                <button class="sort btn btn-secondary pull-right" style="border-radius:25px" data-sort="town">
-                    <small>Por Localidad</small>
-                </button>
-            </div>
-        </div>*@
 
     @{
         if (Model.ToList().Count == 0)

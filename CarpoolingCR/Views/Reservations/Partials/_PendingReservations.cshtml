@@ -1,7 +1,7 @@
 ﻿@model CarpoolingCR.Objects.Responses.ReservationTransportationResponse
 
 <div id="yourreservations">
-    <h5>Tus reservaciones como pasajero</h5>
+    <small>Reservaciones Pendientes</small><br /><br />
     <div class="row">
         <div class="col-lg-6 col-md-6 col-sm-11 col-xs-11">
             <input class="search form-control" style="border-radius:25px" placeholder="Búsqueda" />
@@ -36,7 +36,7 @@
                     <li>
                         <label class="control-label fromto">@from -> @to</label>
                         <small class="date">@item.Trip.DateTime.ToString("dd/MM/yyyy hh:mm tt")</small>
-                        <small class="price"><b>Cuota:</b> @item.Trip.Price</small>
+                        <small class="price"><b>Cuota:</b> ₡ @item.Trip.Price</small>
 
                         <div class="row form-group">
                             <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
@@ -56,11 +56,11 @@
                                     <small class="status"><b>&nbsp;&nbsp;Estado: </b>@item.Status</small>                                   
                                 </div>
                                 <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
-                                    <small><b>&nbsp;&nbsp;Total a Pagar: </b> @Convert.ToDecimal(item.RequestedSpaces * @item.Trip.Price)</small><br />
+                                    <small><b>&nbsp;&nbsp;Total: </b> ₡ @Convert.ToDecimal(item.RequestedSpaces * @item.Trip.Price)</small><br />
                                     @{
                                         if (item.Status != CarpoolingCR.Utils.Enums.ReservationStatus.Cancelled)
                                         {
-                                            <input type="button" class="btn btn-danger pull-right" value="X" style="border-radius:25px" onclick="ConfirmAction(@item.ReservationId, '@CarpoolingCR.Utils.Enums.ReservationStatus.Cancelled','cancelar esta reservación','Cancelar Reservación', 'Cancelar', 'btn-danger', 'passenger')" />
+                                            <input type="button" class="btn btn-danger pull-right" value="X" style="border-radius:25px" onclick="ConfirmAction(@item.ReservationId, '@CarpoolingCR.Utils.Enums.ReservationStatus.Cancelled','cancelar esta reservación','Reservaciones', 'Cancelar', 'btn-danger', 'passenger')" />
                                         }
                                     }
                                 </div>

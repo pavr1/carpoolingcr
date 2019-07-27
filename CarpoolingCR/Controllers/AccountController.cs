@@ -338,13 +338,32 @@ namespace CarpoolingCR.Controllers
                         if (result.Succeeded)
                         {
                             string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                            var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
 
-                            EmailHandler.SendEmailConfirmation(callbackUrl, model.Email);
+                            var callbackUrl = string.Empty;
 
-                            callbackUrl = Url.Action("EditUser", "Account", new { id = user.Id, }, protocol: Request.Url.Scheme);
+                            try
+                            {
+                                callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
 
-                            EmailHandler.SendEmailNewUserRegistered(user, callbackUrl);
+                                EmailHandler.SendEmailConfirmation(callbackUrl, model.Email);
+
+                                callbackUrl = Url.Action("EditUser", "Account", new { id = user.Id, }, protocol: Request.Url.Scheme);
+
+                                EmailHandler.SendEmailNewUserRegistered(user, callbackUrl);
+                            }
+                            catch (Exception ex)
+                            {
+                                Common.LogData(new Log
+                                {
+                                    Line = Common.GetCurrentLine(),
+                                    Location = Enums.LogLocation.Server,
+                                    LogType = Enums.LogType.Error,
+                                    Message = "Hubo un error al enviar el correo a " + model.Email + ". " + ex.Message + " / " + ex.StackTrace,
+                                    Method = Common.GetCurrentMethod(),
+                                    Timestamp = Common.ConvertToUTCTime(DateTime.Now),
+                                    UserEmail = User.Identity.Name
+                                });
+                            }
 
                             return RedirectToAction("CheckEmail", "Account");
                         }

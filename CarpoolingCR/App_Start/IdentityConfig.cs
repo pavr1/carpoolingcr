@@ -32,6 +32,19 @@ namespace CarpoolingCR
             client.Send(mail);
 
             return Task.FromResult(0);
+
+            //MailMessage mail = new MailMessage(WebConfigurationManager.AppSettings["NotificationsEmail"], message.Destination, message.Subject, message.Body);
+            //mail.IsBodyHtml = true;
+
+            //var client = new SmtpClient(WebConfigurationManager.AppSettings["MailHost"], Convert.ToInt32(WebConfigurationManager.AppSettings["MailPort"]))
+            //{
+            //    Credentials = new NetworkCredential(WebConfigurationManager.AppSettings["NotificationsEmail"], WebConfigurationManager.AppSettings["NotificationsPassword"]),
+            //    EnableSsl = false
+            //};
+
+            //client.Send(mail);
+
+            //return Task.FromResult(0);
         }
     }
 

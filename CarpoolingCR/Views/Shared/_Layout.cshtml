@@ -24,9 +24,11 @@
 
     <link runat="server" rel="shortcut icon" href="~/Content/Icons/ride.ico" type="image/x-icon" />
     <link runat="server" rel="icon" href="~/Content/Icons/ride.ico" type="image/ico" />
-    
+
     <link rel="manifest" href="~/manifest.txt" crossorigin="anonymous">
     <meta name="theme-color" content="#2196f3" />
+
+    <script type="text/javascript" src="~/Scripts/jQuery-Mask-Plugin-master/src/jquery.mask.js"></script>
 
     <script src="~/Scripts/notify.js"></script>
     <script src="~/Scripts/List.js"></script>
@@ -35,6 +37,10 @@
 
     <style type="text/css">
         input[type="text"] {
+            border-radius: 25px
+        }
+
+        input[type="tel"] {
             border-radius: 25px
         }
 
@@ -172,7 +178,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - www.buscoridecr.com <img src="~/Content/Icons/ride.ico" style="width:20px; height:20px" /></p>
+            <p class="pull-right">&copy; @DateTime.Now.Year - www.buscoridecr.com <img src="~/Content/Icons/ride.ico" style="width:20px; height:20px" /></p>
         </footer>
     </div>
     <div class="modal fade" id="loadMe" tabindex="-1" role="dialog" aria-labelledby="loadMeLabel">

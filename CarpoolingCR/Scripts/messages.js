@@ -45,8 +45,8 @@
         return "¡Cuenta no verificada!";
     } else if (code === "100023") {
         return "¡Reservación ya existente!";
-    } else if (code === "xxxxxxxxx") {
-        return "zzzzzzzzzzzzzzzzzzzzzz";
+    } else if (code === "100024") {
+        return "¡Usuario Actualizado!";
     } else if (code === "xxxxxxxxx") {
         return "zzzzzzzzzzzzzzzzzzzzzz";
     } else if (code === "xxxxxxxxx") {

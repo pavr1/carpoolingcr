@@ -70,13 +70,13 @@
     <div class="form-group">
         @Html.LabelFor(m => m.Phone1, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Phone1, new { @class = "form-control", placeholder = "Teléfono #1" })
+            @Html.TextBoxFor(m => m.Phone1, new { @class = "form-control", placeholder = "####-####" })
         </div>
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.Phone2, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Phone2, new { @class = "form-control", placeholder = "Teléfono #2" })
+            @Html.TextBoxFor(m => m.Phone2, new { @class = "form-control", placeholder = "####-####" })
         </div>
     </div>
     <div class="form-group">
@@ -100,4 +100,7 @@
     function SetUserType(type) {
         document.getElementById('UserType').value = type
     }
+
+    $('#Phone1').mask('0000-0000');
+    $('#Phone2').mask('0000-0000');
 </script>

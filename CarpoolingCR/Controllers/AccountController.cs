@@ -614,10 +614,15 @@ namespace CarpoolingCR.Controllers
 
                 var db = new ApplicationDbContext();
                 var user = db.Users.Where(x => x.Id == id).Single();
+                var countries = new SelectList(db.Countries, "CountryId", "Name");
 
-                ViewBag.CountryId = new SelectList(db.Countries, "CountryId", "Name");
+                var response = new EditUserResponse {
+                    User = user,
+                    Countries = countries
+                };
 
-                return View(user);
+
+                return View(response);
             }
             catch (Exception ex)
             {
@@ -658,9 +663,18 @@ namespace CarpoolingCR.Controllers
                     return RedirectToAction("Index");
                 }
 
-                ViewBag.CountryId = new SelectList(db.Countries, "CountryId", "Name");
+                var user = db.Users.Where(x => x.Id == appUser.Id).Single();
+                var countries = new SelectList(db.Countries, "CountryId", "Name");
 
-                return View(appUser);
+                var response = new EditUserResponse
+                {
+                    User = user,
+                    Countries = countries
+                };
+
+                ViewBag.Info = "100024";
+
+                return View(response);
             }
             catch (Exception ex)
             {

@@ -13,38 +13,28 @@ using Microsoft.Owin.Security;
 using CarpoolingCR.Models;
 using System.Net.Mail;
 using System.Net;
+using System.Web.Configuration;
 
 namespace CarpoolingCR
 {
     public class EmailService : IIdentityMessageService
     {
+        private object webconfigurationmanager;
+
         public Task SendAsync(IdentityMessage message)
         {
-            MailMessage mail = new MailMessage("postmaster@buscoridecr.com", message.Destination, message.Subject, message.Body);
+            MailMessage mail = new MailMessage(WebConfigurationManager.AppSettings["notificationsemail"], message.Destination, message.Subject, message.Body);
             mail.IsBodyHtml = true;
 
-            var client = new SmtpClient("mail.buscoridecr.com", 8889)
+            var client = new SmtpClient(WebConfigurationManager.AppSettings["mailhost"], Convert.ToInt32(WebConfigurationManager.AppSettings["mailport"]))
             {
-                Credentials = new NetworkCredential("postmaster@buscoridecr.com", "villaPab1234!"),
+                Credentials = new NetworkCredential(WebConfigurationManager.AppSettings["notificationsemail"], WebConfigurationManager.AppSettings["notificationspassword"]),
                 EnableSsl = false
             };
 
             client.Send(mail);
 
             return Task.FromResult(0);
-
-            //MailMessage mail = new MailMessage(WebConfigurationManager.AppSettings["NotificationsEmail"], message.Destination, message.Subject, message.Body);
-            //mail.IsBodyHtml = true;
-
-            //var client = new SmtpClient(WebConfigurationManager.AppSettings["MailHost"], Convert.ToInt32(WebConfigurationManager.AppSettings["MailPort"]))
-            //{
-            //    Credentials = new NetworkCredential(WebConfigurationManager.AppSettings["NotificationsEmail"], WebConfigurationManager.AppSettings["NotificationsPassword"]),
-            //    EnableSsl = false
-            //};
-
-            //client.Send(mail);
-
-            //return Task.FromResult(0);
         }
     }
 
@@ -79,10 +69,10 @@ namespace CarpoolingCR
             manager.PasswordValidator = new PasswordValidator
             {
                 RequiredLength = 6,
-                RequireNonLetterOrDigit = true,
+                RequireNonLetterOrDigit = false,
                 RequireDigit = true,
-                RequireLowercase = true,
-                RequireUppercase = true,
+                RequireLowercase = false,
+                RequireUppercase = false,
             };
 
             // Configure user lockout defaults

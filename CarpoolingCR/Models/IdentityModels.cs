@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Runtime.Serialization;
 using System.Security.Claims;
+using System.Security.Principal;
 using System.Threading.Tasks;
 using CarpoolingCR.Utils;
 using Microsoft.AspNet.Identity;
@@ -64,10 +65,23 @@ namespace CarpoolingCR.Models
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
 
+            userIdentity.AddClaim(new Claim("Name", this.Name.ToString()));
+
+
             // Add custom user claims here
             return userIdentity;
         }
     }
+
+    //public static class IdentityExtensions
+    //{
+    //    public static string GetName(this IIdentity identity)
+    //    {
+    //        var claim = ((ClaimsIdentity)identity).FindFirst("Name");
+    //        // Test for null to avoid issues during local testing
+    //        return (claim != null) ? claim.Value : string.Empty;
+    //    }
+    //}
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {

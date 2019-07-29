@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "ManageUsers";
 }
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, user-scalable=no">
 <h2>Usuarios</h2>
 
 <div id="users">
@@ -46,7 +46,15 @@
                             <small class="usertype"><b>Tipo de Usuario:</b> @item.UserType</small>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
-                            <small class="phones">Teléfonos: @item.Phone1 - @item.Phone2</small>
+                            <small class="phones">Contacto: <a href="tel: +506 @item.Phone1" style="color:blue"> +506 @item.Phone1 </a></small>
+
+                            @if (!string.IsNullOrEmpty(item.Phone2))
+                            {
+                                <a href="tel: +506 @item.Phone2" style="color:blue"> +506 @item.Phone2 </a>
+                            }
+
+
+
                             @Html.ActionLink("...", "EditUser", new { id = item.Id }, new { @class = "btn btn-info pull-right" })
                         </div>
                     </div>

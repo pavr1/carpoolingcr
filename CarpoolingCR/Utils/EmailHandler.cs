@@ -24,10 +24,10 @@ namespace CarpoolingCR.Utils
         {
             callbackUrl = callbackUrl.Replace("http://", "https://");
 
-            var userInfo = "Nombre: " + user.Name + " " + user.LastName + " " + user.SecondLastName + "<br/>Correo: " + user.Email + "<br/>Teléfono: " + user.Phone1 + " - " + user.Phone2;
+            var userInfo = "Nombre: " + user.Name + " " + user.LastName + " " + user.SecondLastName + "<br/>Correo: " + user.Email + "<br/>Contacto: " + user.Phone1 + " - " + user.Phone2;
 
 
-            var html = "<html><header></header><body>Un nuevo " + user.UserType.ToString() + " ha sido registrado en el sistema! <br/><a href='" + callbackUrl + "'><b>Ver datos de usuario</a></a></body></html>";
+            var html = "<html><header></header><body>Un nuevo " + user.UserType.ToString() + " ha sido registrado en el sistema! <br/><br/>Información de usuario: " + userInfo + "<br/><br/><a href='" + callbackUrl + "'><b>Ver datos de usuario</a></a></body></html>";
 
             Common.SendEmail(new IdentityMessage
             {
@@ -41,12 +41,12 @@ namespace CarpoolingCR.Utils
         {
             callbackUrl = callbackUrl.Replace("http://", "https://");
 
-            var html = "<html><header></header><body>Para resetear la clave, por favor de click <a href='" + callbackUrl + "'>AQUÍ</a></body></html>";
+            var html = "<html><header></header><body>Para resetear la contraseña, por favor de click <a href='" + callbackUrl + "'>AQUÍ</a></body></html>";
 
             Common.SendEmail(new IdentityMessage
             {
                 Destination = email,
-                Subject = "Reseteo de clave",
+                Subject = "Reseteo de contraseña",
                 Body = html
             });
         }

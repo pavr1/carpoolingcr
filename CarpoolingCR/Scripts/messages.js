@@ -1,6 +1,6 @@
 ﻿function GetMessage(code) {
     if (code === "10001") {
-        return "¡La clave debe tener al menos una letra y un número!";
+        return "¡Contraseña debe tener al menos una letra y un número!";
     } else if (code === "10002") {
         return "¡El país ya existe!";
     } else if (code === "10003") {

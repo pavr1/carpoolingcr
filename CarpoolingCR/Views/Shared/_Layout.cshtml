@@ -21,6 +21,13 @@
     <link rel="stylesheet" href="https://rawgithub.com/indrimuska/jquery-editable-select/master/dist/jquery-editable-select.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/highlight.min.js"></script>
     <script src="https://rawgithub.com/indrimuska/jquery-editable-select/master/dist/jquery-editable-select.min.js"></script>
+
+    <link runat="server" rel="shortcut icon" href="~/Content/Icons/ride.ico" type="image/x-icon" />
+    <link runat="server" rel="icon" href="~/Content/Icons/ride.ico" type="image/ico" />
+    
+    <link rel="manifest" href="~/manifest.txt" crossorigin="anonymous">
+    <meta name="theme-color" content="#2196f3" />
+
     <script src="~/Scripts/notify.js"></script>
     <script src="~/Scripts/List.js"></script>
     <script src="~/Scripts/messages.js"></script>
@@ -105,6 +112,7 @@
     </style>
 </head>
 <body>
+    @*<input type="button" class="btn btn-dark" id="btnAdd" value="Instalar"/>*@
     @{if (User != null && User.Identity != null && User.Identity.IsAuthenticated)
         {
             <div class="navbar navbar-inverse navbar-fixed-top">
@@ -115,7 +123,17 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        @Html.ActionLink("Hola " + User.Identity.Name + "!", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                        @{ 
+                            var claims = (System.Security.Claims.ClaimsIdentity)User.Identity;
+                            var name = string.Empty;
+                            var fullName = claims.FindFirst("Name");
+
+                            if(fullName != null)
+                            {
+                                name = fullName.Value;
+                            }
+                        }
+                        @Html.ActionLink("Hola " + name + "!", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
                     </div>
                     <div class="navbar-collapse collapse">
                         <ul class="nav navbar-nav">
@@ -154,7 +172,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p><img src="~/Content/Icons/Car.png" style="width:50px; height:15px" /> &copy; @DateTime.Now.Year - www.buscoridecr.com</p>
+            <p>&copy; @DateTime.Now.Year - www.buscoridecr.com <img src="~/Content/Icons/ride.ico" style="width:20px; height:20px" /></p>
         </footer>
     </div>
     <div class="modal fade" id="loadMe" tabindex="-1" role="dialog" aria-labelledby="loadMeLabel">
@@ -245,6 +263,55 @@
                 $.notify(codingmessage, type);
             }
         }
+    </script>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker
+                .register('/serviceworker.js')
+                .then(function () { console.log('Service Worker Registered'); });
+        }
+
+        let deferredPrompt;
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.userChoice.then(function (result) {
+                if (result.outcome == 'dismissed') {
+                    alert('They dismissed, send to analytics')
+                } else {
+                    alert('User accepted! Send to analytics')
+                }
+            });  
+
+            //// Prevent Chrome 67 and earlier from automatically showing the prompt
+            //e.preventDefault();
+            //// Stash the event so it can be triggered later.
+            //deferredPrompt = e;
+
+            //// Update UI notify the user they can add to home screen
+            //btnAdd.style.display = 'block';
+        });
+        window.addEventListener('appinstalled', (evt) => {
+            console.log('a2hs installed');
+        });
+
+        //btnAdd.addEventListener('click', (e) => {
+
+        //    // hide our user interface that shows our A2HS button
+        //    btnAdd.style.display = 'none';
+        //    // Show the prompt
+        //    deferredPrompt.prompt();
+        //    // Wait for the user to respond to the prompt
+        //    deferredPrompt.userChoice
+        //        .then((choiceResult) => {
+        //            if (choiceResult.outcome === 'accepted') {
+        //                console.log('User accepted the A2HS prompt');
+        //            } else {
+        //                console.log('User dismissed the A2HS prompt');
+        //            }
+        //            deferredPrompt = null;
+        //        });
+        //});
     </script>
 </body>
 </html>

@@ -5,7 +5,7 @@
 }
 
 <h2>Reservas</h2>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, user-scalable=no">
 
 <div>
     @using (Html.BeginForm("Create", "Reservations", new { TripId = @Model.TripId, UserEmail = @Model.ApplicationUser.Email }, FormMethod.Post, new { enctype = "multipart/form-data" }))

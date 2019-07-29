@@ -7,7 +7,7 @@
 }
 
 <h2>Viajes</h2>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, user-scalable=no">
 
 <div id="trips">
     <div class="row">
@@ -97,7 +97,14 @@
                                             <small class="driver"><b>- Pasajero: </b> @reservation.PassengerName</small><br />
                                             @if (reservation.Status == CarpoolingCR.Utils.Enums.ReservationStatus.Accepted)
                                             {
-                                                <small class="driver"><b>- Contacto: </b> @reservation.ApplicationUser.Phone1 - @reservation.ApplicationUser.Phone2</small>
+                                                <small class="driver inline-block ">
+                                                    <b>- Contacto: </b> <a href="tel: +506 @reservation.ApplicationUser.Phone1" style="color:blue"> +506 @reservation.ApplicationUser.Phone1 </a>
+
+                                                    @if (!string.IsNullOrEmpty(reservation.ApplicationUser.Phone2))
+                                                    {
+                                                        <a href="tel: +506 @reservation.ApplicationUser.Phone2" style="color:blue"> +506 @reservation.ApplicationUser.Phone2 </a>
+                                                    }
+                                                </small><br />
                                             }
                                         </div>
                                         <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">

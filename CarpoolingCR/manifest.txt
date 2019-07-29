@@ -1,0 +1,34 @@
+﻿{
+  "name": "buscoridecr",
+  "short_name": "buscoridecr",
+  "description": "Aplicación para búsqueda de rides",
+  "start_url": "/",
+  "icons": [
+	{
+	  "src": "Content/Icons/ride.ico",
+	  "sizes": "512x512 192x192 144x144 64x64 32x32 24x24 16x16",
+	  "type": "image/ico"
+	},
+	{
+	  "src": "Content/Icons/descarga.png",
+	  "sizes": "512x512 192x192 144x144 64x64 32x32 24x24 16x16",
+	  "type": "image/png",
+	  "purpose": "any"
+	},
+	{
+	  "src": "Content/Icons/Newsvine_512x512.png",
+	  "sizes": "512x512 192x192 144x144 64x64 32x32 24x24 16x16",
+	  "type": "image/png",
+	  "purpose": "any"
+	}
+  ],
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "display": "fullscreen",
+  "orientation": "portrait",
+  "autor": "Pablo Villalobos",
+  "prefer_related_applications": true,
+  "related_applications": [
+  
+  ]
+}

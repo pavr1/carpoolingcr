@@ -57,7 +57,7 @@ namespace CarpoolingCR.Models
 
         [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Clave")]
+        [Display(Name = "Contraseña")]
         public string Password { get; set; }
 
         [Display(Name = "Recuérdame?")]
@@ -72,14 +72,14 @@ namespace CarpoolingCR.Models
         public string Email { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "¡La contraseña debe tener al menos 6 caracteres y números!.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
-        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "¡La contraseña y confimación de contraseña no concuerdan!")]
         public string ConfirmPassword { get; set; }
 
         [Required]

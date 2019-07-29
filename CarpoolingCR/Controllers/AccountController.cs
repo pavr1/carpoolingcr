@@ -1,4 +1,5 @@
 ﻿using CarpoolingCR.Models;
+using CarpoolingCR.Objects.Responses;
 using CarpoolingCR.Utils;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
@@ -140,6 +141,7 @@ namespace CarpoolingCR.Controllers
                             }
                         }
 
+
                         return RedirectToAction("ValidateUserRol", "UserRols"); ;
                     case SignInStatus.LockedOut:
                         return View("Lockout");
@@ -147,7 +149,7 @@ namespace CarpoolingCR.Controllers
                         return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                     case SignInStatus.Failure:
                     default:
-                        ModelState.AddModelError("", "Usuario o clave incorrectos.");
+                        ModelState.AddModelError("", "Usuario o constraseña incorrectos.");
                         return View(model);
                 }
             }
@@ -374,7 +376,7 @@ namespace CarpoolingCR.Controllers
 
                             if (result.Errors.ToList()[0].ToString().Contains("Passwords must have at least one non letter or digit character"))
                             {
-                                //¡La clave debe tener al menos una letra y un número!
+                                //¡La contraseña debe tener al menos una letra y un número!
                                 message = "10001";
                             }
 
@@ -971,6 +973,20 @@ namespace CarpoolingCR.Controllers
 
                 return RedirectToAction("Index", "Home");
             }
+        }
+
+        public ActionResult ContactUs()
+        {
+            var emailAddress = WebConfigurationManager.AppSettings["ContactUsEmail"];
+            var facebookLink = WebConfigurationManager.AppSettings["ContactUsFacebook"];
+
+            var response = new ContactUsResponse
+            {
+                Email = emailAddress,
+                Facebook = facebookLink
+            };
+
+            return View(response);
         }
 
         //

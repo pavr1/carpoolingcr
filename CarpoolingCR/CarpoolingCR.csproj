@@ -212,6 +212,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\Smtpclient.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -220,6 +221,7 @@
     <Compile Include="Controllers\ChattingMessagesController.cs" />
     <Compile Include="Controllers\MonthlyBalancesController.cs" />
     <Compile Include="Controllers\MonthlyTransactionsController.cs" />
+    <Compile Include="Controllers\OfflineController.cs" />
     <Compile Include="Controllers\RideRequestsController.cs" />
     <Compile Include="Controllers\TownsController.cs" />
     <Compile Include="Controllers\UserRolsController.cs" />
@@ -364,6 +366,7 @@
     <Compile Include="Models\Trip.cs" />
     <Compile Include="Objects\Responses\Base\BaseResponse.cs" />
     <Compile Include="Objects\Responses\ChatMessageResponse.cs" />
+    <Compile Include="Objects\Responses\ContactUsResponse.cs" />
     <Compile Include="Objects\Responses\TownCreateResponse.cs" />
     <Compile Include="Objects\Responses\TownIndexResponse.cs" />
     <Compile Include="Objects\Responses\TripDayTripsResponse.cs" />
@@ -429,7 +432,13 @@
     <Content Include="Content\bootswatch\united\bootstrap.min.css" />
     <Content Include="Content\bootswatch\yeti\bootstrap.css" />
     <Content Include="Content\bootswatch\yeti\bootstrap.min.css" />
+    <Content Include="Content\Icons\100Sancarleno.png" />
+    <Content Include="Content\Icons\descarga.jpg" />
+    <Content Include="Content\Icons\descarga.png" />
+    <Content Include="Content\Icons\facebook.png" />
+    <Content Include="Content\Icons\Newsvine_512x512.png" />
     <Content Include="Content\Icons\processing.gif" />
+    <Content Include="Content\Icons\ride.ico" />
     <Content Include="Content\jquery-weekcalendar-1.2.2\full_demo\demo.css" />
     <Content Include="Content\jquery-weekcalendar-1.2.2\full_demo\demo.js" />
     <Content Include="Content\jquery-weekcalendar-1.2.2\full_demo\images\header-bg.png" />
@@ -612,6 +621,21 @@
     <Content Include="fonts\jquery-ui-1.12.1.custom\LICENSE.txt" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Scripts\add-to-homescreen\demos\add-event\index.html" />
+    <Content Include="Scripts\add-to-homescreen\demos\debug\index.html" />
+    <Content Include="Scripts\add-to-homescreen\demos\detect-homescreen\index.html" />
+    <Content Include="Scripts\add-to-homescreen\demos\simple\index.html" />
+    <Content Include="Scripts\add-to-homescreen\demos\stock-android\index.html" />
+    <Content Include="Scripts\add-to-homescreen\imgs\action-icon-android.png" />
+    <Content Include="Scripts\add-to-homescreen\imgs\action-icon-ios6.png" />
+    <Content Include="Scripts\add-to-homescreen\imgs\action-icon-ios7.png" />
+    <Content Include="Scripts\add-to-homescreen\imgs\icon-152x152.png" />
+    <Content Include="Scripts\add-to-homescreen\imgs\icon-16x16.png" />
+    <Content Include="Scripts\add-to-homescreen\imgs\icon-196x196.png" />
+    <Content Include="Scripts\add-to-homescreen\imgs\icon.svg" />
+    <Content Include="Scripts\add-to-homescreen\src\addtohomescreen.js" />
+    <Content Include="Scripts\add-to-homescreen\src\addtohomescreen.min.js" />
+    <Content Include="Scripts\add-to-homescreen\style\addtohomescreen.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="fonts\jquery-ui-1.12.1.custom\package.json" />
@@ -676,7 +700,10 @@
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\gifttreecr.com %28smarteraspnet%29.pubxml" />
     <Content Include="Scripts\Growl\jquery.bootstrap-growl.js" />
+    <Content Include="Scripts\add-to-homescreen\bower.json" />
+    <Content Include="Scripts\add-to-homescreen\README.md" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="manifest.txt" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
@@ -692,6 +719,7 @@
     <Content Include="Scripts\messages.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\notify.js" />
+    <Content Include="serviceworker.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -799,6 +827,8 @@
     <Content Include="Views\ChattingMessages\Details.cshtml" />
     <Content Include="Views\ChattingMessages\Edit.cshtml" />
     <Content Include="Views\ChattingMessages\_Index.cshtml" />
+    <Content Include="Views\Offline\Index.cshtml" />
+    <Content Include="Views\Account\ContactUs.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -18,11 +18,13 @@
             <td>
                 @{
                     @*var from = item.Trip.Journey.Name.Replace(item.Trip.RouteDetail, "").Replace(" - ", "");
-                    var to = item.Trip.RouteDetail;
-                    <label class="control-label">@from  - @to</label> <h6>@Html.DisplayFor(modelItem => item.Date)</h6>*@
+                        var to = item.Trip.RouteDetail;
+                        <label class="control-label">@from  - @to</label> <h6>@Html.DisplayFor(modelItem => item.Date)</h6>*@
                     <h6>Conductor: @Html.DisplayFor(modelItem => item.ApplicationUser.Email)</h6>
                     <h6>Espacios Solicitados: @Html.DisplayFor(modelItem => item.RequestedSpaces)</h6>
-                    <h6>Estado: @Html.DisplayFor(modelItem => item.Status)</h6>
+
+                    var description = CarpoolingCR.Utils.EnumHelper<CarpoolingCR.Utils.Enums.ReservationStatus>.GetDisplayValue(item.Status);
+                    <h6>Espacios Solicitados: @Html.DisplayFor(modelItem => description)</h6>
                 }
             </td>
             <td class="">

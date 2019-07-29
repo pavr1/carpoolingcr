@@ -121,7 +121,10 @@
                                             }
                                         </div>
                                         <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
-                                            <small class="status"><b>&nbsp;&nbsp;Estado: </b>@reservation.Status</small>
+                                            @{
+                                                var description = CarpoolingCR.Utils.EnumHelper<CarpoolingCR.Utils.Enums.ReservationStatus>.GetDisplayValue(reservation.Status);
+                                                <small class="status"><b>&nbsp;&nbsp;Estado: </b>@description</small>
+                                            }
                                         </div>
                                         <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
                                             @{

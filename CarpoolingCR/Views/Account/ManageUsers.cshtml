@@ -26,51 +26,54 @@
             foreach (var item in Model)
             {
                 <li>
-                    <label class="control-label passenger">@item.Name @item.LastName</label>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                            <label class="control-label passenger">@item.Name @item.LastName</label>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                            <small class="status">
+                                @{
+                                    var description = CarpoolingCR.Utils.EnumHelper<CarpoolingCR.Utils.Enums.ProfileStatus>.GetDisplayValue(item.Status);
+                                    <b>Estado:</b> @description
+                                }
+                            </small>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-0">
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                             <small>@item.Country.Name</small>
                         </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                             <small class="email"><b>Correo:</b> @item.Email</small>
                         </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                             <small class="email"><b>¿Confirmado?:</b><input type="checkbox" checked="@item.EmailConfirmed" disabled /></small>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
 
                         </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                             <small class="usertype"><b>Tipo de Usuario:</b> @item.UserType</small>
                         </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
-                            <small class="phones">Contacto: <a href="tel: +506 @item.Phone1" style="color:blue"> +506 @item.Phone1 </a></small>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            <small class="phones">
+                                <b>Contacto: </b><br /><a href="tel: +506 @item.Phone1" style="color:blue"> +506 @item.Phone1 </a>
 
-                            @if (!string.IsNullOrEmpty(item.Phone2))
-                            {
-                                <a href="tel: +506 @item.Phone2" style="color:blue"> +506 @item.Phone2 </a>
-                            }
-
-
+                                @if (!string.IsNullOrEmpty(item.Phone2))
+                                {
+                                    <br />
+                                    <a href="tel: +506 @item.Phone2" style="color:blue"> +506 @item.Phone2 </a>
+                                }
+                            </small>
 
                             @Html.ActionLink("X", "EditUser", new { id = item.Id }, new { @class = "btn btn-danger pull-right", @disabled = "disabled" })
                             @Html.ActionLink("...", "DeleteUser", new { id = item.Id }, new { @class = "btn btn-info pull-right" })
                         </div>
                     </div>
-                    @*<div class="row">
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
-
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
-                                <small class="usertype"><b>Estado:</b> @item.Status</small>
-                                @Html.ActionLink("...", "EditUser", new { id = item.Id }, new { @class = "btn btn-info pull-right" })
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
-                                @Html.ActionLink("X", "Delete", new { id = item.Id }, new { @class = "btn btn-danger " })
-                            </div>
-                        </div>*@
                     <hr />
                 </li>
             }

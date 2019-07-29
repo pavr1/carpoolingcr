@@ -18,7 +18,7 @@
         <div class="form-group">
             <label class="control-label col-md-2">Correo</label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.User.Email, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                @Html.EditorFor(model => model.User.Email, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                 @Html.ValidationMessageFor(model => model.User.Email, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -27,8 +27,16 @@
             <label class="control-label col-md-2">¿Correo Confirmado?</label>
             <div class="col-md-10">
                 <div class="checkbox">
-                    @Html.EditorFor(model => model.User.EmailConfirmed)
-                    @Html.ValidationMessageFor(model => model.User.EmailConfirmed, "", new { @class = "text-danger" })
+                    @if (Model.User.EmailConfirmed)
+                    {
+                        <input type="checkbox" id="UserEmailConfirmed" name="UserEmailConfirmed" checked />
+                    }
+                    else
+                    {
+                        <input type="checkbox" id="UserEmailConfirmed" name="UserEmailConfirmed" />
+                    }
+                    @*@Html.EditorFor(model => model.User.EmailConfirmed)
+                    @Html.ValidationMessageFor(model => model.User.EmailConfirmed, "", new { @class = "text-danger" })*@
                 </div>
             </div>
         </div>

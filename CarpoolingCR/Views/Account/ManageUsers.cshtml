@@ -55,7 +55,8 @@
 
 
 
-                            @Html.ActionLink("...", "EditUser", new { id = item.Id }, new { @class = "btn btn-info pull-right" })
+                            @Html.ActionLink("X", "EditUser", new { id = item.Id }, new { @class = "btn btn-danger pull-right", @disabled = "disabled" })
+                            @Html.ActionLink("...", "DeleteUser", new { id = item.Id }, new { @class = "btn btn-info pull-right" })
                         </div>
                     </div>
                     @*<div class="row">

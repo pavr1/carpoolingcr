@@ -616,7 +616,8 @@ namespace CarpoolingCR.Controllers
                 var user = db.Users.Where(x => x.Id == id).Single();
                 var countries = new SelectList(db.Countries, "CountryId", "Name");
 
-                var response = new EditUserResponse {
+                var response = new EditUserResponse
+                {
                     User = user,
                     Countries = countries
                 };
@@ -647,6 +648,8 @@ namespace CarpoolingCR.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EditUser([Bind(Include = "ApplicationUserId,Name,LastName,SecondName,Phone1,Phone2,UserType,CountryId,Status")] ApplicationUser appUser)
         {
+            var fields = "Fields => ";
+
             try
             {
                 if (!Common.IsAuthorized(User))
@@ -654,16 +657,55 @@ namespace CarpoolingCR.Controllers
                     return RedirectToAction("Login", "Account");
                 }
 
+                #region Fields
+                fields += "User.Id: " + Request["User.Id"];
+                fields += "User.Email: " + Request["User.Email"] + ", ";
+                fields += "UserEmailConfirmed: " + Request["UserEmailConfirmed"] + ", ";
+                fields += "User.Name: " + Request["User.Name"] + ", ";
+                fields += "User.LastName: " + Request["User.LastName"] + ", ";
+                fields += "User.SecondLastName: " + Request["User.SecondLastName"] + ", ";
+                fields += "User.Phone1: " + Request["User.Phone1"] + ", ";
+                fields += "User.Phone2: " + Request["User.Phone2"] + ", ";
+                fields += "User.UserType: " + Request["User.UserType"] + ", ";
+                fields += "CountryId: " + Request["CountryId"] + ", ";
+                fields += "User.Status: " + Request["User.Status"];
+                #endregion
+
                 var db = new ApplicationDbContext();
 
-                if (ModelState.IsValid)
+                var userType = Enums.UserType.Pasajero;
+                var userStatus = Enums.ProfileStatus.Inactive;
+
+                if (!Enum.TryParse(Request["User.UserType"], out userType))
                 {
-                    db.Entry(appUser).State = EntityState.Modified;
-                    db.SaveChanges();
-                    return RedirectToAction("Index");
+                    throw new Exception("Invalid UserType enum value: " + Request["User.UserType"]);
                 }
 
-                var user = db.Users.Where(x => x.Id == appUser.Id).Single();
+                if (!Enum.TryParse(Request["User.Status"], out userStatus))
+                {
+                    throw new Exception("Invalid ProfileStatus enum value: " + Request["User.Status"]);
+                }
+
+                var confirmed = (Request["UserEmailConfirmed"] == "on") ? true : false;
+                var user = new ApplicationUser
+                {
+                    Id = Request["User.Id"],
+                    Email = Request["User.Email"],
+                    EmailConfirmed = confirmed,
+                    Name = Request["User.Name"],
+                    LastName = Request["User.LastName"],
+                    SecondLastName = Request["User.SecondLastName"],
+                    Phone1 = Request["User.Phone1"],
+                    Phone2 = Request["User.Phone2"],
+                    UserType = userType,
+                    CountryId = Convert.ToInt32(Request["CountryId"]),
+                    Status = userStatus
+                };
+
+
+                db.Entry(user).State = EntityState.Modified;
+                db.SaveChanges();
+
                 var countries = new SelectList(db.Countries, "CountryId", "Name");
 
                 var response = new EditUserResponse
@@ -672,6 +714,7 @@ namespace CarpoolingCR.Controllers
                     Countries = countries
                 };
 
+                //¡Usuario Actualizado!
                 ViewBag.Info = "100024";
 
                 return View(response);
@@ -686,7 +729,8 @@ namespace CarpoolingCR.Controllers
                     Message = ex.Message + " / " + ex.StackTrace,
                     Method = Common.GetCurrentMethod(),
                     Timestamp = Common.ConvertToUTCTime(DateTime.Now),
-                    UserEmail = User.Identity.Name
+                    UserEmail = User.Identity.Name,
+                    Fields = fields
                 });
 
                 ViewBag.Error = "¡Error inesperado, intente de nuevo!";

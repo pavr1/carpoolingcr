@@ -40,7 +40,6 @@
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">
                             <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
-
                         </button>
                         <h4 class="modal-title" id="dayTripModalLabel">Reserva tu viaje</h4>
                     </div>
@@ -74,6 +73,7 @@
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
                                 <input id="RequestedSpaces" name="RequestedSpaces" class="" style="width:40px;" onfocus="blur();">
+                                <input type="text" id="DriverId" name="DriverId" class="hidden" />
                                 <input type="text" id="TripId" name="TripId" class="hidden" />
                             </div>
                             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6">
@@ -97,13 +97,45 @@
                         </div>
                     </div>
                     <div id="btnsContainer" class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <button id="btnSubmitReservations" type="submit" class="btn btn-primary">Reservar</button>
+                        <input type="button" onclick="OpenMessageModel()" class="btn btn-default pull-left" value="&#128386;" />
+                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar" />
+                        <input id="btnSubmitReservations" type="submit" class="btn btn-primary" value="Reservar" />
                     </div>
                 </div>
             </div>
         </div>
     </form>
+</div>
+
+<div class="modal fade" id="tripQuestionsModal" tabindex="-1" role="dialog" aria-labelledby="tripQuestionsModalLabel" aria-hidden="true">
+    @*<form action="/Reservations/Create" method="post">*@
+        @Html.AntiForgeryToken()
+        <div class="vertical-alignment-helper">
+            <div class="modal-dialog vertical-align-center">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <input type="text" id="MsgDriverId" name="MsgDriverId" class="hidden" />
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                        </button>
+                        <h4 class="modal-title" id="dayTripModalLabel">Mensajes</h4>
+                        <small>Deja un mensaje al conductor</small>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <textarea class="form-control" id="Message" name="Message" style="height:200px; min-width:100%"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="btnsContainer" class="modal-footer">
+                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar" />
+                        <input type="button" class="btn btn-primary" onclick="SendMessage()" value="Enviar" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    @*</form>*@
 </div>
 
 <link href="~/fonts/fullcalendar-3.10.0/fullcalendar.min.css" rel="stylesheet" />
@@ -146,6 +178,7 @@
                 $('#modelFromTo').html(calEvent.fromto);
                 $('#modelDate').html(crStr);
                 $('#ReservationDate').val(date.getFullYear() + "/" + (date.getMonth() + 1) + "/" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds());
+                $('#DriverId').val(calEvent.driverId);
                 $('#modelDriver').html(calEvent.driver);
                 $('#AvailableSpaces').val(calEvent.availableSpaces);
 
@@ -162,7 +195,7 @@
                     $('#btnsContainer').html('<small class="pull-left">*** ¡Ya posee una reservación activa para este viaje!</small><button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button><button type="button" disabled class="btn btn-primary">Reservar</button>');
                 } else {
                     $('#msgTextModal').val('')
-                    $('#btnsContainer').html('<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button><button type="submit" class="btn btn-primary">Reservar</button>');
+                    $('#btnsContainer').html('<input type="button" onclick="OpenMessageModel()" class="btn btn-default pull-left" value="&#128386;"/> <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar"/><input id="btnSubmitReservations" type="submit" class="btn btn-primary" value="Reservar" />');
                 }
 
                 $("#dayTripModal").modal();
@@ -176,6 +209,7 @@
             var tripId = arrayOfTrips[i].TripId;
             var availableSpaces = arrayOfTrips[i].AvailableSpaces;
             var dateTime = arrayOfTrips[i].DateTimeStr;
+            var driverId = arrayOfTrips[i].ApplicationUser.Id;
             var driver = arrayOfTrips[i].ApplicationUser.Name + ' ' + arrayOfTrips[i].ApplicationUser.LastName;
             var price = arrayOfTrips[i].Price;
             var from = arrayOfTrips[i].FromTown;
@@ -191,6 +225,7 @@
                 start: startDate, end: endDate,
                 color: '#2792F2',
                 fromto: from + ' -> ' + to,
+                driverId: driverId,
                 driver: driver,
                 availableSpaces: availableSpaces,
                 formatteddate: startDate,
@@ -228,5 +263,35 @@
         }
 
         return false;
+    }
+
+    function OpenMessageModel() {
+        var driverId = $('#DriverId').val();
+
+        $('#MsgDriverId').val(driverId);
+        $('#tripQuestionsModal').modal();
+        $('#Message').focus();
+    }
+
+    function SendMessage() {
+        var driverId = $('#MsgDriverId').val();
+        var message = $('#Message').val();
+
+        if (message == '') {
+            displayMessages('100025', 'warning');
+            $('#Message').focus();
+
+            return;
+        }
+
+        $.post('/TripQuestions/SendQuestion', { driverId: driverId, message: message },
+            function (data) {
+                if (data != '') {
+                    //¡Mensaje Enviado!
+                    displayMessages(data, 'info');
+                    $('#Message').val('');
+                    $('#Message').focus();
+                }
+            });
     }
 </script>

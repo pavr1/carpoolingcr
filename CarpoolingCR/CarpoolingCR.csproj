@@ -224,6 +224,7 @@
     <Compile Include="Controllers\OfflineController.cs" />
     <Compile Include="Controllers\RideRequestsController.cs" />
     <Compile Include="Controllers\TownsController.cs" />
+    <Compile Include="Controllers\TripQuestionsController.cs" />
     <Compile Include="Controllers\UserRolsController.cs" />
     <Compile Include="Controllers\CountriesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -348,6 +349,10 @@
     <Compile Include="Migrations\201907251819513_UpdateDB.Designer.cs">
       <DependentUpon>201907251819513_UpdateDB.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201907300220029_Created TripQuestions.cs" />
+    <Compile Include="Migrations\201907300220029_Created TripQuestions.Designer.cs">
+      <DependentUpon>201907300220029_Created TripQuestions.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Bank.cs" />
@@ -364,9 +369,11 @@
     <Compile Include="Models\Route.cs" />
     <Compile Include="Models\Town.cs" />
     <Compile Include="Models\Trip.cs" />
+    <Compile Include="Models\TripQuestion.cs" />
     <Compile Include="Objects\Responses\Base\BaseResponse.cs" />
     <Compile Include="Objects\Responses\ChatMessageResponse.cs" />
     <Compile Include="Objects\Responses\ContactUsResponse.cs" />
+    <Compile Include="Objects\Responses\DisplayMessagesResponse.cs" />
     <Compile Include="Objects\Responses\EditUserResponse.cs" />
     <Compile Include="Objects\Responses\TownCreateResponse.cs" />
     <Compile Include="Objects\Responses\TownIndexResponse.cs" />
@@ -851,6 +858,7 @@
     <Content Include="Views\ChattingMessages\_Index.cshtml" />
     <Content Include="Views\Offline\Index.cshtml" />
     <Content Include="Views\Account\ContactUs.cshtml" />
+    <Content Include="Views\TripQuestions\DisplayMessages.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -956,6 +964,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201907251819513_UpdateDB.resx">
       <DependentUpon>201907251819513_UpdateDB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907300220029_Created TripQuestions.resx">
+      <DependentUpon>201907300220029_Created TripQuestions.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

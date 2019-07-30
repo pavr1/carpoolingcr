@@ -134,6 +134,8 @@ namespace CarpoolingCR.Models
 
         public System.Data.Entity.DbSet<CarpoolingCR.Models.ChattingMessage> ChattingMessages { get; set; }
 
+        public System.Data.Entity.DbSet<CarpoolingCR.Models.TripQuestion> TripQuestions { get; set; }
+
         //public System.Data.Entity.DbSet<CarpoolingCR.Models.ApplicationUser> ApplicationUsers { get; set; }
     }
 }

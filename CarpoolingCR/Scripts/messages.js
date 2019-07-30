@@ -47,10 +47,10 @@
         return "¡Reservación ya existente!";
     } else if (code === "100024") {
         return "¡Usuario Actualizado!";
-    } else if (code === "xxxxxxxxx") {
-        return "zzzzzzzzzzzzzzzzzzzzzz";
-    } else if (code === "xxxxxxxxx") {
-        return "zzzzzzzzzzzzzzzzzzzzzz";
+    } else if (code === "100025") {
+        return "¡Mensaje Vacío!";
+    } else if (code === "100026") {
+        return "¡Mensaje Enviado!";
     } else if (code === "xxxxxxxxx") {
         return "zzzzzzzzzzzzzzzzzzzzzz";
     } else if (code === "xxxxxxxxx") {

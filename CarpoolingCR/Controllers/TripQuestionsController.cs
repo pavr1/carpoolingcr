@@ -36,6 +36,8 @@ namespace CarpoolingCR.Controllers
                 {
                     item.Driver = db.Users.Where(x => x.Id == item.DriverId).SingleOrDefault();
                     item.Passenger = db.Users.Where(x => x.Id == item.PassengerId).SingleOrDefault();
+                    item.CurrentUserId = user.Id;
+                    item.MessagesHtml = Serializer.RenderViewToString(this.ControllerContext, "Partials/_MessageHistory", item);
                 }
 
                 var response = new DisplayMessagesResponse
@@ -82,12 +84,14 @@ namespace CarpoolingCR.Controllers
                 var user = Common.GetUserByEmail(User.Identity.Name);
                 TripQuestionInfo tripInfo = null;
                 var infoID = -1;
+                var currentTime = DateTime.Now;
 
                 if(tripQuestionInfoId == null)
                 {
                     tripInfo = new TripQuestionInfo {
                         DriverId = driverId,
                         PassengerId = passengerId,
+                        LastMessageSent = Common.ConvertToUTCTime(currentTime)
                     };
 
                     db.Entry(tripInfo).State = System.Data.Entity.EntityState.Added;
@@ -98,13 +102,19 @@ namespace CarpoolingCR.Controllers
                 else
                 {
                     infoID = (int)tripQuestionInfoId;
+                    tripInfo = db.TripQuestionInfos.Where(x => x.TripQuestionInfoId == infoID).SingleOrDefault();
+
+                    tripInfo.LastMessageSent = Common.ConvertToUTCTime(currentTime);
+
+                    db.Entry(tripInfo).State = EntityState.Modified;
+                    db.SaveChanges();
                 }
 
                 var question = new TripQuestion
                 {
                     CurrentUserId = user.Id,
                     TripQuestionInfoId = infoID,
-                    DateTime = Common.ConvertToUTCTime(DateTime.Now),
+                    DateTime = Common.ConvertToUTCTime(currentTime),
                     Message = message
                 };
 

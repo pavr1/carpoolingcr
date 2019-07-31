@@ -361,6 +361,10 @@
     <Compile Include="Migrations\201907302334567_Added TripQuestionInfo.Designer.cs">
       <DependentUpon>201907302334567_Added TripQuestionInfo.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201907310138516_Added LastMessageSent to TripQuestioInfo.cs" />
+    <Compile Include="Migrations\201907310138516_Added LastMessageSent to TripQuestioInfo.Designer.cs">
+      <DependentUpon>201907310138516_Added LastMessageSent to TripQuestioInfo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Bank.cs" />
@@ -701,6 +705,7 @@
     <None Include="Properties\PublishProfiles\buscoridecr.com %28smarteraspnet%29.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\gifttreecr.com %28smarteraspnet%29.pubxml" />
+    <Content Include="Content\ChatStyle.css" />
     <Content Include="Scripts\Growl\jquery.bootstrap-growl.js" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="manifest.txt" />
@@ -868,6 +873,7 @@
     <Content Include="Views\Offline\Index.cshtml" />
     <Content Include="Views\Account\ContactUs.cshtml" />
     <Content Include="Views\TripQuestions\DisplayMessages.cshtml" />
+    <Content Include="Views\TripQuestions\Partials\_MessageHistory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -982,6 +988,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201907302334567_Added TripQuestionInfo.resx">
       <DependentUpon>201907302334567_Added TripQuestionInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907310138516_Added LastMessageSent to TripQuestioInfo.resx">
+      <DependentUpon>201907310138516_Added LastMessageSent to TripQuestioInfo.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -97,7 +97,7 @@
                         </div>
                     </div>
                     <div id="btnsContainer" class="modal-footer">
-                        @*<input type="button" onclick="OpenMessageModel()" class="btn btn-default pull-left" value="&#128386;" />*@
+                        <input type="button" onclick="OpenMessageModel()" class="btn btn-default pull-left" value="&#128386;" />
                         <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar" />
                         <input id="btnSubmitReservations" type="submit" class="btn btn-primary" value="Reservar" />
                     </div>
@@ -196,8 +196,7 @@
                     $('#btnsContainer').html('<small class="pull-left">*** ¡Ya posee una reservación activa para este viaje!</small><button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button><button type="button" disabled class="btn btn-primary">Reservar</button>');
                 } else {
                     $('#msgTextModal').val('')
-                    //<input type="button" onclick="OpenMessageModel()" class="btn btn-default pull-left" value="&#128386;"/>
-                    $('#btnsContainer').html('<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar"/><input id="btnSubmitReservations" type="submit" class="btn btn-primary" value="Reservar" />');
+                    $('#btnsContainer').html('<input type="button" onclick="OpenMessageModel()" class="btn btn-default pull-left" value="&#128386;"/><input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar"/><input id="btnSubmitReservations" type="submit" class="btn btn-primary" value="Reservar" />');
                 }
 
                 $("#dayTripModal").modal();

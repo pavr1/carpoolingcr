@@ -18,5 +18,12 @@ namespace CarpoolingCR.Models
         public ApplicationUser Passenger { get; set; }
 
         public List<TripQuestion> TripQuestions { get; set; }
+
+        public DateTime LastMessageSent { get; set; }
+
+        [NotMapped]
+        public string CurrentUserId { get; set; }
+        [NotMapped]
+        public string MessagesHtml { get; set; }
     }
 }

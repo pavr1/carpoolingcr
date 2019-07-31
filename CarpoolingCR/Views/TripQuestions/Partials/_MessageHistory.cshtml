@@ -1,0 +1,62 @@
+﻿@model CarpoolingCR.Models.TripQuestionInfo
+@{
+    ViewBag.Title = "DisplayMessages";
+}
+
+<div class="msg_history">
+    @{
+        foreach (var msg in Model.TripQuestions)
+        {
+            if (msg.CurrentUserId == Model.CurrentUserId)
+            {
+                <div class="incoming_msg">
+                    <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
+                    <div class="received_msg">
+                        <div class="received_withd_msg">
+                            <p>
+                                @msg.Message
+                            </p>
+                            <small class="time_date">@msg.DateTime.ToString("hh:mm tt"), @msg.DateTime.ToString("MMM dd")</small>
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="outgoing_msg">
+                    <div class="sent_msg">
+                        <p>
+                            @msg.Message
+                        </p>
+                        <small class="time_date"> @msg.DateTime.ToString("hh:mm tt"), @msg.DateTime.ToString("MMM dd")</small>
+                    </div>
+                </div>
+            }
+        }
+    }
+</div>
+
+<script>
+    function SendQuestionMessage() {
+        var driverId = '@Model.DriverId';
+        var passengerId = '@Model.PassengerId'
+        var message = $('#Message').val();
+
+        if (message == '') {
+            displayMessages('100025', 'warning');
+            $('#Message').focus();
+
+            return;
+        }
+
+        $.post('/TripQuestions/SendQuestion', { driverId: driverId, passengerId: passengerId, tripQuestionInfoId: null, message: message },
+            function (data) {
+                if (data != '') {
+                    //¡Mensaje Enviado!
+                    displayMessages(data, 'info');
+                    $('#Message').val('');
+                    $('#Message').focus();
+                }
+            });
+    }
+</script>

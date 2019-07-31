@@ -171,6 +171,7 @@ namespace CarpoolingCR.Controllers
                     Trips = result,
                     From = from,
                     To = to,
+                    CurrentUserId = user.Id,
                     CurrentDate = d,
                     ExistentReservations = existentReservation
                 });

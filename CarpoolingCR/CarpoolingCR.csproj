@@ -353,6 +353,14 @@
     <Compile Include="Migrations\201907300220029_Created TripQuestions.Designer.cs">
       <DependentUpon>201907300220029_Created TripQuestions.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201907302242424_Created TripQuestionInfo model.cs" />
+    <Compile Include="Migrations\201907302242424_Created TripQuestionInfo model.Designer.cs">
+      <DependentUpon>201907302242424_Created TripQuestionInfo model.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201907302334567_Added TripQuestionInfo.cs" />
+    <Compile Include="Migrations\201907302334567_Added TripQuestionInfo.Designer.cs">
+      <DependentUpon>201907302334567_Added TripQuestionInfo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Bank.cs" />
@@ -370,6 +378,7 @@
     <Compile Include="Models\Town.cs" />
     <Compile Include="Models\Trip.cs" />
     <Compile Include="Models\TripQuestion.cs" />
+    <Compile Include="Models\TripQuestionInfo.cs" />
     <Compile Include="Objects\Responses\Base\BaseResponse.cs" />
     <Compile Include="Objects\Responses\ChatMessageResponse.cs" />
     <Compile Include="Objects\Responses\ContactUsResponse.cs" />
@@ -967,6 +976,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201907300220029_Created TripQuestions.resx">
       <DependentUpon>201907300220029_Created TripQuestions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907302242424_Created TripQuestionInfo model.resx">
+      <DependentUpon>201907302242424_Created TripQuestionInfo model.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907302334567_Added TripQuestionInfo.resx">
+      <DependentUpon>201907302334567_Added TripQuestionInfo.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

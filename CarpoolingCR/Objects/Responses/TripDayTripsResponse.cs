@@ -10,6 +10,7 @@ namespace CarpoolingCR.Objects.Responses
     {
         public string From { get; set; }
         public string To { get; set; }
+        public string CurrentUserId { get; set; }
 
         public List<Trip> Trips { get; set; }
 

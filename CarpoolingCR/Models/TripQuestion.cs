@@ -8,8 +8,11 @@ namespace CarpoolingCR.Models
     public class TripQuestion
     {
         public int TripQuestionId { get; set; }
-        public string FromId { get; set; }
-        public string toId { get; set; }
+
+        public int TripQuestionInfoId { get; set; }
+        public TripQuestionInfo TripQuestionInfo { get; set; }
+
+        public string CurrentUserId { get; set; }
         public DateTime DateTime { get; set; }
         public string Message { get; set; }
     }

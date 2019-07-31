@@ -4,6 +4,7 @@ using CarpoolingCR.Utils;
 using System;
 using System.Linq;
 using System.Web.Mvc;
+using System.Data.Entity;
 
 namespace CarpoolingCR.Controllers
 {
@@ -27,15 +28,23 @@ namespace CarpoolingCR.Controllers
                 }
 
                 var user = Common.GetUserByEmail(User.Identity.Name);
-                var messages = db.TripQuestions.Where(x => x.FromId == user.Id || x.toId == user.Id).ToList();
+                var questionInfos = db.TripQuestionInfos.Where(x => x.DriverId == user.Id || x.PassengerId == user.Id)
+                    .Include(x => x.TripQuestions)
+                    .ToList();
+
+                foreach (var item in questionInfos)
+                {
+                    item.Driver = db.Users.Where(x => x.Id == item.DriverId).SingleOrDefault();
+                    item.Passenger = db.Users.Where(x => x.Id == item.PassengerId).SingleOrDefault();
+                }
 
                 var response = new DisplayMessagesResponse
                 {
                     ActualUserId = user.Id,
-                    Messages = messages
+                    QuestionsInfo = questionInfos
                 };
 
-                return View(messages);
+                return View(response);
             }
             catch (Exception ex)
             {
@@ -57,8 +66,10 @@ namespace CarpoolingCR.Controllers
         }
 
         [HttpPost]
-        public string SendQuestion(string driverId, string message)
+        public string SendQuestion(string driverId, string passengerId, int? tripQuestionInfoId, string message)
         {
+            var tran = db.Database.BeginTransaction();
+
             try
             {
                 if (!Common.IsAuthorized(User))
@@ -69,11 +80,30 @@ namespace CarpoolingCR.Controllers
                 }
 
                 var user = Common.GetUserByEmail(User.Identity.Name);
+                TripQuestionInfo tripInfo = null;
+                var infoID = -1;
+
+                if(tripQuestionInfoId == null)
+                {
+                    tripInfo = new TripQuestionInfo {
+                        DriverId = driverId,
+                        PassengerId = passengerId,
+                    };
+
+                    db.Entry(tripInfo).State = System.Data.Entity.EntityState.Added;
+                    db.SaveChanges();
+
+                    infoID = tripInfo.TripQuestionInfoId;
+                }
+                else
+                {
+                    infoID = (int)tripQuestionInfoId;
+                }
 
                 var question = new TripQuestion
                 {
-                    FromId = user.Id,
-                    toId = driverId,
+                    CurrentUserId = user.Id,
+                    TripQuestionInfoId = infoID,
                     DateTime = Common.ConvertToUTCTime(DateTime.Now),
                     Message = message
                 };
@@ -81,10 +111,14 @@ namespace CarpoolingCR.Controllers
                 db.Entry(question).State = System.Data.Entity.EntityState.Added;
                 db.SaveChanges();
 
+                tran.Commit();
+
                 return "¡Mensaje Enviado!";
             }
             catch (Exception ex)
             {
+                tran.Rollback();
+
                 Common.LogData(new Log
                 {
                     Line = Common.GetCurrentLine(),

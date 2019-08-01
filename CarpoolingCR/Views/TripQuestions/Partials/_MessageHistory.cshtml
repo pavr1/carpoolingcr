@@ -12,26 +12,29 @@
                 <div class="row">
                     <div class="col-xs-12">
                         <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-                        <div>
-                            <div class="">
-                                <p>
-                                    @msg.Message
-                                </p>
-                                <small class="pull-right">@msg.DateTime.ToString("hh:mm tt"), @msg.DateTime.ToString("MMM dd")</small>
-                            </div>
+                        <div class="received_withd_msg">
+                            <p>
+                                @msg.Message
+                            </p>
                         </div>
+                        <small class="pull-right">@msg.DateTime.ToString("hh:mm tt"), @msg.DateTime.ToString("MMM dd")</small>
                         <hr />
                     </div>
                 </div>
             }
             else
             {
-                <div class="outgoing_msg">
-                    <div class="sent_msg">
-                        <p>
-                            @msg.Message
-                        </p>
-                        <small class="time_date"> @msg.DateTime.ToString("hh:mm tt"), @msg.DateTime.ToString("MMM dd")</small>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="outgoing_msg">
+                            <div class="sent_msg">
+                                <p>
+                                    @msg.Message
+                                </p>
+                            </div>
+                            <small class="time_date pull-left"> @msg.DateTime.ToString("hh:mm tt"), @msg.DateTime.ToString("MMM dd")</small>
+                        </div>
+                        <hr />
                     </div>
                 </div>
             }
@@ -52,13 +55,10 @@
             return;
         }
 
-        $.post('/TripQuestions/SendQuestion', { driverId: driverId, passengerId: passengerId, tripQuestionInfoId: null, message: message },
+        $.post('/TripQuestions/SendQuestion2', { driverId: driverId, passengerId: passengerId, tripQuestionInfoId: null, message: message },
             function (data) {
                 if (data != '') {
-                    //¡Mensaje Enviado!
-                    displayMessages(data, 'info');
-                    $('#Message').val('');
-                    $('#Message').focus();
+                    $('#MessagesContainer').val(data);
                 }
             });
     }

@@ -22,10 +22,13 @@
                 </div>
             </div>
             <div class="inbox_chat">
+                <label id="currentDriverId" class="hidden"></label>
+                <label id="currentPassengerId" class="hidden"></label>
+                <label id="tripQuestionInfoId" class="hidden"></label>
                 @{
                     foreach (var item in Model.QuestionsInfo)
                     {
-                        <div class="chat_list" onclick="ShowMessages(`@item.MessagesHtml`)">
+                        <div class="chat_list" onclick="ShowMessages('@item.DriverId', '@item.PassengerId','@item.TripQuestionInfoId', `@item.MessagesHtml`)">
                             <div class="chat_people">
                                 <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
                                 <div class="chat_ib">
@@ -52,8 +55,8 @@
             </div>
             <div class="type_msg">
                 <div class="input_msg_write">
-                    <input type="text" class="form-control" placeholder="Escribe un mensaje" style="border-radius:25px" />
-                    <button class="msg_send_btn" type="button">&#9658;</button>
+                    <input id="sendMessage" type="text" class="form-control" placeholder="Escribe un mensaje" style="border-radius:25px" />
+                    <button class="msg_send_btn" type="button" onclick="SendMessage()">&#9658;</button>
                 </div>
             </div>
         </div>
@@ -61,7 +64,35 @@
 </div>
 
 <script>
-    function ShowMessages(html) {
+    function ShowMessages(driverId, passengerId, questionInfoId, html) {
+        $('#currentDriverId').val(driverId);
+        $('#currentPassengerId').val(passengerId);
+        $('#tripQuestionInfoId').val(questionInfoId);
+
         $('#MessagesContainer').html(html);
+    }
+
+    function SendMessage() {
+        var driverId = $('#currentDriverId').val();
+        var passengerId = $('#currentPassengerId').val();
+        var questionInfoId = $('#tripQuestionInfoId').val();
+        var message = $('#sendMessage').val();
+
+        if (message == '') {
+            displayMessages('100025', 'warning');
+            $('#sendMessage').focus();
+
+            return;
+        }
+
+        $.post('/TripQuestions/SendQuestion', { driverId: driverId, passengerId: passengerId, tripQuestionInfoId: questionInfoId, message: message },
+            function (data) {
+                if (data != '') {
+                    //¡Mensaje Enviado!
+                    displayMessages(data, 'info');
+                    $('#sendMessage').val('');
+                    $('#sendMessage').focus();
+                }
+            });
     }
 </script>

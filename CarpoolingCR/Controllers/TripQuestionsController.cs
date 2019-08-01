@@ -160,5 +160,103 @@ namespace CarpoolingCR.Controllers
                 return string.Empty;
             }
         }
+
+        [HttpPost]
+        public string SendQuestion2(string driverId, string passengerId, int? tripQuestionInfoId, string message)
+        {
+            var tran = db.Database.BeginTransaction();
+
+            try
+            {
+                if (!Common.IsAuthorized(User))
+                {
+                    RedirectToAction("Login", "Account");
+
+                    return string.Empty;
+                }
+
+                var user = Common.GetUserByEmail(User.Identity.Name);
+                TripQuestionInfo tripInfo = null;
+                var infoID = -1;
+                var currentTime = DateTime.Now;
+                var existentQuestionInfo = new TripQuestionInfo();
+
+                if (tripQuestionInfoId == null)
+                {
+                    existentQuestionInfo = db.TripQuestionInfos.Where(x => x.DriverId == driverId && x.PassengerId == passengerId).SingleOrDefault();
+
+                    if (existentQuestionInfo != null)
+                    {
+                        existentQuestionInfo.LastMessageSent = Common.ConvertToUTCTime(DateTime.Now);
+
+                        db.Entry(existentQuestionInfo).State = System.Data.Entity.EntityState.Modified;
+                        db.SaveChanges();
+
+                        tripInfo = existentQuestionInfo;
+                    }
+                    else
+                    {
+                        tripInfo = new TripQuestionInfo
+                        {
+                            DriverId = driverId,
+                            PassengerId = passengerId,
+                            LastMessageSent = Common.ConvertToUTCTime(currentTime)
+                        };
+
+                        db.Entry(tripInfo).State = System.Data.Entity.EntityState.Added;
+                        db.SaveChanges();
+                    }
+
+                    infoID = tripInfo.TripQuestionInfoId;
+                }
+                else
+                {
+                    infoID = (int)tripQuestionInfoId;
+                    tripInfo = db.TripQuestionInfos.Where(x => x.TripQuestionInfoId == infoID).SingleOrDefault();
+
+                    tripInfo.LastMessageSent = Common.ConvertToUTCTime(currentTime);
+
+                    db.Entry(tripInfo).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+
+                var question = new TripQuestion
+                {
+                    CurrentUserId = user.Id,
+                    TripQuestionInfoId = infoID,
+                    DateTime = Common.ConvertToUTCTime(currentTime),
+                    Message = message
+                };
+
+                db.Entry(question).State = System.Data.Entity.EntityState.Added;
+                db.SaveChanges();
+
+                tran.Commit();
+
+                existentQuestionInfo = db.TripQuestionInfos.Where(x => x.DriverId == driverId && x.PassengerId == passengerId).SingleOrDefault();
+                var html = Serializer.RenderViewToString(this.ControllerContext, "Partials/_MessageHistory", existentQuestionInfo);
+
+                return html;
+            }
+            catch (Exception ex)
+            {
+                tran.Rollback();
+
+                Common.LogData(new Log
+                {
+                    Line = Common.GetCurrentLine(),
+                    Location = Enums.LogLocation.Server,
+                    LogType = Enums.LogType.Error,
+                    Message = ex.Message + " / " + ex.StackTrace,
+                    Method = Common.GetCurrentMethod(),
+                    Timestamp = Common.ConvertToUTCTime(DateTime.Now),
+                    UserEmail = User.Identity.Name
+                });
+
+                ViewBag.Error = "¡Error inesperado, intente de nuevo!";
+
+                return string.Empty;
+            }
+        }
     }
 }

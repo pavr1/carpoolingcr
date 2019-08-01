@@ -541,14 +541,7 @@ namespace CarpoolingCR.Controllers
 
                 var callbackUrl = Url.Action("Transportation", "Reservations", new { message = "", tabIndex = 1 }, protocol: Request.Url.Scheme);
 
-                var html = "<html><header></header><body>" + reservation.PassengerName + " ha solicitado " + spaces + " espacios para tu viaje de " + tripInfo + "<br/><br/>Da click <b><a href='" + callbackUrl + "'>aquí</a></b> para ver la reserva!</body></html>";
-
-                Common.SendEmail(new IdentityMessage
-                {
-                    Destination = trip.ApplicationUser.Email,
-                    Subject = "Han solicitado espacio en tu vehículo!",
-                    Body = html
-                });
+                EmailHandler.SendEmailTripReservation(WebConfigurationManager.AppSettings["AdminEmails"], trip.ApplicationUser.Email, reservation.PassengerName, spaces, tripInfo, callbackUrl);
 
                 return RedirectToAction("Transportation", "Reservations", new
                 {

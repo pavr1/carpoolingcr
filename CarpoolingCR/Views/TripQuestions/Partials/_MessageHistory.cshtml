@@ -9,15 +9,18 @@
         {
             if (msg.CurrentUserId == Model.CurrentUserId)
             {
-                <div class="incoming_msg">
-                    <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-                    <div class="received_msg">
-                        <div class="received_withd_msg">
-                            <p>
-                                @msg.Message
-                            </p>
-                            <small class="time_date">@msg.DateTime.ToString("hh:mm tt"), @msg.DateTime.ToString("MMM dd")</small>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
+                        <div>
+                            <div class="">
+                                <p>
+                                    @msg.Message
+                                </p>
+                                <small class="pull-right">@msg.DateTime.ToString("hh:mm tt"), @msg.DateTime.ToString("MMM dd")</small>
+                            </div>
                         </div>
+                        <hr />
                     </div>
                 </div>
             }

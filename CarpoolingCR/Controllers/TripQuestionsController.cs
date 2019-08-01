@@ -88,14 +88,29 @@ namespace CarpoolingCR.Controllers
 
                 if(tripQuestionInfoId == null)
                 {
-                    tripInfo = new TripQuestionInfo {
-                        DriverId = driverId,
-                        PassengerId = passengerId,
-                        LastMessageSent = Common.ConvertToUTCTime(currentTime)
-                    };
+                    var existentQuestionInfo = db.TripQuestionInfos.Where(x => x.DriverId == driverId && x.PassengerId == passengerId).SingleOrDefault();
 
-                    db.Entry(tripInfo).State = System.Data.Entity.EntityState.Added;
-                    db.SaveChanges();
+                    if (existentQuestionInfo != null)
+                    {
+                        existentQuestionInfo.LastMessageSent = Common.ConvertToUTCTime(DateTime.Now);
+
+                        db.Entry(existentQuestionInfo).State = System.Data.Entity.EntityState.Modified;
+                        db.SaveChanges();
+
+                        tripInfo = existentQuestionInfo;
+                    }
+                    else
+                    {
+                        tripInfo = new TripQuestionInfo
+                        {
+                            DriverId = driverId,
+                            PassengerId = passengerId,
+                            LastMessageSent = Common.ConvertToUTCTime(currentTime)
+                        };
+
+                        db.Entry(tripInfo).State = System.Data.Entity.EntityState.Added;
+                        db.SaveChanges();
+                    }
 
                     infoID = tripInfo.TripQuestionInfoId;
                 }

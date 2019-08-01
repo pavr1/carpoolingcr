@@ -59,6 +59,14 @@ namespace CarpoolingCR.Models
         public string Message { get; set; }
         [NotMapped]
         public string MessageType { get; set; }
+        [NotMapped]
+        public string FullName
+        {
+            get
+            {
+                return Name + " " + LastName;
+            }
+        }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
@@ -86,7 +94,7 @@ namespace CarpoolingCR.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("CarpoolingConnection", throwIfV1Schema: false) 
+            : base("CarpoolingConnection", throwIfV1Schema: false)
         {
             Configuration.ProxyCreationEnabled = false;
         }

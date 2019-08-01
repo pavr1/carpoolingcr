@@ -361,10 +361,6 @@
     <Compile Include="Migrations\201907302334567_Added TripQuestionInfo.Designer.cs">
       <DependentUpon>201907302334567_Added TripQuestionInfo.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201907310138516_Added LastMessageSent to TripQuestioInfo.cs" />
-    <Compile Include="Migrations\201907310138516_Added LastMessageSent to TripQuestioInfo.Designer.cs">
-      <DependentUpon>201907310138516_Added LastMessageSent to TripQuestioInfo.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Bank.cs" />
@@ -989,9 +985,6 @@
     <EmbeddedResource Include="Migrations\201907302334567_Added TripQuestionInfo.resx">
       <DependentUpon>201907302334567_Added TripQuestionInfo.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201907310138516_Added LastMessageSent to TripQuestioInfo.resx">
-      <DependentUpon>201907310138516_Added LastMessageSent to TripQuestioInfo.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -1012,8 +1005,6 @@
           <DevelopmentServerPort>51221</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost/carpoolingcr</IISUrl>
-          <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
-          <IISAppRootUrl>http://localhost/</IISAppRootUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

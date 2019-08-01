@@ -32,11 +32,11 @@
                                     @{
                                         if (item.DriverId != item.CurrentUserId)
                                         {
-                                            <h6>@item.Driver.Name  @item.Driver.LastName <span class="chat_date pull-right">@item.LastMessageSent.ToString("MMM dd")</span></h6>
+                                            <small>@item.Driver.Name  @item.Driver.LastName <span class="chat_date pull-right">@item.LastMessageSent.ToString("MMM dd")</span></small>
                                         }
                                         else
                                         {
-                                            <h6>@item.Passenger.Name  @item.Passenger.LastName <span class="chat_date pull-right">@item.LastMessageSent.ToString("MMM dd")</span></h6>
+                                            <small>@item.Passenger.Name  @item.Passenger.LastName <span class="chat_date pull-right">@item.LastMessageSent.ToString("MMM dd")</span></small>
                                         }
                                     }
                                 </div>

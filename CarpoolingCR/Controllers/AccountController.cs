@@ -134,6 +134,7 @@ namespace CarpoolingCR.Controllers
 
                                 //¡Cuenta no verificada!
                                 ViewBag.Warning = "100022";
+                                ViewBag.EmailNotConfirmed = true;
 
                                 AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
 

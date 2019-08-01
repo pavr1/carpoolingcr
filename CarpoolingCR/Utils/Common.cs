@@ -74,11 +74,6 @@ namespace CarpoolingCR.Utils
             return (user.Identity != null && user.Identity.IsAuthenticated);
         }
 
-        public static void SendEmail(IdentityMessage msg)
-        {
-            new EmailService().SendAsync(msg);
-        }
-
         public static void LogData(Log log)
         {
             using (var db = new ApplicationDbContext())

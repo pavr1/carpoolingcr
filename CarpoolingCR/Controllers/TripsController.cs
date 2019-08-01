@@ -376,19 +376,6 @@ namespace CarpoolingCR.Controllers
                         return View(response);
                     }
 
-                    //if (fromRequest.ToUpper() == toRequest.ToUpper())
-                    //{
-                    //    ViewBag.Warning = "El origen y destino no pueden ser iguales.";
-
-                    //    var response = new TripCreateResponse
-                    //    {
-                    //        Towns = db.Towns.Where(x => x.Status == Enums.TownStatus.Active && x.CountryId == user.CountryId).ToList(),
-                    //        Trip = trip
-                    //    };
-
-                    //    return View(response);
-                    //}
-
                     trip = new Trip
                     {
                         ApplicationUserId = user.Id,
@@ -405,6 +392,10 @@ namespace CarpoolingCR.Controllers
 
                     db.Trips.Add(trip);
                     db.SaveChanges();
+
+                    var tripInfo = trip.FromTown + " a " + trip.ToTown + " el " + Common.ConvertToLocalTime(trip.DateTime).ToString("dd/MM/yyyy hh:mm:ss tt");
+
+                    EmailHandler.SendEmailTripCreation(WebConfigurationManager.AppSettings["AdminEmails"], user.FullName, tripInfo, trip.AvailableSpaces);
 
                     new SignalHandler().SendMessage(Enums.EventTriggered.TripCreated.ToString(), "");
 

@@ -51,11 +51,27 @@
         return "¡Mensaje Vacío!";
     } else if (code === "100026") {
         return "¡Mensaje Enviado!";
+    } else if (code === "100026") {
+        return "¡Tu cuenta no ha sido verificada! Te hemos reenviado el correo de confirmación. Si no lo encuentras revisa los correos no deseados.";
     } else if (code === "xxxxxxxxx") {
         return "zzzzzzzzzzzzzzzzzzzzzz";
     } else if (code === "xxxxxxxxx") {
         return "zzzzzzzzzzzzzzzzzzzzzz";
-    } else {
+    } else if (code === "xxxxxxxxx") {
+        return "zzzzzzzzzzzzzzzzzzzzzz";
+    } else if (code === "xxxxxxxxx") {
+        return "zzzzzzzzzzzzzzzzzzzzzz";
+    } else if (code === "xxxxxxxxx") {
+        return "zzzzzzzzzzzzzzzzzzzzzz";
+    } else if (code === "xxxxxxxxx") {
+        return "zzzzzzzzzzzzzzzzzzzzzz";
+    } else if (code === "xxxxxxxxx") {
+        return "zzzzzzzzzzzzzzzzzzzzzz";
+    } else if (code === "xxxxxxxxx") {
+        return "zzzzzzzzzzzzzzzzzzzzzz";
+    } else if (code === "xxxxxxxxx") {
+        return "zzzzzzzzzzzzzzzzzzzzzz";
+    }else {
         return "";
     }
 }

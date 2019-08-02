@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CarpoolingCR.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -12,5 +13,11 @@ namespace CarpoolingCR.Models.Locations
 
         public int CountyId { get; set; }
         public County County { get; set; }
+
+        public string FullName {
+            get {
+                return Common.GetLocationName(DistrictId);
+            }
+        }
     }
 }

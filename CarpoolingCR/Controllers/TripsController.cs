@@ -153,27 +153,8 @@ namespace CarpoolingCR.Controllers
                 var fromDistrict = new District();
                 var toDistrict = new District();
 
-                var split = from.Replace("🖣 ", string.Empty).Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
-                var countyId = split[0].Trim();
-                var districtId = split[1].Trim();
-
-                var county = db.Counties.Where(x => x.Name == countyId).SingleOrDefault();
-
-                if (county != null)
-                {
-                    fromDistrict = db.Districts.Where(x => x.CountyId == county.CountyId && x.Name == districtId).SingleOrDefault();
-                }
-
-                split = to.Replace("🖣 ", string.Empty).Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
-                countyId = split[0].Trim();
-                districtId = split[1].Trim();
-
-                county = db.Counties.Where(x => x.Name == countyId).SingleOrDefault();
-
-                if (county != null)
-                {
-                    toDistrict = db.Districts.Where(x => x.CountyId == county.CountyId && x.Name == districtId).SingleOrDefault();
-                }
+                fromDistrict = Common.ValidateDistrictString(from);
+                toDistrict = Common.ValidateDistrictString(to);
 
                 DateTime d = new DateTime();
 
@@ -188,15 +169,25 @@ namespace CarpoolingCR.Controllers
                 startDate = Common.ConvertToUTCTime(startDate);
                 endDate = Common.ConvertToUTCTime(endDate);
 
-                var result = db.Trips.Where(x => x.Status == Enums.Status.Activo
+                var trips = db.Trips.Where(x => x.Status == Enums.Status.Activo
                     && x.DateTime >= startDate && x.DateTime <= endDate
                     && x.FromTownId == fromDistrict.DistrictId && x.ToTownId == toDistrict.DistrictId)
                     .Include(x => x.ApplicationUser)
                     .ToList();
 
-                for (int i = 0; i < result.Count; i++)
+                var couldNotFindExactTrip = false;
+                Common.GetNearByTripsForReservationTransportation(fromDistrict, toDistrict, ref trips, startDate, endDate, out couldNotFindExactTrip);
+
+                for (int i = 0; i < trips.Count; i++)
                 {
-                    result[i].DateTime = Common.ConvertToLocalTime(result[i].DateTime);
+                    var fromId = trips[i].FromTownId;
+                    var toId = trips[i].ToTownId;
+                    trips[i].FromTown = db.Districts.Where(x => x.DistrictId == fromId).Single();
+                    trips[i].ToTown = db.Districts.Where(x => x.DistrictId == toId).Single();
+                    trips[i].DateTime = Common.ConvertToLocalTime(trips[i].DateTime);
+
+                    trips[i].FromTown.County = null;
+                    trips[i].ToTown.County = null;
                 }
 
                 var user = Common.GetUserByEmail(User.Identity.Name);
@@ -207,12 +198,13 @@ namespace CarpoolingCR.Controllers
 
                 return View(new TripDayTripsResponse
                 {
-                    Trips = result,
-                    From = fromDistrict.County.Name + ", " + fromDistrict.Name,
-                    To = toDistrict.County.Name + ", " + toDistrict.Name,
+                    Trips = trips,
+                    From = fromDistrict.FullName,
+                    To = toDistrict.FullName,
                     CurrentUserId = user.Id,
                     CurrentDate = d,
-                    ExistentReservations = existentReservation
+                    ExistentReservations = existentReservation,
+                    CouldNotFindExactTrip = couldNotFindExactTrip
                 });
             }
             catch (Exception ex)
@@ -385,16 +377,7 @@ namespace CarpoolingCR.Controllers
                     var user = Common.GetUserByEmail(User.Identity.Name);
 
                     var tripDate = Convert.ToDateTime(Request["DateTime"]);
-                    var split = Request["FromTown"].Replace("🖣 ", string.Empty).Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
-                    var countyId = split[0].Trim();
-                    var districtId = split[1].Trim();
-
-                    var county = db.Counties.Where(x => x.Name == countyId).SingleOrDefault();
-
-                    if (county != null)
-                    {
-                        fromDistrict = db.Districts.Where(x => x.CountyId == county.CountyId && x.Name == districtId).SingleOrDefault();
-                    }
+                    fromDistrict = Common.ValidateDistrictString(Request["FromTown"]);
 
                     if (fromDistrict == null)
                     {
@@ -410,15 +393,7 @@ namespace CarpoolingCR.Controllers
                         return View(response);
                     }
 
-                    split = Request["ToTown"].Replace("🖣 ", string.Empty).Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
-                    countyId = split[0].Trim();
-                    districtId = split[1].Trim();
-                    county = db.Counties.Where(x => x.Name == countyId).SingleOrDefault();
-
-                    if (county != null)
-                    {
-                        toDistrict = db.Districts.Where(x => x.CountyId == county.CountyId && x.Name == districtId).SingleOrDefault();
-                    }
+                    toDistrict = Common.ValidateDistrictString(Request["ToTown"]);
 
                     if (toDistrict == null)
                     {
@@ -451,7 +426,7 @@ namespace CarpoolingCR.Controllers
                     db.Trips.Add(trip);
                     db.SaveChanges();
 
-                    var tripInfo = trip.FromTown + " a " + trip.ToTown + " el " + Common.ConvertToLocalTime(trip.DateTime).ToString("dd/MM/yyyy hh:mm:ss tt");
+                    var tripInfo = trip.FromTown.FullName + " a " + trip.ToTown.FullName + " el " + Common.ConvertToLocalTime(trip.DateTime).ToString("dd/MM/yyyy hh:mm:ss tt");
 
                     EmailHandler.SendEmailTripCreation(WebConfigurationManager.AppSettings["AdminEmails"], user.FullName, tripInfo, trip.AvailableSpaces);
 

@@ -25,31 +25,13 @@
                     <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12 form-inline">
                         <select id="FromTown" name="FromTown" class="form-control" onfocus="this.select()">
                             @{
-                                @*foreach (var item in Model.Towns)
-                                    {
-                                        if (!string.IsNullOrEmpty(Model.From))
-                                        {
-                                            if (Model.From == item.Name)
-                                            {
-                                                <option value="@item.Name" selected>@item.Name</option>
-                                            }
-                                            else
-                                            {
-                                                <option value="@item.Name">@item.Name</option>
-                                            }
-                                        }
-                                        else
-                                        {
-                                            <option value="@item.Name">@item.Name</option>
-                                        }
-                                    }*@
                                 foreach (var item in Model.Towns)
                                 {
-                                    if (Model.From != -1)
+                                    if (!string.IsNullOrEmpty(Model.From))
                                     {
-                                        if (Model.From == item.DistrictId)
+                                        if (Model.From == item.Display)
                                         {
-                                            <option value="@item.DistrictId" selected>@item.DistrictId</option>
+                                            <option value="@item.DistrictId" selected>@item.Display</option>
                                         }
                                         else
                                         {
@@ -73,29 +55,11 @@
                     <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12 form-inline">
                         <select id="ToTown" name="ToTown" class="form-control" onfocus="this.select()">
                             @{
-                                @*foreach (var item in Model.Towns)
-                                    {
-                                        if (!string.IsNullOrEmpty(Model.From))
-                                        {
-                                            if (Model.To == item.Name)
-                                            {
-                                                <option value="@item.Name" selected>@item.Name</option>
-                                            }
-                                            else
-                                            {
-                                                <option value="@item.Name">@item.Name</option>
-                                            }
-                                        }
-                                        else
-                                        {
-                                            <option value="@item.Name">@item.Name</option>
-                                        }
-                                    }*@
                                 foreach (var item in Model.Towns)
                                 {
-                                    if (Model.To != -1)
+                                    if (!string.IsNullOrEmpty(Model.To))
                                     {
-                                        if (Model.To == item.DistrictId)
+                                        if (Model.To == item.Display)
                                         {
                                             <option value="@item.DistrictId" selected>@item.Display</option>
                                         }
@@ -116,14 +80,14 @@
                     </div>
                 </div>
                 <div class="row form-group">
-                    <div class="col-lg-1 col-md-1 col-sm-6 col-xs-12">
-                    </div>
-                    <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12">
-                    </div>
-                    <div class="col-lg-1 col-md-1 col-sm-6 col-xs-12">
+                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
+                        @{
+                            <small id="warningLabel" style="text-align:justify" class="text-warning hidden">¡No encontramos viajes según tu búsqueda pero si algunos que quizás te sirvan!</small>
+                        }
                     </div>
                     <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12">
                         <input type="button" class="btn btn-info col-lg-12 col-md-12 col-sm-12" onclick="RetrieveTrips()" value="Consultar Viajes" />
+                        <small>@ViewBag.ExactLocationTripsNotFound</small>
                     </div>
                 </div>
                 @Html.Partial("~/Views/Reservations/Partials/_RequestJourney.cshtml", Model)
@@ -190,7 +154,12 @@
                 $('#btnRetrieveTrips').removeClass('hidden');
                 $('#imgProcessing').addClass('hidden');
 
-                var tripsCount = $('#TripsCount').html();
+                //var tripsCount = $('#TripsCount').html();
+                if (json.CouldNotFindExactTrip) {
+                    $('#warningLabel').removeClass('hidden');
+                } else {
+                    $('#warningLabel').addClass('hidden');
+                }
 
                 if (json.Message != '') {
                     displayMessages(json.Message, 'warning')

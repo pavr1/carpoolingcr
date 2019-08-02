@@ -55,8 +55,8 @@
                 foreach (var trip in Model.Trips)
                 {
                     <hr />
-                    var from = trip.FromTown.County.Name + ", " + trip.FromTown.Name;
-                    var to = trip.ToTown.County.Name + ", " + trip.ToTown.Name;
+                    var from = trip.FromTown.FullName;
+                    var to = trip.ToTown.FullName;
 
                     <li>
                         <div class="row form-group">

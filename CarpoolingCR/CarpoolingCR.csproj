@@ -364,10 +364,6 @@
     <Compile Include="Migrations\201907302334567_Added TripQuestionInfo.Designer.cs">
       <DependentUpon>201907302334567_Added TripQuestionInfo.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201908020133172_Added from and to districts to trip.cs" />
-    <Compile Include="Migrations\201908020133172_Added from and to districts to trip.Designer.cs">
-      <DependentUpon>201908020133172_Added from and to districts to trip.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Bank.cs" />
@@ -407,9 +403,11 @@
     <Compile Include="Objects\Responses\TripIndexResponse.cs" />
     <Compile Include="Objects\Responses\UserManageResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Content Include="SQL\Costa Rica\Counties\Counties.sql" />
-    <Content Include="SQL\Costa Rica\Provinces\Provinces.sql" />
-    <Content Include="SQL\Costa Rica\Districts\Districts.sql" />
+    <Content Include="SQL\Costa Rica\Counties\Alajuela.sql" />
+    <Content Include="SQL\Costa Rica\Counties\San Jose.sql" />
+    <Content Include="SQL\Costa Rica\Districts\Alajuela.sql" />
+    <Content Include="SQL\Costa Rica\Provinces\Todas.sql" />
+    <Content Include="SQL\Costa Rica\Districts\San Jose.sql" />
     <Compile Include="Startup.cs" />
     <Compile Include="Utils\Common.cs" />
     <Compile Include="Utils\EmailHandler.cs" />
@@ -1013,9 +1011,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201907302334567_Added TripQuestionInfo.resx">
       <DependentUpon>201907302334567_Added TripQuestionInfo.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201908020133172_Added from and to districts to trip.resx">
-      <DependentUpon>201908020133172_Added from and to districts to trip.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

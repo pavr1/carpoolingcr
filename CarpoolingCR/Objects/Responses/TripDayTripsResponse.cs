@@ -17,5 +17,6 @@ namespace CarpoolingCR.Objects.Responses
         public DateTime CurrentDate { get; set; }
 
         public List<Reservation> ExistentReservations { get; set; }
+        public bool CouldNotFindExactTrip { get; set; }
     }
 }

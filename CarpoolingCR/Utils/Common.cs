@@ -1,11 +1,14 @@
 ﻿using CarpoolingCR.Models;
+using CarpoolingCR.Models.Locations;
 using CarpoolingCR.Objects.Responses;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Security.Principal;
+using static CarpoolingCR.Utils.Enums;
 
 namespace CarpoolingCR.Utils
 {
@@ -14,7 +17,8 @@ namespace CarpoolingCR.Utils
         public static List<LocationsResponse> GetLocationsStrings(int countryId)
         {
             var list = new List<LocationsResponse>();
-            list.Add(new LocationsResponse {
+            list.Add(new LocationsResponse
+            {
                 DistrictId = -1,
                 Display = string.Empty
             });
@@ -25,7 +29,7 @@ namespace CarpoolingCR.Utils
 
                 foreach (var province in provinces)
                 {
-                    var counties = db.Counties.Where(x => x.ProvinceId== province.ProvinceId).ToList();
+                    var counties = db.Counties.Where(x => x.ProvinceId == province.ProvinceId).ToList();
 
                     foreach (var county in counties)
                     {
@@ -33,7 +37,7 @@ namespace CarpoolingCR.Utils
 
                         foreach (var district in districts)
                         {
-                            var location = "🖣 " + county.Name + ", " + district.Name;
+                            var location = GetLocationName(district.DistrictId);
 
                             list.Add(new LocationsResponse
                             {
@@ -46,6 +50,94 @@ namespace CarpoolingCR.Utils
             }
 
             return list;
+        }
+
+        public static string GetLocationName(int districtId)
+        {
+            using (var db = new ApplicationDbContext())
+            {
+                var district = db.Districts.Where(x => x.DistrictId == districtId).Single();
+                var county = db.Counties.Where(x => x.CountyId == district.CountyId).Single();
+
+                return county.Name + ", " + district.Name;
+            }
+        }
+
+        public static void GetNearByTripsForReservationTransportation(District fromDistrict, District toDistrict, ref List<Trip> trips, ApplicationUser user, out bool couldNotFindExactTrip)
+        {
+            couldNotFindExactTrip = false;
+
+            if (trips.Count == 0)
+            {
+                using (var db = new ApplicationDbContext())
+                {
+                    var fromCountyDistricts = db.Districts.Where(x => x.CountyId == fromDistrict.CountyId)
+                        .Select(x => x.DistrictId)
+                        .ToList();
+
+                    var toCountyDistricts = db.Districts.Where(x => x.CountyId == toDistrict.CountyId)
+                        .Select(x => x.DistrictId)
+                        .ToList();
+
+                    trips = db.Trips.Where(x => fromCountyDistricts.Contains(x.FromTownId) && toCountyDistricts.Contains(x.ToTownId))
+                        .Where(x => x.Status == Status.Activo)
+                        .Where(x => x.ApplicationUserId != user.Id)
+                        .Where(x => x.AvailableSpaces > 0)
+                        .ToList();
+                }
+
+                couldNotFindExactTrip = (trips.Count > 0);
+            }
+        }
+
+        public static void GetNearByTripsForReservationTransportation(District fromDistrict, District toDistrict, ref List<Trip> trips, DateTime startDate, DateTime endDate, out bool couldNotFindExactTrip)
+        {
+            couldNotFindExactTrip = false;
+
+            if (trips.Count == 0)
+            {
+                using (var db = new ApplicationDbContext())
+                {
+                    var fromCountyDistricts = db.Districts.Where(x => x.CountyId == fromDistrict.CountyId)
+                        .Select(x => x.DistrictId)
+                        .ToList();
+
+                    var toCountyDistricts = db.Districts.Where(x => x.CountyId == toDistrict.CountyId)
+                        .Select(x => x.DistrictId)
+                        .ToList();
+
+                    startDate = Common.ConvertToUTCTime(startDate);
+                    endDate = Common.ConvertToUTCTime(endDate);
+
+                    trips = db.Trips.Where(x => x.Status == Enums.Status.Activo)
+                        .Where(x => x.DateTime >= startDate && x.DateTime <= endDate)
+                        .Where(x => fromCountyDistricts.Contains(x.FromTownId) && toCountyDistricts.Contains(x.ToTownId))
+                        .Include(x => x.ApplicationUser)
+                        .ToList();
+                }
+
+                couldNotFindExactTrip = (trips.Count > 0);
+            }
+        }
+
+        public static District ValidateDistrictString(string data)
+        {
+            var split = data.Replace("🖣 ", string.Empty).Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+            var countyId = split[0].Trim();
+            var districtId = split[1].Trim();
+            District result = null;
+
+            using (var db = new ApplicationDbContext())
+            {
+                var county = db.Counties.Where(x => x.Name == countyId).SingleOrDefault();
+
+                if (county != null)
+                {
+                    result = db.Districts.Where(x => x.CountyId == county.CountyId && x.Name == districtId).SingleOrDefault();
+                }
+            }
+
+            return result;
         }
 
         [MethodImpl(MethodImplOptions.NoInlining)]

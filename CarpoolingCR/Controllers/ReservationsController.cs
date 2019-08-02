@@ -575,13 +575,19 @@ namespace CarpoolingCR.Controllers
                     .Include(x => x.ApplicationUser)
                     .Single();
 
+                trip.FromTown = db.Districts.Where(x => x.DistrictId == trip.FromTownId).Single();
+                trip.ToTown = db.Districts.Where(x => x.DistrictId == trip.ToTownId).Single();
+
+                trip.FromTown.County = db.Counties.Where(x => x.CountyId == trip.FromTown.CountyId).Single();
+                trip.ToTown.County = db.Counties.Where(x => x.CountyId == trip.ToTown.CountyId).Single();
+
                 reservation.ApplicationUserId = passenger.Id;
                 reservation.Date = Common.ConvertToUTCTime(DateTime.Now);
 
                 db.Reservations.Add(reservation);
                 db.SaveChanges();
 
-                var tripInfo = trip.FromTown + " a " + trip.ToTown + " el " + Common.ConvertToLocalTime(trip.DateTime).ToString("dd/MM/yyyy hh:mm:ss tt");
+                var tripInfo = trip.FromTown.County.Name + ", " + trip.FromTown.Name + " a " + trip.ToTown.County.Name + ", " + trip.ToTown.Name + " el " + Common.ConvertToLocalTime(trip.DateTime).ToString("dd/MM/yyyy hh:mm:ss tt");
                 var spaces = reservation.RequestedSpaces;
 
                 var callbackUrl = Url.Action("Transportation", "Reservations", new { message = "", tabIndex = 1 }, protocol: Request.Url.Scheme);

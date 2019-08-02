@@ -1,4 +1,5 @@
-﻿using CarpoolingCR.Utils;
+﻿using CarpoolingCR.Models.Locations;
+using CarpoolingCR.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -55,8 +56,11 @@ namespace CarpoolingCR.Models
         public string Details { get; set; }
 
 
-        public int FromTown { get; set; }
-        public int ToTown { get; set; }
+        public int FromTownId { get; set; }
+        public District FromTown { get; set; }
+
+        public int ToTownId { get; set; }
+        public District ToTown { get; set; }
 
         [NotMapped]
         public List<Reservation> Reservations { get; set; }

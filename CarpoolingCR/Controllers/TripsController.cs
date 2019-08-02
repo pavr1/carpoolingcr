@@ -1,4 +1,5 @@
 ﻿using CarpoolingCR.Models;
+using CarpoolingCR.Models.Locations;
 using CarpoolingCR.Objects.Responses;
 using CarpoolingCR.Utils;
 using Microsoft.AspNet.Identity;
@@ -28,15 +29,16 @@ namespace CarpoolingCR.Controllers
                 }
 
                 var user = Common.GetUserByEmail(User.Identity.Name);
-                var maxTripsPerUser = Convert.ToInt32(WebConfigurationManager.AppSettings["MaxTripsPerUser"]);
-                var currentTrips = db.Trips.Where(x => x.ApplicationUserId == user.Id)
-                    .Where(x => x.Status == Status.Activo)
-                    .ToList();
 
                 if (user == null)
                 {
                     return RedirectToAction("Login", "Account");
                 }
+
+                var maxTripsPerUser = Convert.ToInt32(WebConfigurationManager.AppSettings["MaxTripsPerUser"]);
+                var currentTrips = db.Trips.Where(x => x.ApplicationUserId == user.Id)
+                    .Where(x => x.Status == Status.Activo)
+                    .ToList();
 
                 if (!string.IsNullOrEmpty(message))
                 {
@@ -73,6 +75,12 @@ namespace CarpoolingCR.Controllers
                             .Include(x => x.ApplicationUser)
                             .ToList();
 
+                        trip.FromTown = db.Districts.Where(x => x.DistrictId == trip.FromTownId)
+                            .Include(x => x.County)
+                            .Single();
+                        trip.ToTown = db.Districts.Where(x => x.DistrictId == trip.ToTownId)
+                            .Include(x => x.County)
+                            .Single();
                         trip.DateTime = Common.ConvertToLocalTime(trip.DateTime);
                     }
                 }
@@ -92,6 +100,12 @@ namespace CarpoolingCR.Controllers
                                 .Include(x => x.ApplicationUser)
                                 .ToList();
 
+                            trip.FromTown = db.Districts.Where(x => x.DistrictId == trip.FromTownId)
+                                .Include(x => x.County)
+                                .Single();
+                            trip.ToTown = db.Districts.Where(x => x.DistrictId == trip.ToTownId)
+                                .Include(x => x.County)
+                                .Single();
                             trip.DateTime = Common.ConvertToLocalTime(trip.DateTime);
                         }
 
@@ -127,13 +141,38 @@ namespace CarpoolingCR.Controllers
             }
         }
 
-        public ActionResult DayTrips(string date, int from, int to)
+        public ActionResult DayTrips(string date, string from, string to)
         {
             try
             {
                 if (!Common.IsAuthorized(User))
                 {
                     return RedirectToAction("Login", "Account");
+                }
+
+                var fromDistrict = new District();
+                var toDistrict = new District();
+
+                var split = from.Replace("🖣 ", string.Empty).Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+                var countyId = split[0].Trim();
+                var districtId = split[1].Trim();
+
+                var county = db.Counties.Where(x => x.Name == countyId).SingleOrDefault();
+
+                if (county != null)
+                {
+                    fromDistrict = db.Districts.Where(x => x.CountyId == county.CountyId && x.Name == districtId).SingleOrDefault();
+                }
+
+                split = to.Replace("🖣 ", string.Empty).Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+                countyId = split[0].Trim();
+                districtId = split[1].Trim();
+
+                county = db.Counties.Where(x => x.Name == countyId).SingleOrDefault();
+
+                if (county != null)
+                {
+                    toDistrict = db.Districts.Where(x => x.CountyId == county.CountyId && x.Name == districtId).SingleOrDefault();
                 }
 
                 DateTime d = new DateTime();
@@ -151,7 +190,7 @@ namespace CarpoolingCR.Controllers
 
                 var result = db.Trips.Where(x => x.Status == Enums.Status.Activo
                     && x.DateTime >= startDate && x.DateTime <= endDate
-                    && x.FromTown == from && x.ToTown == to)
+                    && x.FromTownId == fromDistrict.DistrictId && x.ToTownId == toDistrict.DistrictId)
                     .Include(x => x.ApplicationUser)
                     .ToList();
 
@@ -169,8 +208,8 @@ namespace CarpoolingCR.Controllers
                 return View(new TripDayTripsResponse
                 {
                     Trips = result,
-                    From = from,
-                    To = to,
+                    From = fromDistrict.County.Name + ", " + fromDistrict.Name,
+                    To = toDistrict.County.Name + ", " + toDistrict.Name,
                     CurrentUserId = user.Id,
                     CurrentDate = d,
                     ExistentReservations = existentReservation
@@ -288,7 +327,7 @@ namespace CarpoolingCR.Controllers
 
                 var response = new TripCreateResponse
                 {
-                    Towns = Common.GetLocationsStrings((int)user.CountryId)
+                    Towns = Common.GetLocationsStrings(user.CountryId)
                 };
 
                 return View(response);
@@ -340,36 +379,55 @@ namespace CarpoolingCR.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    var user = Common.GetUserByEmail(User.Identity.Name);
-                    var fromRequest = Convert.ToInt32(Request["FromTown"]);
-                    var from = db.Districts.Where(x => x.DistrictId == fromRequest).SingleOrDefault();
-                    var tripDate = Convert.ToDateTime(Request["DateTime"]);
+                    var fromDistrict = new District();
+                    var toDistrict = new District();
 
-                    if (from == null)
+                    var user = Common.GetUserByEmail(User.Identity.Name);
+
+                    var tripDate = Convert.ToDateTime(Request["DateTime"]);
+                    var split = Request["FromTown"].Replace("🖣 ", string.Empty).Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+                    var countyId = split[0].Trim();
+                    var districtId = split[1].Trim();
+
+                    var county = db.Counties.Where(x => x.Name == countyId).SingleOrDefault();
+
+                    if (county != null)
+                    {
+                        fromDistrict = db.Districts.Where(x => x.CountyId == county.CountyId && x.Name == districtId).SingleOrDefault();
+                    }
+
+                    if (fromDistrict == null)
                     {
                         //¡Origen no válido!
                         ViewBag.Warning = "10005";
 
                         var response = new TripCreateResponse
                         {
-                            Towns = Common.GetLocationsStrings((int)user.CountryId),
+                            Towns = Common.GetLocationsStrings(user.CountryId),
                             Trip = trip
                         };
 
                         return View(response);
                     }
 
-                    var toRequest = Convert.ToInt32(Request["ToTown"]);
-                    var to = db.Districts.Where(x => x.DistrictId == toRequest).SingleOrDefault();
+                    split = Request["ToTown"].Replace("🖣 ", string.Empty).Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+                    countyId = split[0].Trim();
+                    districtId = split[1].Trim();
+                    county = db.Counties.Where(x => x.Name == countyId).SingleOrDefault();
 
-                    if (to == null)
+                    if (county != null)
+                    {
+                        toDistrict = db.Districts.Where(x => x.CountyId == county.CountyId && x.Name == districtId).SingleOrDefault();
+                    }
+
+                    if (toDistrict == null)
                     {
                         //¡Destino no válido!
                         ViewBag.Warning = "10006";
 
                         var response = new TripCreateResponse
                         {
-                            Towns = Common.GetLocationsStrings((int)user.CountryId),
+                            Towns = Common.GetLocationsStrings(user.CountryId),
                             Trip = trip
                         };
 
@@ -383,11 +441,11 @@ namespace CarpoolingCR.Controllers
                         CreatedTime = Common.ConvertToUTCTime(DateTime.Now),
                         DateTime = Common.ConvertToUTCTime(tripDate),
                         Details = Request["Trip.Details"],
-                        FromTown = fromRequest,
+                        FromTownId = fromDistrict.DistrictId,
                         Price = Convert.ToDecimal(Request["Trip.Price"]),
                         Status = Enums.Status.Activo,
                         TotalSpaces = Convert.ToInt32(Request["TotalSpaces"]),
-                        ToTown = toRequest
+                        ToTownId = toDistrict.DistrictId
                     };
 
                     db.Trips.Add(trip);
@@ -504,11 +562,11 @@ namespace CarpoolingCR.Controllers
                         CreatedTime = Common.ConvertToUTCTime(Convert.ToDateTime(Request["DateTime"])),
                         DateTime = Common.ConvertToUTCTime(Convert.ToDateTime(Request["DateTime"])),
                         Details = Request["Trip.Details"],
-                        FromTown = Convert.ToInt32(Request["FromTown"]),
+                        FromTownId = Convert.ToInt32(Request["FromTown"]),
                         Price = Convert.ToDecimal(Request["Trip.Price"]),
                         Status = Enums.Status.Activo,
                         TotalSpaces = Convert.ToInt32(Request["TotalSpaces"]),
-                        ToTown = Convert.ToInt32(Request["ToTown"])
+                        ToTownId = Convert.ToInt32(Request["ToTown"])
                     };
 
                     db.Entry(trip).State = EntityState.Modified;

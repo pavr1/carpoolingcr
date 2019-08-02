@@ -30,8 +30,8 @@
             {
                 foreach (var item in Model.PassengerReservations)
                 {
-                    var from = item.Trip.FromTown;
-                    var to = item.Trip.ToTown;
+                    var from = item.Trip.FromTown.County.Name + ", " + item.Trip.FromTown.Name;
+                    var to = item.Trip.ToTown.County.Name + ", " + item.Trip.ToTown.Name;
 
                     <li>
                         <label class="control-label fromto">@from -> @to</label>

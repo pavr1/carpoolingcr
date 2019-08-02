@@ -24,7 +24,7 @@
                 <label class="control-label" style="text-align:left">Origen</label>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                <select id="FromTown" name="FromTown" class="form-control" onchange="RefreshSelectedLocation('#FromTown','#fromDistrictId')">
+                <select id="FromTown" name="FromTown" class="form-control">
                     @{
                         foreach (var item in Model.Towns)
                         {
@@ -38,7 +38,7 @@
                 <label class="control-label" style="text-align:left">Destino</label>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                <select id="ToTown" name="ToTown" class="form-control" onchange="RefreshSelectedLocation('#ToTown','#toDistrictId')">
+                <select id="ToTown" name="ToTown" class="form-control">
                     @{
                         foreach (var item in Model.Towns)
                         {
@@ -195,11 +195,4 @@
         result.setDate(result.getDate() + days);
         return result;
         }
-
-    function RefreshSelectedLocation(controlId, hiddenControlId) {
-        var value = $(controlId).val();
-        $(hiddenControlId).val(value);
-
-        alert(value)
-    }
 </script>

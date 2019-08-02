@@ -14,6 +14,10 @@ namespace CarpoolingCR.Utils
         public static List<LocationsResponse> GetLocationsStrings(int countryId)
         {
             var list = new List<LocationsResponse>();
+            list.Add(new LocationsResponse {
+                DistrictId = -1,
+                Display = string.Empty
+            });
 
             using (var db = new ApplicationDbContext())
             {
@@ -29,7 +33,7 @@ namespace CarpoolingCR.Utils
 
                         foreach (var district in districts)
                         {
-                            var location = "&#8711; " + county.Name + ", " + district.Name;
+                            var location = "🖣 " + county.Name + ", " + district.Name;
 
                             list.Add(new LocationsResponse
                             {

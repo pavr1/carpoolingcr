@@ -101,8 +101,8 @@
                 var tripId = arrayOfTrips[i].TripId;
                 var availableSpaces = arrayOfTrips[i].AvailableSpaces;
                 var unixTime = arrayOfTrips[i].DateTime.match(/\d+/)[0] * 1;
-                var from = arrayOfTrips[i].FromTown;
-                var to = arrayOfTrips[i].ToTown;
+                var from = arrayOfTrips[i].FromTown.County.Name + ', ' + arrayOfTrips[i].FromTown.Name;
+                var to = arrayOfTrips[i].ToTown.County.Name + ', ' + arrayOfTrips[i].ToTown.Name;
 
                 document.getElementById('lblFromTo').innerHTML = from + ' - ' + to;
 

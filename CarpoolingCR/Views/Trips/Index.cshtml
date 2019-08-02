@@ -55,9 +55,8 @@
                 foreach (var trip in Model.Trips)
                 {
                     <hr />
-                    <hr />
-                    var from = trip.FromTown;
-                    var to = trip.ToTown;
+                    var from = trip.FromTown.County.Name + ", " + trip.FromTown.Name;
+                    var to = trip.ToTown.County.Name + ", " + trip.ToTown.Name;
 
                     <li>
                         <div class="row form-group">
@@ -161,7 +160,7 @@
                                     <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
 
                                     </div>
-                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 bg-info" style="border-radius:20px">
                                         <small><b>&nbsp;&nbsp;Ganancias: ₡ @totalAmount.ToString("N2")</b><br /></small>
                                     </div>
                                 </div>

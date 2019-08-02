@@ -364,21 +364,9 @@
     <Compile Include="Migrations\201907302334567_Added TripQuestionInfo.Designer.cs">
       <DependentUpon>201907302334567_Added TripQuestionInfo.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201908011806257_Created Province,County and District models.cs" />
-    <Compile Include="Migrations\201908011806257_Created Province,County and District models.Designer.cs">
-      <DependentUpon>201908011806257_Created Province,County and District models.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201908011828119_Fixed Province,County and District references.cs" />
-    <Compile Include="Migrations\201908011828119_Fixed Province,County and District references.Designer.cs">
-      <DependentUpon>201908011828119_Fixed Province,County and District references.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201908011831124_Fixed Country reference.cs" />
-    <Compile Include="Migrations\201908011831124_Fixed Country reference.Designer.cs">
-      <DependentUpon>201908011831124_Fixed Country reference.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201908012352484_Countrys countryId cannot be null.cs" />
-    <Compile Include="Migrations\201908012352484_Countrys countryId cannot be null.Designer.cs">
-      <DependentUpon>201908012352484_Countrys countryId cannot be null.cs</DependentUpon>
+    <Compile Include="Migrations\201908020133172_Added from and to districts to trip.cs" />
+    <Compile Include="Migrations\201908020133172_Added from and to districts to trip.Designer.cs">
+      <DependentUpon>201908020133172_Added from and to districts to trip.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -1026,17 +1014,8 @@
     <EmbeddedResource Include="Migrations\201907302334567_Added TripQuestionInfo.resx">
       <DependentUpon>201907302334567_Added TripQuestionInfo.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201908011806257_Created Province,County and District models.resx">
-      <DependentUpon>201908011806257_Created Province,County and District models.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201908011828119_Fixed Province,County and District references.resx">
-      <DependentUpon>201908011828119_Fixed Province,County and District references.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201908011831124_Fixed Country reference.resx">
-      <DependentUpon>201908011831124_Fixed Country reference.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201908012352484_Countrys countryId cannot be null.resx">
-      <DependentUpon>201908012352484_Countrys countryId cannot be null.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201908020133172_Added from and to districts to trip.resx">
+      <DependentUpon>201908020133172_Added from and to districts to trip.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

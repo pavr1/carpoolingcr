@@ -1,4 +1,5 @@
 ﻿using CarpoolingCR.Models;
+using CarpoolingCR.Models.Locations;
 using CarpoolingCR.Objects.Responses;
 using CarpoolingCR.Utils;
 using Microsoft.AspNet.Identity;
@@ -32,7 +33,7 @@ namespace CarpoolingCR.Controllers
                 var response = new ReservationIndexResponse
                 {
                     Reservations = db.Reservations.ToList(),
-                    Towns = Common.GetLocationsStrings((int)user.CountryId)//db.Towns.ToList()
+                    Towns = Common.GetLocationsStrings(user.CountryId)//db.Towns.ToList()
                 };
 
                 return View(response);
@@ -83,6 +84,11 @@ namespace CarpoolingCR.Controllers
                     reservation.Trip = db.Trips.Where(x => x.TripId == reservation.TripId)
                         .Include(x => x.ApplicationUser)
                         .SingleOrDefault();
+                    reservation.Trip.FromTown = db.Districts.Where(x => x.DistrictId == reservation.Trip.FromTownId).Single();
+                    reservation.Trip.ToTown = db.Districts.Where(x => x.DistrictId == reservation.Trip.ToTownId).Single();
+
+                    reservation.Trip.FromTown.County = db.Counties.Where(x => x.CountyId == reservation.Trip.FromTown.CountyId).Single();
+                    reservation.Trip.ToTown.County = db.Counties.Where(x => x.CountyId == reservation.Trip.ToTown.CountyId).Single();
                 }
 
                 int tabIndexAux = (tabIndex == null) ? 0 : Convert.ToInt32(tabIndex);
@@ -95,7 +101,7 @@ namespace CarpoolingCR.Controllers
                     SelectedJourneyId = -1,
                     SelectedRouteIndex = -1,
                     CurrentUserType = user.UserType,
-                    Towns = Common.GetLocationsStrings((int)user.CountryId),//db.Towns.ToList(),
+                    Towns = Common.GetLocationsStrings(user.CountryId),//db.Towns.ToList(),
                     From = from,
                     To = to,
                     TabIndex = tabIndexAux
@@ -104,7 +110,7 @@ namespace CarpoolingCR.Controllers
                 //if from/to are provided, load the trips for them
                 if (from != -1 && to != -1)
                 {
-                    response.Trips = db.Trips.Where(x => x.FromTown == from && x.ToTown == to && x.Status == Status.Activo).ToList();
+                    response.Trips = db.Trips.Where(x => x.FromTownId == from && x.ToTownId == to && x.Status == Status.Activo).ToList();
 
                     foreach (var trip in response.Trips)
                     {
@@ -134,7 +140,7 @@ namespace CarpoolingCR.Controllers
         }
 
         [HttpPost]
-        public string Transportation(int from, int to)
+        public string Transportation(string from, string to)
         {
             try
             {
@@ -143,6 +149,8 @@ namespace CarpoolingCR.Controllers
                     RedirectToAction("Login", "Account");
                 }
 
+                var fromDistrict = new District();
+                var toDistrict = new District();
                 var user = Common.GetUserByEmail(User.Identity.Name);
 
                 List<Reservation> passengerReservations = new List<Reservation>();
@@ -161,6 +169,8 @@ namespace CarpoolingCR.Controllers
                             .Include(x => x.ApplicationUser)
                             .SingleOrDefault();
 
+                        reservation.Trip.FromTown = db.Districts.Where(x => x.DistrictId == reservation.Trip.FromTownId).Single();
+                        reservation.Trip.ToTown = db.Districts.Where(x => x.DistrictId == reservation.Trip.ToTownId).Single();
                         reservation.Trip.DateTime = Common.ConvertToLocalTime(reservation.Trip.DateTime);
                     }
                 }
@@ -198,16 +208,25 @@ namespace CarpoolingCR.Controllers
 
                 List<Trip> trips = new List<Trip>();
 
-                var fromRequest = db.Districts.Where(x => x.DistrictId == from).SingleOrDefault();
+                var split = from.Replace("🖣 ", string.Empty).Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+                var countyId = split[0].Trim();
+                var districtId = split[1].Trim();
 
-                if (fromRequest == null)
+                var county = db.Counties.Where(x => x.Name == countyId).SingleOrDefault();
+
+                if (county != null)
+                {
+                    fromDistrict = db.Districts.Where(x => x.CountyId == county.CountyId && x.Name == districtId).SingleOrDefault();
+                }
+
+                if (fromDistrict == null)
                 {
                     response = new ReservationTransportationResponse
                     {
                         Trips = trips,
                         PassengerReservations = passengerReservations,
                         DriverTrips = driverTrips,
-                        Towns = Common.GetLocationsStrings((int)user.CountryId),//db.Towns.ToList(),
+                        Towns = Common.GetLocationsStrings(user.CountryId),//db.Towns.ToList(),
                         //¡Origen no válido!
                         Message = "100012"
                     };
@@ -217,16 +236,25 @@ namespace CarpoolingCR.Controllers
                     return Serializer.Serialize(response);
                 }
 
-                var toRequest = db.Districts.Where(x => x.DistrictId == to).SingleOrDefault();
+                split = to.Replace("🖣 ", string.Empty).Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+                countyId = split[0].Trim();
+                districtId = split[1].Trim();
 
-                if (toRequest == null)
+                county = db.Counties.Where(x => x.Name == countyId).SingleOrDefault();
+
+                if (county != null)
+                {
+                    toDistrict = db.Districts.Where(x => x.CountyId == county.CountyId && x.Name == districtId).SingleOrDefault();
+                }
+
+                if (toDistrict == null)
                 {
                     response = new ReservationTransportationResponse
                     {
                         Trips = trips,
                         PassengerReservations = passengerReservations,
                         DriverTrips = driverTrips,
-                        Towns = Common.GetLocationsStrings((int)user.CountryId),//db.Towns.ToList(),
+                        Towns = Common.GetLocationsStrings(user.CountryId),//db.Towns.ToList(),
                         //¡Destino no válido!
                         Message = "100013"
                     };
@@ -236,14 +264,20 @@ namespace CarpoolingCR.Controllers
                     return Serializer.Serialize(response);
                 }
 
-                trips = db.Trips.Where(x => x.FromTown == from && x.ToTown == to)
+                trips = db.Trips.Where(x => x.FromTownId == fromDistrict.DistrictId && x.ToTownId == toDistrict.DistrictId)
                     .Where(x => x.Status == Status.Activo)
                     .Where(x => x.ApplicationUserId != user.Id)
                     .Where(x => x.AvailableSpaces > 0)
                     .ToList();
 
+                //Setting these attributes county.districts property to null to avoid circular exception
+                fromDistrict.County.Districts = null;
+                toDistrict.County.Districts = null;
+
                 foreach (var trip in trips)
                 {
+                    trip.FromTown = fromDistrict;
+                    trip.ToTown = toDistrict;
                     trip.DateTime = Common.ConvertToLocalTime(trip.DateTime);
                 }
 
@@ -252,7 +286,7 @@ namespace CarpoolingCR.Controllers
                     Trips = trips,
                     PassengerReservations = passengerReservations,
                     DriverTrips = driverTrips,
-                    Towns = Common.GetLocationsStrings((int)user.CountryId)//db.Towns.ToList()
+                    Towns = Common.GetLocationsStrings(user.CountryId)//db.Towns.ToList()
                 };
 
                 response.Html = Serializer.RenderViewToString(this.ControllerContext, "Partials/_RequestJourney", response);
@@ -332,6 +366,11 @@ namespace CarpoolingCR.Controllers
 
                 var trip = db.Trips.Where(x => x.TripId == reservation.TripId).
                     Include(x => x.ApplicationUser).SingleOrDefault();
+                trip.FromTown = db.Districts.Where(x => x.DistrictId == trip.FromTownId).Single();
+                trip.ToTown = db.Districts.Where(x => x.DistrictId == trip.ToTownId).Single();
+
+                trip.FromTown.County = db.Counties.Where(x => x.CountyId == trip.FromTown.CountyId).Single();
+                trip.ToTown.County = db.Counties.Where(x => x.CountyId == trip.ToTown.CountyId).Single();
 
                 reservation.ApplicationUser = db.Users.Find(reservation.ApplicationUserId);
 
@@ -339,6 +378,7 @@ namespace CarpoolingCR.Controllers
 
                 var message = string.Empty;
                 var cancelledFrom = Request["cancelledFrom"];
+                var tripInfo = trip.FromTown.County.Name + ", " + trip.FromTown.Name + " -> " + trip.ToTown.County.Name + ", " + trip.ToTown.Name;
 
                 if (stat == ReservationStatus.Accepted)
                 {
@@ -356,7 +396,7 @@ namespace CarpoolingCR.Controllers
                     //¡Reservación Aceptada!
                     message = "100015";
 
-                    EmailHandler.SendReservationStatusChangeByDriver(reservation.ApplicationUser.Email, trip.FromTown + " -> " + trip.ToTown, Common.ConvertToLocalTime(trip.DateTime).ToString("dd/MM/yyyy hh:mm:ss tt"), "aceptada", callbackUrl);
+                    EmailHandler.SendReservationStatusChangeByDriver(reservation.ApplicationUser.Email, tripInfo, Common.ConvertToLocalTime(trip.DateTime).ToString("dd/MM/yyyy hh:mm:ss tt"), "aceptada", callbackUrl);
                 }
                 else if (stat == ReservationStatus.Cancelled)
                 {
@@ -367,11 +407,11 @@ namespace CarpoolingCR.Controllers
                     {
                         if (cancelledFrom == "passenger")
                         {
-                            EmailHandler.SendReservationStatusCancelledByPassenger(trip.ApplicationUser.Email, trip.FromTown + " -> " + trip.ToTown, Common.ConvertToLocalTime(trip.DateTime).ToString("dd/MM/yyyy hh:mm:ss tt"), reservation.RequestedSpaces, callbackUrl);
+                            EmailHandler.SendReservationStatusCancelledByPassenger(trip.ApplicationUser.Email, tripInfo, Common.ConvertToLocalTime(trip.DateTime).ToString("dd/MM/yyyy hh:mm:ss tt"), reservation.RequestedSpaces, callbackUrl);
                         }
                         else if (cancelledFrom == "driver")
                         {
-                            EmailHandler.SendReservationStatusCancelledByPassenger(reservation.ApplicationUser.Email, trip.FromTown + " -> " + trip.ToTown, Common.ConvertToLocalTime(trip.DateTime).ToString("dd/MM/yyyy hh:mm:ss tt"), reservation.RequestedSpaces, callbackUrl);
+                            EmailHandler.SendReservationStatusCancelledByPassenger(reservation.ApplicationUser.Email, tripInfo, Common.ConvertToLocalTime(trip.DateTime).ToString("dd/MM/yyyy hh:mm:ss tt"), reservation.RequestedSpaces, callbackUrl);
                         }
 
                         trip.AvailableSpaces += reservation.RequestedSpaces;
@@ -384,7 +424,7 @@ namespace CarpoolingCR.Controllers
                     //¡Reservación Rechazada!
                     message += "100017";
 
-                    EmailHandler.SendReservationStatusChangeByDriver(reservation.ApplicationUser.Email, trip.FromTown + " -> " + trip.ToTown, Common.ConvertToLocalTime(trip.DateTime).ToString("dd/MM/yyyy hh:mm:ss tt"), "rechazada", callbackUrl);
+                    EmailHandler.SendReservationStatusChangeByDriver(reservation.ApplicationUser.Email, tripInfo, Common.ConvertToLocalTime(trip.DateTime).ToString("dd/MM/yyyy hh:mm:ss tt"), "rechazada", callbackUrl);
                 }
 
                 tran.Commit();
@@ -466,6 +506,9 @@ namespace CarpoolingCR.Controllers
                 var trip = db.Trips.Where(x => x.TripId == tripId)
                     .Include(x => x.ApplicationUser)
                     .SingleOrDefault();
+
+                trip.FromTown = db.Districts.Where(x => x.DistrictId == trip.FromTownId).Single();
+                trip.ToTown = db.Districts.Where(x => x.DistrictId == trip.ToTownId).Single();
 
                 var response = new ReservationCreateResponse
                 {

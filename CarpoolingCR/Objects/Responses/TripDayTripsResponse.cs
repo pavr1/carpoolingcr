@@ -8,8 +8,8 @@ namespace CarpoolingCR.Objects.Responses
 {
     public class TripDayTripsResponse
     {
-        public int From { get; set; }
-        public int To { get; set; }
+        public string From { get; set; }
+        public string To { get; set; }
         public string CurrentUserId { get; set; }
 
         public List<Trip> Trips { get; set; }

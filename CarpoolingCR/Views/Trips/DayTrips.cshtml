@@ -222,7 +222,7 @@
                 var reservationAlreadyExistent = ExistReservationToTrip(calEvent.id)
 
                 if (reservationAlreadyExistent) {
-                    $('#btnsContainer').html('<small class="pull-left">*** ¡Ya posee una reservación activa para este viaje!</small><button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button><button type="button" disabled class="btn btn-primary">Reservar</button>');
+                    $('#btnsContainer').html('<small class="pull-left text-warning">¡Ya tiene una reservación activa para este viaje!</small><button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button><button type="button" disabled class="btn btn-primary">Reservar</button>');
                 } else {
                     $('#msgTextModal').val('')
                         //< input type = "button" onclick = "OpenMessageModel()" class="btn btn-default pull-left" value = "&#128386;" />

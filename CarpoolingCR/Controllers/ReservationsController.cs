@@ -432,8 +432,8 @@ namespace CarpoolingCR.Controllers
                     return RedirectToAction("Transportation", "Reservations", new
                     {
                         message = message,
-                        from = -1,
-                        to = -1,
+                        from = string.Empty,
+                        to = string.Empty,
                         tabIndex = 1
                     });
                 }
@@ -593,8 +593,8 @@ namespace CarpoolingCR.Controllers
                 {
                     //¡Reservación Creada, conductor notificado!
                     message = "100018",
-                    from = -1,
-                    to = -1,
+                    from = string.Empty,
+                    to = string.Empty,
                     tabIndex = 1
                 });
             }

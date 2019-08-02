@@ -9,6 +9,6 @@ namespace CarpoolingCR.Objects.Responses
     public class TripEditResponse
     {
         public Trip Trip { get; set; }
-        public List<Town> Towns { get; set; }
+        //public List<Town> Towns { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using CarpoolingCR.Models;
+using CarpoolingCR.Models.Locations;
 using System;
 using System.Collections.Generic;
 using System.Linq;

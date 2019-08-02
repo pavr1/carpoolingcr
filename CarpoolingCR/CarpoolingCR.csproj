@@ -219,9 +219,12 @@
     <Compile Include="Controllers\BankAccountsController.cs" />
     <Compile Include="Controllers\BanksController.cs" />
     <Compile Include="Controllers\ChattingMessagesController.cs" />
+    <Compile Include="Controllers\CountiesController.cs" />
+    <Compile Include="Controllers\DistrictsController.cs" />
     <Compile Include="Controllers\MonthlyBalancesController.cs" />
     <Compile Include="Controllers\MonthlyTransactionsController.cs" />
     <Compile Include="Controllers\OfflineController.cs" />
+    <Compile Include="Controllers\ProvincesController.cs" />
     <Compile Include="Controllers\RideRequestsController.cs" />
     <Compile Include="Controllers\TownsController.cs" />
     <Compile Include="Controllers\TripQuestionsController.cs" />
@@ -361,13 +364,32 @@
     <Compile Include="Migrations\201907302334567_Added TripQuestionInfo.Designer.cs">
       <DependentUpon>201907302334567_Added TripQuestionInfo.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201908011806257_Created Province,County and District models.cs" />
+    <Compile Include="Migrations\201908011806257_Created Province,County and District models.Designer.cs">
+      <DependentUpon>201908011806257_Created Province,County and District models.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908011828119_Fixed Province,County and District references.cs" />
+    <Compile Include="Migrations\201908011828119_Fixed Province,County and District references.Designer.cs">
+      <DependentUpon>201908011828119_Fixed Province,County and District references.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908011831124_Fixed Country reference.cs" />
+    <Compile Include="Migrations\201908011831124_Fixed Country reference.Designer.cs">
+      <DependentUpon>201908011831124_Fixed Country reference.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908012352484_Countrys countryId cannot be null.cs" />
+    <Compile Include="Migrations\201908012352484_Countrys countryId cannot be null.Designer.cs">
+      <DependentUpon>201908012352484_Countrys countryId cannot be null.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Bank.cs" />
     <Compile Include="Models\BankAccount.cs" />
     <Compile Include="Models\ChattingMessage.cs" />
-    <Compile Include="Models\Country.cs" />
+    <Compile Include="Models\Locations\Country.cs" />
+    <Compile Include="Models\Locations\County.cs" />
+    <Compile Include="Models\Locations\District.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\Locations\Province.cs" />
     <Compile Include="Models\Log.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\MonthlyBalance.cs" />
@@ -384,6 +406,7 @@
     <Compile Include="Objects\Responses\ContactUsResponse.cs" />
     <Compile Include="Objects\Responses\DisplayMessagesResponse.cs" />
     <Compile Include="Objects\Responses\EditUserResponse.cs" />
+    <Compile Include="Objects\Responses\LocationsResponse.cs" />
     <Compile Include="Objects\Responses\TownCreateResponse.cs" />
     <Compile Include="Objects\Responses\TownIndexResponse.cs" />
     <Compile Include="Objects\Responses\TripDayTripsResponse.cs" />
@@ -396,6 +419,9 @@
     <Compile Include="Objects\Responses\TripIndexResponse.cs" />
     <Compile Include="Objects\Responses\UserManageResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="SQL\Costa Rica\Counties\Counties.sql" />
+    <Content Include="SQL\Costa Rica\Provinces\Provinces.sql" />
+    <Content Include="SQL\Costa Rica\Districts\Districts.sql" />
     <Compile Include="Startup.cs" />
     <Compile Include="Utils\Common.cs" />
     <Compile Include="Utils\EmailHandler.cs" />
@@ -870,6 +896,21 @@
     <Content Include="Views\Account\ContactUs.cshtml" />
     <Content Include="Views\TripQuestions\DisplayMessages.cshtml" />
     <Content Include="Views\TripQuestions\Partials\_MessageHistory.cshtml" />
+    <Content Include="Views\Districts\Create.cshtml" />
+    <Content Include="Views\Districts\Delete.cshtml" />
+    <Content Include="Views\Districts\Details.cshtml" />
+    <Content Include="Views\Districts\Edit.cshtml" />
+    <Content Include="Views\Districts\Index.cshtml" />
+    <Content Include="Views\Counties\Create.cshtml" />
+    <Content Include="Views\Counties\Delete.cshtml" />
+    <Content Include="Views\Counties\Details.cshtml" />
+    <Content Include="Views\Counties\Edit.cshtml" />
+    <Content Include="Views\Counties\Index.cshtml" />
+    <Content Include="Views\Provinces\Create.cshtml" />
+    <Content Include="Views\Provinces\Delete.cshtml" />
+    <Content Include="Views\Provinces\Details.cshtml" />
+    <Content Include="Views\Provinces\Edit.cshtml" />
+    <Content Include="Views\Provinces\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -984,6 +1025,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201907302334567_Added TripQuestionInfo.resx">
       <DependentUpon>201907302334567_Added TripQuestionInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908011806257_Created Province,County and District models.resx">
+      <DependentUpon>201908011806257_Created Province,County and District models.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908011828119_Fixed Province,County and District references.resx">
+      <DependentUpon>201908011828119_Fixed Province,County and District references.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908011831124_Fixed Country reference.resx">
+      <DependentUpon>201908011831124_Fixed Country reference.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908012352484_Countrys countryId cannot be null.resx">
+      <DependentUpon>201908012352484_Countrys countryId cannot be null.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -5,6 +5,7 @@ using System.Runtime.Serialization;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Threading.Tasks;
+using CarpoolingCR.Models.Locations;
 using CarpoolingCR.Utils;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -43,7 +44,7 @@ namespace CarpoolingCR.Models
         public Enums.UserType UserType { get; set; }
 
         [Display(Name = "País")]
-        public int? CountryId { get; set; }
+        public int CountryId { get; set; }
         public Country Country { get; set; }
 
         [Required]
@@ -113,7 +114,7 @@ namespace CarpoolingCR.Models
                 .ToTable("AspNetUserLogins");
         }
 
-        public System.Data.Entity.DbSet<CarpoolingCR.Models.Country> Countries { get; set; }
+        public System.Data.Entity.DbSet<CarpoolingCR.Models.Locations.Country> Countries { get; set; }
 
         public System.Data.Entity.DbSet<CarpoolingCR.Models.Log> Logs { get; set; }
 
@@ -138,12 +139,18 @@ namespace CarpoolingCR.Models
 
         public System.Data.Entity.DbSet<CarpoolingCR.Models.BankAccount> BankAccounts { get; set; }
 
-        public System.Data.Entity.DbSet<CarpoolingCR.Models.Town> Towns { get; set; }
+        //public System.Data.Entity.DbSet<CarpoolingCR.Models.Town> Towns { get; set; }
 
         public System.Data.Entity.DbSet<CarpoolingCR.Models.ChattingMessage> ChattingMessages { get; set; }
 
         public System.Data.Entity.DbSet<CarpoolingCR.Models.TripQuestionInfo> TripQuestionInfos { get; set; }
 
         public System.Data.Entity.DbSet<CarpoolingCR.Models.TripQuestion> TripQuestions { get; set; }
+
+        public System.Data.Entity.DbSet<CarpoolingCR.Models.Locations.District> Districts { get; set; }
+
+        public System.Data.Entity.DbSet<CarpoolingCR.Models.Locations.County> Counties { get; set; }
+
+        public System.Data.Entity.DbSet<CarpoolingCR.Models.Locations.Province> Provinces { get; set; }
     }
 }

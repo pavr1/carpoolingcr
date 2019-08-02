@@ -24,27 +24,29 @@
                 <label class="control-label" style="text-align:left">Origen</label>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                <select id="FromTown" name="FromTown" class="form-control">
+                <select id="FromTown" name="FromTown" class="form-control" onchange="RefreshSelectedLocation('#FromTown','#fromDistrictId')">
                     @{
                         foreach (var item in Model.Towns)
                         {
-                            <option value="@item.Name">@item.Name</option>
+                            <option value="@item.DistrictId">@item.Display</option>
                         }
                     }
                 </select>
+                <label id="fromDistrictId" ></label>
             </div>
             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
                 <label class="control-label" style="text-align:left">Destino</label>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                <select id="ToTown" name="ToTown" class="form-control">
+                <select id="ToTown" name="ToTown" class="form-control" onchange="RefreshSelectedLocation('#ToTown','#toDistrictId')">
                     @{
                         foreach (var item in Model.Towns)
                         {
-                            <option value="@item.Name">@item.Name</option>
+                            <option value="@item.DistrictId">@item.Display</option>
                         }
                     }
                 </select>
+                <label id="toDistrictId" ></label>
             </div>
         </div>
 
@@ -164,7 +166,6 @@
         LoadRouteOptions();
     });
 
-
     function SetRouteOption(index) {
         var selectedOption = $('#hiddenOption' + index).val();
 
@@ -193,5 +194,12 @@
         var result = new Date(date);
         result.setDate(result.getDate() + days);
         return result;
+        }
+
+    function RefreshSelectedLocation(controlId, hiddenControlId) {
+        var value = $(controlId).val();
+        $(hiddenControlId).val(value);
+
+        alert(value)
     }
 </script>

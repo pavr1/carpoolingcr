@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace CarpoolingCR.Models
+namespace CarpoolingCR.Models.Locations
 {
     public class Country
     {
@@ -17,6 +17,6 @@ namespace CarpoolingCR.Models
         [Display(Name = "Estado")]
         public Enums.Status Status { get; set; }
         
-        public virtual ICollection<Town> Towns { get; set; }
+        public virtual ICollection<Province> Provinces { get; set; }
     }
 }

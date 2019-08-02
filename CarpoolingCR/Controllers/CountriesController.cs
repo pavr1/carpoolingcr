@@ -1,4 +1,5 @@
 ﻿using CarpoolingCR.Models;
+using CarpoolingCR.Models.Locations;
 using CarpoolingCR.Utils;
 using System;
 using System.Data.Entity;

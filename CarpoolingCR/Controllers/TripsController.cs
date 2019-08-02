@@ -127,7 +127,7 @@ namespace CarpoolingCR.Controllers
             }
         }
 
-        public ActionResult DayTrips(string date, string from, string to)
+        public ActionResult DayTrips(string date, int from, int to)
         {
             try
             {
@@ -288,7 +288,7 @@ namespace CarpoolingCR.Controllers
 
                 var response = new TripCreateResponse
                 {
-                    Towns = db.Towns.Where(x => x.Status == Enums.TownStatus.Active && x.CountryId == user.CountryId).ToList(),
+                    Towns = Common.GetLocationsStrings((int)user.CountryId)
                 };
 
                 return View(response);
@@ -341,8 +341,8 @@ namespace CarpoolingCR.Controllers
                 if (ModelState.IsValid)
                 {
                     var user = Common.GetUserByEmail(User.Identity.Name);
-                    var fromRequest = Request["FromTown"];
-                    var from = db.Towns.Where(x => x.Name == fromRequest).SingleOrDefault();
+                    var fromRequest = Convert.ToInt32(Request["FromTown"]);
+                    var from = db.Districts.Where(x => x.DistrictId == fromRequest).SingleOrDefault();
                     var tripDate = Convert.ToDateTime(Request["DateTime"]);
 
                     if (from == null)
@@ -352,15 +352,15 @@ namespace CarpoolingCR.Controllers
 
                         var response = new TripCreateResponse
                         {
-                            Towns = db.Towns.Where(x => x.Status == Enums.TownStatus.Active && x.CountryId == user.CountryId).ToList(),
+                            Towns = Common.GetLocationsStrings((int)user.CountryId),
                             Trip = trip
                         };
 
                         return View(response);
                     }
 
-                    var toRequest = Request["ToTown"];
-                    var to = db.Towns.Where(x => x.Name == toRequest).SingleOrDefault();
+                    var toRequest = Convert.ToInt32(Request["ToTown"]);
+                    var to = db.Districts.Where(x => x.DistrictId == toRequest).SingleOrDefault();
 
                     if (to == null)
                     {
@@ -369,7 +369,7 @@ namespace CarpoolingCR.Controllers
 
                         var response = new TripCreateResponse
                         {
-                            Towns = db.Towns.Where(x => x.Status == Enums.TownStatus.Active && x.CountryId == user.CountryId).ToList(),
+                            Towns = Common.GetLocationsStrings((int)user.CountryId),
                             Trip = trip
                         };
 
@@ -383,11 +383,11 @@ namespace CarpoolingCR.Controllers
                         CreatedTime = Common.ConvertToUTCTime(DateTime.Now),
                         DateTime = Common.ConvertToUTCTime(tripDate),
                         Details = Request["Trip.Details"],
-                        FromTown = Request["FromTown"],
+                        FromTown = fromRequest,
                         Price = Convert.ToDecimal(Request["Trip.Price"]),
                         Status = Enums.Status.Activo,
                         TotalSpaces = Convert.ToInt32(Request["TotalSpaces"]),
-                        ToTown = Request["ToTown"]
+                        ToTown = toRequest
                     };
 
                     db.Trips.Add(trip);
@@ -429,52 +429,53 @@ namespace CarpoolingCR.Controllers
         // GET: Trips/Edit/5
         public ActionResult Edit(int? id)
         {
-            try
-            {
-                if (!Common.IsAuthorized(User))
-                {
-                    return RedirectToAction("Login", "Account");
-                }
+            //try
+            //{
+            //    if (!Common.IsAuthorized(User))
+            //    {
+            //        return RedirectToAction("Login", "Account");
+            //    }
 
-                if (id == null)
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
+            //    if (id == null)
+            //    {
+            //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            //    }
 
-                var response = new TripEditResponse
-                {
-                    Trip = db.Trips.Where(x => x.TripId == id)
-                    .Include(x => x.ApplicationUser)
-                    .Single(),
-                    Towns = db.Towns.ToList()
-                };
+            //    var response = new TripEditResponse
+            //    {
+            //        Trip = db.Trips.Where(x => x.TripId == id)
+            //        .Include(x => x.ApplicationUser)
+            //        .Single(),
+            //        Towns = db.Towns.ToList()
+            //    };
 
-                if (response.Trip == null)
-                {
-                    return HttpNotFound();
-                }
+            //    if (response.Trip == null)
+            //    {
+            //        return HttpNotFound();
+            //    }
 
-                response.Trip.DateTime = Common.ConvertToLocalTime(response.Trip.DateTime);
-                //ViewBag.JourneyId = new SelectList(db.Journeys, "JourneyId", "Name", trip.JourneyId);
-                return View(response);
-            }
-            catch (Exception ex)
-            {
-                Common.LogData(new Log
-                {
-                    Line = Common.GetCurrentLine(),
-                    Location = Enums.LogLocation.Server,
-                    LogType = Enums.LogType.Error,
-                    Message = ex.Message + " / " + ex.StackTrace,
-                    Method = Common.GetCurrentMethod(),
-                    Timestamp = Common.ConvertToUTCTime(DateTime.Now),
-                    UserEmail = User.Identity.Name
-                });
+            //    response.Trip.DateTime = Common.ConvertToLocalTime(response.Trip.DateTime);
+            //    //ViewBag.JourneyId = new SelectList(db.Journeys, "JourneyId", "Name", trip.JourneyId);
+            //    return View(response);
+            //}
+            //catch (Exception ex)
+            //{
+            //    Common.LogData(new Log
+            //    {
+            //        Line = Common.GetCurrentLine(),
+            //        Location = Enums.LogLocation.Server,
+            //        LogType = Enums.LogType.Error,
+            //        Message = ex.Message + " / " + ex.StackTrace,
+            //        Method = Common.GetCurrentMethod(),
+            //        Timestamp = Common.ConvertToUTCTime(DateTime.Now),
+            //        UserEmail = User.Identity.Name
+            //    });
 
-                ViewBag.Error = "¡Error inesperado, intente de nuevo!";
+            //    ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
-                return View();
-            }
+            //    return View();
+            //}
+            return View();
         }
 
         // POST: Trips/Edit/5
@@ -503,11 +504,11 @@ namespace CarpoolingCR.Controllers
                         CreatedTime = Common.ConvertToUTCTime(Convert.ToDateTime(Request["DateTime"])),
                         DateTime = Common.ConvertToUTCTime(Convert.ToDateTime(Request["DateTime"])),
                         Details = Request["Trip.Details"],
-                        FromTown = Request["FromTown"],
+                        FromTown = Convert.ToInt32(Request["FromTown"]),
                         Price = Convert.ToDecimal(Request["Trip.Price"]),
                         Status = Enums.Status.Activo,
                         TotalSpaces = Convert.ToInt32(Request["TotalSpaces"]),
-                        ToTown = Request["ToTown"]
+                        ToTown = Convert.ToInt32(Request["ToTown"])
                     };
 
                     db.Entry(trip).State = EntityState.Modified;

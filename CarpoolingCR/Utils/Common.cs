@@ -1,19 +1,49 @@
 ﻿using CarpoolingCR.Models;
-using Microsoft.AspNet.Identity;
+using CarpoolingCR.Objects.Responses;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Security.Principal;
-using System.Web;
-using System.Web.Configuration;
-using System.Web.Mvc;
 
 namespace CarpoolingCR.Utils
 {
     public class Common
     {
+        public static List<LocationsResponse> GetLocationsStrings(int countryId)
+        {
+            var list = new List<LocationsResponse>();
+
+            using (var db = new ApplicationDbContext())
+            {
+                var provinces = db.Provinces.ToList();
+
+                foreach (var province in provinces)
+                {
+                    var counties = db.Counties.Where(x => x.ProvinceId== province.ProvinceId).ToList();
+
+                    foreach (var county in counties)
+                    {
+                        var districts = db.Districts.Where(x => x.CountyId == county.CountyId).ToList();
+
+                        foreach (var district in districts)
+                        {
+                            var location = "&#8711; " + county.Name + ", " + district.Name;
+
+                            list.Add(new LocationsResponse
+                            {
+                                DistrictId = district.DistrictId,
+                                Display = location
+                            });
+                        }
+                    }
+                }
+            }
+
+            return list;
+        }
+
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static string GetCurrentMethod()
         {

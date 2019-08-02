@@ -8,7 +8,7 @@ namespace CarpoolingCR.Objects.Responses
 {
     public class TripCreateResponse
     {
-        public List<Town> Towns { get; set; }
+        public List<LocationsResponse> Towns { get; set; }
         public Trip Trip { get; set; }
     }
 }

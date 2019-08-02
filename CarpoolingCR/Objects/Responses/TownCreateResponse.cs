@@ -11,6 +11,6 @@ namespace CarpoolingCR.Objects.Responses
     {
         public UserType UserType { get; set; }
 
-        public Town Town{ get; set; }
+        //public Town Town{ get; set; }
     }
 }

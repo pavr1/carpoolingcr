@@ -55,8 +55,8 @@ namespace CarpoolingCR.Models
         public string Details { get; set; }
 
 
-        public string FromTown { get; set; }
-        public string ToTown { get; set; }
+        public int FromTown { get; set; }
+        public int ToTown { get; set; }
 
         [NotMapped]
         public List<Reservation> Reservations { get; set; }

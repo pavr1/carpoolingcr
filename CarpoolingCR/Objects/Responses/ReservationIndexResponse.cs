@@ -9,6 +9,7 @@ namespace CarpoolingCR.Objects.Responses
     public class ReservationIndexResponse
     {
         public List<Reservation> Reservations{ get; set; }
-        public List<Town> Towns { get; set; }
+        //public List<Town> Towns { get; set; }
+        public List<LocationsResponse> Towns { get; set; }
     }
 }

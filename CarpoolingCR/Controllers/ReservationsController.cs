@@ -27,10 +27,12 @@ namespace CarpoolingCR.Controllers
                     return RedirectToAction("Login", "Account");
                 }
 
+                var user = Common.GetUserByEmail(User.Identity.Name);
+
                 var response = new ReservationIndexResponse
                 {
                     Reservations = db.Reservations.ToList(),
-                    Towns = db.Towns.ToList()
+                    Towns = Common.GetLocationsStrings((int)user.CountryId)//db.Towns.ToList()
                 };
 
                 return View(response);
@@ -54,7 +56,7 @@ namespace CarpoolingCR.Controllers
             }
         }
 
-        public ActionResult Transportation(string message, string from, string to, int? tabIndex)
+        public ActionResult Transportation(string message, int from, int to, int? tabIndex)
         {
             try
             {
@@ -93,14 +95,14 @@ namespace CarpoolingCR.Controllers
                     SelectedJourneyId = -1,
                     SelectedRouteIndex = -1,
                     CurrentUserType = user.UserType,
-                    Towns = db.Towns.ToList(),
+                    Towns = Common.GetLocationsStrings((int)user.CountryId),//db.Towns.ToList(),
                     From = from,
                     To = to,
                     TabIndex = tabIndexAux
                 };
 
                 //if from/to are provided, load the trips for them
-                if (!string.IsNullOrEmpty(from) && !string.IsNullOrEmpty(to))
+                if (from != -1 && to != -1)
                 {
                     response.Trips = db.Trips.Where(x => x.FromTown == from && x.ToTown == to && x.Status == Status.Activo).ToList();
 
@@ -132,7 +134,7 @@ namespace CarpoolingCR.Controllers
         }
 
         [HttpPost]
-        public string Transportation(string from, string to)
+        public string Transportation(int from, int to)
         {
             try
             {
@@ -196,7 +198,7 @@ namespace CarpoolingCR.Controllers
 
                 List<Trip> trips = new List<Trip>();
 
-                var fromRequest = db.Towns.Where(x => x.Name == from).SingleOrDefault();
+                var fromRequest = db.Districts.Where(x => x.DistrictId == from).SingleOrDefault();
 
                 if (fromRequest == null)
                 {
@@ -205,7 +207,7 @@ namespace CarpoolingCR.Controllers
                         Trips = trips,
                         PassengerReservations = passengerReservations,
                         DriverTrips = driverTrips,
-                        Towns = db.Towns.ToList(),
+                        Towns = Common.GetLocationsStrings((int)user.CountryId),//db.Towns.ToList(),
                         //¡Origen no válido!
                         Message = "100012"
                     };
@@ -215,7 +217,7 @@ namespace CarpoolingCR.Controllers
                     return Serializer.Serialize(response);
                 }
 
-                var toRequest = db.Towns.Where(x => x.Name == to).SingleOrDefault();
+                var toRequest = db.Districts.Where(x => x.DistrictId == to).SingleOrDefault();
 
                 if (toRequest == null)
                 {
@@ -224,7 +226,7 @@ namespace CarpoolingCR.Controllers
                         Trips = trips,
                         PassengerReservations = passengerReservations,
                         DriverTrips = driverTrips,
-                        Towns = db.Towns.ToList(),
+                        Towns = Common.GetLocationsStrings((int)user.CountryId),//db.Towns.ToList(),
                         //¡Destino no válido!
                         Message = "100013"
                     };
@@ -250,7 +252,7 @@ namespace CarpoolingCR.Controllers
                     Trips = trips,
                     PassengerReservations = passengerReservations,
                     DriverTrips = driverTrips,
-                    Towns = db.Towns.ToList()
+                    Towns = Common.GetLocationsStrings((int)user.CountryId)//db.Towns.ToList()
                 };
 
                 response.Html = Serializer.RenderViewToString(this.ControllerContext, "Partials/_RequestJourney", response);
@@ -392,8 +394,8 @@ namespace CarpoolingCR.Controllers
                     return RedirectToAction("Transportation", "Reservations", new
                     {
                         message = message,
-                        from = string.Empty,
-                        to = string.Empty,
+                        from = -1,
+                        to = -1,
                         tabIndex = 1
                     });
                 }
@@ -547,8 +549,8 @@ namespace CarpoolingCR.Controllers
                 {
                     //¡Reservación Creada, conductor notificado!
                     message = "100018",
-                    from = string.Empty,
-                    to = string.Empty,
+                    from = -1,
+                    to = -1,
                     tabIndex = 1
                 });
             }

@@ -21,10 +21,11 @@ namespace CarpoolingCR.Objects.Responses
 
         public Enums.UserType CurrentUserType { get; set; }
 
-        public List<Town> Towns { get; set; }
+        //public List<Town> Towns { get; set; }
+        public List<LocationsResponse> Towns { get; set; }
 
-        public string From { get; set; }
-        public string To { get; set; }
+        public int From { get; set; }
+        public int To { get; set; }
         public int TabIndex { get; set; }
         public string Message { get; set; }
         public string MessageType { get; set; }

@@ -1,0 +1,125 @@
+﻿@model IEnumerable<CarpoolingCR.Models.Trip>
+@{
+    ViewBag.Title = "LoadDriverTripHistorial";
+}
+
+<h2>LoadDriverTripHistorial</h2>
+
+@{
+    foreach (var trip in Model)
+    {
+        <hr />
+        var from = trip.FromTown.County.Name + ", " + trip.FromTown.Name;
+        var to = trip.ToTown.County.Name + ", " + trip.ToTown.Name;
+
+        <li>
+            <div class="row form-group">
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <label class="control-label fromto">@from -> @to</label>
+                    <small class="date">@trip.DateTime.ToString("dd/MM/yyyy hh:mm tt")</small>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                    @*@{
+                            if (Model.IsAdmin)
+                            {
+                                <small class="price"><b>Conductor:</b> @trip.ApplicationUser.Name  @trip.ApplicationUser.LastName @trip.ApplicationUser.SecondLastName</small>
+                            }
+                        }*@
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                    <small class="price"><b>Cuota :</b> ₡ @trip.Price</small>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                    <small class="price"><b>Espacios:</b> @trip.AvailableSpaces</small>
+                    <input type="button" class="btn btn-danger pull-right" value="X" onclick="ConfirmDelete(@trip.TripId, '@from -> @to')" />
+                </div>
+            </div>
+
+            @{
+                var totalAmount = 0m;
+
+                foreach (var reservation in trip.Reservations)
+                {
+                    <div class="row form-group">
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+
+                        </div>
+                        <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11">
+                            <hr />
+                            <div class="col-lg-4 col-md-2 col-sm-6 col-xs-12">
+                                <small class="driver"><b>- Pasajero: </b> @reservation.PassengerName</small><br />
+                                @*@if (reservation.Status == CarpoolingCR.Utils.Enums.ReservationStatus.Accepted)
+                                    {
+                                        <small class="driver inline-block ">
+                                            <b>- Contacto: </b> <a href="tel: +506 @reservation.ApplicationUser.Phone1" style="color:blue"> +506 @reservation.ApplicationUser.Phone1 </a>
+
+                                            @if (!string.IsNullOrEmpty(reservation.ApplicationUser.Phone2))
+                                            {
+                                                <a href="tel: +506 @reservation.ApplicationUser.Phone2" style="color:blue"> +506 @reservation.ApplicationUser.Phone2 </a>
+                                            }
+                                        </small><br />
+                                    }*@
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+                                <small class="spaces"><b>&nbsp;&nbsp;Espacios: </b> @reservation.RequestedSpaces<br /></small>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+                                @*@if (reservation.Status == CarpoolingCR.Utils.Enums.ReservationStatus.Accepted)
+                                    {
+                                        <small><b>&nbsp;&nbsp;Total: ₡ @Convert.ToDecimal(reservation.RequestedSpaces * trip.Price).ToString("N2")</b><br /></small>
+                                    }
+                                    else
+                                    {
+                                        <small><b>&nbsp;&nbsp;Total: </b> ₡ @Convert.ToDecimal(reservation.RequestedSpaces * trip.Price).ToString("N2")<br /></small>
+                                    }*@
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+                                @{
+                                    var description = CarpoolingCR.Utils.EnumHelper<CarpoolingCR.Utils.Enums.ReservationStatus>.GetDisplayValue(reservation.Status);
+                                    <small class="status"><b>&nbsp;&nbsp;Estado: </b>@description</small>
+                                }
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+                                @*@{
+                                    if (reservation.Status == CarpoolingCR.Utils.Enums.ReservationStatus.Pending)
+                                    {
+                                        @*<input type="button" class="btn btn-info" value="Chat" onclick="OpenChat(@reservation.ReservationId)" />
+                                <input type="button" class="btn btn-info" value="&#10003;" onclick="ConfirmAction(@reservation.ReservationId, 'Accepted', '¡Confirme que desea confirmar esta reservación!', 'Reservaciones', 'Confirmar', 'btn-info', 'driver')" />
+                                <input type="button" class="btn btn-danger" value="X" onclick="ConfirmAction(@reservation.ReservationId, 'Rejected', '¡Confirme que desea rechazar esta reservación!', 'Reservaciones', 'Rechazar', 'btn-danger', 'driver')" />
+                                }
+                                else
+                                {
+                                <input type="button" class="btn btn-danger" value="X" onclick="ConfirmAction(@reservation.ReservationId, 'Cancelled', '¡Confirme que desea cancelar esta reservación!', 'Reservaciones', 'Cancelar', 'btn-danger', 'driver')" />
+                                }
+                                }*@
+                            </div>
+                        </div>
+                    </div>
+
+                    //if (reservation.Status == CarpoolingCR.Utils.Enums.ReservationStatus.Accepted)
+                    //{
+                    //    totalAmount += Convert.ToDecimal(reservation.RequestedSpaces * trip.Price);
+                    //}
+                }
+
+                <div class="row form-group">
+                    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+
+                    </div>
+                    <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11">
+                        <hr />
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 bg-info" style="border-radius:20px">
+                            <small><b>&nbsp;&nbsp;Ganancias: ₡ @totalAmount.ToString("N2")</b><br /></small>
+                        </div>
+                    </div>
+                </div>
+            }
+        </li>
+    }
+}

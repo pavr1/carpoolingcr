@@ -1,8 +1,14 @@
-﻿INSERT INTO [dbo].[Provinces]([Name],[CountryId]) VALUES ('San José',6)
-INSERT INTO [dbo].[Provinces]([Name],[CountryId]) VALUES ('Alajuela',6)
-INSERT INTO [dbo].[Provinces]([Name],[CountryId]) VALUES ('Heredia',6)
-INSERT INTO [dbo].[Provinces]([Name],[CountryId]) VALUES ('Cartago',6)
-INSERT INTO [dbo].[Provinces]([Name],[CountryId]) VALUES ('Puntarenas',6)
-INSERT INTO [dbo].[Provinces]([Name],[CountryId]) VALUES ('Guanacaste',6)
-INSERT INTO [dbo].[Provinces]([Name],[CountryId]) VALUES ('Limón',6)
+﻿declare @countryName varchar(20)
+declare @countryId  int
+
+SET @countryName = 'Costa Rica'
+SELECT @countryId = CountryId  from Countries WHERE Name = @countryName
+
+INSERT INTO [dbo].[Provinces]([Name],[CountryId]) VALUES ('San José',@countryId  )
+INSERT INTO [dbo].[Provinces]([Name],[CountryId]) VALUES ('Alajuela',@countryId  )
+INSERT INTO [dbo].[Provinces]([Name],[CountryId]) VALUES ('Heredia',@countryId  )
+INSERT INTO [dbo].[Provinces]([Name],[CountryId]) VALUES ('Cartago',@countryId  )
+INSERT INTO [dbo].[Provinces]([Name],[CountryId]) VALUES ('Puntarenas',@countryId  )
+INSERT INTO [dbo].[Provinces]([Name],[CountryId]) VALUES ('Guanacaste',@countryId  )
+INSERT INTO [dbo].[Provinces]([Name],[CountryId]) VALUES ('Limón',@countryId  )
 

@@ -5,11 +5,11 @@ namespace CarpoolingCR.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<CarpoolingCR.Models.ApplicationDbContext>
+    internal sealed class Configuration1 : DbMigrationsConfiguration<CarpoolingCR.Models.ApplicationDbContext>
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
         }
 
         protected override void Seed(CarpoolingCR.Models.ApplicationDbContext context)

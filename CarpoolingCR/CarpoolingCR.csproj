@@ -224,7 +224,9 @@
     <Compile Include="Controllers\MonthlyBalancesController.cs" />
     <Compile Include="Controllers\MonthlyTransactionsController.cs" />
     <Compile Include="Controllers\OfflineController.cs" />
+    <Compile Include="Controllers\ProfileQualificationsController.cs" />
     <Compile Include="Controllers\ProvincesController.cs" />
+    <Compile Include="Controllers\QualificationsController.cs" />
     <Compile Include="Controllers\RideRequestsController.cs" />
     <Compile Include="Controllers\TownsController.cs" />
     <Compile Include="Controllers\TripQuestionsController.cs" />
@@ -240,133 +242,21 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201903021642182_IdentityUserNameUserType1.cs" />
-    <Compile Include="Migrations\201903021642182_IdentityUserNameUserType1.Designer.cs">
-      <DependentUpon>201903021642182_IdentityUserNameUserType1.cs</DependentUpon>
+    <Compile Include="Migrations\201908030328573_initial db.cs" />
+    <Compile Include="Migrations\201908030328573_initial db.Designer.cs">
+      <DependentUpon>201908030328573_initial db.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201903100012088_bigchange.cs" />
-    <Compile Include="Migrations\201903100012088_bigchange.Designer.cs">
-      <DependentUpon>201903100012088_bigchange.cs</DependentUpon>
+    <Compile Include="Migrations\201908030355190_Changed UserId int for string in ProfileQualifications.cs" />
+    <Compile Include="Migrations\201908030355190_Changed UserId int for string in ProfileQualifications.Designer.cs">
+      <DependentUpon>201908030355190_Changed UserId int for string in ProfileQualifications.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201903100023010_bigchange1.cs" />
-    <Compile Include="Migrations\201903100023010_bigchange1.Designer.cs">
-      <DependentUpon>201903100023010_bigchange1.cs</DependentUpon>
+    <Compile Include="Migrations\201908032055134_Added Qualification list to trip and reservations.cs" />
+    <Compile Include="Migrations\201908032055134_Added Qualification list to trip and reservations.Designer.cs">
+      <DependentUpon>201908032055134_Added Qualification list to trip and reservations.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201903100106242_Changed ApplicationUserId type.cs" />
-    <Compile Include="Migrations\201903100106242_Changed ApplicationUserId type.Designer.cs">
-      <DependentUpon>201903100106242_Changed ApplicationUserId type.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201903110134473_changed UserId type from int to string.cs" />
-    <Compile Include="Migrations\201903110134473_changed UserId type from int to string.Designer.cs">
-      <DependentUpon>201903110134473_changed UserId type from int to string.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201903140302217_Created Banks.cs" />
-    <Compile Include="Migrations\201903140302217_Created Banks.Designer.cs">
-      <DependentUpon>201903140302217_Created Banks.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201903140332415_Created Montlhy Balance and Transactions.cs" />
-    <Compile Include="Migrations\201903140332415_Created Montlhy Balance and Transactions.Designer.cs">
-      <DependentUpon>201903140332415_Created Montlhy Balance and Transactions.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201903140341595_Added MonthlyBalance to ApplicationUser.cs" />
-    <Compile Include="Migrations\201903140341595_Added MonthlyBalance to ApplicationUser.Designer.cs">
-      <DependentUpon>201903140341595_Added MonthlyBalance to ApplicationUser.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201903140347513_Added TransactionBalance to MonthlyBalance.cs" />
-    <Compile Include="Migrations\201903140347513_Added TransactionBalance to MonthlyBalance.Designer.cs">
-      <DependentUpon>201903140347513_Added TransactionBalance to MonthlyBalance.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201903140353377_Added Bank to the ApplicationUser.cs" />
-    <Compile Include="Migrations\201903140353377_Added Bank to the ApplicationUser.Designer.cs">
-      <DependentUpon>201903140353377_Added Bank to the ApplicationUser.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201903140404304_Created BankAccount.cs" />
-    <Compile Include="Migrations\201903140404304_Created BankAccount.Designer.cs">
-      <DependentUpon>201903140404304_Created BankAccount.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201903142359574_Added ApplicationUser to MontlyBalance.cs" />
-    <Compile Include="Migrations\201903142359574_Added ApplicationUser to MontlyBalance.Designer.cs">
-      <DependentUpon>201903142359574_Added ApplicationUser to MontlyBalance.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201903160101459_Created Town.cs" />
-    <Compile Include="Migrations\201903160101459_Created Town.Designer.cs">
-      <DependentUpon>201903160101459_Created Town.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201903160116076_Added town from-to to Trip.cs" />
-    <Compile Include="Migrations\201903160116076_Added town from-to to Trip.Designer.cs">
-      <DependentUpon>201903160116076_Added town from-to to Trip.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201903160142544_changed from-to towns to string type.cs" />
-    <Compile Include="Migrations\201903160142544_changed from-to towns to string type.Designer.cs">
-      <DependentUpon>201903160142544_changed from-to towns to string type.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201903161245555_Deleted Journey from Trip.cs" />
-    <Compile Include="Migrations\201903161245555_Deleted Journey from Trip.Designer.cs">
-      <DependentUpon>201903161245555_Deleted Journey from Trip.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201903161317423_Added virtual to country town.cs" />
-    <Compile Include="Migrations\201903161317423_Added virtual to country town.Designer.cs">
-      <DependentUpon>201903161317423_Added virtual to country town.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201903161620569_Deleted Journey.cs" />
-    <Compile Include="Migrations\201903161620569_Deleted Journey.Designer.cs">
-      <DependentUpon>201903161620569_Deleted Journey.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201903290308506_Added TownStatus Enum to town.cs" />
-    <Compile Include="Migrations\201903290308506_Added TownStatus Enum to town.Designer.cs">
-      <DependentUpon>201903290308506_Added TownStatus Enum to town.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201904020248587_Changed Log Model.cs" />
-    <Compile Include="Migrations\201904020248587_Changed Log Model.Designer.cs">
-      <DependentUpon>201904020248587_Changed Log Model.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201904070141534_Several changes.cs" />
-    <Compile Include="Migrations\201904070141534_Several changes.Designer.cs">
-      <DependentUpon>201904070141534_Several changes.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201904070531114_Changed reservation status to be ReservationStatus enum.cs" />
-    <Compile Include="Migrations\201904070531114_Changed reservation status to be ReservationStatus enum.Designer.cs">
-      <DependentUpon>201904070531114_Changed reservation status to be ReservationStatus enum.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201904071617137_Changed circular issues btw trip and reservation.cs" />
-    <Compile Include="Migrations\201904071617137_Changed circular issues btw trip and reservation.Designer.cs">
-      <DependentUpon>201904071617137_Changed circular issues btw trip and reservation.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201905200321150_Created ChatMessage.cs" />
-    <Compile Include="Migrations\201905200321150_Created ChatMessage.Designer.cs">
-      <DependentUpon>201905200321150_Created ChatMessage.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201905200325477_CreatedSecondChatMessage.cs" />
-    <Compile Include="Migrations\201905200325477_CreatedSecondChatMessage.Designer.cs">
-      <DependentUpon>201905200325477_CreatedSecondChatMessage.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201905200345245_CreatedChattingMessages.cs" />
-    <Compile Include="Migrations\201905200345245_CreatedChattingMessages.Designer.cs">
-      <DependentUpon>201905200345245_CreatedChattingMessages.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201905200414349_ChangedChattingMessage.cs" />
-    <Compile Include="Migrations\201905200414349_ChangedChattingMessage.Designer.cs">
-      <DependentUpon>201905200414349_ChangedChattingMessage.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201907251819513_UpdateDB.cs" />
-    <Compile Include="Migrations\201907251819513_UpdateDB.Designer.cs">
-      <DependentUpon>201907251819513_UpdateDB.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201907300220029_Created TripQuestions.cs" />
-    <Compile Include="Migrations\201907300220029_Created TripQuestions.Designer.cs">
-      <DependentUpon>201907300220029_Created TripQuestions.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201907302242424_Created TripQuestionInfo model.cs" />
-    <Compile Include="Migrations\201907302242424_Created TripQuestionInfo model.Designer.cs">
-      <DependentUpon>201907302242424_Created TripQuestionInfo model.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201907302334567_Added TripQuestionInfo.cs" />
-    <Compile Include="Migrations\201907302334567_Added TripQuestionInfo.Designer.cs">
-      <DependentUpon>201907302334567_Added TripQuestionInfo.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201908020133172_Added from and to districts to trip.cs" />
-    <Compile Include="Migrations\201908020133172_Added from and to districts to trip.Designer.cs">
-      <DependentUpon>201908020133172_Added from and to districts to trip.cs</DependentUpon>
+    <Compile Include="Migrations\201908032116541_Changed Qualification from and to id from int to string.cs" />
+    <Compile Include="Migrations\201908032116541_Changed Qualification from and to id from int to string.Designer.cs">
+      <DependentUpon>201908032116541_Changed Qualification from and to id from int to string.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -382,6 +272,8 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\MonthlyBalance.cs" />
     <Compile Include="Models\MonthlyTransactions.cs" />
+    <Compile Include="Models\ProfileQualification.cs" />
+    <Compile Include="Models\Qualification.cs" />
     <Compile Include="Models\Reservation.cs" />
     <Compile Include="Models\RideRequest.cs" />
     <Compile Include="Models\Route.cs" />
@@ -407,6 +299,8 @@
     <Compile Include="Objects\Responses\TripIndexResponse.cs" />
     <Compile Include="Objects\Responses\UserManageResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="Content\rating.css" />
+    <Content Include="Scripts\rating.js" />
     <Content Include="SQL\Costa Rica\Counties\Counties.sql" />
     <Content Include="SQL\Costa Rica\Provinces\Provinces.sql" />
     <Content Include="SQL\Costa Rica\Districts\Districts.sql" />
@@ -899,6 +793,17 @@
     <Content Include="Views\Provinces\Details.cshtml" />
     <Content Include="Views\Provinces\Edit.cshtml" />
     <Content Include="Views\Provinces\Index.cshtml" />
+    <Content Include="Views\Qualifications\Create.cshtml" />
+    <Content Include="Views\Qualifications\Delete.cshtml" />
+    <Content Include="Views\Qualifications\Details.cshtml" />
+    <Content Include="Views\Qualifications\Edit.cshtml" />
+    <Content Include="Views\Qualifications\Index.cshtml" />
+    <Content Include="Views\ProfileQualifications\Create.cshtml" />
+    <Content Include="Views\ProfileQualifications\Delete.cshtml" />
+    <Content Include="Views\ProfileQualifications\Details.cshtml" />
+    <Content Include="Views\ProfileQualifications\Edit.cshtml" />
+    <Content Include="Views\ProfileQualifications\Index.cshtml" />
+    <Content Include="Views\Trips\LoadDriverTripHistorial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -921,101 +826,17 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201903021642182_IdentityUserNameUserType1.resx">
-      <DependentUpon>201903021642182_IdentityUserNameUserType1.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201908030328573_initial db.resx">
+      <DependentUpon>201908030328573_initial db.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903100012088_bigchange.resx">
-      <DependentUpon>201903100012088_bigchange.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201908030355190_Changed UserId int for string in ProfileQualifications.resx">
+      <DependentUpon>201908030355190_Changed UserId int for string in ProfileQualifications.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903100023010_bigchange1.resx">
-      <DependentUpon>201903100023010_bigchange1.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201908032055134_Added Qualification list to trip and reservations.resx">
+      <DependentUpon>201908032055134_Added Qualification list to trip and reservations.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903100106242_Changed ApplicationUserId type.resx">
-      <DependentUpon>201903100106242_Changed ApplicationUserId type.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903110134473_changed UserId type from int to string.resx">
-      <DependentUpon>201903110134473_changed UserId type from int to string.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903140302217_Created Banks.resx">
-      <DependentUpon>201903140302217_Created Banks.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903140332415_Created Montlhy Balance and Transactions.resx">
-      <DependentUpon>201903140332415_Created Montlhy Balance and Transactions.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903140341595_Added MonthlyBalance to ApplicationUser.resx">
-      <DependentUpon>201903140341595_Added MonthlyBalance to ApplicationUser.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903140347513_Added TransactionBalance to MonthlyBalance.resx">
-      <DependentUpon>201903140347513_Added TransactionBalance to MonthlyBalance.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903140353377_Added Bank to the ApplicationUser.resx">
-      <DependentUpon>201903140353377_Added Bank to the ApplicationUser.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903140404304_Created BankAccount.resx">
-      <DependentUpon>201903140404304_Created BankAccount.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903142359574_Added ApplicationUser to MontlyBalance.resx">
-      <DependentUpon>201903142359574_Added ApplicationUser to MontlyBalance.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903160101459_Created Town.resx">
-      <DependentUpon>201903160101459_Created Town.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903160116076_Added town from-to to Trip.resx">
-      <DependentUpon>201903160116076_Added town from-to to Trip.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903160142544_changed from-to towns to string type.resx">
-      <DependentUpon>201903160142544_changed from-to towns to string type.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903161245555_Deleted Journey from Trip.resx">
-      <DependentUpon>201903161245555_Deleted Journey from Trip.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903161317423_Added virtual to country town.resx">
-      <DependentUpon>201903161317423_Added virtual to country town.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903161620569_Deleted Journey.resx">
-      <DependentUpon>201903161620569_Deleted Journey.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903290308506_Added TownStatus Enum to town.resx">
-      <DependentUpon>201903290308506_Added TownStatus Enum to town.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201904020248587_Changed Log Model.resx">
-      <DependentUpon>201904020248587_Changed Log Model.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201904070141534_Several changes.resx">
-      <DependentUpon>201904070141534_Several changes.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201904070531114_Changed reservation status to be ReservationStatus enum.resx">
-      <DependentUpon>201904070531114_Changed reservation status to be ReservationStatus enum.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201904071617137_Changed circular issues btw trip and reservation.resx">
-      <DependentUpon>201904071617137_Changed circular issues btw trip and reservation.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201905200321150_Created ChatMessage.resx">
-      <DependentUpon>201905200321150_Created ChatMessage.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201905200325477_CreatedSecondChatMessage.resx">
-      <DependentUpon>201905200325477_CreatedSecondChatMessage.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201905200345245_CreatedChattingMessages.resx">
-      <DependentUpon>201905200345245_CreatedChattingMessages.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201905200414349_ChangedChattingMessage.resx">
-      <DependentUpon>201905200414349_ChangedChattingMessage.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201907251819513_UpdateDB.resx">
-      <DependentUpon>201907251819513_UpdateDB.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201907300220029_Created TripQuestions.resx">
-      <DependentUpon>201907300220029_Created TripQuestions.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201907302242424_Created TripQuestionInfo model.resx">
-      <DependentUpon>201907302242424_Created TripQuestionInfo model.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201907302334567_Added TripQuestionInfo.resx">
-      <DependentUpon>201907302334567_Added TripQuestionInfo.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201908020133172_Added from and to districts to trip.resx">
-      <DependentUpon>201908020133172_Added from and to districts to trip.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201908032116541_Changed Qualification from and to id from int to string.resx">
+      <DependentUpon>201908032116541_Changed Qualification from and to id from int to string.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

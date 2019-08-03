@@ -721,6 +721,51 @@ namespace CarpoolingCR.Controllers
             }
         }
 
+        public ActionResult LoadDriverTripHistorial()
+        {
+            try
+            {
+                if (!Common.IsAuthorized(User))
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+
+                var user = Common.GetUserByEmail(User.Identity.Name);
+                var currentUTCTime = Common.ConvertToUTCTime(DateTime.Now);
+
+                var trips = db.Trips.Where(x => x.ApplicationUserId == user.Id)
+                    .Where(x => x.DateTime <= currentUTCTime)
+                    .ToList();
+
+                foreach (var trip in trips)
+                {
+                    trip.Qualifications = db.Qualifications.Where(x => x.ToUserId == user.Id)
+                        .Include(x => x.FromUser)
+                        .Include(x => x.ToUser)
+                        .ToList();
+                }
+
+                return View(trips);
+            }
+            catch (Exception ex)
+            {
+                Common.LogData(new Log
+                {
+                    Line = Common.GetCurrentLine(),
+                    Location = Enums.LogLocation.Server,
+                    LogType = Enums.LogType.Error,
+                    Message = ex.Message + " / " + ex.StackTrace,
+                    Method = Common.GetCurrentMethod(),
+                    Timestamp = Common.ConvertToUTCTime(DateTime.Now),
+                    UserEmail = User.Identity.Name
+                });
+
+                ViewBag.Error = "¡Error inesperado, intente de nuevo!";
+
+                return View();
+            }
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

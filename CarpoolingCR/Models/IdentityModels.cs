@@ -152,5 +152,9 @@ namespace CarpoolingCR.Models
         public System.Data.Entity.DbSet<CarpoolingCR.Models.Locations.County> Counties { get; set; }
 
         public System.Data.Entity.DbSet<CarpoolingCR.Models.Locations.Province> Provinces { get; set; }
+
+        public System.Data.Entity.DbSet<CarpoolingCR.Models.Qualification> Qualifications { get; set; }
+
+        public System.Data.Entity.DbSet<CarpoolingCR.Models.ProfileQualification> ProfileQualifications { get; set; }
     }
 }

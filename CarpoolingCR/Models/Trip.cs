@@ -72,5 +72,7 @@ namespace CarpoolingCR.Models
                 return _DateTime.ToString("MM/dd/yyyy HH:mm:ss");
             }
         }
+
+        public List<Qualification> Qualifications { get; set; }
     }
 }

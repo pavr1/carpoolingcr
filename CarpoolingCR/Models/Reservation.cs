@@ -32,5 +32,7 @@ namespace CarpoolingCR.Models
         public ReservationStatus Status { get; set; }
         
         public string PassengerName { get; set; }
+
+        public List<Qualification> Qualifications { get; set; }
     }
 }

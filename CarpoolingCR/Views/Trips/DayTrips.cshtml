@@ -14,12 +14,31 @@
 
     <input id="AvailableSpaces" type="hidden" value="" />
 
-    <div class="row form-group">
+    <div class="row">
         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
             @Html.ActionLink("<<", "Transportation", "Reservations", new { from = @Model.From, to = @Model.To }, new { @class = "btn btn-primary" })
         </div>
         <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
-            <label class="control-label" style="text-align:left">Trayecto: </label>  @Model.From -> @Model.To
+            <label class="control-label" style="text-align:left">Trayecto: </label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+        </div>
+        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+            @Model.From -> @Model.To
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+        </div>
+        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+            @*@{
+                if (Model.CouldNotFindExactTrip)
+                {
+                    <small class="text-warning" style="text-align:justify">Rutas Alternas</small>
+                }
+            }*@
         </div>
     </div>
     <hr />
@@ -153,13 +172,22 @@
             monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
             dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
             dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'],
-            defaultView: 'agendaDay',
+            defaultView: 'listWeek',
             eventLimit: true, // for all non-agenda views
             header: {
-                left: 'title',
+                left: '',
                 center: '',
                 right: ''
             },
+            eventRender: function (event, element, view) {
+                // return $(`<tr class="fc-list-item ">
+                //            <td class="fc-list-item-title fc-widget-content"><a><i class="fas fa-car"></i>  ` + new Date(event.start).toLocaleTimeString() + ` <br/> Origen: ` + event.from + ` <br/> Destino: ` + event.to+ `</a></td></tr>`);
+                //},
+                return $(`<tr class="fc-list-item ">
+                            <td class="fc-list-item-title fc-widget-content"><i class="fas fa-car"></i>  ` + new Date(event.start).toLocaleTimeString() +
+                    `<br/> <a>&emsp;&emsp;<span class="fc-event-dot" style="background-color:#2792F2"></span> ` + event.from + ` <br/> &emsp;&emsp;<span class="fc-event-dot" style="background-color:#2792F2"></span> ` + event.to + `<br/>&emsp;&emsp;&emsp; Conductor: ` + event.driver +
+                    `<br/> &emsp;&emsp;&emsp;Espacios: ` + event.availableSpaces + ` <br/>&emsp;&emsp;&emsp;Monto: ` + event.price + `</a></td></tr><hr/>`);
+                },
             allDaySlot: false,
             contentHeight: "auto",
             eventTextColor: 'black',
@@ -169,6 +197,7 @@
                 }
             },
             events: [],
+            contentHeight:500,
             eventClick: function (calEvent, jsEvent, view) {
                 var date = new Date(calEvent.formatteddate);
                 var crStr = date.toLocaleString('es-CR', { year: "numeric", month: "2-digit", day: "numeric", hour: "2-digit", minute: "2-digit", hour12: true });
@@ -193,7 +222,7 @@
                 var reservationAlreadyExistent = ExistReservationToTrip(calEvent.id)
 
                 if (reservationAlreadyExistent) {
-                    $('#btnsContainer').html('<small class="pull-left">*** ¡Ya posee una reservación activa para este viaje!</small><button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button><button type="button" disabled class="btn btn-primary">Reservar</button>');
+                    $('#btnsContainer').html('<small class="pull-left text-warning">¡Ya tiene una reservación activa para este viaje!</small><button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button><button type="button" disabled class="btn btn-primary">Reservar</button>');
                 } else {
                     $('#msgTextModal').val('')
                         //< input type = "button" onclick = "OpenMessageModel()" class="btn btn-default pull-left" value = "&#128386;" />
@@ -214,19 +243,27 @@
             var driverId = arrayOfTrips[i].ApplicationUser.Id;
             var driver = arrayOfTrips[i].ApplicationUser.Name + ' ' + arrayOfTrips[i].ApplicationUser.LastName;
             var price = arrayOfTrips[i].Price;
-            var from = '@Model.From';
-            var to = '@Model.To';
+            var from = arrayOfTrips[i].FromTown.FullName;
+            var to = arrayOfTrips[i].ToTown.FullName;
 
             var startDate = new Date(dateTime);
             //enddate is 30 mins more than startdate, getTime is in milliseconds so 30 mins will be 30*60*100 = 1,800,000 millisecods
-            var endDate = new Date(startDate.getTime() + 1800000);
+            //var endDate = new Date(startDate.getTime() + 1800000);
+
+            spacesMsg = "";
+
+            if (availableSpaces == 1) {
+                spacesMsg = "1 espacio";
+            } else {
+                spacesMsg = availableSpaces + "espacios";
+            }
 
             var event = {
                 id: tripId,
-                title: availableSpaces + ' espacios. ₡' + price.toFixed(2),
-                start: startDate, end: endDate,
+                start: startDate,// end: endDate,
                 color: '#2792F2',
-                fromto: from + ' -> ' + to,
+                from: from,
+                to: to,
                 driverId: driverId,
                 driver: driver,
                 availableSpaces: availableSpaces,

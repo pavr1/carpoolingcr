@@ -426,6 +426,9 @@ namespace CarpoolingCR.Controllers
                     db.Trips.Add(trip);
                     db.SaveChanges();
 
+                    trip.FromTown = db.Districts.Where(x => x.DistrictId == trip.FromTownId).Single();
+                    trip.ToTown = db.Districts.Where(x => x.DistrictId == trip.ToTownId).Single();
+
                     var tripInfo = trip.FromTown.FullName + " a " + trip.ToTown.FullName + " el " + Common.ConvertToLocalTime(trip.DateTime).ToString("dd/MM/yyyy hh:mm:ss tt");
 
                     EmailHandler.SendEmailTripCreation(WebConfigurationManager.AppSettings["AdminEmails"], user.FullName, tripInfo, trip.AvailableSpaces);
@@ -709,14 +712,19 @@ namespace CarpoolingCR.Controllers
                 var currentUTCTime = Common.ConvertToUTCTime(DateTime.Now);
 
                 var trips = db.Trips.Where(x => x.ApplicationUserId == user.Id)
-                    .Where(x => x.DateTime <= currentUTCTime)
+                    .Include(x => x.FromTown)
+                    .Include(x => x.ToTown)
+                    .Where(x => x.DateTime < currentUTCTime)
                     .ToList();
 
                 foreach (var trip in trips)
                 {
-                    trip.Qualifications = db.Qualifications.Where(x => x.ToUserId == user.Id)
-                        .Include(x => x.FromUser)
-                        .Include(x => x.ToUser)
+                    trip.Reservations = db.Reservations.Where(x => x.TripId == trip.TripId)
+                        .Include(x => x.ApplicationUser)
+                        .ToList();
+
+                    trip.Qualifications = db.Qualifications.Where(x => x.TripId == trip.TripId)
+                        .Include(x => x.Qualifier)
                         .ToList();
                 }
 

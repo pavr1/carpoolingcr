@@ -258,6 +258,22 @@
     <Compile Include="Migrations\201908032116541_Changed Qualification from and to id from int to string.Designer.cs">
       <DependentUpon>201908032116541_Changed Qualification from and to id from int to string.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201908041551372_Add trip as mapped in reservation.cs" />
+    <Compile Include="Migrations\201908041551372_Add trip as mapped in reservation.Designer.cs">
+      <DependentUpon>201908041551372_Add trip as mapped in reservation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908041638204_Added Passenger and Driver Qualified properties.cs" />
+    <Compile Include="Migrations\201908041638204_Added Passenger and Driver Qualified properties.Designer.cs">
+      <DependentUpon>201908041638204_Added Passenger and Driver Qualified properties.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908041712222_fix for table alter.cs" />
+    <Compile Include="Migrations\201908041712222_fix for table alter.Designer.cs">
+      <DependentUpon>201908041712222_fix for table alter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908041830020_Passenger and driver qualified props.cs" />
+    <Compile Include="Migrations\201908041830020_Passenger and driver qualified props.Designer.cs">
+      <DependentUpon>201908041830020_Passenger and driver qualified props.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Bank.cs" />
@@ -804,6 +820,7 @@
     <Content Include="Views\ProfileQualifications\Edit.cshtml" />
     <Content Include="Views\ProfileQualifications\Index.cshtml" />
     <Content Include="Views\Trips\LoadDriverTripHistorial.cshtml" />
+    <Content Include="Views\Reservations\LoadPassengerReservationHistorial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -837,6 +854,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201908032116541_Changed Qualification from and to id from int to string.resx">
       <DependentUpon>201908032116541_Changed Qualification from and to id from int to string.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908041551372_Add trip as mapped in reservation.resx">
+      <DependentUpon>201908041551372_Add trip as mapped in reservation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908041638204_Added Passenger and Driver Qualified properties.resx">
+      <DependentUpon>201908041638204_Added Passenger and Driver Qualified properties.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908041712222_fix for table alter.resx">
+      <DependentUpon>201908041712222_fix for table alter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908041830020_Passenger and driver qualified props.resx">
+      <DependentUpon>201908041830020_Passenger and driver qualified props.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

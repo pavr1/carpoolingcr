@@ -575,7 +575,7 @@ namespace CarpoolingCR.Controllers
 
                 trip.FromTown = db.Districts.Where(x => x.DistrictId == trip.FromTownId).Single();
                 trip.ToTown = db.Districts.Where(x => x.DistrictId == trip.ToTownId).Single();
-                
+
                 reservation.ApplicationUserId = passenger.Id;
                 reservation.Date = Common.ConvertToUTCTime(DateTime.Now);
 
@@ -788,15 +788,21 @@ namespace CarpoolingCR.Controllers
                 var currentUTCTime = Common.ConvertToUTCTime(DateTime.Now);
 
                 var reservations = db.Reservations.Where(x => x.ApplicationUserId == user.Id)
+                    .Include(x => x.ApplicationUser)
                     .Include(x => x.Trip)
                     .Where(x => x.Trip.DateTime <= currentUTCTime)
                     .ToList();
 
                 foreach (var reservation in reservations)
                 {
-                    reservation.Qualifications = db.Qualifications.Where(x => x.ToUserId == user.Id)
-                        .Include(x => x.FromUser)
-                        .Include(x => x.ToUser)
+                    reservation.Trip = db.Trips.Where(x => x.TripId == reservation.TripId)
+                        .Include(x => x.FromTown)
+                        .Include(x => x.ToTown)
+                        .Include(x => x.ApplicationUser)
+                        .Single();
+
+                    reservation.Qualifications = db.Qualifications.Where(x => x.ReservationId == reservation.ReservationId)
+                        .Include(x => x.Qualifier)
                         .ToList();
                 }
 

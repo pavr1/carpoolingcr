@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using CarpoolingCR.Models;
+using CarpoolingCR.Utils;
+using System;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using CarpoolingCR.Models;
 
 namespace CarpoolingCR.Controllers
 {
@@ -18,6 +16,72 @@ namespace CarpoolingCR.Controllers
         public ActionResult Index()
         {
             return View(db.Qualifications.ToList());
+        }
+
+        [HttpPost]
+        //if trip is not null then it means it's the driver qualifying passenger
+        public string QualifyUser(int reservationId, int? tripId, int stars, string comment)
+        {
+            var tran = db.Database.BeginTransaction();
+
+            try
+            {
+                if (!Common.IsAuthorized(User))
+                {
+                    RedirectToAction("Login", "Account");
+                }
+
+                var user = Common.GetUserByEmail(User.Identity.Name);
+
+                var qualification = new Qualification
+                {
+                    QualifierId = user.Id,
+                    ReservationId = reservationId,
+                    TripId = tripId,
+                    Starts = stars,
+                    Comments = comment
+                };
+
+                db.Entry(qualification).State = EntityState.Added;
+                db.SaveChanges();
+
+                var reservation = db.Reservations.Where(x => x.ReservationId == reservationId).Single();
+
+                if (tripId == null)
+                {
+                    reservation.IsPassengerQualified = true;
+                }
+                else
+                {
+                    reservation.IsDriverQualified = true;
+                }
+
+                db.Entry(reservation).State = EntityState.Modified;
+                db.SaveChanges();
+
+                tran.Commit();
+
+                return string.Empty;
+            }
+            catch (Exception ex)
+            {
+                tran.Rollback();
+
+                Common.LogData(new Log
+                {
+                    Line = Common.GetCurrentLine(),
+                    Location = Enums.LogLocation.Server,
+                    LogType = Enums.LogType.Error,
+                    Message = ex.Message + " / " + ex.StackTrace,
+                    Method = Common.GetCurrentMethod(),
+                    Timestamp = Common.ConvertToUTCTime(DateTime.Now),
+                    UserEmail = User.Identity.Name
+                });
+
+                ViewBag.Error = "¡Error inesperado, intente de nuevo!";
+
+                return string.Empty;
+            }
         }
 
         // GET: Qualifications/Details/5

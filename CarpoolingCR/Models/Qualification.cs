@@ -17,5 +17,16 @@ namespace CarpoolingCR.Models
 
         public int Starts { get; set; }
         public string Comments { get; set; }
+
+
+        //public int QualificationId { get; set; }
+
+        public string QualifierId { get; set; }
+        public ApplicationUser Qualifier { get; set; }
+
+        public int? ReservationId { get; set; }
+        public Reservation Reservation { get; set; }
+        public int? TripId { get; set; }
+        public Trip Trip { get; set; }
     }
 }

@@ -15,7 +15,6 @@ namespace CarpoolingCR.Models
         public int ReservationId { get; set; }
 
         public int TripId { get; set; }
-        [NotMapped]
         public Trip Trip { get; set; }
 
         public string ApplicationUserId { get; set; }
@@ -34,5 +33,8 @@ namespace CarpoolingCR.Models
         public string PassengerName { get; set; }
 
         public List<Qualification> Qualifications { get; set; }
+
+        public bool IsPassengerQualified { get; set; }
+        public bool IsDriverQualified { get; set; }
     }
 }

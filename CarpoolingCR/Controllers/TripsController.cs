@@ -699,13 +699,18 @@ namespace CarpoolingCR.Controllers
             }
         }
 
-        public ActionResult LoadDriverTripHistorial()
+        public ActionResult LoadDriverTripHistorial(string message)
         {
             try
             {
                 if (!Common.IsAuthorized(User))
                 {
                     return RedirectToAction("Login", "Account");
+                }
+
+                if (!string.IsNullOrEmpty(message))
+                {
+                    ViewBag.Info = message;
                 }
 
                 var user = Common.GetUserByEmail(User.Identity.Name);

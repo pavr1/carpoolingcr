@@ -29,38 +29,46 @@
             var from = reservation.Trip.FromTown.FullName;
             var to = reservation.Trip.ToTown.FullName;
 
-            <div class="row form-group bg-info" style="border-radius:10px">
-                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                    <label class="control-label">@from -> @to</label><br />
-                    <small class="date">@reservation.Trip.DateTime.ToString("dd/MM/yyyy hh:mm tt")</small><br />
-                    <label class="control-label">Conductor: </label>
-                    <small class="date">@reservation.Trip.ApplicationUser.FullName</small>
-                </div>
-                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
-                    @{
-                        if (reservation.Qualifications.Count > 0)
-                        {
-                            <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="star1" class="fa fa-star checked" data-toggle="Muy Malo"></span></a>
-                            <a href="#" data-toggle="tooltip" title="Malo"><span id="star2" class="fa fa-star checked" data-toggle="Malo"></span></a>
-                            <a href="#" data-toggle="tooltip" title="Bueno"><span id="star3" class="fa fa-star checked" data-toggle="Bueno"></span></a>
-                            <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="star4" class="fa fa-star" data-toggle="Muy Bueno"></span></a>
-                            <a href="#" data-toggle="tooltip" title="Excelente"><span id="star5" class="fa fa-star" data-toggle="Excelente"></span></a>
-                        }
-                    }
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" style="text-align:justify">
-                    <b>Comentarios</b>
-                    @{
-                        if (reservation.Qualifications.Count == 0)
-                        {
-                            <br /><small class="text-warning">¡Aún no has sido calificado por el conductor!</small>
-                        }
+            <div class="row container">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="row form-group bg-info" style="border-radius:10px">
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                            <label class="control-label">@from -> @to</label><br />
+                            <small class="date">@reservation.Trip.DateTime.ToString("dd/MM/yyyy hh:mm tt")</small><br />
+                            <label class="control-label">Conductor: </label>
+                            <small class="date">@reservation.Trip.ApplicationUser.FullName</small>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+                            @{
+                                if (reservation.Qualifications.Count > 0)
+                                {
+                                    <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="star1" class="fa fa-star checked" data-toggle="Muy Malo"></span></a>
+                                    <a href="#" data-toggle="tooltip" title="Malo"><span id="star2" class="fa fa-star checked" data-toggle="Malo"></span></a>
+                                    <a href="#" data-toggle="tooltip" title="Bueno"><span id="star3" class="fa fa-star checked" data-toggle="Bueno"></span></a>
+                                    <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="star4" class="fa fa-star" data-toggle="Muy Bueno"></span></a>
+                                    <a href="#" data-toggle="tooltip" title="Excelente"><span id="star5" class="fa fa-star" data-toggle="Excelente"></span></a>
+                                }
+                            }
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style="text-align:justify">
+                            <b>Comentarios: </b>
+                            @{
+                                if (reservation.Qualifications.Count == 0)
+                                {
+                                    <small class="text-warning">¡Aún no has sido calificado por el conductor!</small>
+                                }
+                                else
+                                {
+                                    <small>@reservation.Qualifications.ToList()[0].Comments</small>
+                                }
 
-                        if (!reservation.IsDriverQualified)
-                        {
-                            <input type="button" class="btn btn-info pull-right" value="Calificar" onclick="PopUpQualifyModal(@reservation.ReservationId, @reservation.TripId, '@reservation.Trip.ApplicationUser.FullName')" />
-                        }
-                    }
+                                if (!reservation.IsDriverQualified)
+                                {
+                                    <input type="button" class="btn btn-info pull-right" value="Calificar" onclick="PopUpQualifyModal(@reservation.ReservationId, @reservation.TripId, '@reservation.Trip.ApplicationUser.FullName','/Reservations/LoadPassengerReservationHistorial?message=100027')" />
+                                }
+                            }
+                        </div>
+                    </div>
                 </div>
             </div>
         }

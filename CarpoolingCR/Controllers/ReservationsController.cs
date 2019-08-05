@@ -775,13 +775,18 @@ namespace CarpoolingCR.Controllers
             }
         }
 
-        public ActionResult LoadPassengerReservationHistorial()
+        public ActionResult LoadPassengerReservationHistorial(string message)
         {
             try
             {
                 if (!Common.IsAuthorized(User))
                 {
                     return RedirectToAction("Login", "Account");
+                }
+
+                if (!string.IsNullOrEmpty(message))
+                {
+                    ViewBag.Info = message;
                 }
 
                 var user = Common.GetUserByEmail(User.Identity.Name);

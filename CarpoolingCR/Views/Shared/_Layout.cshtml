@@ -190,6 +190,7 @@
                             <input type="text" id="q-reservation-id" name="q-reservation-id" class="hidden" />
                             <input type="text" id="q-trip-id" name="q-trip-id" class="hidden" />
                             <input type="text" id="q-stars" name="q-stars" class="hidden" />
+                            <input type="text" id="q-url" name="q-url" class="hidden" />
                             <button type="button" class="close" data-dismiss="modal">
                                 <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
                             </button>
@@ -244,10 +245,11 @@
     <script src="~/Scripts/Growl/jquery.bootstrap-growl.js"></script>
 
     <script>
-        function PopUpQualifyModal(reservationId, tripId, userName) {
+        function PopUpQualifyModal(reservationId, tripId, userName, url) {
             $('#q-reservation-id').val(reservationId);
             $('#q-trip-id').val(tripId);
-            $('#p-User-Name').val(userName);
+            $('#p-User-Name').html(userName);
+            $('#q-url').val(url);
 
             $('#qualifyUserModal').modal();
         }
@@ -257,6 +259,7 @@
             var tripId = $('#q-trip-id').val();
             var stars = $('#q-stars').val();
             var comment = $('#q-comment').val();
+            var url = $('#q-url').val();
 
             if (tripId == '') {
                 tripId = null;
@@ -264,9 +267,11 @@
 
             $.post('/Qualifications/QualifyUser', { reservationId: reservationId, tripId: tripId, stars: stars, comment: comment},
                 function (data) {
-                    if (data != '') {
-                        displayMessages('¡Usuario Calificado!', 'info')
-                    }
+                    $('#qualifyUserModal').modal('toggle');
+
+                    sleep(400);
+
+                    window.location.href = url;
                 });
         }
 
@@ -327,6 +332,15 @@
             $('html, body').animate({
                 scrollTop: 0
             }, 1000);
+        }
+
+        function sleep(milliseconds) {
+            var start = new Date().getTime();
+            for (var i = 0; i < 1e7; i++) {
+                if ((new Date().getTime() - start) > milliseconds) {
+                    break;
+                }
+            }
         }
 
         function DisplayGrowlMessage(message, type) {

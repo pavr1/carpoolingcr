@@ -806,7 +806,7 @@ namespace CarpoolingCR.Controllers
                         .Include(x => x.ApplicationUser)
                         .Single();
 
-                    reservation.Qualifications = db.Qualifications.Where(x => x.ReservationId == reservation.ReservationId)
+                    reservation.Qualifications = db.Qualifications.Where(x => x.ReservationId == reservation.ReservationId && x.QualifierId != user.Id)
                         .Include(x => x.Qualifier)
                         .ToList();
                 }

@@ -202,11 +202,11 @@
                                     <h3>
                                         <p id="p-User-Name"></p>
 
-                                        <a href="#" data-toggle="tooltip" onclick="SetStars(1)" title="Muy Malo"><span id="star1" class="fa fa-star checked" data-toggle="Muy Malo"></span></a>
-                                        <a href="#" data-toggle="tooltip" onclick="SetStars(2)" title="Malo"><span id="star2" class="fa fa-star checked" data-toggle="Malo"></span></a>
-                                        <a href="#" data-toggle="tooltip" onclick="SetStars(3)" title="Bueno"><span id="star3" class="fa fa-star checked" data-toggle="Bueno"></span></a>
-                                        <a href="#" data-toggle="tooltip" onclick="SetStars(4)" title="Muy Bueno"><span id="star4" class="fa fa-star" data-toggle="Muy Bueno"></span></a>
-                                        <a href="#" data-toggle="tooltip" onclick="SetStars(5)" title="Excelente"><span id="star5" class="fa fa-star" data-toggle="Excelente"></span></a>
+                                        <a href="#" data-toggle="tooltip" onclick="SetStars(1,'q-')" title="Muy Malo"><span id="q-star1" class="fa fa-star checked" data-toggle="Muy Malo"></span></a>
+                                        <a href="#" data-toggle="tooltip" onclick="SetStars(2,'q-')" title="Malo"><span id="q-star2" class="fa fa-star checked" data-toggle="Malo"></span></a>
+                                        <a href="#" data-toggle="tooltip" onclick="SetStars(3,'q-')" title="Bueno"><span id="q-star3" class="fa fa-star checked" data-toggle="Bueno"></span></a>
+                                        <a href="#" data-toggle="tooltip" onclick="SetStars(4,'q-')" title="Muy Bueno"><span id="q-star4" class="fa fa-star" data-toggle="Muy Bueno"></span></a>
+                                        <a href="#" data-toggle="tooltip" onclick="SetStars(5,'q-')" title="Excelente"><span id="q-star5" class="fa fa-star" data-toggle="Excelente"></span></a>
                                     </h3>
                                 </div>
                             </div>
@@ -275,17 +275,19 @@
                 });
         }
 
-        function SetStars(stars) {
-            $('#star1').removeClass('checked');
-            $('#star2').removeClass('checked');
-            $('#star3').removeClass('checked');
-            $('#star4').removeClass('checked');
-            $('#star5').removeClass('checked');
+        function SetStars(stars, prefix) {
+            console.log("Setting stars...");
+
+            $('#' + prefix + 'star1').removeClass('checked');
+            $('#' + prefix + 'star2').removeClass('checked');
+            $('#' + prefix + 'star3').removeClass('checked');
+            $('#' + prefix + 'star4').removeClass('checked');
+            $('#' + prefix + 'star5').removeClass('checked');
 
             $('#q-stars').val(stars);
 
             for (var i = 1; i <= stars; i++) {
-                $('#star' + i).addClass('checked');
+                $('#' + prefix + 'star' + i).addClass('checked');
             }
         }
 

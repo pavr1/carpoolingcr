@@ -317,9 +317,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Content\rating.css" />
     <Content Include="Scripts\rating.js" />
-    <Content Include="SQL\Costa Rica\Counties\Counties.sql" />
-    <Content Include="SQL\Costa Rica\Provinces\Provinces.sql" />
-    <Content Include="SQL\Costa Rica\Districts\Districts.sql" />
+    <Content Include="SQL\Costa Rica\Counties\Alajuela.sql" />
+    <Content Include="SQL\Costa Rica\Counties\San Jose.sql" />
+    <Content Include="SQL\Costa Rica\Districts\Alajuela.sql" />
+    <Content Include="SQL\Costa Rica\Districts\San Jose.sql" />
     <Compile Include="Startup.cs" />
     <Compile Include="Utils\Common.cs" />
     <Compile Include="Utils\EmailHandler.cs" />
@@ -683,6 +684,7 @@
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\notify.js" />
     <Content Include="serviceworker.js" />
+    <Content Include="SQL\Costa Rica\Provinces\Todas.sql" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

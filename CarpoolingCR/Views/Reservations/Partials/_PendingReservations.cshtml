@@ -1,5 +1,12 @@
 ﻿@model CarpoolingCR.Objects.Responses.ReservationTransportationResponse
 
+<style>
+    .checked {
+        color: orange;
+    }
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 <div id="yourreservations">
     <small>Reservaciones Pendientes</small><br /><br />
     <div class="row">
@@ -60,15 +67,64 @@
                                     }
                                 </div>
                                 <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                                    <small class="spaces"><b>&nbsp;&nbsp;Espacios Solicitados: </b> @item.RequestedSpaces<br /></small>
+                                    @{
+                                        var stars = item.ApplicationUser.Stars;
 
-
+                                        switch (stars)
+                                        {
+                                            case 1:
+                                                <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star1" class="fa fa-star checked" data-toggle="Muy Malo"></span></a>
+                                                <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star2" class="fa fa-star" data-toggle="Malo"></span></a>
+                                                <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star3" class="fa fa-star" data-toggle="Bueno"></span></a>
+                                                <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star4" class="fa fa-star" data-toggle="Muy Bueno"></span></a>
+                                                <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star5" class="fa fa-star" data-toggle="Excelente"></span></a>
+                                                break;
+                                            case 2:
+                                                <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star1" class="fa fa-star checked" data-toggle="Muy Malo"></span></a>
+                                                <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star2" class="fa fa-star checked" data-toggle="Malo"></span></a>
+                                                <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star3" class="fa fa-star" data-toggle="Bueno"></span></a>
+                                                <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star4" class="fa fa-star" data-toggle="Muy Bueno"></span></a>
+                                                <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star5" class="fa fa-star" data-toggle="Excelente"></span></a>
+                                                break;
+                                            case 3:
+                                                <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star1" class="fa fa-star checked" data-toggle="Muy Malo"></span></a>
+                                                <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star2" class="fa fa-star checked" data-toggle="Malo"></span></a>
+                                                <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star3" class="fa fa-star checked" data-toggle="Bueno"></span></a>
+                                                <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star4" class="fa fa-star" data-toggle="Muy Bueno"></span></a>
+                                                <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star5" class="fa fa-star" data-toggle="Excelente"></span></a>
+                                                break;
+                                            case 4:
+                                                <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star1" class="fa fa-star checked" data-toggle="Muy Malo"></span></a>
+                                                <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star2" class="fa fa-star checked" data-toggle="Malo"></span></a>
+                                                <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star3" class="fa fa-star checked" data-toggle="Bueno"></span></a>
+                                                <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star4" class="fa fa-star checked" data-toggle="Muy Bueno"></span></a>
+                                                <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star5" class="fa fa-star" data-toggle="Excelente"></span></a>
+                                                break;
+                                            case 5:
+                                                <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star1" class="fa fa-star checked" data-toggle="Muy Malo"></span></a>
+                                                <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star2" class="fa fa-star checked" data-toggle="Malo"></span></a>
+                                                <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star3" class="fa fa-star checked" data-toggle="Bueno"></span></a>
+                                                <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star4" class="fa fa-star checked" data-toggle="Muy Bueno"></span></a>
+                                                <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star5" class="fa fa-star checked" data-toggle="Excelente"></span></a>
+                                                break;
+                                            case -1:
+                                                <a href="#" data-toggle="tooltip" title="¡Usuario no calificado!"><span id="p-star1" class="fa fa-star" data-toggle="¡Usuario no calificado!"></span></a>
+                                                <a href="#" data-toggle="tooltip" title="¡Usuario no calificado!"><span id="p-star2" class="fa fa-star" data-toggle="¡Usuario no calificado!"></span></a>
+                                                <a href="#" data-toggle="tooltip" title="¡Usuario no calificado!"><span id="p-star3" class="fa fa-star" data-toggle="¡Usuario no calificado!"></span></a>
+                                                <a href="#" data-toggle="tooltip" title="¡Usuario no calificado!"><span id="p-star4" class="fa fa-star" data-toggle="¡Usuario no calificado!"></span></a>
+                                                <a href="#" data-toggle="tooltip" title="¡Usuario no calificado!"><span id="p-star5" class="fa fa-star" data-toggle="¡Usuario no calificado!"></span></a>
+                                                break;
+                                        }
+                                        <br />
+                                        <small class="spaces"><b>&nbsp;&nbsp;Espacios Solicitados: </b> @item.RequestedSpaces<br /></small>
+                                    }
+                                </div>
+                                <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
                                     @{
                                         var description = CarpoolingCR.Utils.EnumHelper<CarpoolingCR.Utils.Enums.ReservationStatus>.GetDisplayValue(item.Status);
                                         <small class="status"><b>&nbsp;&nbsp;Estado: </b>@description</small>
                                     }
-                                </div>
-                                <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                                    <br />
                                     <small><b>&nbsp;&nbsp;Total: </b> ₡ @Convert.ToDecimal(item.RequestedSpaces * @item.Trip.Price)</small><br />
                                     @{
                                         if (item.Status != CarpoolingCR.Utils.Enums.ReservationStatus.Cancelled)
@@ -173,4 +229,8 @@
             });
 
     }
+
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
 </script>

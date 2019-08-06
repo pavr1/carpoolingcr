@@ -1,14 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using CarpoolingCR.Models.Locations;
+using CarpoolingCR.Utils;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Runtime.Serialization;
 using System.Security.Claims;
-using System.Security.Principal;
 using System.Threading.Tasks;
-using CarpoolingCR.Models.Locations;
-using CarpoolingCR.Utils;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace CarpoolingCR.Models
 {
@@ -66,6 +65,14 @@ namespace CarpoolingCR.Models
             get
             {
                 return Name + " " + LastName;
+            }
+        }
+
+        public int Stars
+        {
+            get
+            {
+                return Common.CalculateOverallUserStars(Id, (UserType == Enums.UserType.Conductor || UserType == Enums.UserType.Administrador));
             }
         }
 

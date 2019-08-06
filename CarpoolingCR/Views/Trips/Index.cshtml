@@ -92,12 +92,13 @@
                                     </div>
                                     <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11">
                                         <hr />
-                                        <div class="col-lg-4 col-md-2 col-sm-6 col-xs-12">
-                                            <small class="driver"><b>- Pasajero: </b> @reservation.PassengerName</small><br />
+                                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                            <small class="driver"><b>- Pasajero: </b> @reservation.PassengerName</small>
                                             @if (reservation.Status == CarpoolingCR.Utils.Enums.ReservationStatus.Accepted)
                                             {
+                                                <br />
                                                 <small class="driver inline-block ">
-                                                    <b>- Contacto: </b> <a href="tel: +506 @reservation.ApplicationUser.Phone1" style="color:blue"> +506 @reservation.ApplicationUser.Phone1 </a>
+                                                    <a href="tel: +506 @reservation.ApplicationUser.Phone1" style="color:blue"> +506 @reservation.ApplicationUser.Phone1 </a>
 
                                                     @if (!string.IsNullOrEmpty(reservation.ApplicationUser.Phone2))
                                                     {
@@ -106,23 +107,72 @@
                                                 </small><br />
                                             }
                                         </div>
-                                        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
-                                            <small class="spaces"><b>&nbsp;&nbsp;Espacios: </b> @reservation.RequestedSpaces<br /></small>
-                                        </div>
-                                        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
-                                            @if (reservation.Status == CarpoolingCR.Utils.Enums.ReservationStatus.Accepted)
-                                            {
-                                                <small><b>&nbsp;&nbsp;Total: ₡ @Convert.ToDecimal(reservation.RequestedSpaces * trip.Price).ToString("N2")</b><br /></small>
+                                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                            @{
+                                                var stars = reservation.ApplicationUser.Stars;
+
+                                                switch (stars)
+                                                {
+                                                    case 1:
+                                                        <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star1" class="fa fa-star checked" data-toggle="Muy Malo"></span></a>
+                                                        <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star2" class="fa fa-star" data-toggle="Malo"></span></a>
+                                                        <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star3" class="fa fa-star" data-toggle="Bueno"></span></a>
+                                                        <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star4" class="fa fa-star" data-toggle="Muy Bueno"></span></a>
+                                                        <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star5" class="fa fa-star" data-toggle="Excelente"></span></a>
+                                                        break;
+                                                    case 2:
+                                                        <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star1" class="fa fa-star checked" data-toggle="Muy Malo"></span></a>
+                                                        <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star2" class="fa fa-star checked" data-toggle="Malo"></span></a>
+                                                        <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star3" class="fa fa-star" data-toggle="Bueno"></span></a>
+                                                        <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star4" class="fa fa-star" data-toggle="Muy Bueno"></span></a>
+                                                        <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star5" class="fa fa-star" data-toggle="Excelente"></span></a>
+                                                        break;
+                                                    case 3:
+                                                        <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star1" class="fa fa-star checked" data-toggle="Muy Malo"></span></a>
+                                                        <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star2" class="fa fa-star checked" data-toggle="Malo"></span></a>
+                                                        <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star3" class="fa fa-star checked" data-toggle="Bueno"></span></a>
+                                                        <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star4" class="fa fa-star" data-toggle="Muy Bueno"></span></a>
+                                                        <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star5" class="fa fa-star" data-toggle="Excelente"></span></a>
+                                                        break;
+                                                    case 4:
+                                                        <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star1" class="fa fa-star checked" data-toggle="Muy Malo"></span></a>
+                                                        <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star2" class="fa fa-star checked" data-toggle="Malo"></span></a>
+                                                        <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star3" class="fa fa-star checked" data-toggle="Bueno"></span></a>
+                                                        <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star4" class="fa fa-star checked" data-toggle="Muy Bueno"></span></a>
+                                                        <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star5" class="fa fa-star" data-toggle="Excelente"></span></a>
+                                                        break;
+                                                    case 5:
+                                                        <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star1" class="fa fa-star checked" data-toggle="Muy Malo"></span></a>
+                                                        <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star2" class="fa fa-star checked" data-toggle="Malo"></span></a>
+                                                        <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star3" class="fa fa-star checked" data-toggle="Bueno"></span></a>
+                                                        <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star4" class="fa fa-star checked" data-toggle="Muy Bueno"></span></a>
+                                                        <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star5" class="fa fa-star checked" data-toggle="Excelente"></span></a>
+                                                        break;
+                                                    case -1:
+                                                        <a href="#" data-toggle="tooltip" title="¡Usuario no calificado!"><span id="p-star1" class="fa fa-star" data-toggle="¡No hay suficientes calificaciones!"></span></a>
+                                                        <a href="#" data-toggle="tooltip" title="¡Usuario no calificado!"><span id="p-star2" class="fa fa-star" data-toggle="¡Usuario no calificado!"></span></a>
+                                                        <a href="#" data-toggle="tooltip" title="¡Usuario no calificado!"><span id="p-star3" class="fa fa-star" data-toggle="¡Usuario no calificado!"></span></a>
+                                                        <a href="#" data-toggle="tooltip" title="¡Usuario no calificado!"><span id="p-star4" class="fa fa-star" data-toggle="¡Usuario no calificado!"></span></a>
+                                                        <a href="#" data-toggle="tooltip" title="¡Usuario no calificado!"><span id="p-star5" class="fa fa-star" data-toggle="¡Usuario no calificado!"></span></a>
+                                                        break;
+                                                }
+                                                <br />
+                                                <small class="spaces"><b>&nbsp;&nbsp;Espacios: </b> @reservation.RequestedSpaces<br /></small>
                                             }
-                                            else
-                                            {
-                                                <small><b>&nbsp;&nbsp;Total: </b> ₡ @Convert.ToDecimal(reservation.RequestedSpaces * trip.Price).ToString("N2")<br /></small>
-                                            }
                                         </div>
-                                        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+                                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                                             @{
                                                 var description = CarpoolingCR.Utils.EnumHelper<CarpoolingCR.Utils.Enums.ReservationStatus>.GetDisplayValue(reservation.Status);
-                                                <small class="status"><b>&nbsp;&nbsp;Estado: </b>@description</small>
+                                                <small class="status"><b>&nbsp;&nbsp;Estado: </b>@description</small><br />
+
+                                                if (reservation.Status == CarpoolingCR.Utils.Enums.ReservationStatus.Accepted)
+                                                {
+                                                    <small><b>&nbsp;&nbsp;Total: ₡ @Convert.ToDecimal(reservation.RequestedSpaces * trip.Price).ToString("N2")</b><br /></small>
+                                                }
+                                                else
+                                                {
+                                                    <small><b>&nbsp;&nbsp;Total: </b> ₡ @Convert.ToDecimal(reservation.RequestedSpaces * trip.Price).ToString("N2")<br /></small>
+                                                }
                                             }
                                         </div>
                                         <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
@@ -297,4 +347,8 @@
                 $('#chatMessageContainer').scrollTop($('#chatMessageContainer')[0].scrollHeight);
             });
     }
+
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
 </script>

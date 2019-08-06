@@ -52,6 +52,51 @@ namespace CarpoolingCR.Utils
             return list;
         }
 
+        public static int CalculateOverallUserStars(string userId, bool isDriver)
+        {
+            using (var db = new ApplicationDbContext())
+            {
+                List<Qualification> qualifications = null;
+
+                if (isDriver)
+                {
+                    var trips = db.Trips.Where(x => x.ApplicationUserId == userId)
+                        .Select(x => x.TripId)
+                        .ToList();
+
+                    qualifications = db.Qualifications.Where(x => trips.Contains((int)x.TripId)).ToList();
+                }
+                else
+                {
+                    //Passenger
+                    var reservations = db.Reservations.Where(x => x.ApplicationUserId == userId)
+                        .Select(x => x.ReservationId)
+                        .ToList();
+
+                    qualifications = db.Qualifications.Where(x => reservations.Contains((int)x.ReservationId)).ToList();
+                }
+
+                var totalStars = 0;
+
+                //if user has been rated in less than 10 times, not enough data to star, return -1
+                if (qualifications.Count < 10)
+                {
+                    return -1;
+                }
+                else
+                {
+                    foreach (var qualification in qualifications)
+                    {
+                        totalStars += qualification.Starts;
+                    }
+
+                    var average = totalStars / qualifications.Count();
+
+                    return average;
+                }
+            }
+        }
+
         public static string GetLocationName(int districtId)
         {
             using (var db = new ApplicationDbContext())

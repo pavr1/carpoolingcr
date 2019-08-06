@@ -86,7 +86,7 @@
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style="text-align:justify">
                             <b>Comentarios: </b>
                             @{
-                                if (reservation.Qualifications.Count > 0)
+                                if (reservation.Qualifications.Count == 0)
                                 {
                                     <small class="text-warning">¡Aún no has sido calificado por el conductor!</small>
                                 }

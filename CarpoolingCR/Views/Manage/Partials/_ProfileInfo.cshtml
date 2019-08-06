@@ -4,6 +4,12 @@
     ViewBag.Title = "BankInfo";
 }
 
+<style>
+    .checked {
+        color: orange;
+    }
+</style>
+
 @using (Html.BeginForm("BankInfo", "Manage", FormMethod.Post, new { }))
 {
     @Html.AntiForgeryToken()
@@ -18,7 +24,7 @@
                 <label class="control-label">Perfíl de Usuario</label>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                <h4 class="center-block">
+                <h1 style="text-align:center">
                     @{
                         var stars = Model.Stars;
 
@@ -60,15 +66,15 @@
                                 <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star5" class="fa fa-star checked" data-toggle="Excelente"></span></a>
                                 break;
                             case -1:
-                                <a href="#" data-toggle="tooltip" title="¡Usuario no calificado!"><span id="p-star1" class="fa fa-star" data-toggle="¡Usuario no calificado!"></span></a>
-                                <a href="#" data-toggle="tooltip" title="¡Usuario no calificado!"><span id="p-star2" class="fa fa-star" data-toggle="¡Usuario no calificado!"></span></a>
-                                <a href="#" data-toggle="tooltip" title="¡Usuario no calificado!"><span id="p-star3" class="fa fa-star" data-toggle="¡Usuario no calificado!"></span></a>
+                                <a href="#" data-toggle="tooltip" title="¡Usuario no calificado!"><span id="p-star1" class="fa fa-star checked" data-toggle="¡Usuario no calificado!"></span></a>
+                                <a href="#" data-toggle="tooltip" title="¡Usuario no calificado!"><span id="p-star2" class="fa fa-star checked" data-toggle="¡Usuario no calificado!"></span></a>
+                                <a href="#" data-toggle="tooltip" title="¡Usuario no calificado!"><span id="p-star3" class="fa fa-star checked" data-toggle="¡Usuario no calificado!"></span></a>
                                 <a href="#" data-toggle="tooltip" title="¡Usuario no calificado!"><span id="p-star4" class="fa fa-star" data-toggle="¡Usuario no calificado!"></span></a>
                                 <a href="#" data-toggle="tooltip" title="¡Usuario no calificado!"><span id="p-star5" class="fa fa-star" data-toggle="¡Usuario no calificado!"></span></a>
                                 break;
                         }
                     }
-                </h4>
+                </h1>
             </div>
             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
 
@@ -212,3 +218,9 @@
         </div>
     </div>
 }
+
+<script>
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>

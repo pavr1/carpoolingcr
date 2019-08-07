@@ -287,9 +287,13 @@
     <Content Include="Scripts\rating.js" />
     <Content Include="SQL\Costa Rica\Counties\Guanacaste.sql" />
     <Content Include="SQL\Costa Rica\Counties\Alajuela.sql" />
+    <Content Include="SQL\Costa Rica\Counties\Limón.sql" />
     <Content Include="SQL\Costa Rica\Counties\Heredia.sql" />
     <Content Include="SQL\Costa Rica\Counties\Cartago.sql" />
+    <Content Include="SQL\Costa Rica\Counties\Puntarenas.sql" />
     <Content Include="SQL\Costa Rica\Counties\San Jose.sql" />
+    <Content Include="SQL\Costa Rica\Districts\Limón.sql" />
+    <Content Include="SQL\Costa Rica\Districts\Puntarenas.sql" />
     <Content Include="SQL\Costa Rica\Districts\Guanacaste.sql" />
     <Content Include="SQL\Costa Rica\Districts\Heredia.sql" />
     <Content Include="SQL\Costa Rica\Districts\Cartago.sql" />

@@ -242,9 +242,49 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201908131747156_Not known.cs" />
-    <Compile Include="Migrations\201908131747156_Not known.Designer.cs">
-      <DependentUpon>201908131747156_Not known.cs</DependentUpon>
+    <Compile Include="Migrations\201908030328573_initial db.cs" />
+    <Compile Include="Migrations\201908030328573_initial db.Designer.cs">
+      <DependentUpon>201908030328573_initial db.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908030355190_Changed UserId int for string in ProfileQualifications.cs" />
+    <Compile Include="Migrations\201908030355190_Changed UserId int for string in ProfileQualifications.Designer.cs">
+      <DependentUpon>201908030355190_Changed UserId int for string in ProfileQualifications.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908032055134_Added Qualification list to trip and reservations.cs" />
+    <Compile Include="Migrations\201908032055134_Added Qualification list to trip and reservations.Designer.cs">
+      <DependentUpon>201908032055134_Added Qualification list to trip and reservations.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908032116541_Changed Qualification from and to id from int to string.cs" />
+    <Compile Include="Migrations\201908032116541_Changed Qualification from and to id from int to string.Designer.cs">
+      <DependentUpon>201908032116541_Changed Qualification from and to id from int to string.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908041551372_Add trip as mapped in reservation.cs" />
+    <Compile Include="Migrations\201908041551372_Add trip as mapped in reservation.Designer.cs">
+      <DependentUpon>201908041551372_Add trip as mapped in reservation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908041638204_Added Passenger and Driver Qualified properties.cs" />
+    <Compile Include="Migrations\201908041638204_Added Passenger and Driver Qualified properties.Designer.cs">
+      <DependentUpon>201908041638204_Added Passenger and Driver Qualified properties.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908041712222_fix for table alter.cs" />
+    <Compile Include="Migrations\201908041712222_fix for table alter.Designer.cs">
+      <DependentUpon>201908041712222_fix for table alter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908041830020_Passenger and driver qualified props.cs" />
+    <Compile Include="Migrations\201908041830020_Passenger and driver qualified props.Designer.cs">
+      <DependentUpon>201908041830020_Passenger and driver qualified props.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908090056295_Added country code and currency character to country.cs" />
+    <Compile Include="Migrations\201908090056295_Added country code and currency character to country.Designer.cs">
+      <DependentUpon>201908090056295_Added country code and currency character to country.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908171842547_Added Profile picture.cs" />
+    <Compile Include="Migrations\201908171842547_Added Profile picture.Designer.cs">
+      <DependentUpon>201908171842547_Added Profile picture.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908180216110_More Changes.cs" />
+    <Compile Include="Migrations\201908180216110_More Changes.Designer.cs">
+      <DependentUpon>201908180216110_More Changes.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -289,18 +329,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Content\rating.css" />
     <Content Include="Scripts\rating.js" />
-    <Content Include="SQL\Costa Rica\Counties\Guanacaste.sql" />
     <Content Include="SQL\Costa Rica\Counties\Alajuela.sql" />
-    <Content Include="SQL\Costa Rica\Counties\Limón.sql" />
-    <Content Include="SQL\Costa Rica\Counties\Heredia.sql" />
-    <Content Include="SQL\Costa Rica\Counties\Cartago.sql" />
-    <Content Include="SQL\Costa Rica\Counties\Puntarenas.sql" />
     <Content Include="SQL\Costa Rica\Counties\San Jose.sql" />
-    <Content Include="SQL\Costa Rica\Districts\Limón.sql" />
-    <Content Include="SQL\Costa Rica\Districts\Puntarenas.sql" />
-    <Content Include="SQL\Costa Rica\Districts\Guanacaste.sql" />
-    <Content Include="SQL\Costa Rica\Districts\Heredia.sql" />
-    <Content Include="SQL\Costa Rica\Districts\Cartago.sql" />
     <Content Include="SQL\Costa Rica\Districts\Alajuela.sql" />
     <Content Include="SQL\Costa Rica\Districts\San Jose.sql" />
     <Compile Include="Startup.cs" />
@@ -768,7 +798,7 @@
     <Content Include="Views\Towns\Details.cshtml" />
     <Content Include="Views\Towns\Edit.cshtml" />
     <Content Include="Views\Towns\Index.cshtml" />
-    <Content Include="Views\Manage\Partials\_ProfileInfo.cshtml" />
+    <Content Include="Views\Manage\ProfileInfo.cshtml" />
     <Content Include="Views\ChattingMessages\Create.cshtml" />
     <Content Include="Views\ChattingMessages\Delete.cshtml" />
     <Content Include="Views\ChattingMessages\Details.cshtml" />
@@ -812,6 +842,8 @@
     <Folder Include="Content\jquery-weekcalendar-1.2.2\full_demo\images\.svn\tmp\prop-base\" />
     <Folder Include="Content\jquery-weekcalendar-1.2.2\full_demo\images\.svn\tmp\props\" />
     <Folder Include="Content\jquery-weekcalendar-1.2.2\full_demo\images\.svn\tmp\text-base\" />
+    <Folder Include="Content\Pictures\Users\" />
+    <Folder Include="Views\Manage\Partials\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -827,8 +859,38 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201908131747156_Not known.resx">
-      <DependentUpon>201908131747156_Not known.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201908030328573_initial db.resx">
+      <DependentUpon>201908030328573_initial db.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908030355190_Changed UserId int for string in ProfileQualifications.resx">
+      <DependentUpon>201908030355190_Changed UserId int for string in ProfileQualifications.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908032055134_Added Qualification list to trip and reservations.resx">
+      <DependentUpon>201908032055134_Added Qualification list to trip and reservations.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908032116541_Changed Qualification from and to id from int to string.resx">
+      <DependentUpon>201908032116541_Changed Qualification from and to id from int to string.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908041551372_Add trip as mapped in reservation.resx">
+      <DependentUpon>201908041551372_Add trip as mapped in reservation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908041638204_Added Passenger and Driver Qualified properties.resx">
+      <DependentUpon>201908041638204_Added Passenger and Driver Qualified properties.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908041712222_fix for table alter.resx">
+      <DependentUpon>201908041712222_fix for table alter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908041830020_Passenger and driver qualified props.resx">
+      <DependentUpon>201908041830020_Passenger and driver qualified props.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908090056295_Added country code and currency character to country.resx">
+      <DependentUpon>201908090056295_Added country code and currency character to country.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908171842547_Added Profile picture.resx">
+      <DependentUpon>201908171842547_Added Profile picture.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908180216110_More Changes.resx">
+      <DependentUpon>201908180216110_More Changes.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
@@ -864,13 +926,6 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
-  </Target>
-  <Target Name="CopyRoslynFiles" AfterTargets="AfterBuild" Condition="!$(Disable_CopyWebApplication) And '$(OutDir)' != '$(OutputPath)'">
-    <ItemGroup>
-      <RoslynFiles Include="$(CscToolPath)\*" />
-    </ItemGroup>
-    <MakeDir Directories="$(WebProjectOutputDir)\bin\roslyn" />
-    <Copy SourceFiles="@(RoslynFiles)" DestinationFolder="$(WebProjectOutputDir)\bin\roslyn" SkipUnchangedFiles="true" Retries="$(CopyRetryCount)" RetryDelayMilliseconds="$(CopyRetryDelayMilliseconds)" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -1,5 +1,8 @@
 ﻿using CarpoolingCR.Models;
 using Microsoft.AspNet.Identity;
+using System;
+using System.Linq;
+using System.Threading;
 using System.Web.Configuration;
 
 namespace CarpoolingCR.Utils
@@ -130,16 +133,41 @@ namespace CarpoolingCR.Utils
             });
         }
 
-        public static void SendEmailTripCreation(string email, string driverName, string tripInfo, int availableSpaces)
+        public static void SendEmailTripCreation(string email, string driverName, string tripInfo, int availableSpaces, string callback)
         {
             var html = "<html><header></header><body>El conductor " + driverName + " ha creado un viaje de " + tripInfo + " con " + availableSpaces + " espacios disponibles.";
 
             SendEmail(new IdentityMessage
             {
                 Destination = email,
-                Subject = "Han solicitado espacio en tu vehículo!",
+                Subject = "¡Nuevo viaje disponible!",
                 Body = html
             });
+
+            var sendEmails = new Thread(() => SendToAll(tripInfo, callback));
+            sendEmails.Start();
+        }
+
+        private static void SendToAll(string tripInfo, string callback)
+        {
+            using (var db = new ApplicationDbContext())
+            {
+                var users = db.Users.Where(x => x.EmailConfirmed && x.Status == Enums.ProfileStatus.Active)
+                    .Where(x => x.UserType == Enums.UserType.Pasajero)
+                    .ToList();
+
+                var html = "<html><header></header><body>Nuevo viaje disponible de " + tripInfo + ". ¿Necesitas ride? ¡Aprovecha y <a href='" + callback + "'>Reserva Aquí</a>!</body></html>";
+
+                foreach (var user in users)
+                {
+                    SendEmail(new IdentityMessage
+                    {
+                        Destination = user.Email,
+                        Subject = "¡Nuevo viaje disponible!",
+                        Body = html
+                    });
+                }
+            }
         }
 
         private static void SendEmail(IdentityMessage msg)

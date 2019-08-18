@@ -315,6 +315,8 @@ namespace CarpoolingCR.Controllers
                             return View(model);
                         }
 
+                        var picture = Request["registeredUserPicture"];
+
                         var user = new ApplicationUser
                         {
                             UserName = model.Email,
@@ -327,7 +329,8 @@ namespace CarpoolingCR.Controllers
                             CountryId = model.CountryId,
                             UserType = model.UserType,
                             FacebookAccount = model.FacebookAccount,
-                            Status = Enums.ProfileStatus.Active
+                            Status = Enums.ProfileStatus.Active,
+                            Picture = picture
                         };
 
                         string emailForAdmin = WebConfigurationManager.AppSettings["AdminEmails"];

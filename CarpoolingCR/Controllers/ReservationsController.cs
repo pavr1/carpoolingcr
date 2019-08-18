@@ -259,9 +259,12 @@ namespace CarpoolingCR.Controllers
                     return Serializer.Serialize(response);
                 }
 
+                var currentTime = Common.ConvertToUTCTime(DateTime.Now);
+
                 trips = db.Trips.Where(x => x.FromTownId == fromDistrict.DistrictId && x.ToTownId == toDistrict.DistrictId)
                     .Where(x => x.Status == Status.Activo)
                     .Where(x => x.ApplicationUserId != user.Id)
+                    .Where(x => x.DateTime > currentTime)
                     .Where(x => x.AvailableSpaces > 0)
                     .ToList();
 

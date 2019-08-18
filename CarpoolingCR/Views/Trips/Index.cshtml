@@ -52,13 +52,19 @@
             }
             else
             {
+                var index = 1;
                 foreach (var trip in Model.Trips)
                 {
-                    <hr />
                     var from = trip.FromTown.FullName;
                     var to = trip.ToTown.FullName;
+                    var evenOdd = index % 2;
+                    var background = (evenOdd == 0) ? "azure" : "white";
 
-                    <li>
+                    index++;
+
+                    <hr />
+                    //find a visual way for this to look good with even odds, leave as white for now
+                    <div style="background-color:white">
                         <div class="row form-group">
                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                 <label class="control-label fromto">@from -> @to</label>
@@ -68,7 +74,10 @@
                                 @{
                                     if (Model.IsAdmin)
                                     {
-                                        <small class="price"><b>Conductor:</b> @trip.ApplicationUser.Name  @trip.ApplicationUser.LastName @trip.ApplicationUser.SecondLastName</small>
+                                        <small class="price center-block"><b>Conductor:</b></small>
+                                        <div id="profile-container-small" class="" data-toggle="tooltip" title="@trip.ApplicationUser.FullName">
+                                            <img id="profileImage" src="@trip.ApplicationUser.Picture" /><br />
+                                        </div>
                                     }
                                 }
                             </div>
@@ -91,21 +100,12 @@
 
                                     </div>
                                     <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11">
-                                        <hr />
+                                        @*<hr />*@
                                         <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                                            <small class="driver"><b>- Pasajero: </b> @reservation.PassengerName</small>
-                                            @if (reservation.Status == CarpoolingCR.Utils.Enums.ReservationStatus.Accepted)
-                                            {
-                                                <br />
-                                                <small class="driver inline-block ">
-                                                    <a href="tel: +506 @reservation.ApplicationUser.Phone1" style="color:blue"> +506 @reservation.ApplicationUser.Phone1 </a>
-
-                                                    @if (!string.IsNullOrEmpty(reservation.ApplicationUser.Phone2))
-                                                    {
-                                                        <a href="tel: +506 @reservation.ApplicationUser.Phone2" style="color:blue"> +506 @reservation.ApplicationUser.Phone2 </a>
-                                                    }
-                                                </small><br />
-                                            }
+                                            <small class="driver"><b>- Pasajero: </b></small>
+                                            <div id="profile-container-small" class="" data-toggle="tooltip" title="@reservation.PassengerName">
+                                                <img id="profileImage" src="@reservation.ApplicationUser.Picture" /><br />
+                                            </div>
                                         </div>
                                         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                                             @{
@@ -157,7 +157,27 @@
                                                         break;
                                                 }
                                                 <br />
-                                                <small class="spaces"><b>&nbsp;&nbsp;Espacios: </b> @reservation.RequestedSpaces<br /></small>
+                                                if (reservation.Status == CarpoolingCR.Utils.Enums.ReservationStatus.Accepted)
+                                                {
+                                                    var claims = (System.Security.Claims.ClaimsIdentity)User.Identity;
+                                                    var value = string.Empty;
+                                                    var obj = claims.FindFirst("CountryCode");
+
+                                                    if (obj != null)
+                                                    {
+                                                        value = obj.Value;
+                                                    }
+
+                                                    <small class="driver inline-block ">
+                                                        <a href="tel: @value @reservation.ApplicationUser.Phone1" style="color:blue"> @value @reservation.ApplicationUser.Phone1 </a>
+
+                                                        @if (!string.IsNullOrEmpty(reservation.ApplicationUser.Phone2))
+                                                        {
+                                                            <a href="tel: @value @reservation.ApplicationUser.Phone2" style="color:blue"> @value @reservation.ApplicationUser.Phone2 </a>
+                                                        }
+                                                    </small><br />
+                                                }
+                                                <small class="spaces"><b>&nbsp;&nbsp;Espacios: </b> @reservation.RequestedSpaces</small>
                                             }
                                         </div>
                                         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
@@ -185,7 +205,7 @@
                                                 }
                                                 else
                                                 {
-                                                    <input type="button" class="btn btn-danger" value="X" onclick="ConfirmAction(@reservation.ReservationId, 'Cancelled', '¡Confirme que desea cancelar esta reservación!', 'Reservaciones', 'Cancelar', 'btn-danger', 'driver')" />
+                                                    <input type="button" class="btn btn-danger pull-right" value="X" onclick="ConfirmAction(@reservation.ReservationId, 'Cancelled', '¡Confirme que desea cancelar esta reservación!', 'Reservaciones', 'Cancelar', 'btn-danger', 'driver')" />
                                                 }
                                             }
                                         </div>
@@ -203,7 +223,6 @@
 
                                 </div>
                                 <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11">
-                                    <hr />
                                     <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
 
                                     </div>
@@ -216,7 +235,7 @@
                                 </div>
                             </div>
                         }
-                    </li>
+                    </div>
                 }
             }
         }

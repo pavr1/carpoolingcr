@@ -4,27 +4,37 @@
     ViewBag.Title = "BankInfo";
 }
 
-<style>
-    .checked {
-        color: orange;
-    }
-</style>
-
-@using (Html.BeginForm("BankInfo", "Manage", FormMethod.Post, new { }))
-{
+@*@using (Html.BeginForm("BankInfo", "Manage", FormMethod.Post, new { }))
+    {*@
+<form action="/Manage/ProfileInfo" method="post" enctype="multipart/form-data">
     @Html.AntiForgeryToken()
     <input type="hidden" id="message" value="@Model.Message" />
     <input type="hidden" id="messageType" value="@Model.MessageType" />
 
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="row form-group">
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+            <div class="row form-group">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:center">
+                    <h3>Perfíl de Usuario</h3>
+                </div>
             </div>
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                <label class="control-label">Perfíl de Usuario</label>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+
             </div>
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                <h1 style="text-align:center">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 center-block">
+                <label id="SelectedPicture" name="SelectedPicture" class="hidden"></label>
+                <div id="profile-container" class="center-block" data-toggle="tooltip" title="¡Actualiza tu foto de perfíl!">
+                    <img id="profileImage" src="@Model.Picture" />
+                </div>
+                <input id="imageUpload" type="file" name="profile_photo" placeholder="Photo" accept="image/*">
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <h2 style="text-align:center">
                     @{
                         var stars = Model.Stars;
 
@@ -66,18 +76,16 @@
                                 <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star5" class="fa fa-star checked" data-toggle="Excelente"></span></a>
                                 break;
                             case -1:
-                                <a href="#" data-toggle="tooltip" title="¡Usuario no calificado!"><span id="p-star1" class="fa fa-star checked" data-toggle="¡Usuario no calificado!"></span></a>
-                                <a href="#" data-toggle="tooltip" title="¡Usuario no calificado!"><span id="p-star2" class="fa fa-star checked" data-toggle="¡Usuario no calificado!"></span></a>
-                                <a href="#" data-toggle="tooltip" title="¡Usuario no calificado!"><span id="p-star3" class="fa fa-star checked" data-toggle="¡Usuario no calificado!"></span></a>
+                                <a href="#" data-toggle="tooltip" title="¡Usuario no calificado!"><span id="p-star1" class="fa fa-star" data-toggle="¡Usuario no calificado!"></span></a>
+                                <a href="#" data-toggle="tooltip" title="¡Usuario no calificado!"><span id="p-star2" class="fa fa-star" data-toggle="¡Usuario no calificado!"></span></a>
+                                <a href="#" data-toggle="tooltip" title="¡Usuario no calificado!"><span id="p-star3" class="fa fa-star" data-toggle="¡Usuario no calificado!"></span></a>
                                 <a href="#" data-toggle="tooltip" title="¡Usuario no calificado!"><span id="p-star4" class="fa fa-star" data-toggle="¡Usuario no calificado!"></span></a>
                                 <a href="#" data-toggle="tooltip" title="¡Usuario no calificado!"><span id="p-star5" class="fa fa-star" data-toggle="¡Usuario no calificado!"></span></a>
                                 break;
                         }
                     }
-                </h1>
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-
+                </h2>
+                <hr />
             </div>
         </div>
         <div class="row form-group">
@@ -89,7 +97,7 @@
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                 @Html.TextBoxFor(m => m.Email, new { @class = "form-control center-block", @placeholder = "Correo Electrónico", @readonly = "readonly" })
             </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+            <div class="col-lg-4 col-md-2 col-sm-2 col-xs-0">
 
             </div>
         </div>
@@ -103,7 +111,7 @@
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                 @Html.TextBoxFor(m => m.Name, new { @class = "form-control center-block", @placeholder = "Nombre" })
             </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+            <div class="col-lg-4 col-md-2 col-sm-2 col-xs-0">
             </div>
         </div>
 
@@ -209,18 +217,34 @@
         </div>
 
         <div class="row form-group">
-            <div class="col-lg-4 col-md-2 col-sm-3 col-xs-4">
-
-            </div>
-            <div class="col-lg-8 col-md-10 col-sm-9 col-xs-8">
-                <input type="button" onclick="SaveProfileInfo()" class="btn btn-info" value="Actualizar" />
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <input type="submit" class="btn btn-info center-block" value="Actualizar" />
             </div>
         </div>
     </div>
-}
+</form>
 
 <script>
     $(document).ready(function () {
         $('[data-toggle="tooltip"]').tooltip();
+
+        SetRandomImage();
     });
+
+    $("#profileImage").click(function (e) {
+        $("#imageUpload").click();
+    });
+
+    function fasterPreview(uploader) {
+        if (uploader.files && uploader.files[0]) {
+            $('#profileImage').attr('src', window.URL.createObjectURL(uploader.files[0]));
+
+            $('#SelectedPicture').val(uploader.files[0]);
+        }
+    }
+
+    $("#imageUpload").change(function () {
+        fasterPreview(this);
+    });
+
 </script>

@@ -124,10 +124,13 @@ namespace CarpoolingCR.Utils
                         .Select(x => x.DistrictId)
                         .ToList();
 
+                    var currentTime = Common.ConvertToUTCTime(DateTime.Now);
+
                     trips = db.Trips.Where(x => fromCountyDistricts.Contains(x.FromTownId) && toCountyDistricts.Contains(x.ToTownId))
                         .Where(x => x.Status == Status.Activo)
                         .Where(x => x.ApplicationUserId != user.Id)
                         .Where(x => x.AvailableSpaces > 0)
+                        .Where(x => x.DateTime > currentTime)
                         .ToList();
                 }
 
@@ -154,10 +157,13 @@ namespace CarpoolingCR.Utils
                     startDate = Common.ConvertToUTCTime(startDate);
                     endDate = Common.ConvertToUTCTime(endDate);
 
+                    var currentTime = Common.ConvertToUTCTime(DateTime.Now);
+
                     trips = db.Trips.Where(x => x.Status == Enums.Status.Activo)
                         .Where(x => x.DateTime >= startDate && x.DateTime <= endDate)
                         .Where(x => fromCountyDistricts.Contains(x.FromTownId) && toCountyDistricts.Contains(x.ToTownId))
                         .Include(x => x.ApplicationUser)
+                        .Where(x => x.DateTime > currentTime)
                         .ToList();
                 }
 

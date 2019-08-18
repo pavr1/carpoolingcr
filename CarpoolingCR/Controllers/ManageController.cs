@@ -4,6 +4,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -132,7 +133,9 @@ namespace CarpoolingCR.Controllers
         {
             try
             {
-                return View();
+                var user = Common.GetUserByEmail(User.Identity.Name);
+
+                return View(user);
             }
             catch (Exception ex)
             {
@@ -154,7 +157,8 @@ namespace CarpoolingCR.Controllers
         }
 
         [HttpPost]
-        public string ProfileInfo(string name, string lastName, string secLastName, string phone1, string phone2)
+        //public string ProfileInfo(string name, string lastName, string secLastName, string phone1, string phone2, string picture)
+        public ActionResult ProfileInfo(string id)
         {
             var user = Common.GetUserByEmail(User.Identity.Name);
 
@@ -162,21 +166,44 @@ namespace CarpoolingCR.Controllers
             {
                 if (user != null)
                 {
-                    user.Name = name;
-                    user.LastName = lastName;
-                    user.SecondLastName = secLastName;
-                    user.Phone1 = phone1;
-                    user.Phone2 = phone2;
+                    string path = string.Empty;
+
+                    if (Request.Files.Count > 0)
+                    {
+                        var file = Request.Files[0];
+
+                        if (file != null && file.ContentLength > 0)
+                        {
+                            var fnSplit = Path.GetFileName(file.FileName).Split(new string[] { "." }, StringSplitOptions.RemoveEmptyEntries);
+                            var fileName = "Profile_" + user.Name + "_" + user.LastName + "_" + user.SecondLastName + DateTime.Now.Year + DateTime.Now.Month + DateTime.Now.Day + DateTime.Now.Hour + DateTime.Now.Minute + DateTime.Now.Second + "." + fnSplit[1];
+
+                            path = Path.Combine(Server.MapPath("~/Content/Pictures/Users"), fileName);
+                            file.SaveAs(path);
+
+                            path = "\\Content\\" + path.Split(new string[] { "\\Content\\" }, StringSplitOptions.RemoveEmptyEntries)[1];
+                        }
+                    }
+
+                    user.Name = Request["Name"];
+                    user.LastName = Request["LastName"];
+                    user.SecondLastName = Request["SecondLastName"];
+                    user.Phone1 = Request["Phone1"];
+                    user.Phone2 = Request["Phone2"];
+
+                    if (!string.IsNullOrEmpty(path))
+                    {
+                        user.Picture = path;
+                    }
 
                     db.Entry(user).State = System.Data.Entity.EntityState.Modified;
                     db.SaveChanges();
 
                     //¡Perfíl Actualizado!
-                    user.Message = "100011";
-                    user.MessageType = "info";
+                    ViewBag.Info = "100011";
                 }
 
-                return Serializer.RenderViewToString(this.ControllerContext, "Partials/_ProfileInfo", user);
+                //return Serializer.RenderViewToString(this.ControllerContext, "Partials/_ProfileInfo", user);
+                return View(user);
             }
             catch (Exception ex)
             {
@@ -194,7 +221,8 @@ namespace CarpoolingCR.Controllers
                 user.Message = "Error inesperado, intente de nuevo!";
                 user.MessageType = "error";
 
-                return Serializer.RenderViewToString(this.ControllerContext, "Partials/_ProfileInfo", user);
+                //return Serializer.RenderViewToString(this.ControllerContext, "Partials/_ProfileInfo", user);
+                return View(user);
             }
         }
 

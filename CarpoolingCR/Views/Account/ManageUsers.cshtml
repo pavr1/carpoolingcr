@@ -60,15 +60,26 @@
                             <small class="usertype"><b>Tipo de Usuario:</b> @item.UserType</small>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            <small class="phones">
-                                <b>Contacto: </b><br /><a href="tel: +506 @item.Phone1" style="color:blue"> +506 @item.Phone1 </a>
+                            @{
+                                var claims = (System.Security.Claims.ClaimsIdentity)User.Identity;
+                                var value = string.Empty;
+                                var obj = claims.FindFirst("CountryCode");
 
-                                @if (!string.IsNullOrEmpty(item.Phone2))
+                                if (obj != null)
                                 {
-                                    <br />
-                                    <a href="tel: +506 @item.Phone2" style="color:blue"> +506 @item.Phone2 </a>
+                                    value = obj.Value;
                                 }
-                            </small>
+
+                                <small class="phones">
+                                    <b>Contacto: </b><br /><a href="tel: @value @item.Phone1" style="color:blue"> @value @item.Phone1 </a>
+
+                                    @if (!string.IsNullOrEmpty(item.Phone2))
+                                    {
+                                        <br />
+                                        <a href="tel: @value @item.Phone2" style="color:blue"> @value @item.Phone2 </a>
+                                    }
+                                </small>
+                            }
 
                             @Html.ActionLink("X", "EditUser", new { id = item.Id }, new { @class = "btn btn-danger pull-right", @disabled = "disabled" })
                             @Html.ActionLink("...", "DeleteUser", new { id = item.Id }, new { @class = "btn btn-info pull-right" })

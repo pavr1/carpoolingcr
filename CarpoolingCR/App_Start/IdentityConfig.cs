@@ -14,6 +14,7 @@ using CarpoolingCR.Models;
 using System.Net.Mail;
 using System.Net;
 using System.Web.Configuration;
+using CarpoolingCR.Utils;
 
 namespace CarpoolingCR
 {
@@ -32,7 +33,23 @@ namespace CarpoolingCR
                 EnableSsl = false
             };
 
-            client.Send(mail);
+            try
+            {
+                client.Send(mail);
+            }
+            catch (Exception ex)
+            {
+                Common.LogData(new Log
+                {
+                    Line = Common.GetCurrentLine(),
+                    Location = Enums.LogLocation.Server,
+                    LogType = Enums.LogType.Error,
+                    Message = ex.Message + " / " + ex.StackTrace,
+                    Method = Common.GetCurrentMethod(),
+                    Timestamp = Common.ConvertToUTCTime(DateTime.Now),
+                    UserEmail = message.Destination
+                });
+            }
 
             return Task.FromResult(0);
         }

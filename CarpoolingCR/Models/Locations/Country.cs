@@ -16,7 +16,13 @@ namespace CarpoolingCR.Models.Locations
         [Required]
         [Display(Name = "Estado")]
         public Enums.Status Status { get; set; }
-        
+        [Required]
+        [Display(Name = "Código")]
+        public string CountryCode { get; set; }
+        [Required]
+        [Display(Name = "Moneda")]
+        public string CurrencyChar { get; set; }
+
         public virtual ICollection<Province> Provinces { get; set; }
     }
 }

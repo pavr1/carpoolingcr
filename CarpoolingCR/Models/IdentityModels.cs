@@ -5,6 +5,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
+using System.Linq;
 using System.Runtime.Serialization;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -59,6 +60,8 @@ namespace CarpoolingCR.Models
         public string Message { get; set; }
         [NotMapped]
         public string MessageType { get; set; }
+        public string Picture { get; set; }
+
         [NotMapped]
         public string FullName
         {
@@ -81,8 +84,14 @@ namespace CarpoolingCR.Models
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
 
-            userIdentity.AddClaim(new Claim("Name", this.Name.ToString()));
+            using (var db = new ApplicationDbContext())
+            {
+                this.Country = db.Countries.Where(x => x.CountryId == this.CountryId).Single();
+            }
 
+            userIdentity.AddClaim(new Claim("Name", this.Name.ToString()));
+            userIdentity.AddClaim(new Claim("CountryCode", this.Country.CountryCode));
+            userIdentity.AddClaim(new Claim("CurrencyChar", this.Country.CurrencyChar));
 
             // Add custom user claims here
             return userIdentity;

@@ -1,5 +1,6 @@
 ﻿using CarpoolingCR.Models;
 using CarpoolingCR.Models.Locations;
+using CarpoolingCR.Models.Vehicle;
 using CarpoolingCR.Objects.Responses;
 using System;
 using System.Collections.Generic;
@@ -293,6 +294,16 @@ namespace CarpoolingCR.Utils
             }
 
             return string.Empty;
+        }
+
+        public static List<Brand> GetAllVehicleBrandsAndModels()
+        {
+            using (var db = new ApplicationDbContext())
+            {
+                return db.Brands
+                    .Include(x => x.Models)
+                    .ToList();
+            }
         }
     }
 }

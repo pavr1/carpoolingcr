@@ -1,4 +1,5 @@
 ﻿using CarpoolingCR.Models;
+using CarpoolingCR.Models.Vehicle;
 using CarpoolingCR.Utils;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
@@ -135,6 +136,9 @@ namespace CarpoolingCR.Controllers
             {
                 var user = Common.GetUserByEmail(User.Identity.Name);
 
+                ViewBag.BrandId = new SelectList(user.Brands, "BrandId", "Name");
+                ViewBag.BrandJson = Serializer.Serialize(user.BrandsJson);
+
                 return View(user);
             }
             catch (Exception ex)
@@ -197,6 +201,44 @@ namespace CarpoolingCR.Controllers
 
                     db.Entry(user).State = System.Data.Entity.EntityState.Modified;
                     db.SaveChanges();
+
+                    if ((user.UserType == Enums.UserType.Conductor) || (user.UserType == Enums.UserType.Administrador))
+                    {
+                        var brand = Request["BrandId"];
+                        var model = Request["Model"];
+                        var color = Request["Color"];
+                        var plate = Request["Plate"];
+                        var capacity = Request["Capacity"];
+
+                        var vehicle = db.Vehicles.Where(x => x.ApplicationUserId == user.Id).SingleOrDefault();
+
+                        if (vehicle == null)
+                        {
+                            vehicle = new Vehicle
+                            {
+                                ApplicationUserId = user.Id
+                                Color = color,
+                                Plate = plate,
+                                SelectedBrandId = Convert.ToInt32(brand),
+                                SelectedModelId = Convert.ToInt32(model),
+                                Spaces = Convert.ToInt32(capacity)
+                            };
+
+                            db.Entry(vehicle).State = System.Data.Entity.EntityState.Added;
+                        }
+                        else
+                        {
+                            vehicle.Color = color;
+                            vehicle.Plate = plate;
+                            vehicle.SelectedBrandId= Convert.ToInt32(brand);
+                            vehicle.SelectedModelId = Convert.ToInt32(color);
+                            vehicle.Spaces = Convert.ToInt32(color);
+
+                            db.Entry(vehicle).State = System.Data.Entity.EntityState.Modified;
+                        }
+
+                        db.SaveChanges();
+                    }
 
                     //¡Perfíl Actualizado!
                     ViewBag.Info = "100011";

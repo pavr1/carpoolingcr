@@ -238,6 +238,7 @@
     <Compile Include="Controllers\ReservationsController.cs" />
     <Compile Include="Controllers\RoutesController.cs" />
     <Compile Include="Controllers\TripsController.cs" />
+    <Compile Include="Controllers\VehiclesController.cs" />
     <Compile Include="DBConnection\DBConnection.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -286,6 +287,26 @@
     <Compile Include="Migrations\201908180216110_More Changes.Designer.cs">
       <DependentUpon>201908180216110_More Changes.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201908181632278_Created brand and models for vehicles.cs" />
+    <Compile Include="Migrations\201908181632278_Created brand and models for vehicles.Designer.cs">
+      <DependentUpon>201908181632278_Created brand and models for vehicles.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908181754065_Changed vehicle brand and model to be notmapped.cs" />
+    <Compile Include="Migrations\201908181754065_Changed vehicle brand and model to be notmapped.Designer.cs">
+      <DependentUpon>201908181754065_Changed vehicle brand and model to be notmapped.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908190129492_Deleted model brand.cs" />
+    <Compile Include="Migrations\201908190129492_Deleted model brand.Designer.cs">
+      <DependentUpon>201908190129492_Deleted model brand.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908190327584_Changes.cs" />
+    <Compile Include="Migrations\201908190327584_Changes.Designer.cs">
+      <DependentUpon>201908190327584_Changes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908190401099_Changes2.cs" />
+    <Compile Include="Migrations\201908190401099_Changes2.Designer.cs">
+      <DependentUpon>201908190401099_Changes2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Bank.cs" />
@@ -309,6 +330,8 @@
     <Compile Include="Models\Trip.cs" />
     <Compile Include="Models\TripQuestion.cs" />
     <Compile Include="Models\TripQuestionInfo.cs" />
+    <Compile Include="Models\VehicleInfo.cs" />
+    <Compile Include="Models\Vehicle\Vehicle.cs" />
     <Compile Include="Objects\Responses\Base\BaseResponse.cs" />
     <Compile Include="Objects\Responses\ChatMessageResponse.cs" />
     <Compile Include="Objects\Responses\ContactUsResponse.cs" />
@@ -697,6 +720,7 @@
     <Content Include="Scripts\notify.js" />
     <Content Include="serviceworker.js" />
     <Content Include="SQL\Costa Rica\Provinces\Todas.sql" />
+    <Content Include="SQL\Costa Rica\Vehicles\vehicles.sql" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -844,6 +868,7 @@
     <Folder Include="Content\jquery-weekcalendar-1.2.2\full_demo\images\.svn\tmp\text-base\" />
     <Folder Include="Content\Pictures\Users\" />
     <Folder Include="Views\Manage\Partials\" />
+    <Folder Include="Views\Vehicles\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -891,6 +916,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201908180216110_More Changes.resx">
       <DependentUpon>201908180216110_More Changes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908181632278_Created brand and models for vehicles.resx">
+      <DependentUpon>201908181632278_Created brand and models for vehicles.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908181754065_Changed vehicle brand and model to be notmapped.resx">
+      <DependentUpon>201908181754065_Changed vehicle brand and model to be notmapped.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908190129492_Deleted model brand.resx">
+      <DependentUpon>201908190129492_Deleted model brand.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908190327584_Changes.resx">
+      <DependentUpon>201908190327584_Changes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908190401099_Changes2.resx">
+      <DependentUpon>201908190401099_Changes2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -95,7 +95,7 @@
                 <label class="control-label">Correo Electrónico</label>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                @Html.TextBoxFor(m => m.Email, new { @class = "form-control center-block", @placeholder = "Correo Electrónico", @readonly = "readonly" })
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "Correo Electrónico", @readonly = "readonly" })
             </div>
             <div class="col-lg-4 col-md-2 col-sm-2 col-xs-0">
 
@@ -109,7 +109,7 @@
                 <label class="control-label">Nombre</label>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                @Html.TextBoxFor(m => m.Name, new { @class = "form-control center-block", @placeholder = "Nombre" })
+                @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @placeholder = "Nombre" })
             </div>
             <div class="col-lg-4 col-md-2 col-sm-2 col-xs-0">
             </div>
@@ -122,7 +122,7 @@
                 <label class="control-label">Primer Apellido</label>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                @Html.TextBoxFor(m => m.LastName, new { @class = "form-control center-block", @placeholder = "Primer Apellido" })
+                @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", @placeholder = "Primer Apellido" })
             </div>
             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
             </div>
@@ -135,7 +135,7 @@
                 <label class="control-label">Segundo Apellido</label>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                @Html.TextBoxFor(m => m.SecondLastName, new { @class = "form-control center-block", @placeholder = "Segundo Apellido" })
+                @Html.TextBoxFor(m => m.SecondLastName, new { @class = "form-control", @placeholder = "Segundo Apellido" })
             </div>
             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
             </div>
@@ -148,7 +148,7 @@
                 <label class="control-label">Teléfono #1</label>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                @Html.TextBoxFor(m => m.Phone1, new { @class = "form-control center-block", @placeholder = "Teléfono #1" })
+                @Html.TextBoxFor(m => m.Phone1, new { @class = "form-control", @placeholder = "Teléfono #1" })
             </div>
             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
             </div>
@@ -161,7 +161,7 @@
                 <label class="control-label">Teléfono #2</label>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                @Html.TextBoxFor(m => m.Phone2, new { @class = "form-control center-block", @placeholder = "Teléfono #2" })
+                @Html.TextBoxFor(m => m.Phone2, new { @class = "form-control", @placeholder = "Teléfono #2" })
             </div>
             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
             </div>
@@ -174,7 +174,7 @@
                 <label class="control-label">Tipo de Usuario</label>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                @Html.TextBoxFor(m => m.UserType, new { @class = "form-control center-block", @placeholder = "Tipo de Usuario", @disabled = "disabled" })
+                @Html.TextBoxFor(m => m.UserType, new { @class = "form-control", @placeholder = "Tipo de Usuario", @disabled = "disabled" })
             </div>
             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
             </div>
@@ -187,7 +187,7 @@
                 <label class="control-label">Estado</label>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                @Html.TextBoxFor(m => m.Status, new { @class = "form-control center-block", @placeholder = "Estado", @disabled = "disabled" })
+                @Html.TextBoxFor(m => m.Status, new { @class = "form-control", @placeholder = "Estado", @disabled = "disabled" })
             </div>
             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
             </div>
@@ -215,6 +215,138 @@
             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
             </div>
         </div>
+
+        @{
+            if ((Model.UserType == CarpoolingCR.Utils.Enums.UserType.Conductor) || (Model.UserType == CarpoolingCR.Utils.Enums.UserType.Administrador))
+            {
+                <hr />
+                <div class="row form-group">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:center">
+                        <h3>Información del Vehículo</h3>
+                    </div>
+                </div>
+
+                if (Model.Vehicle == null)
+                {
+                    <div class="row form-group">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:center">
+                            <small style="color:red">¡Información del vehículo requerida!"</small>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            <label class="control-label">Marca</label>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            @Html.DropDownList("BrandId", (SelectList)ViewBag.BrandId.Items, htmlAttributes: new { @class = "form-control" })
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            <label class="control-label">Modelo</label>
+                        </div>
+                        <div id="modelContainer" class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            <select id="Model" name="Model" class="form-control" disabled></select>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            <label class="control-label">Placa</label>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            <input type="text" class="form-control" id="Plate" name="Plate" placeholder="Placa" />
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            <label class="control-label">Color</label>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            <input type="text" class="form-control" id="Color" name="Color" placeholder="Color" />
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            <label class="control-label">Capacidad</label>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            <input id="Capacity" name="Capacity" class="" style="width:40px;" onfocus="blur();">
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="row form-group">
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            <label class="control-label">Marca</label>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            @Html.TextBoxFor(m => m.Vehicle.SelectedBrand, new { @class = "form-control", @placeholder = "Teléfono #2" })
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            <label class="control-label">Modelo</label>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            @Html.TextBoxFor(m => m.Vehicle.SelectedModel, new { @class = "form-control", @placeholder = "Teléfono #2" })
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            <label class="control-label">Placa</label>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            @Html.TextBoxFor(m => m.Vehicle.Plate, new { @class = "form-control", @placeholder = "Teléfono #2" })
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            <label class="control-label">Capacidad</label>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            @Html.TextBoxFor(m => m.Vehicle.Spaces, new { @class = "form-control", @placeholder = "Teléfono #2" })
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                        </div>
+                    </div>
+                }
+            }
+        }
 
         <div class="row form-group">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -247,4 +379,39 @@
         fasterPreview(this);
     });
 
+    $('#Capacity').spinner({
+        min: 1,
+        max: 7
+    }).val(1);
+
+    $('#BrandId')
+        .editableSelect()
+        .on('select.editable-select', function (e, li) {
+            $('#last-selected').html(
+                BrandChange(li.val())
+            );
+        });
+
+    function BrandChange(currentBrandId) {
+        var brands = JSON.parse(@Html.Raw(Json.Encode(@ViewBag.BrandJson)));
+        var html = '<select id="Model" name="Model" class="form-control">';
+
+        for (i = 0; i < brands.length; i++) {
+            if (brands[i].BrandId == currentBrandId) {
+
+                for (y = 0; y < brands[i].Models.length; y++) {
+                    var modelId = brands[i].Models[y].ModelId;
+                    var modelDesc = brands[i].Models[y].Description;
+
+                    html += '<option value="' + modelId + '">' + modelDesc+'</option>'
+                }
+
+                html += '</select>';
+
+                $('#modelContainer').html(html);
+                $('#Model').editableSelect();
+                break;
+            }
+        }
+    }
 </script>

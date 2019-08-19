@@ -55,21 +55,12 @@
 
                                     @if (item.Status == CarpoolingCR.Utils.Enums.ReservationStatus.Accepted)
                                     {
-                                        var claims = (System.Security.Claims.ClaimsIdentity)User.Identity;
-                                        var value = string.Empty;
-                                        var obj = claims.FindFirst("CountryCode");
-
-                                        if (obj != null)
-                                        {
-                                            value = obj.Value;
-                                        }
-
                                         <small class="driver inline-block ">
-                                            <b>- Contacto: </b> <a href="tel: @value @item.Trip.ApplicationUser.Phone1" style="color:blue"> @value @item.Trip.ApplicationUser.Phone1 </a>
+                                            <b>- Contacto: </b> <a href="tel: +506 @item.Trip.ApplicationUser.Phone1" style="color:blue"> +506 @item.Trip.ApplicationUser.Phone1 </a>
 
                                             @if (!string.IsNullOrEmpty(item.Trip.ApplicationUser.Phone2))
                                             {
-                                                <a href="tel: @value @item.Trip.ApplicationUser.Phone2" style="color:blue"> @value @item.Trip.ApplicationUser.Phone2 </a>
+                                                <a href="tel: +506 @item.Trip.ApplicationUser.Phone2" style="color:blue"> +506 @item.Trip.ApplicationUser.Phone2 </a>
                                             }
 
                                         </small><br />

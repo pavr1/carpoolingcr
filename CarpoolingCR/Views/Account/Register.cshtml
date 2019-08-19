@@ -13,7 +13,6 @@
     @Html.AntiForgeryToken()
     <hr />
     @Html.ValidationSummary("", new { @class = "text-danger" })
-    <input type="text" id="registeredUserPicture" name="registeredUserPicture" class="hidden" />
     <div class="form-group">
         <label class="col-md-2 control-label">Correo</label>
         <div class="col-md-10">
@@ -92,12 +91,6 @@
 }
 
 <script>
-    $(document).ready(function () {
-        var image = SetRandomImage();
-
-        $('#registeredUserPicture').val(image);
-    });
-
     $("#radioset").buttonset();
 
     $('#SecondLastName').attr('data-val', false);

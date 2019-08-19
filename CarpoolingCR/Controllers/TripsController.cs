@@ -430,9 +430,8 @@ namespace CarpoolingCR.Controllers
                     trip.ToTown = db.Districts.Where(x => x.DistrictId == trip.ToTownId).Single();
 
                     var tripInfo = trip.FromTown.FullName + " a " + trip.ToTown.FullName + " el " + Common.ConvertToLocalTime(trip.DateTime).ToString("dd/MM/yyyy hh:mm:ss tt");
-                    var callbackUrl = Url.Action("Transportation", "Reservations", new { from = trip.FromTown, to = trip.ToTown }, protocol: Request.Url.Scheme);
 
-                    EmailHandler.SendEmailTripCreation(WebConfigurationManager.AppSettings["AdminEmails"], user.FullName, tripInfo, trip.AvailableSpaces, callbackUrl);
+                    EmailHandler.SendEmailTripCreation(WebConfigurationManager.AppSettings["AdminEmails"], user.FullName, tripInfo, trip.AvailableSpaces);
 
                     new SignalHandler().SendMessage(Enums.EventTriggered.TripCreated.ToString(), "");
 

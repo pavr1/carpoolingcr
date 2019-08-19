@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        <h2>Inicia Sesión.</h2>
+        <h3>Inicio de Sesión</h3>
         <section id="loginForm">
             @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
             {
@@ -64,7 +64,7 @@
                             @Html.ActionLink("Regístrate", "Register")
                         </p>
                         <p>
-                            @Html.ActionLink("Olvidaste tu contraseña?", "ForgotPassword")
+                            @Html.ActionLink("¿Olvidaste tu contraseña?", "ForgotPassword")
                         </p>
                     </div>
                 </div>

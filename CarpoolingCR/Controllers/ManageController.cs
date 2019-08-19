@@ -1,11 +1,9 @@
 ﻿using CarpoolingCR.Models;
-using CarpoolingCR.Models.Vehicle;
 using CarpoolingCR.Utils;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using System;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -134,12 +132,7 @@ namespace CarpoolingCR.Controllers
         {
             try
             {
-                var user = Common.GetUserByEmail(User.Identity.Name);
-
-                ViewBag.BrandId = new SelectList(user.Brands, "BrandId", "Name");
-                ViewBag.BrandJson = Serializer.Serialize(user.BrandsJson);
-
-                return View(user);
+                return View();
             }
             catch (Exception ex)
             {
@@ -161,8 +154,7 @@ namespace CarpoolingCR.Controllers
         }
 
         [HttpPost]
-        //public string ProfileInfo(string name, string lastName, string secLastName, string phone1, string phone2, string picture)
-        public ActionResult ProfileInfo(string id)
+        public string ProfileInfo(string name, string lastName, string secLastName, string phone1, string phone2)
         {
             var user = Common.GetUserByEmail(User.Identity.Name);
 
@@ -170,82 +162,21 @@ namespace CarpoolingCR.Controllers
             {
                 if (user != null)
                 {
-                    string path = string.Empty;
-
-                    if (Request.Files.Count > 0)
-                    {
-                        var file = Request.Files[0];
-
-                        if (file != null && file.ContentLength > 0)
-                        {
-                            var fnSplit = Path.GetFileName(file.FileName).Split(new string[] { "." }, StringSplitOptions.RemoveEmptyEntries);
-                            var fileName = "Profile_" + user.Name + "_" + user.LastName + "_" + user.SecondLastName + DateTime.Now.Year + DateTime.Now.Month + DateTime.Now.Day + DateTime.Now.Hour + DateTime.Now.Minute + DateTime.Now.Second + "." + fnSplit[1];
-
-                            path = Path.Combine(Server.MapPath("~/Content/Pictures/Users"), fileName);
-                            file.SaveAs(path);
-
-                            path = "\\Content\\" + path.Split(new string[] { "\\Content\\" }, StringSplitOptions.RemoveEmptyEntries)[1];
-                        }
-                    }
-
-                    user.Name = Request["Name"];
-                    user.LastName = Request["LastName"];
-                    user.SecondLastName = Request["SecondLastName"];
-                    user.Phone1 = Request["Phone1"];
-                    user.Phone2 = Request["Phone2"];
-
-                    if (!string.IsNullOrEmpty(path))
-                    {
-                        user.Picture = path;
-                    }
+                    user.Name = name;
+                    user.LastName = lastName;
+                    user.SecondLastName = secLastName;
+                    user.Phone1 = phone1;
+                    user.Phone2 = phone2;
 
                     db.Entry(user).State = System.Data.Entity.EntityState.Modified;
                     db.SaveChanges();
 
-                    if ((user.UserType == Enums.UserType.Conductor) || (user.UserType == Enums.UserType.Administrador))
-                    {
-                        var brand = Request["BrandId"];
-                        var model = Request["Model"];
-                        var color = Request["Color"];
-                        var plate = Request["Plate"];
-                        var capacity = Request["Capacity"];
-
-                        var vehicle = db.Vehicles.Where(x => x.ApplicationUserId == user.Id).SingleOrDefault();
-
-                        if (vehicle == null)
-                        {
-                            vehicle = new Vehicle
-                            {
-                                ApplicationUserId = user.Id
-                                Color = color,
-                                Plate = plate,
-                                SelectedBrandId = Convert.ToInt32(brand),
-                                SelectedModelId = Convert.ToInt32(model),
-                                Spaces = Convert.ToInt32(capacity)
-                            };
-
-                            db.Entry(vehicle).State = System.Data.Entity.EntityState.Added;
-                        }
-                        else
-                        {
-                            vehicle.Color = color;
-                            vehicle.Plate = plate;
-                            vehicle.SelectedBrandId= Convert.ToInt32(brand);
-                            vehicle.SelectedModelId = Convert.ToInt32(color);
-                            vehicle.Spaces = Convert.ToInt32(color);
-
-                            db.Entry(vehicle).State = System.Data.Entity.EntityState.Modified;
-                        }
-
-                        db.SaveChanges();
-                    }
-
                     //¡Perfíl Actualizado!
-                    ViewBag.Info = "100011";
+                    user.Message = "100011";
+                    user.MessageType = "info";
                 }
 
-                //return Serializer.RenderViewToString(this.ControllerContext, "Partials/_ProfileInfo", user);
-                return View(user);
+                return Serializer.RenderViewToString(this.ControllerContext, "Partials/_ProfileInfo", user);
             }
             catch (Exception ex)
             {
@@ -263,8 +194,7 @@ namespace CarpoolingCR.Controllers
                 user.Message = "Error inesperado, intente de nuevo!";
                 user.MessageType = "error";
 
-                //return Serializer.RenderViewToString(this.ControllerContext, "Partials/_ProfileInfo", user);
-                return View(user);
+                return Serializer.RenderViewToString(this.ControllerContext, "Partials/_ProfileInfo", user);
             }
         }
 

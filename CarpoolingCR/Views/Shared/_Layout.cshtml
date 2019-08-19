@@ -34,6 +34,7 @@
     <script src="~/Scripts/notify.js"></script>
     <script src="~/Scripts/List.js"></script>
     <script src="~/Scripts/messages.js"></script>
+
     @*<link rel="stylesheet" href="~/Content/processingmodal.css">*@
 
     <style type="text/css">
@@ -63,52 +64,6 @@
 
         select {
             border-radius: 25px !important;
-        }
-
-        .checked {
-            color: orange;
-        }
-
-        #imageUpload {
-            display: none;
-        }
-
-        #profileImage {
-            cursor: pointer;
-        }
-
-        #profile-container {
-            width: 150px;
-            height: 150px;
-            overflow: hidden;
-            border: outset;
-            -webkit-border-radius: 50%;
-            -moz-border-radius: 50%;
-            -ms-border-radius: 50%;
-            -o-border-radius: 50%;
-            border-radius: 50%;
-        }
-
-        #profile-container img {
-            width: 150px;
-            height: 150px;
-        }
-
-        #profile-container-small {
-            width: 50px;
-            height: 50px;
-            overflow: hidden;
-            border: outset;
-            -webkit-border-radius: 50%;
-            -moz-border-radius: 50%;
-            -ms-border-radius: 50%;
-            -o-border-radius: 50%;
-            border-radius: 50%;
-        }
-
-        #profile-container-small img {
-            width: 50px;
-            height: 50px;
         }
     </style>
 
@@ -171,7 +126,7 @@
             <div class="navbar navbar-inverse navbar-fixed-top">
                 <div class="container">
                     <div class="navbar-header">
-                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <button type="button" class="navbar-toggle" style="background-color:#3399F3" data-toggle="collapse" data-target=".navbar-collapse">
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
@@ -207,12 +162,12 @@
             <div class="navbar navbar-inverse navbar-fixed-top" style="border-radius: 0px 0px 15px 15px">
                 <div class="container">
                     <div class="navbar-header">
-                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <button type="button" class="navbar-toggle" style="background-color:#3399F3" data-toggle="collapse" data-target=".navbar-collapse">
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        @Html.ActionLink("¡Bienvenido!", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                        @Html.ActionLink("Bienvenido!", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
                     </div>
                     <div class="navbar-collapse collapse">
                         @Html.Partial("_LoginPartial")
@@ -225,7 +180,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p class="pull-right">&copy; @DateTime.Now.Year - https://www.buscoridecr.com <img src="~/Content/Icons/ride.ico" style="width:20px; height:20px" /></p>
+            <p class="pull-right">&copy; @DateTime.Now.Year - www.buscoridecr.com <img src="~/Content/Icons/ride.ico" style="width:20px; height:20px" /></p>
         </footer>
         <div class="modal fade" id="qualifyUserModal" tabindex="-1" role="dialog" aria-labelledby="qualifyUserModalModalLabel" aria-hidden="true">
             @*<form action="/Reservations/Create" method="post">*@
@@ -273,17 +228,17 @@
         </div>
     </div>
     @*<div class="modal fade" id="loadMe" tabindex="-1" role="dialog" aria-labelledby="loadMeLabel">
-            <div class="modal-dialog modal-sm" role="document">
-                <div class="modal-content">
-                    <div class="modal-body text-center">
-                        <div class="loader"></div>
-                        <div clas="loader-txt">
-                            <p>Check out this slick bootstrap spinner modal. <br><br><small>We are addicted to Bootstrap... #love</small></p>
-                        </div>
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <div class="loader"></div>
+                    <div clas="loader-txt">
+                        <p>Check out this slick bootstrap spinner modal. <br><br><small>We are addicted to Bootstrap... #love</small></p>
                     </div>
                 </div>
             </div>
-        </div>*@
+        </div>
+    </div>*@
 
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
@@ -418,72 +373,55 @@
                 $.notify(codingmessage, type);
             }
         }
-
-        function SetRandomImage() {
-            var types = ['abstract', 'city', 'people', 'transport', 'animals', 'food', 'nature', 'business', 'nightlife', 'sports', 'cats', 'fashion', 'technics'];
-            var baseUrl = 'http://lorempixel.com/100/100/'
-            var selectedTypeIndex = GetRandomNumber(14);
-            var selectedType = types[selectedTypeIndex];
-
-            var selectedPic = GetRandomNumber(11);
-
-            baseUrl += selectedType + "/" + selectedPic + "/"
-
-            return baseUrl;
-        }
-
-        function GetRandomNumber(top) {
-            return Math.floor(Math.random() * top)
-        }
     </script>
 
     <script>
-                //if ('serviceWorker' in navigator) {
-                //    navigator.serviceWorker
-                //        .register('/serviceworker.js')
-                //        .then(function () { console.log('Service Worker Registered'); });
-                //}
+        //if ('serviceWorker' in navigator) {
+        //    navigator.serviceWorker
+        //        .register('/serviceworker.js')
+        //        .then(function () { console.log('Service Worker Registered'); });
+        //}
 
-                //let deferredPrompt;
+        //let deferredPrompt;
 
-                //window.addEventListener('beforeinstallprompt', (e) => {
-                //    e.userChoice.then(function (result) {
-                //        if (result.outcome == 'dismissed') {
-                //            alert('They dismissed, send to analytics')
-                //        } else {
-                //            alert('User accepted! Send to analytics')
-                //        }
-                //    });
+        //window.addEventListener('beforeinstallprompt', (e) => {
+        //    e.userChoice.then(function (result) {
+        //        if (result.outcome == 'dismissed') {
+        //            alert('They dismissed, send to analytics')
+        //        } else {
+        //            alert('User accepted! Send to analytics')
+        //        }
+        //    });
 
-                //    //// Prevent Chrome 67 and earlier from automatically showing the prompt
-                //    //e.preventDefault();
-                //    //// Stash the event so it can be triggered later.
-                //    //deferredPrompt = e;
+        //    //// Prevent Chrome 67 and earlier from automatically showing the prompt
+        //    //e.preventDefault();
+        //    //// Stash the event so it can be triggered later.
+        //    //deferredPrompt = e;
 
-                //    //// Update UI notify the user they can add to home screen
-                //    //btnAdd.style.display = 'block';
-                //});
-                //window.addEventListener('appinstalled', (evt) => {
-                //    console.log('a2hs installed');
-                //});
+        //    //// Update UI notify the user they can add to home screen
+        //    //btnAdd.style.display = 'block';
+        //});
+        //window.addEventListener('appinstalled', (evt) => {
+        //    console.log('a2hs installed');
+        //});
 
-                                                //btnAdd.addEventListener('click', (e) => {
+                                        //btnAdd.addEventListener('click', (e) => {
 
-                                                //    // hide our user interface that shows our A2HS button
-                                                //    btnAdd.style.display = 'none';
-                                                //    // Show the prompt
-                                                //    deferredPrompt.prompt();
-                                                //    // Wait for the user to respond to the prompt
-                                                //    deferredPrompt.userChoice
-                                                //        .then((choiceResult) => {
-                                                //            if (choiceResult.outcome === 'accepted') {
-                                                //                console.log('User accepted the A2HS prompt');
-                                                //            } else {
-                                                //                console.log('User dismissed the A2HS prompt');
-                                                //            }
-                                                //            deferredPrompt = null;
-                                                //        });
-                                                //});
+                                        //    // hide our user interface that shows our A2HS button
+                                        //    btnAdd.style.display = 'none';
+                                        //    // Show the prompt
+                                        //    deferredPrompt.prompt();
+                                        //    // Wait for the user to respond to the prompt
+                                        //    deferredPrompt.userChoice
+                                        //        .then((choiceResult) => {
+                                        //            if (choiceResult.outcome === 'accepted') {
+                                        //                console.log('User accepted the A2HS prompt');
+                                        //            } else {
+                                        //                console.log('User dismissed the A2HS prompt');
+                                        //            }
+                                        //            deferredPrompt = null;
+                                        //        });
+                                        //});
     </script>
 </body>
 </html>

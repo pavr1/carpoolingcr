@@ -14,71 +14,71 @@
     </div>
 
     @*<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <div class="row form-group">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <label class="control-label">Información Bancaria</label>
-                    <hr />
-                </div>
+        <div class="row form-group">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <label class="control-label">Información Bancaria</label>
+                <hr />
             </div>
+        </div>
 
-            @{
-                if (Model.User.BankAccountId == null)
-                {
-                    <p>Información bancaria no registrada!   @Html.ActionLink("Regístrela Aquí", "Index", "BankAccounts", new { }, new { @class = "" })</p>
-                    <p>[Funcionalidad disponible próximamente]</p>
-                }
-                else
-                {
-                    <div class="row form-group">
-                        <div class="col-lg-4 col-md-2 col-sm-3 col-xs-4">
-                            <label class="control-label pull-right">Banco</label>
-                        </div>
-                        <div class="col-lg-8 col-md-10 col-sm-9 col-xs-8">
-                            @Html.DropDownList("BankId", null, htmlAttributes: new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.User.BankAccount.BankId, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <div class="col-lg-4 col-md-2 col-sm-3 col-xs-4">
-                            <label class="control-label pull-right">Cuenta de Ahorros</label>
-                        </div>
-                        <div class="col-lg-8 col-md-10 col-sm-9 col-xs-8">
-                            @Html.DropDownList("BankId", null, htmlAttributes: new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.User.BankAccount.SavingsAccount, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <div class="col-lg-4 col-md-2 col-sm-3 col-xs-4">
-                            <label class="control-label pull-right">Sinpe</label>
-                        </div>
-                        <div class="col-lg-8 col-md-10 col-sm-9 col-xs-8">
-                            @Html.DropDownList("BankId", null, htmlAttributes: new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.User.BankAccount.Sinpe, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                }
+        @{
+            if (Model.User.BankAccountId == null)
+            {
+                <p>Información bancaria no registrada!   @Html.ActionLink("Regístrela Aquí", "Index", "BankAccounts", new { }, new { @class = "" })</p>
+                <p>[Funcionalidad disponible próximamente]</p>
             }
-
-            <hr />
-            <div class="row form-group">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <label class="control-label">Información Financiera</label>
-                    <hr />
-                    @{
-                        if (Model.User.MonthlyBalance == null)
-                        {
-                            <p>No se encontró el balance mensual actual. Contacte al administrador!</p>
-                            <p>[Funcionalidad disponible próximamente]</p>
-                        }
-                        else
-                        {
-                            <p><label class="control-label">Período: </label> @Model.User.MonthlyBalance.Month - Model.User.MonthlyBalance.Year</p>
-                            <label class="control-label">Balance: </label> @ViewBag.Balance
-                        }
-                    }
+            else
+            {
+                <div class="row form-group">
+                    <div class="col-lg-4 col-md-2 col-sm-3 col-xs-4">
+                        <label class="control-label pull-right">Banco</label>
+                    </div>
+                    <div class="col-lg-8 col-md-10 col-sm-9 col-xs-8">
+                        @Html.DropDownList("BankId", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.User.BankAccount.BankId, "", new { @class = "text-danger" })
+                    </div>
                 </div>
+                <div class="row form-group">
+                    <div class="col-lg-4 col-md-2 col-sm-3 col-xs-4">
+                        <label class="control-label pull-right">Cuenta de Ahorros</label>
+                    </div>
+                    <div class="col-lg-8 col-md-10 col-sm-9 col-xs-8">
+                        @Html.DropDownList("BankId", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.User.BankAccount.SavingsAccount, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-lg-4 col-md-2 col-sm-3 col-xs-4">
+                        <label class="control-label pull-right">Sinpe</label>
+                    </div>
+                    <div class="col-lg-8 col-md-10 col-sm-9 col-xs-8">
+                        @Html.DropDownList("BankId", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.User.BankAccount.Sinpe, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            }
+        }
+
+        <hr />
+        <div class="row form-group">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <label class="control-label">Información Financiera</label>
+                <hr />
+                @{
+                    if (Model.User.MonthlyBalance == null)
+                    {
+                        <p>No se encontró el balance mensual actual. Contacte al administrador!</p>
+                        <p>[Funcionalidad disponible próximamente]</p>
+                    }
+                    else
+                    {
+                        <p><label class="control-label">Período: </label> @Model.User.MonthlyBalance.Month - Model.User.MonthlyBalance.Year</p>
+                        <label class="control-label">Balance: </label> @ViewBag.Balance
+                    }
+                }
             </div>
-        </div>*@
+        </div>
+    </div>*@
 </div>
 
 
@@ -101,8 +101,8 @@
 </div>
 
 <script>
-    function SaveProfileInfo(picture) {
-        $.post('/Manage/ProfileInfo', { name: $('#Name').val(), lastName: $('#LastName').val(), secLastName: $('#SecondLastName').val(), phone1: $('#Phone1').val(), phone2: $('#Phone2').val(), picture: picture },
+    function SaveProfileInfo() {
+        $.post('/Manage/ProfileInfo', { name: $('#Name').val(), lastName: $('#LastName').val(), secLastName: $('#SecondLastName').val(), phone1: $('#Phone1').val(), phone2: $('#Phone2').val() },
             function (data) {
                 var json = JSON.stringify(data);
 

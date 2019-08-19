@@ -1,17 +1,13 @@
 ﻿using CarpoolingCR.Models.Locations;
-using CarpoolingCR.Models.Vehicle;
 using CarpoolingCR.Utils;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
-using System.Linq;
 using System.Runtime.Serialization;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using System.Web.Mvc;
 
 namespace CarpoolingCR.Models
 {
@@ -63,11 +59,6 @@ namespace CarpoolingCR.Models
         public string Message { get; set; }
         [NotMapped]
         public string MessageType { get; set; }
-        public string Picture { get; set; }
-
-        public virtual int? VehicleId { get; set; }
-        public virtual Vehicle.Vehicle Vehicle { get; set; }
-
         [NotMapped]
         public string FullName
         {
@@ -90,37 +81,11 @@ namespace CarpoolingCR.Models
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
 
-            using (var db = new ApplicationDbContext())
-            {
-                this.Country = db.Countries.Where(x => x.CountryId == this.CountryId).Single();
-            }
-
             userIdentity.AddClaim(new Claim("Name", this.Name.ToString()));
-            userIdentity.AddClaim(new Claim("CountryCode", this.Country.CountryCode));
-            userIdentity.AddClaim(new Claim("CurrencyChar", this.Country.CurrencyChar));
+
 
             // Add custom user claims here
             return userIdentity;
-        }
-
-        [NotMapped]
-        public SelectList Brands
-        {
-            get
-            {
-                var brands = Common.GetAllVehicleBrandsAndModels();
-
-                return new SelectList(brands, "BrandId", "Name");
-            }
-        }
-
-        [NotMapped]
-        public List<Brand> BrandsJson
-        {
-            get
-            {
-                return Common.GetAllVehicleBrandsAndModels();
-            }
         }
     }
 
@@ -198,9 +163,5 @@ namespace CarpoolingCR.Models
         public System.Data.Entity.DbSet<CarpoolingCR.Models.Qualification> Qualifications { get; set; }
 
         public System.Data.Entity.DbSet<CarpoolingCR.Models.ProfileQualification> ProfileQualifications { get; set; }
-
-        public System.Data.Entity.DbSet<CarpoolingCR.Models.Vehicle.Vehicle> Vehicles { get; set; }
-        public System.Data.Entity.DbSet<CarpoolingCR.Models.Vehicle.Brand> Brands { get; set; }
-        public System.Data.Entity.DbSet<CarpoolingCR.Models.Vehicle.Model> Models { get; set; }
     }
 }

@@ -243,69 +243,17 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201908030328573_initial db.cs" />
-    <Compile Include="Migrations\201908030328573_initial db.Designer.cs">
-      <DependentUpon>201908030328573_initial db.cs</DependentUpon>
+    <Compile Include="Migrations\201908211451193_Start up.cs" />
+    <Compile Include="Migrations\201908211451193_Start up.Designer.cs">
+      <DependentUpon>201908211451193_Start up.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201908030355190_Changed UserId int for string in ProfileQualifications.cs" />
-    <Compile Include="Migrations\201908030355190_Changed UserId int for string in ProfileQualifications.Designer.cs">
-      <DependentUpon>201908030355190_Changed UserId int for string in ProfileQualifications.cs</DependentUpon>
+    <Compile Include="Migrations\201908212016384_Changed Vehicle brand and model properties.cs" />
+    <Compile Include="Migrations\201908212016384_Changed Vehicle brand and model properties.Designer.cs">
+      <DependentUpon>201908212016384_Changed Vehicle brand and model properties.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201908032055134_Added Qualification list to trip and reservations.cs" />
-    <Compile Include="Migrations\201908032055134_Added Qualification list to trip and reservations.Designer.cs">
-      <DependentUpon>201908032055134_Added Qualification list to trip and reservations.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201908032116541_Changed Qualification from and to id from int to string.cs" />
-    <Compile Include="Migrations\201908032116541_Changed Qualification from and to id from int to string.Designer.cs">
-      <DependentUpon>201908032116541_Changed Qualification from and to id from int to string.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201908041551372_Add trip as mapped in reservation.cs" />
-    <Compile Include="Migrations\201908041551372_Add trip as mapped in reservation.Designer.cs">
-      <DependentUpon>201908041551372_Add trip as mapped in reservation.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201908041638204_Added Passenger and Driver Qualified properties.cs" />
-    <Compile Include="Migrations\201908041638204_Added Passenger and Driver Qualified properties.Designer.cs">
-      <DependentUpon>201908041638204_Added Passenger and Driver Qualified properties.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201908041712222_fix for table alter.cs" />
-    <Compile Include="Migrations\201908041712222_fix for table alter.Designer.cs">
-      <DependentUpon>201908041712222_fix for table alter.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201908041830020_Passenger and driver qualified props.cs" />
-    <Compile Include="Migrations\201908041830020_Passenger and driver qualified props.Designer.cs">
-      <DependentUpon>201908041830020_Passenger and driver qualified props.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201908090056295_Added country code and currency character to country.cs" />
-    <Compile Include="Migrations\201908090056295_Added country code and currency character to country.Designer.cs">
-      <DependentUpon>201908090056295_Added country code and currency character to country.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201908171842547_Added Profile picture.cs" />
-    <Compile Include="Migrations\201908171842547_Added Profile picture.Designer.cs">
-      <DependentUpon>201908171842547_Added Profile picture.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201908180216110_More Changes.cs" />
-    <Compile Include="Migrations\201908180216110_More Changes.Designer.cs">
-      <DependentUpon>201908180216110_More Changes.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201908181632278_Created brand and models for vehicles.cs" />
-    <Compile Include="Migrations\201908181632278_Created brand and models for vehicles.Designer.cs">
-      <DependentUpon>201908181632278_Created brand and models for vehicles.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201908181754065_Changed vehicle brand and model to be notmapped.cs" />
-    <Compile Include="Migrations\201908181754065_Changed vehicle brand and model to be notmapped.Designer.cs">
-      <DependentUpon>201908181754065_Changed vehicle brand and model to be notmapped.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201908190129492_Deleted model brand.cs" />
-    <Compile Include="Migrations\201908190129492_Deleted model brand.Designer.cs">
-      <DependentUpon>201908190129492_Deleted model brand.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201908190327584_Changes.cs" />
-    <Compile Include="Migrations\201908190327584_Changes.Designer.cs">
-      <DependentUpon>201908190327584_Changes.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201908190401099_Changes2.cs" />
-    <Compile Include="Migrations\201908190401099_Changes2.Designer.cs">
-      <DependentUpon>201908190401099_Changes2.cs</DependentUpon>
+    <Compile Include="Migrations\201908212025341_Changed brand%27s models and vehicle.cs" />
+    <Compile Include="Migrations\201908212025341_Changed brand%27s models and vehicle.Designer.cs">
+      <DependentUpon>201908212025341_Changed brand%27s models and vehicle.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -352,9 +300,20 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Content\rating.css" />
     <Content Include="Scripts\rating.js" />
+    <Content Include="SQL\Costa Rica\all.sql" />
+    <Content Include="SQL\Costa Rica\Counties\Limon.sql" />
+    <Content Include="SQL\Costa Rica\Counties\Puntarenas.sql" />
+    <Content Include="SQL\Costa Rica\Counties\Guanacaste.sql" />
+    <Content Include="SQL\Costa Rica\Counties\Heredia.sql" />
+    <Content Include="SQL\Costa Rica\Counties\Cartago.sql" />
     <Content Include="SQL\Costa Rica\Counties\Alajuela.sql" />
     <Content Include="SQL\Costa Rica\Counties\San Jose.sql" />
     <Content Include="SQL\Costa Rica\Districts\Alajuela.sql" />
+    <Content Include="SQL\Costa Rica\Districts\Cartago.sql" />
+    <Content Include="SQL\Costa Rica\Districts\Guanacaste.sql" />
+    <Content Include="SQL\Costa Rica\Districts\Heredia.sql" />
+    <Content Include="SQL\Costa Rica\Districts\Limon.sql" />
+    <Content Include="SQL\Costa Rica\Districts\Puntarenas.sql" />
     <Content Include="SQL\Costa Rica\Districts\San Jose.sql" />
     <Compile Include="Startup.cs" />
     <Compile Include="Utils\Common.cs" />
@@ -720,8 +679,10 @@
     <Content Include="Scripts\notify.js" />
     <Content Include="serviceworker.js" />
     <Content Include="SQL\Costa Rica\Provinces\Todas.sql" />
-    <Content Include="SQL\Costa Rica\Vehicles\vehicles.sql" />
-    <Content Include="Web.config" />
+    <Content Include="SQL\Vehicles\vehicles.sql" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -884,53 +845,14 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201908030328573_initial db.resx">
-      <DependentUpon>201908030328573_initial db.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201908211451193_Start up.resx">
+      <DependentUpon>201908211451193_Start up.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201908030355190_Changed UserId int for string in ProfileQualifications.resx">
-      <DependentUpon>201908030355190_Changed UserId int for string in ProfileQualifications.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201908212016384_Changed Vehicle brand and model properties.resx">
+      <DependentUpon>201908212016384_Changed Vehicle brand and model properties.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201908032055134_Added Qualification list to trip and reservations.resx">
-      <DependentUpon>201908032055134_Added Qualification list to trip and reservations.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201908032116541_Changed Qualification from and to id from int to string.resx">
-      <DependentUpon>201908032116541_Changed Qualification from and to id from int to string.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201908041551372_Add trip as mapped in reservation.resx">
-      <DependentUpon>201908041551372_Add trip as mapped in reservation.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201908041638204_Added Passenger and Driver Qualified properties.resx">
-      <DependentUpon>201908041638204_Added Passenger and Driver Qualified properties.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201908041712222_fix for table alter.resx">
-      <DependentUpon>201908041712222_fix for table alter.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201908041830020_Passenger and driver qualified props.resx">
-      <DependentUpon>201908041830020_Passenger and driver qualified props.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201908090056295_Added country code and currency character to country.resx">
-      <DependentUpon>201908090056295_Added country code and currency character to country.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201908171842547_Added Profile picture.resx">
-      <DependentUpon>201908171842547_Added Profile picture.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201908180216110_More Changes.resx">
-      <DependentUpon>201908180216110_More Changes.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201908181632278_Created brand and models for vehicles.resx">
-      <DependentUpon>201908181632278_Created brand and models for vehicles.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201908181754065_Changed vehicle brand and model to be notmapped.resx">
-      <DependentUpon>201908181754065_Changed vehicle brand and model to be notmapped.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201908190129492_Deleted model brand.resx">
-      <DependentUpon>201908190129492_Deleted model brand.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201908190327584_Changes.resx">
-      <DependentUpon>201908190327584_Changes.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201908190401099_Changes2.resx">
-      <DependentUpon>201908190401099_Changes2.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201908212025341_Changed brand%27s models and vehicle.resx">
+      <DependentUpon>201908212025341_Changed brand%27s models and vehicle.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

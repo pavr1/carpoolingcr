@@ -68,6 +68,18 @@ namespace CarpoolingCR.Utils
             });
         }
 
+        public static void HomePageHit()
+        {
+            var html = "<html><header></header><body>La página Home del sitio ha sido accesada</body></html>";
+
+            SendEmail(new IdentityMessage
+            {
+                Destination = WebConfigurationManager.AppSettings["AdminEmails"],
+                Subject = "El sitio ha sido accesado",
+                Body = html
+            });
+        }
+
         public static void SendReservationStatusChangeByDriver(string email, string trip, string date, string status, string callbackUrl)
         {
             callbackUrl = callbackUrl.Replace("http://", "https://");

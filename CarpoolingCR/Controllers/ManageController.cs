@@ -164,10 +164,28 @@ namespace CarpoolingCR.Controllers
         //public string ProfileInfo(string name, string lastName, string secLastName, string phone1, string phone2, string picture)
         public ActionResult ProfileInfo(string id)
         {
+            var fields = "Fields => ";
+
             var user = Common.GetUserByEmail(User.Identity.Name);
 
             try
             {
+                if (!Common.IsAuthorized(User))
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+
+                ViewBag.BrandId = new SelectList(user.Brands, "BrandId", "Name");
+                ViewBag.BrandJson = Serializer.Serialize(user.BrandsJson);
+
+                #region Fields
+                fields += "Name: " + Request["Name"];
+                fields += "LastName: " + Request["LastName"] + ", ";
+                fields += "SecondLastName: " + Request["SecondLastName"] + ", ";
+                fields += "Phone1: " + Request["Phone1"] + ", ";
+                fields += "Phone2: " + Request["Phone2"] + ", ";
+                #endregion
+
                 if (user != null)
                 {
                     string path = string.Empty;
@@ -188,6 +206,22 @@ namespace CarpoolingCR.Controllers
                         }
                     }
 
+                    if (string.IsNullOrEmpty(Request["Name"]))
+                    {
+                        ViewBag.Warning = "100030";
+                        return View(user);
+                    }
+                    if (string.IsNullOrEmpty(Request["LastName"]))
+                    {
+                        ViewBag.Warning = "100031";
+                        return View(user);
+                    }
+                    if (string.IsNullOrEmpty(Request["Phone1"]))
+                    {
+                        ViewBag.Warning = "100032";
+                        return View(user);
+                    }
+
                     user.Name = Request["Name"];
                     user.LastName = Request["LastName"];
                     user.SecondLastName = Request["SecondLastName"];
@@ -204,37 +238,107 @@ namespace CarpoolingCR.Controllers
 
                     if ((user.UserType == Enums.UserType.Conductor) || (user.UserType == Enums.UserType.Administrador))
                     {
+                        #region Fields
+                        fields += "Información del vehículo";
+                        fields += "BrandId: " + Request["BrandId"];
+                        fields += "Model: " + Request["Model"] + ", ";
+                        fields += "Color: " + Request["Color"] + ", ";
+                        fields += "Plate: " + Request["Plate"] + ", ";
+                        fields += "Capacity: " + Request["Capacity"] + ", ";
+                        #endregion
+
                         var brand = Request["BrandId"];
                         var model = Request["Model"];
                         var color = Request["Color"];
                         var plate = Request["Plate"];
                         var capacity = Request["Capacity"];
 
-                        var vehicle = db.Vehicles.Where(x => x.ApplicationUserId == user.Id).SingleOrDefault();
+                        var foundBrand = db.Brands.Where(x => x.Name == brand).SingleOrDefault();
+                        Model foundModel = null;
 
-                        if (vehicle == null)
+                        user.Vehicle = db.Vehicles.Where(x => x.ApplicationUserId == user.Id).SingleOrDefault();
+                        var vehicleExistent = (user.Vehicle != null);
+
+                        if (!vehicleExistent)
                         {
-                            vehicle = new Vehicle
-                            {
-                                ApplicationUserId = user.Id
-                                Color = color,
-                                Plate = plate,
-                                SelectedBrandId = Convert.ToInt32(brand),
-                                SelectedModelId = Convert.ToInt32(model),
-                                Spaces = Convert.ToInt32(capacity)
-                            };
+                            user.Vehicle = new Vehicle();
+                        }
 
-                            db.Entry(vehicle).State = System.Data.Entity.EntityState.Added;
+                        if (foundBrand == null)
+                        {
+                            ViewBag.Warning = "100028";
+
+                            return View(user);
                         }
                         else
                         {
-                            vehicle.Color = color;
-                            vehicle.Plate = plate;
-                            vehicle.SelectedBrandId= Convert.ToInt32(brand);
-                            vehicle.SelectedModelId = Convert.ToInt32(color);
-                            vehicle.Spaces = Convert.ToInt32(color);
+                            user.Vehicle.Brand = foundBrand;
+                            user.Vehicle.BrandId = foundBrand.BrandId;
 
-                            db.Entry(vehicle).State = System.Data.Entity.EntityState.Modified;
+                            ViewBag.BrandId = new SelectList(user.Brands, "BrandId", "Name", foundBrand.BrandId);
+                            ViewBag.ModelId = new SelectList(foundBrand.Models, "ModelId", "Description");
+
+                            foundModel = db.Models.Where(x => x.Description == model && x.BrandId == foundBrand.BrandId).SingleOrDefault();
+
+                            if(foundModel == null)
+                            {
+                                ViewBag.Warning = "100029";
+
+                                return View(user);
+                            }
+                            else
+                            {
+                                user.Vehicle.Model = foundModel;
+                                user.Vehicle.ModelId = foundModel.ModelId;
+                            }
+                        }
+
+                        if (string.IsNullOrEmpty(color))
+                        {
+                            ViewBag.Warning = "100033";
+
+                            return View(user);
+                        }
+                        else
+                        {
+                            user.Vehicle.Color = color;
+                        }
+
+                        if (string.IsNullOrEmpty(plate))
+                        {
+                            ViewBag.Warning = "100034";
+                            return View(user);
+                        }
+                        else
+                        {
+                            user.Vehicle.Plate = plate;
+                        }
+
+                        if (string.IsNullOrEmpty(capacity))
+                        {
+                            ViewBag.Warning = "100035";
+                            return View(user);
+                        }
+                        else
+                        {
+                            user.Vehicle.Spaces = Convert.ToInt32(capacity);
+                        }
+
+                        if (!vehicleExistent)
+                        {
+                            user.Vehicle.ApplicationUser = user;
+                            user.Vehicle.ApplicationUserId = user.Id;
+
+                            var newVehicle = user.Vehicle;
+                            newVehicle.Brand = null;
+                            newVehicle.Model = null;
+                            newVehicle.ApplicationUser = null;
+
+                            db.Entry(newVehicle).State = System.Data.Entity.EntityState.Added;
+                        }
+                        else
+                        {
+                            db.Entry(user.Vehicle).State = System.Data.Entity.EntityState.Modified;
                         }
 
                         db.SaveChanges();
@@ -257,7 +361,8 @@ namespace CarpoolingCR.Controllers
                     Message = ex.Message + " / " + ex.StackTrace,
                     Method = Common.GetCurrentMethod(),
                     Timestamp = Common.ConvertToUTCTime(DateTime.Now),
-                    UserEmail = User.Identity.Name
+                    UserEmail = User.Identity.Name,
+                    Fields = fields
                 });
 
                 user.Message = "Error inesperado, intente de nuevo!";

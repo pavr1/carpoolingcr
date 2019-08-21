@@ -23,11 +23,11 @@
             @{
                 if (Model.UserType == CarpoolingCR.Utils.Enums.UserType.Administrador)
                 {
-                    <a class="btn btn-primary pull-right" href="/Towns/Create" style="border-radius:25px">Crear</a>
+                    <a class="btn btn-primary pull-right" href="~/Towns/Create" style="border-radius:25px">Crear</a>
                 }
                 else
                 {
-                    <a class="btn btn-primary pull-right" href="/Towns/Create" style="border-radius:25px">Solicitar</a>
+                    <a class="btn btn-primary pull-right" href="~/Towns/Create" style="border-radius:25px">Solicitar</a>
                 }
             }
         </div>
@@ -58,7 +58,7 @@
                             <small class="status">@item.Status</small>
 
                             <div class="pull-right">
-                                <a class="btn btn-info" href="/Towns/Edit/@item.TownId" style="border-radius:25px">...</a>
+                                <a class="btn btn-info" href="~/Towns/Edit/@item.TownId" style="border-radius:25px">...</a>
                                 <input type="button" class="btn btn-danger" style="border-radius:25px" onclick="ConfirmDelete(@item.TownId, '@item.Name')" value="X" />
                             </div>
                         }
@@ -71,7 +71,7 @@
 </div>
 
 <div class="modal fade" id="confirmTownDelete" tabindex="-1" role="dialog" aria-labelledby="dayTripModalLabel" aria-hidden="true">
-    <form action="/Towns/Delete/0" method="post">
+    <form action="~/Towns/Delete/0" method="post">
         @Html.AntiForgeryToken()
         <div class="vertical-alignment-helper">
             <div class="modal-dialog vertical-align-center">

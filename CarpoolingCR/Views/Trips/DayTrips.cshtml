@@ -50,7 +50,7 @@
 
 <!-- Modal -->
 <div class="modal fade" id="dayTripModal" tabindex="-1" role="dialog" aria-labelledby="dayTripModalLabel" aria-hidden="true">
-    <form action="/Reservations/Create" method="post">
+    <form action="~/Reservations/Create" method="post">
         @Html.AntiForgeryToken()
         <div class="vertical-alignment-helper">
             <div class="modal-dialog vertical-align-center">
@@ -126,7 +126,7 @@
 </div>
 
 <div class="modal fade" id="tripQuestionsModal" tabindex="-1" role="dialog" aria-labelledby="tripQuestionsModalLabel" aria-hidden="true">
-    @*<form action="/Reservations/Create" method="post">*@
+    @*<form action="~/Reservations/Create" method="post">*@
     @Html.AntiForgeryToken()
     <div class="vertical-alignment-helper">
         <div class="modal-dialog vertical-align-center">

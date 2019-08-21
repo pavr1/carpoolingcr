@@ -55,6 +55,36 @@
         return "¡Tu cuenta no ha sido verificada! Te hemos reenviado el correo de confirmación. Si no lo encuentras revisa los correos no deseados.";
     } else if (code === "100027") {
         return "¡Usuario Calificado!";
+    } else if (code === "100028") {
+        return "¡Marca Inválida!";
+    } else if (code === "100029") {
+        return "¡Modelo Inválido!";
+    } else if (code === "100030") {
+        return "¡Nombre Requerido!";
+    } else if (code === "100031") {
+        return "¡Apellido Requerido!";
+    } else if (code === "100032") {
+        return "¡Teléfono Requerido!";
+    } else if (code === "100033") {
+        return "¡Color Vehículo Requerido!";
+    } else if (code === "100034") {
+        return "Placa Vehículo Requerida!";
+    } else if (code === "100035") {
+        return "¡Capacidad Vehiculo Requerida!";
+    } else if (code === "xxxxxxxxx") {
+        return "zzzzzzzzzzzzzzzzzzzzzz";
+    } else if (code === "xxxxxxxxx") {
+        return "zzzzzzzzzzzzzzzzzzzzzz";
+    } else if (code === "xxxxxxxxx") {
+        return "zzzzzzzzzzzzzzzzzzzzzz";
+    } else if (code === "xxxxxxxxx") {
+        return "zzzzzzzzzzzzzzzzzzzzzz";
+    } else if (code === "xxxxxxxxx") {
+        return "zzzzzzzzzzzzzzzzzzzzzz";
+    } else if (code === "xxxxxxxxx") {
+        return "zzzzzzzzzzzzzzzzzzzzzz";
+    } else if (code === "xxxxxxxxx") {
+        return "zzzzzzzzzzzzzzzzzzzzzz";
     } else if (code === "xxxxxxxxx") {
         return "zzzzzzzzzzzzzzzzzzzzzz";
     } else if (code === "xxxxxxxxx") {

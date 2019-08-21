@@ -23,7 +23,7 @@
                 }
                 else
                 {
-                    <a class="btn btn-primary pull-right" href="/Trips/Create" style="border-radius:25px">Crear</a>
+                    <a class="btn btn-primary pull-right" href="~/Trips/Create" style="border-radius:25px">Crear</a>
                 }
             }
         </div>
@@ -243,7 +243,7 @@
 </div>
 
 <div class="modal fade" id="confirmReservationsAction" tabindex="-1" role="dialog" aria-labelledby="confirmReservationModalLabel" aria-hidden="true">
-    <form action="/Reservations/ChangeReservationStatus/0" method="post">
+    <form action="~/Reservations/ChangeReservationStatus/0" method="post">
         @Html.AntiForgeryToken()
         <div class="vertical-alignment-helper">
             <div class="modal-dialog vertical-align-center">
@@ -272,7 +272,7 @@
 </div>
 
 <div class="modal fade" id="confirmTripDelete" tabindex="-1" role="dialog" aria-labelledby="dayTripModalLabel" aria-hidden="true">
-    <form action="/Trips/Delete/0" method="post">
+    <form action="~/Trips/Delete/0" method="post">
         @Html.AntiForgeryToken()
         <div class="vertical-alignment-helper">
             <div class="modal-dialog vertical-align-center">

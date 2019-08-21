@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CarpoolingCR.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,6 +11,8 @@ namespace CarpoolingCR.Controllers
     {
         public ActionResult Index()
         {
+            EmailHandler.HomePageHit();
+
             return View();
         }
 

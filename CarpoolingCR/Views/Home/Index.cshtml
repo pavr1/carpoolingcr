@@ -22,6 +22,17 @@
             <br /><br />
         </div>
     </div>
+    @{
+        //if user not logged, display
+        if (User.Identity == null || !User.Identity.IsAuthenticated)
+        {
+            <div class="row visible-xs">
+                <div class="col-xs-12">
+                    <a href="~/Account/Login" class="btn btn-info center-block" style="width:200px">¡Inicia sesión aquí!</a><br />
+                </div>
+            </div>
+        }
+    }
     <div class="row">
         <div class="col-lg-9 col-md-7 col-sm-7 col-xs-12" style="text-align:justify">
             <b>¡Bienvenidos!</b><br /><br />
@@ -59,7 +70,7 @@
             cualquier eventualidad que pueda ocurrir durante el viaje.*@
     </small>
     </p>
-    @*<p><a href="/UserRols/ValidateUserRol" class="btn btn-primary btn-lg">Vamos a iniciar &raquo;</a></p>*@
+    @*<p><a href="~/UserRols/ValidateUserRol" class="btn btn-primary btn-lg">Vamos a iniciar &raquo;</a></p>*@
 </div>
 
 @*<div class="row form-group">

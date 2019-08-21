@@ -64,9 +64,11 @@ namespace CarpoolingCR.Models
         [NotMapped]
         public string MessageType { get; set; }
         public string Picture { get; set; }
+        
+        public int? VehicleId { get; set; }
 
-        public virtual int? VehicleId { get; set; }
-        public virtual Vehicle.Vehicle Vehicle { get; set; }
+        [NotMapped]
+        public Vehicle.Vehicle Vehicle { get; set; }
 
         [NotMapped]
         public string FullName

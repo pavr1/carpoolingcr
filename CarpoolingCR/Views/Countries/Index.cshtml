@@ -13,7 +13,7 @@
             <input class="search form-control" style="border-radius:25px" placeholder="Búsqueda" />
         </div>
         <div class="col-lg-6 col-md-6 col-sm-1 col-xs-1">
-            <a class="btn btn-primary pull-right" href="/Countries/Create" style="border-radius:25px">Crear</a>
+            <a class="btn btn-primary pull-right" href="~/Countries/Create" style="border-radius:25px">Crear</a>
         </div>
     </div>
     <br />
@@ -40,7 +40,7 @@
 </div>
 
 <div class="modal fade" id="confirmCountryDelete" tabindex="-1" role="dialog" aria-labelledby="dayTripModalLabel" aria-hidden="true">
-    <form action="/Countries/Delete/0" method="post">
+    <form action="~/Countries/Delete/0" method="post">
         @Html.AntiForgeryToken()
         <div class="vertical-alignment-helper">
             <div class="modal-dialog vertical-align-center">

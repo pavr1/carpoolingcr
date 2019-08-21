@@ -6,7 +6,7 @@
 
 @*@using (Html.BeginForm("BankInfo", "Manage", FormMethod.Post, new { }))
     {*@
-<form action="/Manage/ProfileInfo" method="post" enctype="multipart/form-data">
+<form action="~/Manage/ProfileInfo" method="post" enctype="multipart/form-data">
     @Html.AntiForgeryToken()
     <input type="hidden" id="message" value="@Model.Message" />
     <input type="hidden" id="messageType" value="@Model.MessageType" />
@@ -285,7 +285,7 @@
                         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            <label class="control-label">Capacidad</label>
+                            <label class="control-label">Capacidad</label> <small>*** Incluido el conductor</small>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                             <input id="Capacity" name="Capacity" class="" style="width:40px;" onfocus="blur();">
@@ -303,7 +303,21 @@
                             <label class="control-label">Marca</label>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            @Html.TextBoxFor(m => m.Vehicle.SelectedBrand, new { @class = "form-control", @placeholder = "Teléfono #2" })
+                            <select class="form-control" id="BrandId" name="BrandId">
+                                @{
+                                    foreach (var brand in ViewBag.BrandId.Items.Items)
+                                    {
+                                        if (brand.BrandId == Model.Vehicle.BrandId)
+                                        {
+                                            <option value="@brand.BrandId" selected>@brand.Name</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@brand.BrandId">@brand.Name</option>
+                                        }
+                                    }
+                                }
+                            </select>
                         </div>
                         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
                         </div>
@@ -314,8 +328,22 @@
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                             <label class="control-label">Modelo</label>
                         </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            @Html.TextBoxFor(m => m.Vehicle.SelectedModel, new { @class = "form-control", @placeholder = "Teléfono #2" })
+                        <div id="modelContainer" class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            <select class="form-control" id="Model" name="Model">
+                                @{
+                                    foreach (var mdl in ViewBag.ModelId.Items)
+                                    {
+                                        if (mdl.ModelId == Model.Vehicle.ModelId)
+                                        {
+                                            <option value="@mdl.ModelId" selected>@mdl.Description</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@mdl.ModelId">@mdl.Description</option>
+                                        }
+                                    }
+                                }
+                            </select>
                         </div>
                         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
                         </div>
@@ -327,7 +355,7 @@
                             <label class="control-label">Placa</label>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            @Html.TextBoxFor(m => m.Vehicle.Plate, new { @class = "form-control", @placeholder = "Teléfono #2" })
+                            <input type="text" class="form-control" id="Plate" name="Plate" placeholder="Placa" />
                         </div>
                         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
                         </div>
@@ -336,10 +364,22 @@
                         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            <label class="control-label">Capacidad</label>
+                            <label class="control-label">Color</label>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            @Html.TextBoxFor(m => m.Vehicle.Spaces, new { @class = "form-control", @placeholder = "Teléfono #2" })
+                            <input type="text" class="form-control" id="Color" name="Color" placeholder="Color" />
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            <label class="control-label">Capacidad</label> <small>*** Incluido el conductor</small>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            <input id="Capacity" name="Capacity" class="" style="width:40px;" onfocus="blur();">
                         </div>
                         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
                         </div>
@@ -365,6 +405,10 @@
 
     $("#profileImage").click(function (e) {
         $("#imageUpload").click();
+    });
+
+    $("#Plate").keyup(function () {
+        this.value=this.value.toUpperCase();
     });
 
     function fasterPreview(uploader) {
@@ -398,12 +442,11 @@
 
         for (i = 0; i < brands.length; i++) {
             if (brands[i].BrandId == currentBrandId) {
-
                 for (y = 0; y < brands[i].Models.length; y++) {
                     var modelId = brands[i].Models[y].ModelId;
                     var modelDesc = brands[i].Models[y].Description;
 
-                    html += '<option value="' + modelId + '">' + modelDesc+'</option>'
+                    html += '<option value="' + modelId + '">' + modelDesc + '</option>';
                 }
 
                 html += '</select>';

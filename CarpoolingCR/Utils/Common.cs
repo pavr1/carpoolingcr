@@ -211,7 +211,14 @@ namespace CarpoolingCR.Utils
         {
             using (var db = new ApplicationDbContext())
             {
-                return db.Users.Where(x => x.Email == email).SingleOrDefault();
+                var user = db.Users.Where(x => x.Email == email).SingleOrDefault();
+
+                if(user != null)
+                {
+                    user.Vehicle = db.Vehicles.Where(x => x.ApplicationUserId == user.Id).SingleOrDefault();
+                }
+
+                return user;
             }
         }
 
@@ -301,7 +308,6 @@ namespace CarpoolingCR.Utils
             using (var db = new ApplicationDbContext())
             {
                 return db.Brands
-                    .Include(x => x.Models)
                     .ToList();
             }
         }

@@ -243,17 +243,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201908211451193_Start up.cs" />
-    <Compile Include="Migrations\201908211451193_Start up.Designer.cs">
-      <DependentUpon>201908211451193_Start up.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201908212016384_Changed Vehicle brand and model properties.cs" />
-    <Compile Include="Migrations\201908212016384_Changed Vehicle brand and model properties.Designer.cs">
-      <DependentUpon>201908212016384_Changed Vehicle brand and model properties.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201908212025341_Changed brand%27s models and vehicle.cs" />
-    <Compile Include="Migrations\201908212025341_Changed brand%27s models and vehicle.Designer.cs">
-      <DependentUpon>201908212025341_Changed brand%27s models and vehicle.cs</DependentUpon>
+    <Compile Include="Migrations\201908220357347_Initial.cs" />
+    <Compile Include="Migrations\201908220357347_Initial.Designer.cs">
+      <DependentUpon>201908220357347_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -845,14 +837,8 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201908211451193_Start up.resx">
-      <DependentUpon>201908211451193_Start up.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201908212016384_Changed Vehicle brand and model properties.resx">
-      <DependentUpon>201908212016384_Changed Vehicle brand and model properties.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201908212025341_Changed brand%27s models and vehicle.resx">
-      <DependentUpon>201908212025341_Changed brand%27s models and vehicle.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201908220357347_Initial.resx">
+      <DependentUpon>201908220357347_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

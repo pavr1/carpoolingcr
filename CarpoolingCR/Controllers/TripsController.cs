@@ -117,7 +117,8 @@ namespace CarpoolingCR.Controllers
                 {
                     IsAdmin = isAdmin,
                     Trips = trips,
-                    ReachedMaxCount = reachedMaxCount
+                    ReachedMaxCount = reachedMaxCount,
+                    VehicleInfoRegistered = (user.Vehicle != null)
                 };
 
                 return View(response);
@@ -319,7 +320,8 @@ namespace CarpoolingCR.Controllers
 
                 var response = new TripCreateResponse
                 {
-                    Towns = Common.GetLocationsStrings(user.CountryId)
+                    Towns = Common.GetLocationsStrings(user.CountryId),
+                    Vehicle = user.Vehicle
                 };
 
                 return View(response);
@@ -387,7 +389,8 @@ namespace CarpoolingCR.Controllers
                         var response = new TripCreateResponse
                         {
                             Towns = Common.GetLocationsStrings(user.CountryId),
-                            Trip = trip
+                            Trip = trip,
+                            Vehicle = user.Vehicle
                         };
 
                         return View(response);
@@ -403,7 +406,8 @@ namespace CarpoolingCR.Controllers
                         var response = new TripCreateResponse
                         {
                             Towns = Common.GetLocationsStrings(user.CountryId),
-                            Trip = trip
+                            Trip = trip,
+                            Vehicle = user.Vehicle
                         };
 
                         return View(response);

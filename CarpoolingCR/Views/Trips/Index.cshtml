@@ -11,19 +11,27 @@
 
 <div id="trips">
     <div class="row">
-        <div class="col-lg-6 col-md-6 col-sm-11 col-xs-9">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
             <input class="search form-control" style="border-radius:25px" placeholder="Búsqueda" />
         </div>
-        <div class="col-lg-6 col-md-6 col-sm-1 col-xs-3">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
             @{
                 if (Model.ReachedMaxCount)
                 {
-                    <small class="pull-right">¡Cantidad máxima de viajes!</small>
+                    <small class="pull-right text-warning">¡Cantidad máxima de viajes!</small>
                     @*<a class="btn btn-primary pull-right disabled" style="border-radius:25px">Crear</a>*@
                 }
                 else
                 {
-                    <a class="btn btn-primary pull-right" href="~/Trips/Create" style="border-radius:25px">Crear</a>
+                    if (!Model.VehicleInfoRegistered)
+                    {
+                        <small class="pull-right text-warning hidden-xs">¡Información del vehículo requerida!</small>
+                        <small class="text-warning visible-xs"><br/>¡Información del vehículo requerida!</small>
+                    }
+                    else
+                    {
+                        <a class="btn btn-primary pull-right" href="~/Trips/Create" style="border-radius:25px">Crear</a>
+                    }
                 }
             }
         </div>

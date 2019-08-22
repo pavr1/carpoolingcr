@@ -74,7 +74,7 @@
             <div class="col-lg-2 col-md-2 col-sm-2">
             </div>
             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-6">
-                <input id="TotalSpaces" class="" style="width:40px;" name="TotalSpaces" onfocus="blur();">
+                <input id="TotalSpaces" class="" style="width:40px;" name="TotalSpaces" disabled onfocus="blur();">
             </div>
             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-6">
                 <input id="AvailableSpaces" class="" style="width:40px;" name="AvailableSpaces" onfocus="blur();">
@@ -143,16 +143,16 @@
     });
 
     $('#TotalSpaces').spinner({
-        min: 1,
-        max: 5,
+        min: @Model.Vehicle.Spaces,
+        max: @Model.Vehicle.Spaces,
         stop: function (e, ui) {
-            $('#AvailableSpaces').val($('#TotalSpaces').val())
+            $('#AvailableSpaces').val($('#TotalSpaces').val() - 1)
         }
-    }).val(1);
+    }).val(@Model.Vehicle.Spaces);
 
     $('#AvailableSpaces').spinner({
-        min: 0,
-        max: 5,
+        min: 1,
+        max: @Model.Vehicle.Spaces - 1,
         stop: function (e, ui) {
             if ($('#AvailableSpaces').val() > $('#TotalSpaces').val()) {
                 $('#AvailableSpaces').val($('#TotalSpaces').val());

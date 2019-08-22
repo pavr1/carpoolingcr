@@ -137,6 +137,14 @@ namespace CarpoolingCR.Controllers
                 var user = Common.GetUserByEmail(User.Identity.Name);
 
                 ViewBag.BrandId = new SelectList(user.Brands, "BrandId", "Name");
+
+                if (user.Vehicle != null)
+                {
+                    var brand = db.Brands.Where(x => x.BrandId == user.Vehicle.BrandId).Single();
+
+                    ViewBag.ModelId = new SelectList(brand.Models, "ModelId", "Description");
+                }
+
                 ViewBag.BrandJson = Serializer.Serialize(user.BrandsJson);
 
                 return View(user);
@@ -280,7 +288,7 @@ namespace CarpoolingCR.Controllers
 
                             foundModel = db.Models.Where(x => x.Description == model && x.BrandId == foundBrand.BrandId).SingleOrDefault();
 
-                            if(foundModel == null)
+                            if (foundModel == null)
                             {
                                 ViewBag.Warning = "100029";
 
@@ -293,6 +301,16 @@ namespace CarpoolingCR.Controllers
                             }
                         }
 
+                        if (string.IsNullOrEmpty(plate))
+                        {
+                            ViewBag.Warning = "100034";
+                            return View(user);
+                        }
+                        else
+                        {
+                            user.Vehicle.Plate = plate;
+                        }
+
                         if (string.IsNullOrEmpty(color))
                         {
                             ViewBag.Warning = "100033";
@@ -302,16 +320,6 @@ namespace CarpoolingCR.Controllers
                         else
                         {
                             user.Vehicle.Color = color;
-                        }
-
-                        if (string.IsNullOrEmpty(plate))
-                        {
-                            ViewBag.Warning = "100034";
-                            return View(user);
-                        }
-                        else
-                        {
-                            user.Vehicle.Plate = plate;
                         }
 
                         if (string.IsNullOrEmpty(capacity))

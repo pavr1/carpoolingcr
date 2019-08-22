@@ -329,21 +329,29 @@
                             <label class="control-label">Modelo</label>
                         </div>
                         <div id="modelContainer" class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            <select class="form-control" id="Model" name="Model">
-                                @{
-                                    foreach (var mdl in ViewBag.ModelId.Items)
-                                    {
-                                        if (mdl.ModelId == Model.Vehicle.ModelId)
-                                        {
-                                            <option value="@mdl.ModelId" selected>@mdl.Description</option>
+                            @{
+                                if (ViewBag.ModelId != null)
+                                {
+                                    <select class="form-control" id="Model" name="Model">
+                                        @{ foreach (var mdl in ViewBag.ModelId.Items)
+                                            {
+                                                if (mdl.ModelId == Model.Vehicle.ModelId)
+                                                {
+                                                    <option value="@mdl.ModelId" selected>@mdl.Description</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@mdl.ModelId">@mdl.Description</option>
+                                                }
+                                            }
                                         }
-                                        else
-                                        {
-                                            <option value="@mdl.ModelId">@mdl.Description</option>
-                                        }
-                                    }
+                                    </select>
                                 }
-                            </select>
+                                else
+                                {
+                                    <select class="form-control" id="Model" name="Model" disabled></select>
+                                }
+                            }
                         </div>
                         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
                         </div>
@@ -355,7 +363,7 @@
                             <label class="control-label">Placa</label>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            <input type="text" class="form-control" id="Plate" name="Plate" placeholder="Placa" />
+                            <input type="text" class="form-control" id="Plate" name="Plate" placeholder="Placa" value="@Model.Vehicle.Plate" />
                         </div>
                         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
                         </div>
@@ -367,7 +375,7 @@
                             <label class="control-label">Color</label>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            <input type="text" class="form-control" id="Color" name="Color" placeholder="Color" />
+                            <input type="text" class="form-control" id="Color" name="Color" placeholder="Color" value="@Model.Vehicle.Color" />
                         </div>
                         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
                         </div>
@@ -379,7 +387,7 @@
                             <label class="control-label">Capacidad</label> <small>*** Incluido el conductor</small>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            <input id="Capacity" name="Capacity" class="" style="width:40px;" onfocus="blur();">
+                            <input id="Capacity" name="Capacity" class="" style="width:40px;" onfocus="blur();" value="@Model.Vehicle.Spaces">
                         </div>
                         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
                         </div>
@@ -401,6 +409,15 @@
         $('[data-toggle="tooltip"]').tooltip();
 
         SetRandomImage();
+
+        @{ 
+            var spacesValue = 1;
+
+            if (Model.Vehicle != null)
+            {
+                spacesValue = Model.Vehicle.Spaces;
+            }
+        }
     });
 
     $("#profileImage").click(function (e) {
@@ -426,7 +443,7 @@
     $('#Capacity').spinner({
         min: 1,
         max: 7
-    }).val(1);
+    }).val(@spacesValue);
 
     $('#BrandId')
         .editableSelect()
@@ -435,6 +452,8 @@
                 BrandChange(li.val())
             );
         });
+
+    $('#Model').editableSelect();
 
     function BrandChange(currentBrandId) {
         var brands = JSON.parse(@Html.Raw(Json.Encode(@ViewBag.BrandJson)));

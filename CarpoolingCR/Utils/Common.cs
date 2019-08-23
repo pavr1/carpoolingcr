@@ -175,6 +175,12 @@ namespace CarpoolingCR.Utils
         public static District ValidateDistrictString(string data)
         {
             var split = data.Replace("🖣 ", string.Empty).Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+
+            if(split.Length < 2)
+            {
+                return null;
+            }
+
             var countyId = split[0].Trim();
             var districtId = split[1].Trim();
             District result = null;

@@ -207,10 +207,25 @@ namespace CarpoolingCR.Controllers
                             var fnSplit = Path.GetFileName(file.FileName).Split(new string[] { "." }, StringSplitOptions.RemoveEmptyEntries);
                             var fileName = "Profile_" + user.Name + "_" + user.LastName + "_" + user.SecondLastName + DateTime.Now.Year + DateTime.Now.Month + DateTime.Now.Day + DateTime.Now.Hour + DateTime.Now.Minute + DateTime.Now.Second + "." + fnSplit[1];
 
-                            path = Path.Combine(Server.MapPath("~/Content/Pictures/Users"), fileName);
-                            file.SaveAs(path);
+                            string relativePath = "~/Content/Pictures/Users/" + fileName;
+                            string absolutePath = Server.MapPath(relativePath);
 
-                            path = "\\Content\\" + path.Split(new string[] { "\\Content\\" }, StringSplitOptions.RemoveEmptyEntries)[1];
+                            try
+                            {
+                                file.SaveAs(absolutePath);
+                            }
+                            catch (Exception ex)
+                            {
+                                throw new Exception("Error saving image. Relative Path: " + relativePath + ". Absolute Path: " + absolutePath + ". Error: " + ex.Message);
+                            }
+
+                            path = relativePath;
+
+                            //path = Path.Combine(Server.MapPath("~/Content/Pictures/Users"), fileName);
+                            //file.SaveAs(path);
+
+                            //path = "\\Content\\" + path.Split(new string[] { "\\Content\\" }, StringSplitOptions.RemoveEmptyEntries)[1];
+                            //path = "~/" + path.Replace("\\", "/");
                         }
                     }
 

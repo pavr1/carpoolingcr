@@ -30,7 +30,7 @@
                     }
                     else
                     {
-                        <a class="btn btn-primary pull-right" href="~/Trips/Create" style="border-radius:25px">Crear</a>
+                        <a class="btn btn-info btnLink pull-right" href="~/Trips/Create" style="border-radius:25px">Crear</a>
                     }
                 }
             }
@@ -84,7 +84,7 @@
                                     {
                                         <small class="price center-block"><b>Conductor:</b></small>
                                         <div id="profile-container-small" class="" data-toggle="tooltip" title="@trip.ApplicationUser.FullName">
-                                            <img id="profileImage" src="@trip.ApplicationUser.Picture" /><br />
+                                            <img id="profileImage" src="@Url.Content(trip.ApplicationUser.Picture)" /><br />
                                         </div>
                                     }
                                 }
@@ -112,7 +112,7 @@
                                         <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
                                             <small class="driver"><b>- Pasajero: </b></small>
                                             <div id="profile-container-small" class="" data-toggle="tooltip" title="@reservation.PassengerName">
-                                                <img id="profileImage" src="@reservation.ApplicationUser.Picture" /><br />
+                                                <img id="profileImage" src="@Url.Content(reservation.ApplicationUser.Picture)" /><br />
                                             </div>
                                         </div>
                                         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">

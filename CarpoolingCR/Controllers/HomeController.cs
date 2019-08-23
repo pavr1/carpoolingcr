@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Configuration;
 using System.Web.Mvc;
 
 namespace CarpoolingCR.Controllers
@@ -11,7 +12,12 @@ namespace CarpoolingCR.Controllers
     {
         public ActionResult Index()
         {
-            EmailHandler.HomePageHit();
+            var user = Common.GetUserByEmail(User.Identity.Name);
+
+            if (!Common.IsAuthorized(User))
+            {
+                EmailHandler.HomePageHit();
+            }
 
             return View();
         }

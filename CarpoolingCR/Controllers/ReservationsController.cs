@@ -230,7 +230,7 @@ namespace CarpoolingCR.Controllers
                         Trips = trips,
                         PassengerReservations = passengerReservations,
                         DriverTrips = driverTrips,
-                        Towns = Common.GetLocationsStrings(user.CountryId),//db.Towns.ToList(),
+                        Towns = Common.GetLocationsStrings(user.CountryId),
                         //¡Origen no válido!
                         Message = "100012"
                     };
@@ -249,7 +249,7 @@ namespace CarpoolingCR.Controllers
                         Trips = trips,
                         PassengerReservations = passengerReservations,
                         DriverTrips = driverTrips,
-                        Towns = Common.GetLocationsStrings(user.CountryId),//db.Towns.ToList(),
+                        Towns = Common.GetLocationsStrings(user.CountryId),
                         //¡Destino no válido!
                         Message = "100013"
                     };

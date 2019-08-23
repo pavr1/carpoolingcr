@@ -435,6 +435,10 @@
         function GetRandomNumber(top) {
             return Math.floor(Math.random() * top)
         }
+
+        $('.btnLink').click(function () {
+            $(this).html('<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>Procesando...').addClass('disabled');
+        });
     </script>
 
     <script>

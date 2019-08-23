@@ -24,7 +24,6 @@ namespace CarpoolingCR.Models.Vehicle
         public string Color { get; set; }
         public string Plate { get; set; }
         public int Spaces { get; set; }
-        public int test2 { get; set; }
 
         [NotMapped]
         public List<Model> Models
@@ -41,7 +40,6 @@ namespace CarpoolingCR.Models.Vehicle
     {
         public int BrandId { get; set; }
         public string Name { get; set; }
-        public int test2 { get; set; }
 
         [NotMapped]
         public virtual List<Model> Models {
@@ -63,6 +61,5 @@ namespace CarpoolingCR.Models.Vehicle
         public int BrandId { get; set; }
         [NotMapped]
         public virtual Brand Brand { get; set; }
-        public int test2 { get; set; }
     }
 }

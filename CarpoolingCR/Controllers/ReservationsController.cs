@@ -192,8 +192,14 @@ namespace CarpoolingCR.Controllers
 
                     foreach (var trip in driverTrips)
                     {
-                        trip.Reservations = db.Reservations.Where(x => x.TripId == trip.TripId && x.Status == ReservationStatus.Accepted || x.Status == ReservationStatus.Pending)
+                        trip.Reservations = db.Reservations.Where(x => x.TripId == trip.TripId)
+                            .Where(x =>x.Status == ReservationStatus.Accepted || x.Status == ReservationStatus.Pending)
                             .ToList();
+
+                        foreach (var reservation in trip.Reservations)
+                        {
+                            reservation.Trip = null;
+                        }
 
                         trip.FromTown = db.Districts.Where(x => x.DistrictId == trip.FromTownId).Single();
                         trip.ToTown = db.Districts.Where(x => x.DistrictId == trip.ToTownId).Single();

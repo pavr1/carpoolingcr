@@ -138,7 +138,7 @@
                                     @{
                                         if (item.Status != CarpoolingCR.Utils.Enums.ReservationStatus.Cancelled)
                                         {
-                                            <input type="button" class="btn btn-danger pull-right" value="X" style="border-radius:25px" onclick="ConfirmAction(@item.ReservationId, '@CarpoolingCR.Utils.Enums.ReservationStatus.Cancelled','cancelar esta reservación','Reservaciones', 'Cancelar', 'btn-danger', 'passenger')" />
+                                            <input type="button" class="btn btn-danger btn-xs pull-right" value="Cancelar" style="border-radius:25px" onclick="ConfirmAction(@item.ReservationId, '@CarpoolingCR.Utils.Enums.ReservationStatus.Cancelled','cancelar esta reservación','Reservaciones', 'Cancelar', 'btn-danger', 'passenger')" />
                                         }
                                     }
                                 </div>

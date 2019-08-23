@@ -62,6 +62,9 @@ namespace CarpoolingCR.Models
         public int ToTownId { get; set; }
         public District ToTown { get; set; }
 
+        public int? RouteId { get; set; }
+        public District Route { get; set; }
+
         [NotMapped]
         public List<Reservation> Reservations { get; set; }
         [NotMapped]

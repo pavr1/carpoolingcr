@@ -32,7 +32,7 @@
                         }
                     }
                 </select>
-                <label id="fromDistrictId" ></label>
+                <label id="fromDistrictId"></label>
             </div>
             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
                 <label class="control-label" style="text-align:left">Destino</label>
@@ -46,10 +46,26 @@
                         }
                     }
                 </select>
-                <label id="toDistrictId" ></label>
+                <label id="toDistrictId"></label>
             </div>
         </div>
 
+        <div class="row form-group">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                <label class="control-label" style="text-align:left">Ruta</label>
+            </div>
+            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-13">
+                <select id="Route" name="Route" class="form-control">
+                    @{
+                        foreach (var item in Model.Towns)
+                        {
+                            <option value="@item.DistrictId">@item.Display</option>
+                        }
+                    }
+                </select>
+                <label id="fromDistrictId"></label>
+            </div>
+        </div>
         <div class="row form-group">
             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
                 <label class="control-label" style="text-align:left">Fecha</label>
@@ -126,6 +142,7 @@
 <script>
     $('#FromTown').editableSelect();
     $('#ToTown').editableSelect();
+    $('#Route').editableSelect();
 
     LoadRouteOptions();
     $('#fade').editableSelect({ effects: 'fade' });
@@ -146,7 +163,7 @@
         min: @Model.Vehicle.Spaces,
         max: @Model.Vehicle.Spaces,
         stop: function (e, ui) {
-            $('#AvailableSpaces').val($('#TotalSpaces').val() - 1)
+            //$('#AvailableSpaces').val($('#TotalSpaces').val() - 1)
         }
     }).val(@Model.Vehicle.Spaces);
 

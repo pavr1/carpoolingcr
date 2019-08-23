@@ -81,6 +81,11 @@ namespace CarpoolingCR.Controllers
                         trip.ToTown = db.Districts.Where(x => x.DistrictId == trip.ToTownId)
                             .Include(x => x.County)
                             .Single();
+
+                        trip.Route = db.Districts.Where(x => x.DistrictId == trip.RouteId)
+                            .Include(x => x.County)
+                            .SingleOrDefault();
+
                         trip.DateTime = Common.ConvertToLocalTime(trip.DateTime);
                     }
                 }
@@ -106,6 +111,10 @@ namespace CarpoolingCR.Controllers
                             trip.ToTown = db.Districts.Where(x => x.DistrictId == trip.ToTownId)
                                 .Include(x => x.County)
                                 .Single();
+                            trip.Route = db.Districts.Where(x => x.DistrictId == trip.RouteId)
+                            .Include(x => x.County)
+                            .SingleOrDefault();
+
                             trip.DateTime = Common.ConvertToLocalTime(trip.DateTime);
                         }
 
@@ -364,6 +373,7 @@ namespace CarpoolingCR.Controllers
                 #region Fields
                 fields += "FromTown: " + Request["FromTown"];
                 fields += "ToTown: " + Request["ToTown"] + ", ";
+                fields += "Route: " + Request["Route"] + ", ";
                 fields += "AvailableSpaces: " + Request["AvailableSpaces"];
                 fields += "DateTime: " + Request["DateTime"];
                 fields += "Trip.Details: " + Request["Trip.Details"];
@@ -375,6 +385,7 @@ namespace CarpoolingCR.Controllers
                 {
                     var fromDistrict = new District();
                     var toDistrict = new District();
+                    var routeDistrict = new District();
 
                     var user = Common.GetUserByEmail(User.Identity.Name);
 
@@ -413,6 +424,8 @@ namespace CarpoolingCR.Controllers
                         return View(response);
                     }
 
+                    routeDistrict = Common.ValidateDistrictString(Request["Route"]);
+
                     trip = new Trip
                     {
                         ApplicationUserId = user.Id,
@@ -424,7 +437,8 @@ namespace CarpoolingCR.Controllers
                         Price = Convert.ToDecimal(Request["Trip.Price"]),
                         Status = Enums.Status.Activo,
                         TotalSpaces = Convert.ToInt32(Request["TotalSpaces"]),
-                        ToTownId = toDistrict.DistrictId
+                        ToTownId = toDistrict.DistrictId,
+                        RouteId = routeDistrict.DistrictId
                     };
 
                     db.Trips.Add(trip);

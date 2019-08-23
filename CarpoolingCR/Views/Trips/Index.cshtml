@@ -26,7 +26,7 @@
                     if (!Model.VehicleInfoRegistered)
                     {
                         <small class="pull-right text-warning hidden-xs">¡Información del vehículo requerida!</small>
-                        <small class="text-warning visible-xs"><br/>¡Información del vehículo requerida!</small>
+                        <small class="text-warning visible-xs"><br />¡Información del vehículo requerida!</small>
                     }
                     else
                     {
@@ -65,38 +65,73 @@
                 {
                     var from = trip.FromTown.FullName;
                     var to = trip.ToTown.FullName;
+                    var route = trip.Route;
+
                     var evenOdd = index % 2;
                     var background = (evenOdd == 0) ? "azure" : "white";
 
                     index++;
 
                     <hr />
-                    //find a visual way for this to look good with even odds, leave as white for now
                     <div style="background-color:white">
                         <div class="row form-group">
-                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                <label class="control-label fromto">@from -> @to</label>
-                                <small class="date">@trip.DateTime.ToString("dd/MM/yyyy hh:mm tt")</small>
-                            </div>
-                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                <b>Origen: </b> <small>@from</small><br />
+                                <b>Destino: </b> <small>@to</small><br />
                                 @{
-                                    if (Model.IsAdmin)
+                                    if (route != null)
                                     {
-                                        <small class="price center-block"><b>Conductor:</b></small>
-                                        <div id="profile-container-small" class="" data-toggle="tooltip" title="@trip.ApplicationUser.FullName">
-                                            <img id="profileImage" src="@Url.Content(trip.ApplicationUser.Picture)" /><br />
-                                        </div>
+                                        <b>Ruta: </b><small class="date">Por @route.FullName</small><br />
                                     }
                                 }
                             </div>
-                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
-                                <small class="price"><b>Cuota :</b> ₡ @trip.Price</small>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6">
+                                <b>Salida: </b><small class="date">@trip.DateTime.ToString("dd/MM/yyyy hh:mm tt")</small><br />
+                                <small class="price"><b>Cuota :</b> ₡ @trip.Price</small><br />
+                                <small class="price"><b>Espacios:</b> @trip.AvailableSpaces</small><br /><br />
+                                <input type="button" class="btn btn-danger btn-sm visible-xs" value="Cancelar Viaje" onclick="ConfirmDelete(@trip.TripId, '@from -> @to')" />
                             </div>
-                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
-                                <small class="price"><b>Espacios:</b> @trip.AvailableSpaces</small>
-                                <input type="button" class="btn btn-danger pull-right" value="X" onclick="ConfirmDelete(@trip.TripId, '@from -> @to')" />
+                            <div class="col-lg-2">
+                                <input type="button" class="btn btn-danger btn-sm pull-right hidden-xs" value="Cancelar Viaje" onclick="ConfirmDelete(@trip.TripId, '@from -> @to')" />
                             </div>
                         </div>
+                        @*<div class="row form-group">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-10">
+                                <b>Salida: </b><small class="date">@trip.DateTime.ToString("dd/MM/yyyy hh:mm tt")</small><br />
+                                <small class="price"><b>Cuota :</b> ₡ @trip.Price</small><br />
+                                <small class="price"><b>Espacios:</b> @trip.AvailableSpaces</small>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-2">
+
+                            </div>
+                        </div>*@
+                        @*<div class="row form-group">
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                    <label class="control-label fromto">@from -> @to</label>
+                                    @{
+                                        if (route != null)
+                                        {
+                                            <br /><small class="date">Por @route.FullName</small><br />
+                                        }
+                                    }
+                                    <b>Salida: </b><small class="date">@trip.DateTime.ToString("dd/MM/yyyy hh:mm tt")</small>
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                    @{
+                                        <small class="price center-block"><b>Conductor:</b></small>
+                                        <div id="profile-container-small" data-toggle="tooltip" title="@trip.ApplicationUser.FullName">
+                                            <img id="profileImage" src="@Url.Content(trip.ApplicationUser.Picture)" /><br />
+                                        </div>
+                                    }
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                    <small class="price"><b>Cuota :</b> ₡ @trip.Price</small>
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                    <small class="price"><b>Espacios:</b> @trip.AvailableSpaces</small>
+                                    <input type="button" class="btn btn-danger pull-right" value="X" onclick="ConfirmDelete(@trip.TripId, '@from -> @to')" />
+                                </div>
+                            </div>*@
 
                         @{
                             var totalAmount = 0m;

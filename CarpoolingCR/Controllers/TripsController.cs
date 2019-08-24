@@ -195,7 +195,8 @@ namespace CarpoolingCR.Controllers
                     trips[i].FromTown = db.Districts.Where(x => x.DistrictId == fromId).Single();
                     trips[i].ToTown = db.Districts.Where(x => x.DistrictId == toId).Single();
                     trips[i].DateTime = Common.ConvertToLocalTime(trips[i].DateTime);
-
+                    //picture route is giving problems at json convertion in client side, it's not needed for this functionality though, so set it as empty
+                    trips[i].ApplicationUser.Picture = string.Empty;
                     trips[i].FromTown.County = null;
                     trips[i].ToTown.County = null;
                 }
@@ -425,6 +426,12 @@ namespace CarpoolingCR.Controllers
                     }
 
                     routeDistrict = Common.ValidateDistrictString(Request["Route"]);
+                    int? routeId = null;
+
+                    if(routeDistrict != null)
+                    {
+                        routeId = routeDistrict.DistrictId;
+                    }
 
                     trip = new Trip
                     {
@@ -438,7 +445,7 @@ namespace CarpoolingCR.Controllers
                         Status = Enums.Status.Activo,
                         TotalSpaces = Convert.ToInt32(Request["TotalSpaces"]),
                         ToTownId = toDistrict.DistrictId,
-                        RouteId = routeDistrict.DistrictId
+                        RouteId = routeId
                     };
 
                     db.Trips.Add(trip);

@@ -12,22 +12,13 @@
     <label class="control-label">@ViewBag.Info</label>
 
     <input id="AvailableSpaces" type="hidden" value="" />
-
     <div class="row">
         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-            @Html.ActionLink("<<", "Transportation", "Reservations", new { from = @Model.From, to = @Model.To }, new { @class = "btn btn-primary" })
+            @Html.ActionLink("<<", "Transportation", "Reservations", new { from = "", to = "" }, new { @class = "btn btn-primary" })
         </div>
         <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
-            <label class="control-label" style="text-align:left">Trayecto: </label>
+            <label class="control-label" style="text-align:left">Trayecto: </label> @Model.From -> @Model.To
         </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-        </div>
-        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
-            @Model.From -> @Model.To
-        </div>
-    </div>
     <div class="row">
         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
         </div>
@@ -64,10 +55,24 @@
                     <div class="modal-body">
                         <div class="row form-group">
                             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                                <b>Trayecto</b>
+                                <b>Origen: </b>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                                <small id="modelFrom"></small>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                <b>Destino: </b>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                                <small id="modelTo"></small>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                <b>Ruta: </b>
                             </div>
                             <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
-                                <small id="modelFromTo"></small>
+                                <small id="modelRoute"></small>
                             </div>
                         </div>
                         <div class="row form-group">
@@ -116,8 +121,8 @@
                     </div>
                     <div id="btnsContainer" class="modal-footer">
                         @*<input type="button" onclick="OpenMessageModel()" class="btn btn-default pull-left" value="&#9993;" />*@
-                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar" />
-                        <input id="btnSubmitReservations" type="submit" class="btn btn-primary" value="Reservar" />
+                        <input type="button" class="btn btn-default btn-xs" data-dismiss="modal" value="Cancelar" />
+                        <input id="btnSubmitReservations" type="submit" style="width:150px" class="btn btn-info btn-xs" value="Solicitar Reserva" />
                     </div>
                 </div>
             </div>
@@ -230,17 +235,18 @@
                                                         break;
                 }
 
-                return $(`<tr class="fc-list-item "><td class="fc-list-item-title fc-widget-content"><i class="fas fa-car"></i>  ` + new Date(event.start).toLocaleTimeString() +
+                return $(`<tr class="fc-list-item "><td class="fc-list-item-title fc-widget-content"><div class="panel panel-default" style="border-radius:10px">&emsp;<i class="fas fa-car"></i>  ` + new Date(event.start).toLocaleTimeString() +
                     `<div class="pull-right" id="profile-container-small" data-toggle="tooltip" title="` + event.driver + `"><img id="profileImage" src="` + event.picture + `" /><br /></div>` +
-                    `<br/> <a>&emsp;&emsp;<span class="fc-event-dot" style="background-color:#2792F2"></span> ` + event.from + ` <br/> &emsp;&emsp;<span class="fc-event-dot" style="background-color:#2792F2"></span> ` + event.to +
-                    `<br/> &emsp;&emsp;&emsp;Espacios: ` + event.availableSpaces + ` <br/>&emsp;&emsp;&emsp;Monto: ` + event.price + `</a><div class="pull-right">` + starsStr + `</div></td></tr>`);
+                    `<br/> <a>&emsp;&emsp;<span class="fc-event-dot" style="background-color:#2792F2"></span> <b>Origen: </b> ` + event.from + ` <br/> &emsp;&emsp;<span class="fc-event-dot" style="background-color:#2792F2"></span> <b>Destino: </b>` + event.to +
+                    `<br/>&emsp;&emsp;&emsp;<b>Ruta: </b>` + event.route + `<br/>` +
+                    `<br/> &emsp;&emsp;&emsp;Espacios: ` + event.availableSpaces + ` <br/>&emsp;&emsp;&emsp;Monto: ` + event.price + `</a><div class="pull-right">` + starsStr + `</div><div></td></tr>`);
             },
             allDaySlot: false,
             contentHeight: "auto",
             eventTextColor: 'black',
             views: {
                 timelineDay: {
-                    selectable: true
+                    selectable: false
                 }
             },
             events: [],
@@ -252,7 +258,9 @@
 
                 $("#dialog").dialog("open");
                 $('#ui-id-1').html("Reserva tu viaje");
-                $('#modelFromTo').html(calEvent.fromto);
+                $('#modelFrom').html(calEvent.from);
+                $('#modelTo').html(calEvent.to);
+                $('#modelRoute').html(calEvent.route);
                 $('#modelDate').html(crStr);
                 $('#ReservationDate').val(date.getFullYear() + "/" + (date.getMonth() + 1) + "/" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds());
                 $('#DriverId').val(calEvent.driverId);
@@ -269,11 +277,11 @@
                 var reservationAlreadyExistent = ExistReservationToTrip(calEvent.id)
 
                 if (reservationAlreadyExistent) {
-                    $('#btnsContainer').html('<small class="pull-left text-warning">¡Ya tiene una reservación activa para este viaje!</small><button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button><button type="button" disabled class="btn btn-primary">Reservar</button>');
+                    $('#btnsContainer').html('<small class="pull-left text-warning">¡Ya tiene una reservación activa para este viaje!</small><button type="button" class="btn btn-default btn-xs" data-dismiss="modal" style="width:150px">Cancelar</button><button type="button" style="width:150px" disabled class="btn btn-info btn-xs">Solicitar Reserva</button>');
                 } else {
                     $('#msgTextModal').val('')
                         //< input type = "button" onclick = "OpenMessageModel()" class="btn btn-default pull-left" value = "&#128386;" />
-                    $('#btnsContainer').html('<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar"/><input id="btnSubmitReservations" type="submit" class="btn btn-primary" value="Reservar" />');
+                    $('#btnsContainer').html('<input type="button" class="btn btn-default btn-xs" data-dismiss="modal" value="Cancelar" style="width:150px"/><input id="btnSubmitReservations" type="submit" class="btn btn-info btn-xs" style="width:150px" value="Solicitar Reserva" />');
                 }
 
                 $("#dayTripModal").modal();
@@ -294,6 +302,11 @@
             var to = arrayOfTrips[i].ToTown.FullName;
             var picture = arrayOfTrips[i].ApplicationUser.Picture;
             var stars = arrayOfTrips[i].ApplicationUser.Stars;
+            var route = 'No especificada'
+
+            if (arrayOfTrips[i].Route != null) {
+                route = arrayOfTrips[i].Route.FullName;
+            }
 
             var startDate = new Date(dateTime);
             //enddate is 30 mins more than startdate, getTime is in milliseconds so 30 mins will be 30*60*100 = 1,800,000 millisecods
@@ -313,6 +326,7 @@
                 color: '#2792F2',
                 from: from,
                 to: to,
+                route: route,
                 fromto: from + ' -> ' + to,
                 driverId: driverId,
                 driver: driver,

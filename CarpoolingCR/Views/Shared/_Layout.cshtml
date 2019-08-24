@@ -29,6 +29,8 @@
     <link rel="manifest" href="~/manifest.txt" crossorigin="anonymous">
     <meta name="theme-color" content="#2196f3" />
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <script type="text/javascript" src="~/Scripts/jQuery-Mask-Plugin-master/src/jquery.mask.js"></script>
     <script src="~/Scripts/List.js"></script>
     <script src="~/Scripts/messages.js"></script>
@@ -435,8 +437,13 @@
             return Math.floor(Math.random() * top)
         }
 
-        $('.btnLink').click(function () {
-            $(this).html('<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>Procesando...').addClass('disabled');
+        //$('.btnLink').click(function () {
+        //    $(this).html('<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>Procesando...').addClass('disabled');
+        //});
+
+        $('.custom-spin-button').on('click', function () {
+            var $this = $(this);
+            $this.button('loading');
         });
     </script>
 

@@ -242,13 +242,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201908222212451_Initial.cs" />
-    <Compile Include="Migrations\201908222212451_Initial.Designer.cs">
-      <DependentUpon>201908222212451_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201908231634302_Added route to trip.cs" />
-    <Compile Include="Migrations\201908231634302_Added route to trip.Designer.cs">
-      <DependentUpon>201908231634302_Added route to trip.cs</DependentUpon>
+    <Compile Include="Migrations\201908241311385_latest changes.cs" />
+    <Compile Include="Migrations\201908241311385_latest changes.Designer.cs">
+      <DependentUpon>201908241311385_latest changes.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -840,11 +836,8 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201908222212451_Initial.resx">
-      <DependentUpon>201908222212451_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201908231634302_Added route to trip.resx">
-      <DependentUpon>201908231634302_Added route to trip.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201908241311385_latest changes.resx">
+      <DependentUpon>201908241311385_latest changes.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

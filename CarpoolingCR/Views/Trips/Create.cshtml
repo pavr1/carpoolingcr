@@ -7,8 +7,9 @@
 <h2>Viajes</h2>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Create", "Trips", FormMethod.Post, new { id = "createtripform" }))
 {
     <input type="hidden" id="hiddenOption1" />
     <input type="hidden" id="hiddenOption2" />
@@ -73,7 +74,6 @@
             <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
                 <input id="DateTimeDisplay" name="DateTimeDisplay" autocomplete="off" class="form-control" type="text" onfocus="blur();">
                 <input type="text" id="DateTime" name="DateTime" class="hidden" />
-                @Html.ValidationMessageFor(model => model.Trip.DateTime, "", new { @class = "text-danger col-lg-10 col-md-10 col-sm-12 col-xs-12" })
             </div>
         </div>
 
@@ -103,7 +103,6 @@
             </div>
             <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
                 @Html.EditorFor(model => model.Trip.Price, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Trip.Price, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -113,7 +112,6 @@
             </div>
             <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
                 @Html.EditorFor(model => model.Trip.Details, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Trip.Details, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -121,7 +119,6 @@
             @Html.LabelFor(model => model.Trip.Status, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EnumDropDownListFor(model => model.Trip.Status, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Trip.Status, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -129,7 +126,8 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                @Html.ActionLink("<<", "Index", new { }, new { @class = "btn btn-primary" }) <input type="submit" onclick="return SetDateTimeFormats()" value="Crear" class="btn btn-info pull-right" />
+                @Html.ActionLink("<<", "Index", new { }, new { @class = "btn btn-primary" })
+                <button type="submit" id="btn-create-trip" onclick="return SetDateTimeFormats()" class="btn btn-info btn-sm btn-block pull-right" data-loading-text="<i class='fa fa-circle-o-notch fa-spin pull-right'></i> Crear" style="width:150px; border-radius:25px">Crear</button>
             </div>
         </div>
     </div>
@@ -140,8 +138,24 @@
 }
 
 <script>
-    $('#FromTown').editableSelect();
-    $('#ToTown').editableSelect();
+    $('#FromTown')
+        .editableSelect()
+        .on('select.editable-select', function (e, li) {
+            $('#last-selected').html(
+                $('#fromDistrictId').val(li.val())
+            );
+        });
+    $('#FromTown').keyup(function () {
+        alert('1');
+        $('#fromDistrictId').val('');
+    });
+    $('#ToTown')
+        .editableSelect()
+        .on('select.editable-select', function (e, li) {
+            $('#last-selected').html(
+                $('#toDistrictId').val(li.val())
+            );
+        });
     $('#Route').editableSelect();
 
     LoadRouteOptions();
@@ -175,7 +189,7 @@
                 $('#AvailableSpaces').val($('#TotalSpaces').val());
             }
         }
-    }).val(1);
+    }).val(@Model.Vehicle.Spaces - 1);
 
     //$("#radioset").buttonset();
 
@@ -211,5 +225,36 @@
         var result = new Date(date);
         result.setDate(result.getDate() + days);
         return result;
+    }
+
+    $('#createtripform').submit(function () {
+        var exists = false;
+
+        if ($('#fromDistrictId').val() == '') {
+            //¡Origen Inválido!
+            DisplayGrowlMessage('10005', 'warn');
+            return false;
+        } 
+
+        if ($('#toDistrictId').val() == '') {
+            //¡Destino Inválido!
+            DisplayGrowlMessage('10006', 'warn');
+            return false;
         }
+
+        if ($('#DateTime').val() == '') {
+            //¡Fecha inválida!
+            DisplayGrowlMessage('100037', 'warn');
+            return false;
+        }
+        if ($('#Trip.Price').val() == '') {
+            //¡Cuota Requerida!
+            DisplayGrowlMessage('100038', 'warn');
+            return false;
+        }
+
+        $('#btn-create-trip').button('loading');
+
+        return true;
+    });
 </script>

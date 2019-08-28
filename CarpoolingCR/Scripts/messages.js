@@ -8,9 +8,9 @@
     } else if (code === "10004") {
         return "¡La localidad ya existe!";
     } else if (code === "10005") {
-        return "¡Origen no válido!";
+        return "¡Origen Inválido!";
     } else if (code === "10006") {
-        return "¡Destino no válido!";
+        return "¡Destino Inválido!";
     } else if (code === "10007") {
         return "¡Viaje Creado!";
     } else if (code === "10008") {
@@ -22,7 +22,7 @@
     } else if (code === "100011") {
         return "¡Perfíl Actualizado!";
     } else if (code === "100012") {
-        return "¡Origen no válido!";
+        return "¡Origen Requerido!";
     } else if (code === "100013") {
         return "¡Destino no válido!";
     } else if (code === "100014") {
@@ -71,12 +71,12 @@
         return "Placa Vehículo Requerida!";
     } else if (code === "100035") {
         return "¡Capacidad Vehiculo Requerida!";
-    } else if (code === "xxxxxxxxx") {
-        return "zzzzzzzzzzzzzzzzzzzzzz";
-    } else if (code === "xxxxxxxxx") {
-        return "zzzzzzzzzzzzzzzzzzzzzz";
-    } else if (code === "xxxxxxxxx") {
-        return "zzzzzzzzzzzzzzzzzzzzzz";
+    } else if (code === "100036") {
+        return "¡Destino Requerido!";
+    } else if (code === "100037") {
+        return "¡Fecha inválida!";
+    } else if (code === "100038") {
+        return "¡Cuota Requerida!";
     } else if (code === "xxxxxxxxx") {
         return "zzzzzzzzzzzzzzzzzzzzzz";
     } else if (code === "xxxxxxxxx") {

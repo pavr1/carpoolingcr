@@ -1,6 +1,6 @@
 ﻿@model CarpoolingCR.Objects.Responses.ReservationTransportationResponse
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+@*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">*@
 <style>
     .checked {
         color: orange;
@@ -138,7 +138,7 @@
                                     @{
                                         if (item.Status != CarpoolingCR.Utils.Enums.ReservationStatus.Cancelled)
                                         {
-                                            <input type="button" class="btn btn-danger btn-xs pull-right" value="Cancelar" style="border-radius:25px" onclick="ConfirmAction(@item.ReservationId, '@CarpoolingCR.Utils.Enums.ReservationStatus.Cancelled','cancelar esta reservación','Reservaciones', 'Cancelar', 'btn-danger', 'passenger')" />
+                                            <input type="button" class="btn btn-danger btn-xs" value="Cancelar Reservación" style="border-radius:25px" onclick="ConfirmAction(@item.ReservationId, '@CarpoolingCR.Utils.Enums.ReservationStatus.Cancelled','cancelar esta reservación','Reservaciones', 'Cancelar', 'btn-danger', 'passenger')" />
                                         }
                                     }
                                 </div>

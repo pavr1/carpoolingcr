@@ -238,7 +238,7 @@ namespace CarpoolingCR.Controllers
                         DriverTrips = driverTrips,
                         Towns = Common.GetLocationsStrings(user.CountryId),
                         //¡Origen no válido!
-                        Message = "100012"
+                        Message = "10005"
                     };
 
                     response.Html = Serializer.RenderViewToString(this.ControllerContext, "Partials/_RequestJourney", response);

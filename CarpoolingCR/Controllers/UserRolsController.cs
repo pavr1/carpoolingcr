@@ -2,7 +2,9 @@
 using CarpoolingCR.Utils;
 using System;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace CarpoolingCR.Controllers
 {
@@ -19,7 +21,7 @@ namespace CarpoolingCR.Controllers
                     return RedirectToAction("Login", "Account");
                 }
 
-                var user = db.Users.Where(x => x.Email == User.Identity.Name).Single();
+                var user = db.Users.Where(x => x.Email == User.Identity.Name).SingleOrDefault();
 
                 if (user != null)
                 {
@@ -32,6 +34,14 @@ namespace CarpoolingCR.Controllers
                         case Enums.UserType.Pasajero:
                             return RedirectToAction("PassengerIndex", "UserRols");
                     }
+                }
+                else
+                {
+                    //if could not retrieve user from db, then kill session and return to login
+                    var AuthenticationManager = HttpContext.GetOwinContext().Authentication;
+                    AuthenticationManager.SignOut();
+
+                    return RedirectToAction("Login", "Account");
                 }
 
                 return RedirectToAction("AdminIndex", "UserRols");

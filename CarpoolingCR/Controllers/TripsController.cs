@@ -365,13 +365,15 @@ namespace CarpoolingCR.Controllers
         {
             var fields = "Fields => ";
 
+            if (!Common.IsAuthorized(User))
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            var user = Common.GetUserByEmail(User.Identity.Name);
+
             try
             {
-                if (!Common.IsAuthorized(User))
-                {
-                    return RedirectToAction("Login", "Account");
-                }
-
                 #region Fields
                 fields += "FromTown: " + Request["FromTown"];
                 fields += "ToTown: " + Request["ToTown"] + ", ";
@@ -388,9 +390,7 @@ namespace CarpoolingCR.Controllers
                     var fromDistrict = new District();
                     var toDistrict = new District();
                     var routeDistrict = new District();
-
-                    var user = Common.GetUserByEmail(User.Identity.Name);
-
+                    
                     var tripDate = Convert.ToDateTime(Request["DateTime"]);
                     fromDistrict = Common.ValidateDistrictString(Request["FromTown"]);
 
@@ -429,12 +429,24 @@ namespace CarpoolingCR.Controllers
                     }
 
                     routeDistrict = Common.ValidateDistrictString(Request["Route"]);
-                    int? routeId = null;
 
-                    if(routeDistrict != null)
+                    if (routeDistrict == null)
                     {
-                        routeId = routeDistrict.DistrictId;
+                        //¡Destino no válido!
+                        ViewBag.Warning = "10006";
+
+                        var response = new TripCreateResponse
+                        {
+                            Towns = Common.GetLocationsStrings(user.CountryId),
+                            Trip = trip,
+                            Vehicle = user.Vehicle,
+                            CountryName = user.Country.Name
+                        };
+
+                        return View(response);
                     }
+
+                    int routeId = routeDistrict.DistrictId;
 
                     trip = new Trip
                     {
@@ -454,13 +466,14 @@ namespace CarpoolingCR.Controllers
                     db.Trips.Add(trip);
                     db.SaveChanges();
 
-                    trip.FromTown = db.Districts.Where(x => x.DistrictId == trip.FromTownId).Single();
-                    trip.ToTown = db.Districts.Where(x => x.DistrictId == trip.ToTownId).Single();
+                    trip.FromTown = fromDistrict;
+                    trip.ToTown = toDistrict;
+                    trip.Route = routeDistrict;
 
-                    var tripInfo = trip.FromTown.FullName + " a " + trip.ToTown.FullName + " el " + Common.ConvertToLocalTime(trip.DateTime).ToString("dd/MM/yyyy hh:mm:ss tt");
-                    var callbackUrl = Url.Action("Transportation", "Reservations", new { from = trip.FromTown, to = trip.ToTown }, protocol: Request.Url.Scheme);
+                    var callbackUrl = Url.Action("Transportation", "Reservations", new { from = trip.FromTown.FullName, to = trip.ToTown.FullName }, protocol: Request.Url.Scheme);
 
-                    EmailHandler.SendEmailTripCreation(WebConfigurationManager.AppSettings["AdminEmails"], user.FullName, tripInfo, trip.AvailableSpaces, callbackUrl);
+                    FacebookHandler.PublishFacebookPost(trip.FromTown.FullName, trip.ToTown.FullName, trip.Route.Name, trip.DateTime, user.Country.CurrencyChar, trip.Price, trip.AvailableSpaces, callbackUrl);
+                    //EmailHandler.SendEmailTripCreation(WebConfigurationManager.AppSettings["AdminEmails"], user.FullName, tripInfo, trip.AvailableSpaces, callbackUrl);
 
                     new SignalHandler().SendMessage(Enums.EventTriggered.TripCreated.ToString(), "");
 
@@ -485,9 +498,17 @@ namespace CarpoolingCR.Controllers
                     Fields = fields
                 });
 
+                var response = new TripCreateResponse
+                {
+                    Towns = Common.GetLocationsStrings(user.CountryId),
+                    Trip = trip,
+                    Vehicle = user.Vehicle,
+                    CountryName = user.Country.Name
+                };
+
                 ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
-                return View();
+                return View(response);
             }
         }
 

@@ -18,10 +18,13 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
-    <IISExpressSSLPort>443</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
+    <IISExpressSSLPort>44346</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication>
+    </IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>
+    </IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>
+    </IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -242,9 +245,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201908290338533_updates.cs" />
-    <Compile Include="Migrations\201908290338533_updates.Designer.cs">
-      <DependentUpon>201908290338533_updates.cs</DependentUpon>
+    <Compile Include="Migrations\201908291656383_set trip.route int.cs" />
+    <Compile Include="Migrations\201908291656383_set trip.route int.Designer.cs">
+      <DependentUpon>201908291656383_set trip.route int.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -310,6 +313,7 @@
     <Compile Include="Utils\Common.cs" />
     <Compile Include="Utils\EmailHandler.cs" />
     <Compile Include="Utils\Enums.cs" />
+    <Compile Include="Utils\FacebookHandler.cs" />
     <Compile Include="Utils\Serializer.cs" />
     <Compile Include="Utils\SignalHandler.cs" />
     <Compile Include="Utils\Whatsapp.cs" />
@@ -836,8 +840,8 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201908290338533_updates.resx">
-      <DependentUpon>201908290338533_updates.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201908291656383_set trip.route int.resx">
+      <DependentUpon>201908291656383_set trip.route int.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

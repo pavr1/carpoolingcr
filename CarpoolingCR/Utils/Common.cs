@@ -321,30 +321,5 @@ namespace CarpoolingCR.Utils
                     .ToList();
             }
         }
-
-        private readonly string FB_PAGE_ID = "387202725206585";
-        private readonly string FB_ACCESS_TOKEN = "EAAI1cyWWu3MBAMCvFFGp0O1iV6ZCryZBxSukyzMZCmhzHjEjRCTOjouVnDZBXcRXibw5bZCEfn96gOtpz2f5pgZA8DdSVlIbXdspEzkIZBQVA2VPMZCYxVRzivNtjvNM7Bdfwe0BetoRoDqvg3UVHXZBXOW8KsD6v8z3818EQ02QZBToyRIBj8cVlB";
-        private const string FB_BASE_ADDRESS = "https://graph.facebook.com/";
-
-        public async Task<string> PublishMessage(string message)
-        {
-            using (var httpClient = new HttpClient())
-            {
-                httpClient.BaseAddress = new Uri(FB_BASE_ADDRESS);
-
-                var parametters = new Dictionary<string, string>
-                {
-                    { "access_token", FB_ACCESS_TOKEN },
-                    { "message", message }
-                };
-                var encodedContent = new FormUrlEncodedContent(parametters);
-
-                var result = await httpClient.PostAsync($"{FB_PAGE_ID}/feed", encodedContent);
-                var msg = result.EnsureSuccessStatusCode();
-                return await msg.Content.ReadAsStringAsync();
-            }
-
-        }
-
     }
 }

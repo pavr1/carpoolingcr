@@ -145,6 +145,7 @@ namespace CarpoolingCR.Utils
             });
         }
 
+        [Obsolete]
         public static void SendEmailTripCreation(string email, string driverName, string tripInfo, int availableSpaces, string callback)
         {
             var html = "<html><header></header><body>El conductor " + driverName + " ha creado un viaje de " + tripInfo + " con " + availableSpaces + " espacios disponibles.";

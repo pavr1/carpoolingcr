@@ -407,9 +407,15 @@
 
         if (hrs > 1) {
             hStr = 'horas';
-        }
 
-        return hrs + ' ' + hStr + ', ' + min + ' ' + mStr;
+            return hrs + ' ' + hStr + ', ' + min + ' ' + mStr;
+        } else {
+            if (hrs == 1) {
+                return hrs + ' ' + hStr + ', ' + min + ' ' + mStr;
+            } else {
+                return min + ' ' + mStr;
+            }
+        }
     }
 </script>
 

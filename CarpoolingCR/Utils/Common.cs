@@ -7,8 +7,10 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Security.Principal;
+using System.Threading.Tasks;
 using static CarpoolingCR.Utils.Enums;
 
 namespace CarpoolingCR.Utils
@@ -176,7 +178,7 @@ namespace CarpoolingCR.Utils
         {
             var split = data.Replace("🖣 ", string.Empty).Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
 
-            if(split.Length < 2)
+            if (split.Length < 2)
             {
                 return null;
             }
@@ -221,7 +223,7 @@ namespace CarpoolingCR.Utils
                     .Include(x => x.Country)
                     .SingleOrDefault();
 
-                if(user != null)
+                if (user != null)
                 {
                     user.Vehicle = db.Vehicles.Where(x => x.ApplicationUserId == user.Id).SingleOrDefault();
                 }
@@ -319,5 +321,30 @@ namespace CarpoolingCR.Utils
                     .ToList();
             }
         }
+
+        private readonly string FB_PAGE_ID = "387202725206585";
+        private readonly string FB_ACCESS_TOKEN = "EAAI1cyWWu3MBAMCvFFGp0O1iV6ZCryZBxSukyzMZCmhzHjEjRCTOjouVnDZBXcRXibw5bZCEfn96gOtpz2f5pgZA8DdSVlIbXdspEzkIZBQVA2VPMZCYxVRzivNtjvNM7Bdfwe0BetoRoDqvg3UVHXZBXOW8KsD6v8z3818EQ02QZBToyRIBj8cVlB";
+        private const string FB_BASE_ADDRESS = "https://graph.facebook.com/";
+
+        public async Task<string> PublishMessage(string message)
+        {
+            using (var httpClient = new HttpClient())
+            {
+                httpClient.BaseAddress = new Uri(FB_BASE_ADDRESS);
+
+                var parametters = new Dictionary<string, string>
+                {
+                    { "access_token", FB_ACCESS_TOKEN },
+                    { "message", message }
+                };
+                var encodedContent = new FormUrlEncodedContent(parametters);
+
+                var result = await httpClient.PostAsync($"{FB_PAGE_ID}/feed", encodedContent);
+                var msg = result.EnsureSuccessStatusCode();
+                return await msg.Content.ReadAsStringAsync();
+            }
+
+        }
+
     }
 }

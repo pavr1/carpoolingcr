@@ -331,7 +331,8 @@ namespace CarpoolingCR.Controllers
                 var response = new TripCreateResponse
                 {
                     Towns = Common.GetLocationsStrings(user.CountryId),
-                    Vehicle = user.Vehicle
+                    Vehicle = user.Vehicle,
+                    CountryName = user.Country.Name
                 };
 
                 return View(response);
@@ -402,7 +403,8 @@ namespace CarpoolingCR.Controllers
                         {
                             Towns = Common.GetLocationsStrings(user.CountryId),
                             Trip = trip,
-                            Vehicle = user.Vehicle
+                            Vehicle = user.Vehicle,
+                            CountryName = user.Country.Name
                         };
 
                         return View(response);
@@ -419,7 +421,8 @@ namespace CarpoolingCR.Controllers
                         {
                             Towns = Common.GetLocationsStrings(user.CountryId),
                             Trip = trip,
-                            Vehicle = user.Vehicle
+                            Vehicle = user.Vehicle,
+                            CountryName = user.Country.Name
                         };
 
                         return View(response);

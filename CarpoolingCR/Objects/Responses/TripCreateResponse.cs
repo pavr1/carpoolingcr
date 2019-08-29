@@ -12,5 +12,6 @@ namespace CarpoolingCR.Objects.Responses
         public List<LocationsResponse> Towns { get; set; }
         public Trip Trip { get; set; }
         public Vehicle Vehicle{ get; set; }
+        public string CountryName { get; set; }
     }
 }

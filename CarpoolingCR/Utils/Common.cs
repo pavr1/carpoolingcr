@@ -217,7 +217,9 @@ namespace CarpoolingCR.Utils
         {
             using (var db = new ApplicationDbContext())
             {
-                var user = db.Users.Where(x => x.Email == email).SingleOrDefault();
+                var user = db.Users.Where(x => x.Email == email)
+                    .Include(x => x.Country)
+                    .SingleOrDefault();
 
                 if(user != null)
                 {

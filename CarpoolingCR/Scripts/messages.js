@@ -77,8 +77,8 @@
         return "¡Fecha inválida!";
     } else if (code === "100038") {
         return "¡Cuota Requerida!";
-    } else if (code === "xxxxxxxxx") {
-        return "zzzzzzzzzzzzzzzzzzzzzz";
+    } else if (code === "100039") {
+        return "¡Ruta inválida!";
     } else if (code === "xxxxxxxxx") {
         return "zzzzzzzzzzzzzzzzzzzzzz";
     } else if (code === "xxxxxxxxx") {

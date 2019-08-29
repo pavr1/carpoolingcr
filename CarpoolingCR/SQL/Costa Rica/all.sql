@@ -454,7 +454,7 @@ INSERT INTO [dbo].[Districts]([Name],[CountyId]) VALUES ('La Ceiba', @CountyId)
 set @CountyName = 'San Carlos'
 select @CountyId = CountyId from Counties where name = @CountyName
 
-INSERT INTO [dbo].[Districts]([Name],[CountyId]) VALUES ('Quesada', @CountyId)
+INSERT INTO [dbo].[Districts]([Name],[CountyId]) VALUES ('Ciudad Quesada', @CountyId)
 INSERT INTO [dbo].[Districts]([Name],[CountyId]) VALUES ('Florencia', @CountyId)
 INSERT INTO [dbo].[Districts]([Name],[CountyId]) VALUES ('Buenavista', @CountyId)
 INSERT INTO [dbo].[Districts]([Name],[CountyId]) VALUES ('Aguas Zarcas', @CountyId)

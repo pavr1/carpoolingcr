@@ -28,29 +28,52 @@ namespace CarpoolingCR.Utils
 
             using (var db = new ApplicationDbContext())
             {
-                var provinces = db.Provinces.ToList();
+                var provinces = db.Provinces
+                    .Select(x => x.ProvinceId)
+                    .ToList();
 
-                foreach (var province in provinces)
-                {
-                    var counties = db.Counties.Where(x => x.ProvinceId == province.ProvinceId).ToList();
+                var counties = db.Counties.Where(x => provinces.Contains(x.ProvinceId))
+                        .Select(x => x.CountyId)
+                        .ToList();
 
-                    foreach (var county in counties)
+                var districts = db.Districts
+                    .Join(db.Counties, d => d.CountyId, co => co.CountyId, (d, co) => new { d, co })
+                    .Where(x => counties.Contains(x.d.CountyId))
+                    .Select(m => new LocationsResponse
                     {
-                        var districts = db.Districts.Where(x => x.CountyId == county.CountyId).ToList();
+                        DistrictId = m.d.DistrictId,
+                        Display = m.co.Name + " " + m.d.Name
+                    })
+                    .ToList();
 
-                        foreach (var district in districts)
-                        {
-                            var location = GetLocationName(district.DistrictId);
-
-                            list.Add(new LocationsResponse
-                            {
-                                DistrictId = district.DistrictId,
-                                Display = location
-                            });
-                        }
-                    }
-                }
+                list.AddRange(districts);
             }
+
+            //using (var db = new ApplicationDbContext())
+            //{
+            //    var provinces = db.Provinces.ToList();
+
+            //    foreach (var province in provinces)
+            //    {
+            //        var counties = db.Counties.Where(x => x.ProvinceId == province.ProvinceId).ToList();
+
+            //        foreach (var county in counties)
+            //        {
+            //            var districts = db.Districts.Where(x => x.CountyId == county.CountyId).ToList();
+
+            //            foreach (var district in districts)
+            //            {
+            //                var location = GetLocationName(district.DistrictId);
+
+            //                list.Add(new LocationsResponse
+            //                {
+            //                    DistrictId = district.DistrictId,
+            //                    Display = location
+            //                });
+            //            }
+            //        }
+            //    }
+            //}
 
             return list;
         }

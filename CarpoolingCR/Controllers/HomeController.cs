@@ -16,7 +16,12 @@ namespace CarpoolingCR.Controllers
 
             if (!Common.IsAuthorized(User))
             {
-                EmailHandler.HomePageHit();
+                var send = Convert.ToBoolean(WebConfigurationManager.AppSettings["SendHomePageHitNotification"]);
+
+                if (send)
+                {
+                    EmailHandler.HomePageHit();
+                }
             }
 
             return View();

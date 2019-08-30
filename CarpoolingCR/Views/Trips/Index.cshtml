@@ -86,12 +86,12 @@
                             <b>Salida: </b><small class="date">@trip.DateTime.ToString("dd/MM/yyyy hh:mm tt")</small><br />
                         </div>
                         <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6">
-                            <input type="button" class="btn btn-danger btn-xs visible-xs" style="width:150px" value="Cancelar Viaje" onclick="ConfirmDelete(@trip.TripId, '@from -> @to')" /><br />
+                            <input type="button" class="btn btn-danger btn-sm visible-xs" style="width:150px" value="Cancelar Viaje" onclick="ConfirmDelete(@trip.TripId, '@from -> @to')" /><br />
                             <small class="price"><b>Cuota :</b> ₡ @trip.Price</small><br />
                             <small class="spaces"><b>Espacios:</b> @trip.AvailableSpaces</small><br /><br />
                         </div>
                         <div class="col-lg-2">
-                            <input type="button" class="btn btn-danger btn-xs hidden-xs pull-right" style="width:150px" value="Cancelar Viaje" onclick="ConfirmDelete(@trip.TripId, '@from -> @to')" /><br />
+                            <input type="button" class="btn btn-danger btn-sm hidden-xs pull-right" style="width:150px" value="Cancelar Viaje" onclick="ConfirmDelete(@trip.TripId, '@from -> @to')" /><br />
                         </div>
                     </div>
                     @{
@@ -203,12 +203,12 @@
                                             if (reservation.Status == CarpoolingCR.Utils.Enums.ReservationStatus.Pending)
                                             {
                                                 @*<input type="button" class="btn btn-info" value="Chat" onclick="OpenChat(@reservation.ReservationId)" />*@
-                                                <input type="button" class="btn btn-info btn-xs" value="Aceptar" onclick="ConfirmAction(@reservation.ReservationId, 'Accepted', '¡Confirme que desea confirmar esta reservación!', 'Reservaciones', 'Confirmar', 'btn-info', 'driver')" />
-                                                <input type="button" class="btn btn-danger btn-xs" value="Rechazar" onclick="ConfirmAction(@reservation.ReservationId, 'Rejected', '¡Confirme que desea rechazar esta reservación!', 'Reservaciones', 'Rechazar', 'btn-danger', 'driver')" />
+                                                <input type="button" class="btn btn-info btn-sm" value="Aceptar" onclick="ConfirmAction(@reservation.ReservationId, 'Accepted', '¡Confirme que desea confirmar esta reservación!', 'Reservaciones', 'Confirmar', 'btn-info', 'driver')" />
+                                                <input type="button" class="btn btn-danger btn-sm" value="Rechazar" onclick="ConfirmAction(@reservation.ReservationId, 'Rejected', '¡Confirme que desea rechazar esta reservación!', 'Reservaciones', 'Rechazar', 'btn-danger', 'driver')" />
                                             }
                                             else
                                             {
-                                                <input type="button" class="btn btn-danger btn-xs pull-right" value="Cancelar" onclick="ConfirmAction(@reservation.ReservationId, 'Cancelled', '¡Confirme que desea cancelar esta reservación!', 'Reservaciones', 'Cancelar', 'btn-danger', 'driver')" />
+                                                <input type="button" class="btn btn-danger btn-sm pull-right" value="Cancelar" onclick="ConfirmAction(@reservation.ReservationId, 'Cancelled', '¡Confirme que desea cancelar esta reservación!', 'Reservaciones', 'Cancelar', 'btn-danger', 'driver')" />
                                             }
                                         }
                                     </div>
@@ -263,8 +263,8 @@
                         <input type="text" id="cancelledFrom" name="cancelledFrom" class="hidden" />
                         <small id="confirmText">CONFIRMATION TITLE?</small>
                         <div class="modal-footer">
-                            <input type="button" class="btn btn-default btn-xs" style="width:150px" data-dismiss="modal" value="Salir" />
-                            <input type="submit" id="modalButton" style="width:150px" class="btn btn-danger btn-xs" value="" />
+                            <input type="button" class="btn btn-default btn-sm" style="width:150px" data-dismiss="modal" value="Salir" />
+                            <input type="submit" id="modalButton" style="width:150px" class="btn btn-danger btn-sm" value="" />
                         </div>
                     </div>
                 </div>
@@ -289,8 +289,8 @@
                         <input type="text" id="tripId" name="tripId" class="hidden" />
                         <p id="deleteText">Está seguro que desea eliminar xxxxx?</p>
                         <div class="modal-footer">
-                            <input type="button" class="btn btn-default btn-xs" style="width:150px" data-dismiss="modal" value="Cancelar">
-                            <input type="submit" class="btn btn-danger btn-xs" style="width:150px" value="Eliminar">
+                            <input type="button" class="btn btn-default btn-sm" style="width:150px" data-dismiss="modal" value="Cancelar">
+                            <input type="submit" class="btn btn-danger btn-sm" style="width:150px" value="Eliminar">
                         </div>
                     </div>
                 </div>

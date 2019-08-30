@@ -4,6 +4,13 @@ declare @countryId  int
 SET @countryName = 'Costa Rica'
 SELECT @countryId = CountryId  from Countries WHERE Name = @countryName
 
+IF(@countryId IS NULL)
+BEGIN
+	INSERT INTO COUNTRIES(NAME, STATUS, COUNTRYCODE, CURRENCYCHAR) VALUES ('Costa Rica', 0, '+506', '¢')
+
+	SELECT @countryId = CountryId  from Countries WHERE Name = @countryName
+END
+
 INSERT INTO [dbo].[Provinces]([Name],[CountryId]) VALUES ('San José',@countryId  )
 INSERT INTO [dbo].[Provinces]([Name],[CountryId]) VALUES ('Alajuela',@countryId  )
 INSERT INTO [dbo].[Provinces]([Name],[CountryId]) VALUES ('Heredia',@countryId  )

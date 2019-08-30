@@ -472,7 +472,13 @@ namespace CarpoolingCR.Controllers
 
                     var callbackUrl = Url.Action("Transportation", "Reservations", new { from = trip.FromTown.FullName, to = trip.ToTown.FullName }, protocol: Request.Url.Scheme);
 
-                    FacebookHandler.PublishFacebookPost(trip.FromTown.FullName, trip.ToTown.FullName, trip.Route.Name, trip.DateTime, user.Country.CurrencyChar, trip.Price, trip.AvailableSpaces, callbackUrl);
+                    var send = Convert.ToBoolean(WebConfigurationManager.AppSettings["SendNotificationsToAdmin"]);
+
+                    if (send)
+                    {
+                        FacebookHandler.PublishFacebookPost(trip.FromTown.FullName, trip.ToTown.FullName, trip.Route.Name, trip.DateTime, user.Country.CurrencyChar, trip.Price, trip.AvailableSpaces, callbackUrl);
+                    }
+
                     //EmailHandler.SendEmailTripCreation(WebConfigurationManager.AppSettings["AdminEmails"], user.FullName, tripInfo, trip.AvailableSpaces, callbackUrl);
 
                     new SignalHandler().SendMessage(Enums.EventTriggered.TripCreated.ToString(), "");

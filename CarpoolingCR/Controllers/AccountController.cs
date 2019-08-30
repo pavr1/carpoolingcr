@@ -356,7 +356,12 @@ namespace CarpoolingCR.Controllers
 
                                 callbackUrl = Url.Action("EditUser", "Account", new { id = user.Id, }, protocol: Request.Url.Scheme);
 
-                                EmailHandler.SendEmailNewUserRegistered(user, callbackUrl);
+                                var send = Convert.ToBoolean(WebConfigurationManager.AppSettings["SendNotificationsToAdmin"]);
+
+                                if (send)
+                                {
+                                    EmailHandler.SendEmailNewUserRegistered(user, callbackUrl);
+                                }
                             }
                             catch (Exception ex)
                             {

@@ -42,7 +42,7 @@ namespace CarpoolingCR.Utils
                     .Select(m => new LocationsResponse
                     {
                         DistrictId = m.d.DistrictId,
-                        Display = m.co.Name + " " + m.d.Name
+                        Display = m.co.Name + ", " + m.d.Name
                     })
                     .ToList();
 

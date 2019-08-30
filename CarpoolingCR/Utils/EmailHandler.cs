@@ -27,7 +27,7 @@ namespace CarpoolingCR.Utils
         {
             callbackUrl = callbackUrl.Replace("http://", "https://");
 
-            var userInfo = "Nombre: " + user.Name + " " + user.LastName + " " + user.SecondLastName + "<br/>Correo: " + user.Email + "<br/>Contacto: " + user.Phone1 + " - " + user.Phone2;
+            var userInfo = "<br/>Nombre: " + user.Name + " " + user.LastName + " " + user.SecondLastName + "<br/>Correo: " + user.Email + "<br/>Contacto: " + user.Phone1 + " - " + user.Phone2;
 
 
             var html = "<html><header></header><body>Un nuevo " + user.UserType.ToString() + " ha sido registrado en el sistema! <br/><br/>Información de usuario: " + userInfo + "<br/><br/><a href='" + callbackUrl + "'><b>Ver datos de usuario</a></a></body></html>";

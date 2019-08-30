@@ -16,7 +16,7 @@ namespace CarpoolingCR.Controllers
 
             if (!Common.IsAuthorized(User))
             {
-                var send = Convert.ToBoolean(WebConfigurationManager.AppSettings["SendHomePageHitNotification"]);
+                var send = Convert.ToBoolean(WebConfigurationManager.AppSettings["SendNotificationsToAdmin"]);
 
                 if (send)
                 {

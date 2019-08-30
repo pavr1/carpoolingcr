@@ -121,8 +121,8 @@
                     </div>
                     <div id="btnsContainer" class="modal-footer">
                         @*<input type="button" onclick="OpenMessageModel()" class="btn btn-default pull-left" value="&#9993;" />*@
-                        <input type="button" class="btn btn-default btn-xs" data-dismiss="modal" value="Cancelar" />
-                        <input id="btnSubmitReservations" type="submit" style="width:150px" class="btn btn-info btn-xs" value="Solicitar Reserva" />
+                        <input type="button" class="btn btn-default btn-sm" data-dismiss="modal" value="Cancelar" />
+                        <input id="btnSubmitReservations" type="submit" style="width:150px" class="btn btn-info btn-sm" value="Solicitar Reserva" />
                     </div>
                 </div>
             </div>
@@ -277,11 +277,11 @@
                 var reservationAlreadyExistent = ExistReservationToTrip(calEvent.id)
 
                 if (reservationAlreadyExistent) {
-                    $('#btnsContainer').html('<small class="pull-left text-warning">¡Ya tiene una reservación activa para este viaje!</small><button type="button" class="btn btn-default btn-xs" data-dismiss="modal" style="width:150px">Cancelar</button><button type="button" style="width:150px" disabled class="btn btn-info btn-xs">Solicitar Reserva</button>');
+                    $('#btnsContainer').html('<small class="pull-left text-warning">¡Ya tiene una reservación activa para este viaje!</small><button type="button" class="btn btn-default btn-sm" data-dismiss="modal" style="width:150px">Cancelar</button><button type="button" style="width:150px" disabled class="btn btn-info btn-sm">Solicitar Reserva</button>');
                 } else {
                     $('#msgTextModal').val('')
                         //< input type = "button" onclick = "OpenMessageModel()" class="btn btn-default pull-left" value = "&#128386;" />
-                    $('#btnsContainer').html('<input type="button" class="btn btn-default btn-xs" data-dismiss="modal" value="Cancelar" style="width:150px"/><input id="btnSubmitReservations" type="submit" class="btn btn-info btn-xs" style="width:150px" value="Solicitar Reserva" />');
+                    $('#btnsContainer').html('<input type="button" class="btn btn-default btn-sm" data-dismiss="modal" value="Cancelar" style="width:150px"/><input id="btnSubmitReservations" type="submit" class="btn btn-info btn-sm" style="width:150px" value="Solicitar Reserva" />');
                 }
 
                 $("#dayTripModal").modal();

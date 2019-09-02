@@ -289,9 +289,9 @@ namespace CarpoolingCR.Utils
         {
             //var timeZone = TimeZoneInfo.FindSystemTimeZoneById(WebConfigurationManager.AppSettings["CR_TimeZone"]);//Common.GetCurrentTimeZoneId());
             //var utcDate = Convert.ToDateTime(dateTime);
-            var localDate = DateTime.SpecifyKind(dateTime, DateTimeKind.Utc);
-
-            return localDate;
+            //var localDate = DateTime.SpecifyKind(dateTime, DateTimeKind.Utc);
+            
+            return dateTime.ToUniversalTime();
         }
 
         public static string GetCurrentTimeZoneId()
@@ -334,6 +334,27 @@ namespace CarpoolingCR.Utils
             //control += "</select>";
 
             return control;
+        }
+
+        public static void FinilizeExpiredTrips()
+        {
+            using (var db = new ApplicationDbContext())
+            {
+                var currentUTCTime = ConvertToUTCTime(DateTime.Now);
+                var currentExpiredTrips = db.Trips
+                    .Where(x => x.DateTime < currentUTCTime)
+                    .Where(x => x.Status != Status.Finalizado)
+                    .ToList();
+
+                foreach (var expiredTrip in currentExpiredTrips)
+                {
+                    expiredTrip.Status = Status.Finalizado;
+
+                    db.Entry(expiredTrip).State = EntityState.Modified;
+                }
+
+                db.SaveChanges();
+            }
         }
     }
 }

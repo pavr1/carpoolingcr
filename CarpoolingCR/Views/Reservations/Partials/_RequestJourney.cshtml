@@ -51,7 +51,7 @@
                     }
                 },
                 eventRender: function (event, element, view) {
-                    return $('<p onclick="RedirectToDayTrips(event.start)">&nbsp;&nbsp;' + event.count + ' <i class="fas fa-car"></i></p>');
+                    return $('<p onclick="RedirectToDayTrips(' + event.start + ')">&nbsp;&nbsp;' + event.count + ' <i class="fas fa-car"></i></p>');
                 },
                 //events: [
 
@@ -174,7 +174,11 @@
             var fromto = document.getElementById('lblFromTo').innerHTML.split(' - ');
 
             if (fromto != '') {
-                window.location.href = '/Trips/DayTrips?date=' + date.format() + '&from=' + fromto[0] + '&to=' + fromto[1];
+                var url = '@Url.Action("DayTrips", "Trips")' + '?date=' + date.format() + '&from=' + fromto[0] + '&to=' + fromto[1];
+
+                console.log('Redirecting to DayTrips. Url: ' + url);
+
+                window.location.href = url;
             } 
         }
 

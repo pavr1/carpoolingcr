@@ -7,7 +7,20 @@
 
         <ul class="nav navbar-nav navbar-right">
             <li>
-                @Html.ActionLink("Perfíl", "ProfileInfo", "Manage", routeValues: null, htmlAttributes: new { title = "Manage", @class = "nav-link" })
+                @{
+
+                    var claims = (System.Security.Claims.ClaimsIdentity)User.Identity;
+                    var profilePic = claims.FindFirst("Picture");
+                    var picPath = string.Empty;
+
+                    if (profilePic != null)
+                    {
+                        picPath = Url.Content(profilePic.Value);
+                    }
+                }
+                <a href="~/Manage/ProfileInfo" title="Perfíl">
+                    <div class="" id="profile-container-small" data-toggle="tooltip" style="width:30px; height:30px" data-placement="bottom" title="Perfíl"><img src="@picPath" /></div>
+                </a>
             </li>
             <li><a href="javascript:document.getElementById('logoutForm').submit()" class="nav-link">Cierra Sesión</a></li>
         </ul>

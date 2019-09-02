@@ -35,12 +35,12 @@ namespace CarpoolingCR.Controllers
                     return RedirectToAction("Login", "Account");
                 }
 
-                var currentUTCTime = Common.ConvertToUTCTime(DateTime.Now);
-
+                //sets expired trips' status "Finalizado"
+                Common.FinilizeExpiredTrips();
+                
                 var maxTripsPerUser = Convert.ToInt32(WebConfigurationManager.AppSettings["MaxTripsPerUser"]);
                 var currentTrips = db.Trips.Where(x => x.ApplicationUserId == user.Id)
                     .Where(x => x.Status == Status.Activo)
-                    .Where(x => x.DateTime > currentUTCTime)
                     .ToList();
 
                 if (!string.IsNullOrEmpty(message))
@@ -777,28 +777,29 @@ namespace CarpoolingCR.Controllers
                     ViewBag.Info = message;
                 }
 
+                Common.FinilizeExpiredTrips();
+
                 var user = Common.GetUserByEmail(User.Identity.Name);
-                var currentUTCTime = Common.ConvertToUTCTime(DateTime.Now);
 
                 List<Trip> trips = new List<Trip>();
                 List<Reservation> reservations = new List<Reservation>();
 
                 if (user.UserType == UserType.Administrador)
                 {
-                    trips = db.Trips.Where(x => x.DateTime < currentUTCTime)
+                    trips = db.Trips.Where(x => x.Status == Status.Finalizado)
                     .ToList();
                 }
                 else if (user.UserType == UserType.Conductor)
                 {
                     trips = db.Trips.Where(x => x.ApplicationUserId == user.Id)
-                    .Where(x => x.DateTime < currentUTCTime)
+                    .Where(x => x.Status == Status.Finalizado)
                     .ToList();
                 }
 
                 reservations = db.Reservations
                    .Join(db.Trips, r => r.TripId, t => t.TripId, (r, t) => new { r, t })
                    .Where(x => x.r.ApplicationUserId == user.Id)
-                   .Where(x => x.t.DateTime < currentUTCTime)
+                   .Where(x => x.t.Status == Status.Finalizado)
                    .Select(m => m.r)
                    .ToList();
 

@@ -100,6 +100,7 @@ namespace CarpoolingCR.Models
             userIdentity.AddClaim(new Claim("Name", this.Name.ToString()));
             userIdentity.AddClaim(new Claim("CountryCode", this.Country.CountryCode));
             userIdentity.AddClaim(new Claim("CurrencyChar", this.Country.CurrencyChar));
+            userIdentity.AddClaim(new Claim("Picture", this.Picture));
 
             // Add custom user claims here
             return userIdentity;

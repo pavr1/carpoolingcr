@@ -86,8 +86,14 @@ namespace CarpoolingCR.Controllers
                     reservation.Trip = db.Trips.Where(x => x.TripId == reservation.TripId)
                         .Include(x => x.ApplicationUser)
                         .SingleOrDefault();
+
                     reservation.Trip.FromTown = db.Districts.Where(x => x.DistrictId == reservation.Trip.FromTownId).Single();
                     reservation.Trip.ToTown = db.Districts.Where(x => x.DistrictId == reservation.Trip.ToTownId).Single();
+                    reservation.Trip.Route = db.Districts.Where(x => x.DistrictId == reservation.Trip.RouteId).Single();
+
+                    reservation.Qualifications = db.Qualifications.Where(x => x.ReservationId == reservation.ReservationId && x.QualifierId != user.Id)
+                        .Include(x => x.Qualifier)
+                        .ToList();
                 }
 
                 int tabIndexAux = (tabIndex == null) ? 0 : Convert.ToInt32(tabIndex);
@@ -185,6 +191,7 @@ namespace CarpoolingCR.Controllers
 
                         reservation.Trip.FromTown = db.Districts.Where(x => x.DistrictId == reservation.Trip.FromTownId).Single();
                         reservation.Trip.ToTown = db.Districts.Where(x => x.DistrictId == reservation.Trip.ToTownId).Single();
+                        reservation.Trip.Route = db.Districts.Where(x => x.DistrictId == reservation.Trip.RouteId).Single();
                         reservation.Trip.DateTime = Common.ConvertToLocalTime(reservation.Trip.DateTime);
                     }
                 }
@@ -207,6 +214,7 @@ namespace CarpoolingCR.Controllers
 
                         trip.FromTown = db.Districts.Where(x => x.DistrictId == trip.FromTownId).Single();
                         trip.ToTown = db.Districts.Where(x => x.DistrictId == trip.ToTownId).Single();
+                        trip.Route = db.Districts.Where(x => x.DistrictId == trip.RouteId).Single();
 
                         trip.DateTime = Common.ConvertToLocalTime(trip.DateTime);
                     }

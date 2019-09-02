@@ -37,13 +37,13 @@ jQuery('#datetimepicker_dark').datetimepicker({
 });
 // ]]></script>
 [include scripts/pp/reklama1.php]
-<h2>How do I use it?</h2>
+<h3>How do I use it?</h3>
 <p>First include to page css and js files</p>
 <pre><code class="language-html">&lt;!-- this should go after your &lt;/body&gt; --&gt;
 &lt;link rel="stylesheet" type="text/css" href="jquery.datetimepicker.css"/ &gt;
 &lt;script src="jquery.js"&gt;&lt;/script&gt;
 &lt;script src="build/jquery.datetimepicker.full.min.js"&gt;&lt;/script&gt;</code></pre>
-<h2>Examples</h2>
+<h3>Examples</h3>
 <hr id="Simple" />
 <h4>Simple init DateTimePicker Example <a href="#Simple">#</a></h4>
 <p>HTML</p>
@@ -444,7 +444,7 @@ jQuery(function(){
 // ]]></script>
 [include scripts/pp/reklama2.php]
 {module 147}
-<h2>Full options list</h2>
+<h3>Full options list</h3>
 <table class="table table-condensed table-bordered table-striped">
 <thead>
 <tr><th style="text-align: center;"><strong>Name</strong></th><th style="text-align: center;"><strong> default</strong></th><th style="text-align: center;"><strong>Descr</strong></th><th style="width: 200px; text-align: center;"><strong>Ex.</strong></th></tr>
@@ -961,7 +961,7 @@ jQuery(function(){
 </tbody>
 </table>
 <hr>
-<h2 id="methods">Methods</h2>
+<h2 id="methods">Methods</h3>
 <h3>show</h3>
 <p>Show Datetimepicker</p>
 <pre><code class="language-javascript">$('#input').datetimepicker();

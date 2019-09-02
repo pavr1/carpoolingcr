@@ -101,7 +101,7 @@
             displayMessages('¡Seleccione el destino!', 'warning')
 
             return;
-        }else if (from == to) {
+        } else if (from == to) {
             displayMessages('¡Origen y destino iguales!', 'warning')
 
             return;
@@ -109,7 +109,7 @@
 
         $('#btn-retrieve-trips').button('loading');
 
-        $.post('@Url.Action("Transportation", "Reservations")', { from: from, to: to},
+        $.post('@Url.Action("Transportation", "Reservations")', { from: from, to: to },
             function (data) {
                 $('#btn-retrieve-trips').button('reset');
 
@@ -127,7 +127,7 @@
                     $('#warningLabel').addClass('hidden');
                 }
 
-                if (json.Message != '') {
+                if (json.Message != null && json.Message != '') {
                     displayMessages(json.Message, 'warning')
                 }
             });

@@ -9,7 +9,8 @@ namespace CarpoolingCR.Objects.Responses
 {
     public class TripCreateResponse
     {
-        public List<LocationsResponse> Towns { get; set; }
+        //public List<LocationsResponse> Towns { get; set; }
+        public string DistrictControlOptions { get; set; }
         public Trip Trip { get; set; }
         public Vehicle Vehicle{ get; set; }
         public string CountryName { get; set; }

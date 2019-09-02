@@ -56,14 +56,14 @@ namespace CarpoolingCR.Models
         public string Details { get; set; }
 
 
-        public int FromTownId { get; set; }
-        public District FromTown { get; set; }
+        public virtual int FromTownId { get; set; }
+        public virtual District FromTown { get; set; }
 
-        public int ToTownId { get; set; }
-        public District ToTown { get; set; }
+        public virtual int ToTownId { get; set; }
+        public virtual District ToTown { get; set; }
 
-        public int RouteId { get; set; }
-        public District Route { get; set; }
+        public virtual int RouteId { get; set; }
+        public virtual  District Route { get; set; }
 
         [NotMapped]
         public List<Reservation> Reservations { get; set; }

@@ -28,12 +28,7 @@
                     </div>
                     <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
                         <select id="FromTown" name="FromTown" class="form-control waypoints">
-                            @{
-                                foreach (var item in Model.Towns)
-                                {
-                                    <option value="@item.DistrictId">@item.Display</option>
-                                }
-                            }
+                            @Html.Raw(Model.DistrictControlOptions)
                         </select>
                         <label id="fromDistrictId"></label>
                     </div>
@@ -46,12 +41,7 @@
                     </div>
                     <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
                         <select id="ToTown" name="ToTown" class="form-control waypoints">
-                            @{
-                                foreach (var item in Model.Towns)
-                                {
-                                    <option value="@item.DistrictId">@item.Display</option>
-                                }
-                            }
+                            @Html.Raw(Model.DistrictControlOptions)
                         </select>
                         <label id="toDistrictId"></label>
                     </div>
@@ -67,12 +57,7 @@
                     </div>
                     <div class="col-lg-10 col-md-10 col-sm-10 col-xs-13">
                         <select id="Route" name="Route" class="form-control waypoints">
-                            @{
-                                foreach (var item in Model.Towns)
-                                {
-                                    <option value="@item.DistrictId">@item.Display</option>
-                                }
-                            }
+                            @Html.Raw(Model.DistrictControlOptions)
                         </select>
                         <div class="spinner-border m-5" role="status">
                             <span class="sr-only">Loading...</span>
@@ -105,10 +90,10 @@
                     </div>
 
                     <div class="col-lg-2 col-md-5 col-sm-5 col-xs-6">
-                        <input id="TotalSpaces" class="" style="width:40px;" name="TotalSpaces" disabled onfocus="blur();">
+                        <input id="TotalSpaces" class="hidden" style="width:40px;" name="TotalSpaces" disabled onfocus="blur();">
                     </div>
                     <div class="col-lg-2 col-md-5 col-sm-5 col-xs-6">
-                        <input id="AvailableSpaces" class="" style="width:40px;" name="AvailableSpaces" onfocus="blur();">
+                        <input id="AvailableSpaces" class="hidden" style="width:40px;" name="AvailableSpaces" onfocus="blur();">
                     </div>
                 </div>
                 <div class="row form-group">
@@ -137,10 +122,11 @@
                 </div>
 
             </div>
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style="text-align:center;vertical-align:middle;height:250px">
                 <div id="aprox-time-div">
                 </div>
-                <div id="map" style="height:300px;border-radius:10px"></div>
+                <div id="map" style="height:100px;border-radius:10px"></div>
+                <img id="spinning-gif" src="~/Content/Icons/processing.gif" style="width:50px;height:50px;" />
             </div>
         </div>
 
@@ -148,7 +134,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                @Html.ActionLink("<<", "Index", new { }, new { @class = "btn btn-primary" })
+                @*@Html.ActionLink("<<", "Index", new { }, new { @class = "btn btn-primary" })*@
                 <button type="submit" id="btn-create-trip" onclick="return SetDateTimeFormats()" class="btn btn-info btn-sm btn-block pull-right" data-loading-text="<i class='fa fa-circle-o-notch fa-spin pull-right'></i> Crear" style="width:150px; border-radius:25px">Crear</button>
             </div>
         </div>
@@ -160,6 +146,32 @@
 }
 
 <script>
+
+    $(document).ready(function () {
+        $('#spinning-gif').addClass("hidden");
+        $('#map').css('height', '300px');
+        $('#TotalSpaces').removeClass('hidden');
+        $('#AvailableSpaces').removeClass('hidden');
+    });
+
+    $('#TotalSpaces').spinner({
+        min: @Model.Vehicle.Spaces,
+        max: @Model.Vehicle.Spaces,
+        stop: function (e, ui) {
+            //$('#AvailableSpaces').val($('#TotalSpaces').val() - 1)
+        }
+    }).val(@Model.Vehicle.Spaces);
+
+    $('#AvailableSpaces').spinner({
+        min: 1,
+        max: @Model.Vehicle.Spaces - 1,
+        stop: function (e, ui) {
+            if ($('#AvailableSpaces').val() > $('#TotalSpaces').val()) {
+                $('#AvailableSpaces').val($('#TotalSpaces').val());
+            }
+        }
+    }).val(@Model.Vehicle.Spaces - 1);
+
     $('#FromTown')
         .editableSelect()
         .on('select.editable-select', function (e, li) {
@@ -188,7 +200,7 @@
         var route = $('#Route').val();
 
         if (from != '' && to != '' && route != '') {
-            
+
             console.log('Calculating Route... From: ' + from + ', To: ' + to + ', Route: ' + route);
             calculateAndDisplayRoute(from, to, route);
         }else{
@@ -196,7 +208,8 @@
         }
     });
 
-    LoadRouteOptions();
+    //LoadRouteOptions();
+
     $('#fade').editableSelect({ effects: 'fade' });
 
     $('#DateTimeDisplay').datetimepicker({
@@ -211,29 +224,9 @@
         }
     });
 
-    $('#TotalSpaces').spinner({
-        min: @Model.Vehicle.Spaces,
-        max: @Model.Vehicle.Spaces,
-        stop: function (e, ui) {
-            //$('#AvailableSpaces').val($('#TotalSpaces').val() - 1)
-        }
-    }).val(@Model.Vehicle.Spaces);
-
-    $('#AvailableSpaces').spinner({
-        min: 1,
-        max: @Model.Vehicle.Spaces - 1,
-        stop: function (e, ui) {
-            if ($('#AvailableSpaces').val() > $('#TotalSpaces').val()) {
-                $('#AvailableSpaces').val($('#TotalSpaces').val());
-            }
-        }
-    }).val(@Model.Vehicle.Spaces - 1);
-
-    //$("#radioset").buttonset();
-
-    $('#JourneyId').change(function () {
-        LoadRouteOptions();
-    });
+    //$('#JourneyId').change(function () {
+    //    LoadRouteOptions();
+    //});
 
     function SetRouteOption(index) {
         var selectedOption = $('#hiddenOption' + index).val();
@@ -247,17 +240,17 @@
         $('#DateTime').val(formattedValue);
     }
 
-    function LoadRouteOptions() {
-        var split = $("#JourneyId :selected").text().split(' < - > ');
+    //function LoadRouteOptions() {
+    //    var split = $("#JourneyId :selected").text().split(' < - > ');
 
-        $('#RouteDetail').val(split[0]);
+    //    $('#RouteDetail').val(split[0]);
 
-        $('#hiddenOption1').val(split[0]);
-        $('#hiddenOption2').val(split[1]);
+    //    $('#hiddenOption1').val(split[0]);
+    //    $('#hiddenOption2').val(split[1]);
 
-        $('#ckPlace1').html('<span class="ui-checkboxradio-icon ui-corner-all ui-icon ui-icon-background ui-icon-blank"></span><span class="ui-checkboxradio-icon-space"> </span>' + split[0]);
-        $('#ckPlace2').html('<span class="ui-checkboxradio-icon ui-corner-all ui-icon ui-icon-background ui-icon-blank ui-state-hover"></span><span class="ui-checkboxradio-icon-space"> </span>' + split[1]);
-    }
+    //    $('#ckPlace1').html('<span class="ui-checkboxradio-icon ui-corner-all ui-icon ui-icon-background ui-icon-blank"></span><span class="ui-checkboxradio-icon-space"> </span>' + split[0]);
+    //    $('#ckPlace2').html('<span class="ui-checkboxradio-icon ui-corner-all ui-icon ui-icon-background ui-icon-blank ui-state-hover"></span><span class="ui-checkboxradio-icon-space"> </span>' + split[1]);
+    //}
 
     function addDays(date, days) {
         var result = new Date(date);

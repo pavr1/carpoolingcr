@@ -118,8 +118,11 @@
                                 ₡<small id="modelTotal"></small>
                             </div>
                         </div>
+                        <div id="already-reserved-message">
+                            
+                        </div>
                     </div>
-                    <div id="btnsContainer" class="modal-footer">
+                    <div id="btnsContainer"class="modal-footer">
                         @*<input type="button" onclick="OpenMessageModel()" class="btn btn-default pull-left" value="&#9993;" />*@
                         <input type="button" class="btn btn-default btn-sm" data-dismiss="modal" value="Cancelar" />
                         <input id="btnSubmitReservations" type="submit" style="width:150px" class="btn btn-info btn-sm" value="Solicitar Reserva" />
@@ -236,10 +239,10 @@
                 }
 
                 return $(`<tr class="fc-list-item "><td class="fc-list-item-title fc-widget-content"><div class="panel panel-default" style="border-radius:10px">&emsp;<i class="fas fa-car"></i>  ` + new Date(event.start).toLocaleTimeString() +
-                    `<div class="pull-right" id="profile-container-small" data-toggle="tooltip" title="` + event.driver + `"><img id="profileImage" src="` + event.picture + `" /><br /></div>` +
+                    `<div class="pull-right pr-1" id="profile-container-small" data-toggle="tooltip" title="` + event.driver + `"><img id="profileImage" src="` + event.picture.replace("|", "/") + `" /><br /></div>` +
                     `<br/> <a>&emsp;&emsp;<span class="fc-event-dot" style="background-color:#2792F2"></span> <b>Origen: </b> ` + event.from + ` <br/> &emsp;&emsp;<span class="fc-event-dot" style="background-color:#2792F2"></span> <b>Destino: </b>` + event.to +
                     `<br/>&emsp;&emsp;&emsp;<b>Ruta: </b>` + event.route + `<br/>` +
-                    `<br/> &emsp;&emsp;&emsp;Espacios: ` + event.availableSpaces + ` <br/>&emsp;&emsp;&emsp;Monto: ` + event.price + `</a><div class="pull-right">` + starsStr + `</div><div></td></tr>`);
+                    `<br/> &emsp;&emsp;&emsp;Espacios: ` + event.availableSpaces + ` <br/>&emsp;&emsp;&emsp;Monto: ` + event.price + `</a><div class="pull-right">` + starsStr + `&nbsp;&nbsp;&nbsp;</div><div></td></tr>`);
             },
             allDaySlot: false,
             contentHeight: "auto",
@@ -277,7 +280,8 @@
                 var reservationAlreadyExistent = ExistReservationToTrip(calEvent.id)
 
                 if (reservationAlreadyExistent) {
-                    $('#btnsContainer').html('<small class="pull-left text-warning">¡Ya tiene una reservación activa para este viaje!</small><button type="button" class="btn btn-default btn-sm" data-dismiss="modal" style="width:150px">Cancelar</button><button type="button" style="width:150px" disabled class="btn btn-info btn-sm">Solicitar Reserva</button>');
+                    $('#already-reserved-message').html('<small class="pull-left text-warning">¡Ya tiene una reservación activa para este viaje!</small>');
+                    $('#btnsContainer').html('<input type="button" class="btn btn-default btn-sm" data-dismiss="modal" value="Cancelar" style="width:150px"/><input id="btnSubmitReservations" type="button" class="btn btn-info btn-sm" style="width:150px" value="Solicitar Reserva" disabled />');
                 } else {
                     $('#msgTextModal').val('')
                         //< input type = "button" onclick = "OpenMessageModel()" class="btn btn-default pull-left" value = "&#128386;" />
@@ -300,12 +304,12 @@
             var price = arrayOfTrips[i].Price;
             var from = arrayOfTrips[i].FromTown.FullName;
             var to = arrayOfTrips[i].ToTown.FullName;
-            var picture = arrayOfTrips[i].ApplicationUser.Picture;
+            var picture = arrayOfTrips[i].ApplicationUser.Picture.replace('|', '/').replace('|', '/').replace('|', '/').replace('|', '/').replace('~', '');
             var stars = arrayOfTrips[i].ApplicationUser.Stars;
             var route = 'No especificada'
 
             if (arrayOfTrips[i].Route != null) {
-                route = arrayOfTrips[i].Route.FullName;
+                route = arrayOfTrips[i].Route.Name;
             }
 
             var startDate = new Date(dateTime);
@@ -336,6 +340,8 @@
                 formatteddate: startDate,
                 price: price.toFixed(2)
             };
+
+            console.log('Trip Info => From: ' + event.from + ', To: ' + event.to + ', Route: ' + event.route + ', Driver: ' + event.driver + ', Picture: ' + event.picture + ', Stars: ' + stars, ', Spaces: ' + event.availableSpaces + ', Price: ' + event.price);
 
             $('#dayCalendar').fullCalendar('renderEvent', event, true);
         }

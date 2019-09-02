@@ -7,17 +7,15 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
-using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Security.Principal;
-using System.Threading.Tasks;
 using static CarpoolingCR.Utils.Enums;
 
 namespace CarpoolingCR.Utils
 {
     public class Common
     {
-        public static List<LocationsResponse> GetLocationsStrings(int countryId)
+        public static string GetLocationsStrings(int countryId)
         {
             var list = new List<LocationsResponse>();
             list.Add(new LocationsResponse
@@ -29,6 +27,7 @@ namespace CarpoolingCR.Utils
             using (var db = new ApplicationDbContext())
             {
                 var provinces = db.Provinces
+                    .Where(x => x.CountryId == countryId)
                     .Select(x => x.ProvinceId)
                     .ToList();
 
@@ -49,33 +48,9 @@ namespace CarpoolingCR.Utils
                 list.AddRange(districts);
             }
 
-            //using (var db = new ApplicationDbContext())
-            //{
-            //    var provinces = db.Provinces.ToList();
+            var from = LoadDistrictsSelectControl(list);
 
-            //    foreach (var province in provinces)
-            //    {
-            //        var counties = db.Counties.Where(x => x.ProvinceId == province.ProvinceId).ToList();
-
-            //        foreach (var county in counties)
-            //        {
-            //            var districts = db.Districts.Where(x => x.CountyId == county.CountyId).ToList();
-
-            //            foreach (var district in districts)
-            //            {
-            //                var location = GetLocationName(district.DistrictId);
-
-            //                list.Add(new LocationsResponse
-            //                {
-            //                    DistrictId = district.DistrictId,
-            //                    Display = location
-            //                });
-            //            }
-            //        }
-            //    }
-            //}
-
-            return list;
+            return from;
         }
 
         public static int CalculateOverallUserStars(string userId, bool isDriver)
@@ -343,6 +318,22 @@ namespace CarpoolingCR.Utils
                 return db.Brands
                     .ToList();
             }
+        }
+
+        public static string LoadDistrictsSelectControl(List<LocationsResponse> list)
+        {
+            var control = string.Empty;// "<select id=\"[control-id]\" name=\"[control-id]\" class=\"form-control waypoints\">";
+
+            control += "<option value=\"-1\"></option>";
+
+            foreach (var item in list)
+            {
+                control += "<option value=\"" + item.DistrictId + "\">" + item.Display + "</option>";
+            }
+
+            //control += "</select>";
+
+            return control;
         }
     }
 }

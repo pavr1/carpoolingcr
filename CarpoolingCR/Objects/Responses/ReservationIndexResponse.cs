@@ -10,6 +10,7 @@ namespace CarpoolingCR.Objects.Responses
     {
         public List<Reservation> Reservations{ get; set; }
         //public List<Town> Towns { get; set; }
-        public List<LocationsResponse> Towns { get; set; }
+        //public List<LocationsResponse> Towns { get; set; }
+        public string DistrictControlOptions { get; set; }
     }
 }

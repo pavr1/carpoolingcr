@@ -20,9 +20,8 @@ namespace CarpoolingCR.Objects.Responses
         public int SelectedRouteIndex { get; set; }
 
         public Enums.UserType CurrentUserType { get; set; }
-
-        //public List<Town> Towns { get; set; }
-        public List<LocationsResponse> Towns { get; set; }
+        //public List<LocationsResponse> Towns { get; set; }
+        public string DistrictControlOptions { get; set; }
 
         public string From { get; set; }
         public string To { get; set; }

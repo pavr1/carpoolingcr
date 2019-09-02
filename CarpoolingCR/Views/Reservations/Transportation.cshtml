@@ -24,26 +24,7 @@
                     </div>
                     <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12 form-inline">
                         <select id="FromTown" name="FromTown" class="form-control" onfocus="this.select()">
-                            @{
-                                foreach (var item in Model.Towns)
-                                {
-                                    if (!string.IsNullOrEmpty(Model.From))
-                                    {
-                                        if (Model.From == item.Display)
-                                        {
-                                            <option value="@item.DistrictId" selected>@item.Display</option>
-                                        }
-                                        else
-                                        {
-                                            <option value="@item.DistrictId">@item.Display</option>
-                                        }
-                                    }
-                                    else
-                                    {
-                                        <option value="@item.DistrictId">@item.Display</option>
-                                    }
-                                }
-                            }
+                            @Html.Raw(Model.DistrictControlOptions)
                         </select>
                         <input type="button" class="form-control btn btn-info btn-sm visible-xs pull-right" onclick="EraseValue('#FromTown')" style="width:42px" value="&#9003;" />
                         <input type="button" class="form-control btn btn-info btn-sm hidden-xs" onclick="EraseValue('#FromTown')" style="width:42px" value="&#9003;" />
@@ -54,26 +35,7 @@
                     </div>
                     <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12 form-inline">
                         <select id="ToTown" name="ToTown" class="form-control" onfocus="this.select()">
-                            @{
-                                foreach (var item in Model.Towns)
-                                {
-                                    if (!string.IsNullOrEmpty(Model.To))
-                                    {
-                                        if (Model.To == item.Display)
-                                        {
-                                            <option value="@item.DistrictId" selected>@item.Display</option>
-                                        }
-                                        else
-                                        {
-                                            <option value="@item.DistrictId">@item.Display</option>
-                                        }
-                                    }
-                                    else
-                                    {
-                                        <option value="@item.DistrictId">@item.Display</option>
-                                    }
-                                }
-                            }
+                            @Html.Raw(Model.DistrictControlOptions)
                         </select>
                         <input type="button" class="form-control btn btn-info btn-sm visible-xs pull-right" onclick="EraseValue('#ToTown')" style="width:42px" value="&#9003;" />
                         <input type="button" class="form-control btn btn-info btn-sm hidden-xs" onclick="EraseValue('#ToTown')" style="width:42px" value="&#9003;" />

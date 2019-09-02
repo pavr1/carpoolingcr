@@ -275,6 +275,7 @@
     <Compile Include="Objects\Responses\ChatMessageResponse.cs" />
     <Compile Include="Objects\Responses\ContactUsResponse.cs" />
     <Compile Include="Objects\Responses\DisplayMessagesResponse.cs" />
+    <Compile Include="Objects\Responses\DriverTripHistorialResponse.cs" />
     <Compile Include="Objects\Responses\EditUserResponse.cs" />
     <Compile Include="Objects\Responses\LocationsResponse.cs" />
     <Compile Include="Objects\Responses\TownCreateResponse.cs" />

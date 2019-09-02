@@ -35,9 +35,12 @@ namespace CarpoolingCR.Controllers
                     return RedirectToAction("Login", "Account");
                 }
 
+                var currentUTCTime = Common.ConvertToUTCTime(DateTime.Now);
+
                 var maxTripsPerUser = Convert.ToInt32(WebConfigurationManager.AppSettings["MaxTripsPerUser"]);
                 var currentTrips = db.Trips.Where(x => x.ApplicationUserId == user.Id)
                     .Where(x => x.Status == Status.Activo)
+                    .Where(x => x.DateTime > currentUTCTime)
                     .ToList();
 
                 if (!string.IsNullOrEmpty(message))
@@ -192,13 +195,16 @@ namespace CarpoolingCR.Controllers
                 {
                     var fromId = trips[i].FromTownId;
                     var toId = trips[i].ToTownId;
+                    var routeId = trips[i].RouteId;
                     trips[i].FromTown = db.Districts.Where(x => x.DistrictId == fromId).Single();
                     trips[i].ToTown = db.Districts.Where(x => x.DistrictId == toId).Single();
+                    trips[i].Route = db.Districts.Where(x => x.DistrictId == routeId).Single();
                     trips[i].DateTime = Common.ConvertToLocalTime(trips[i].DateTime);
-                    //picture route is giving problems at json convertion in client side, it's not needed for this functionality though, so set it as empty
-                    trips[i].ApplicationUser.Picture = string.Empty;
+                    // \\ chars giving errors when parsing to Json, so replace them to parse correctly and change back in javascript
+                    trips[i].ApplicationUser.Picture = trips[i].ApplicationUser.Picture.Replace("/", "|");
                     trips[i].FromTown.County = null;
                     trips[i].ToTown.County = null;
+                    trips[i].Route.County = null;
                 }
 
                 var user = Common.GetUserByEmail(User.Identity.Name);
@@ -327,10 +333,11 @@ namespace CarpoolingCR.Controllers
                 }
 
                 var user = Common.GetUserByEmail(User.Identity.Name);
+                var districtsSelectHtml = Common.GetLocationsStrings(user.CountryId);
 
                 var response = new TripCreateResponse
                 {
-                    Towns = Common.GetLocationsStrings(user.CountryId),
+                    DistrictControlOptions = districtsSelectHtml,
                     Vehicle = user.Vehicle,
                     CountryName = user.Country.Name
                 };
@@ -371,6 +378,7 @@ namespace CarpoolingCR.Controllers
             }
 
             var user = Common.GetUserByEmail(User.Identity.Name);
+            var districtsSelectHtml = Common.GetLocationsStrings(user.CountryId);
 
             try
             {
@@ -390,7 +398,7 @@ namespace CarpoolingCR.Controllers
                     var fromDistrict = new District();
                     var toDistrict = new District();
                     var routeDistrict = new District();
-                    
+
                     var tripDate = Convert.ToDateTime(Request["DateTime"]);
                     fromDistrict = Common.ValidateDistrictString(Request["FromTown"]);
 
@@ -401,7 +409,7 @@ namespace CarpoolingCR.Controllers
 
                         var response = new TripCreateResponse
                         {
-                            Towns = Common.GetLocationsStrings(user.CountryId),
+                            DistrictControlOptions = districtsSelectHtml.Replace("[control-id]", "FromTown"),
                             Trip = trip,
                             Vehicle = user.Vehicle,
                             CountryName = user.Country.Name
@@ -419,7 +427,7 @@ namespace CarpoolingCR.Controllers
 
                         var response = new TripCreateResponse
                         {
-                            Towns = Common.GetLocationsStrings(user.CountryId),
+                            DistrictControlOptions = districtsSelectHtml.Replace("[control-id]", "FromTown"),
                             Trip = trip,
                             Vehicle = user.Vehicle,
                             CountryName = user.Country.Name
@@ -437,7 +445,7 @@ namespace CarpoolingCR.Controllers
 
                         var response = new TripCreateResponse
                         {
-                            Towns = Common.GetLocationsStrings(user.CountryId),
+                            DistrictControlOptions = districtsSelectHtml.Replace("[control-id]", "FromTown"),
                             Trip = trip,
                             Vehicle = user.Vehicle,
                             CountryName = user.Country.Name
@@ -506,7 +514,7 @@ namespace CarpoolingCR.Controllers
 
                 var response = new TripCreateResponse
                 {
-                    Towns = Common.GetLocationsStrings(user.CountryId),
+                    DistrictControlOptions = districtsSelectHtml,
                     Trip = trip,
                     Vehicle = user.Vehicle,
                     CountryName = user.Country.Name
@@ -772,11 +780,27 @@ namespace CarpoolingCR.Controllers
                 var user = Common.GetUserByEmail(User.Identity.Name);
                 var currentUTCTime = Common.ConvertToUTCTime(DateTime.Now);
 
-                var trips = db.Trips.Where(x => x.ApplicationUserId == user.Id)
-                    .Include(x => x.FromTown)
-                    .Include(x => x.ToTown)
+                List<Trip> trips = new List<Trip>();
+                List<Reservation> reservations = new List<Reservation>();
+
+                if (user.UserType == UserType.Administrador)
+                {
+                    trips = db.Trips.Where(x => x.DateTime < currentUTCTime)
+                    .ToList();
+                }
+                else if (user.UserType == UserType.Conductor)
+                {
+                    trips = db.Trips.Where(x => x.ApplicationUserId == user.Id)
                     .Where(x => x.DateTime < currentUTCTime)
                     .ToList();
+                }
+
+                reservations = db.Reservations
+                   .Join(db.Trips, r => r.TripId, t => t.TripId, (r, t) => new { r, t })
+                   .Where(x => x.r.ApplicationUserId == user.Id)
+                   .Where(x => x.t.DateTime < currentUTCTime)
+                   .Select(m => m.r)
+                   .ToList();
 
                 foreach (var trip in trips)
                 {
@@ -787,9 +811,36 @@ namespace CarpoolingCR.Controllers
                     trip.Qualifications = db.Qualifications.Where(x => x.TripId == trip.TripId)
                         .Include(x => x.Qualifier)
                         .ToList();
+
+                    trip.FromTown = db.Districts.Where(x => x.DistrictId == trip.FromTownId).Single();
+                    trip.ToTown = db.Districts.Where(x => x.DistrictId == trip.ToTownId).Single();
+                    trip.Route = db.Districts.Where(x => x.DistrictId == trip.RouteId).Single();
                 }
 
-                return View(trips);
+                foreach (var reservation in reservations)
+                {
+                    reservation.Trip = db.Trips.Where(x => x.TripId == reservation.TripId)
+                        .Include(x => x.FromTown)
+                        .Include(x => x.ToTown)
+                        .Include(x => x.ApplicationUser)
+                        .Single();
+
+                    reservation.Trip.Route = db.Districts.Where(x => x.DistrictId == reservation.Trip.RouteId).Single();
+                    reservation.Trip.Qualifications = db.Qualifications.Where(x => x.TripId == reservation.TripId && x.QualifierId != user.Id)
+                        .Include(x => x.Qualifier)
+                        .ToList();
+                    reservation.Qualifications = db.Qualifications.Where(x => x.ReservationId == reservation.ReservationId && x.QualifierId != user.Id)
+                        .Include(x => x.Qualifier)
+                        .ToList();
+                }
+
+                var response = new DriverTripHistorialResponse
+                {
+                    Trips = trips,
+                    Reservations = reservations
+                };
+
+                return View(response);
             }
             catch (Exception ex)
             {

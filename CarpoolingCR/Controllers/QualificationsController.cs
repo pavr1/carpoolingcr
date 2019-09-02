@@ -21,7 +21,7 @@ namespace CarpoolingCR.Controllers
 
         [HttpPost]
         //if trip is not null then it means it's the driver qualifying passenger
-        public string QualifyUser(int reservationId, int? tripId, int stars, string comment)
+        public string QualifyUser(int? reservationId, int? tripId, int stars, string comment)
         {
             var tran = db.Database.BeginTransaction();
 

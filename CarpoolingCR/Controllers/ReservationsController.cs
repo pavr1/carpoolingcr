@@ -30,10 +30,12 @@ namespace CarpoolingCR.Controllers
 
                 var user = Common.GetUserByEmail(User.Identity.Name);
 
+                var districtsSelectHtml = Common.GetLocationsStrings(user.CountryId);
+
                 var response = new ReservationIndexResponse
                 {
                     Reservations = db.Reservations.ToList(),
-                    Towns = Common.GetLocationsStrings(user.CountryId)//db.Towns.ToList()
+                    DistrictControlOptions = districtsSelectHtml
                 };
 
                 return View(response);
@@ -114,6 +116,8 @@ namespace CarpoolingCR.Controllers
                     }
                 }
 
+                var districtsSelectHtml = Common.GetLocationsStrings(user.CountryId);
+
                 ReservationTransportationResponse response = new ReservationTransportationResponse
                 {
                     Trips = trips,
@@ -122,7 +126,7 @@ namespace CarpoolingCR.Controllers
                     SelectedJourneyId = -1,
                     SelectedRouteIndex = -1,
                     CurrentUserType = user.UserType,
-                    Towns = Common.GetLocationsStrings(user.CountryId),//db.Towns.ToList(),
+                    DistrictControlOptions = districtsSelectHtml.Replace("[control-id]", "FromTown"),
                     From = fromStr,
                     To = toStr,
                     TabIndex = tabIndexAux
@@ -193,7 +197,7 @@ namespace CarpoolingCR.Controllers
                     foreach (var trip in driverTrips)
                     {
                         trip.Reservations = db.Reservations.Where(x => x.TripId == trip.TripId)
-                            .Where(x =>x.Status == ReservationStatus.Accepted || x.Status == ReservationStatus.Pending)
+                            .Where(x => x.Status == ReservationStatus.Accepted || x.Status == ReservationStatus.Pending)
                             .ToList();
 
                         foreach (var reservation in trip.Reservations)
@@ -226,6 +230,7 @@ namespace CarpoolingCR.Controllers
                 }
 
                 List<Trip> trips = new List<Trip>();
+                var districtsSelectHtml = Common.GetLocationsStrings(user.CountryId);
 
                 fromDistrict = Common.ValidateDistrictString(from);
 
@@ -236,7 +241,7 @@ namespace CarpoolingCR.Controllers
                         Trips = trips,
                         PassengerReservations = passengerReservations,
                         DriverTrips = driverTrips,
-                        Towns = Common.GetLocationsStrings(user.CountryId),
+                        DistrictControlOptions = districtsSelectHtml.Replace("[control-id]", "FromTown"),
                         //¡Origen no válido!
                         Message = "10005"
                     };
@@ -255,7 +260,7 @@ namespace CarpoolingCR.Controllers
                         Trips = trips,
                         PassengerReservations = passengerReservations,
                         DriverTrips = driverTrips,
-                        Towns = Common.GetLocationsStrings(user.CountryId),
+                        DistrictControlOptions = districtsSelectHtml.Replace("[control-id]", "FromTown"),
                         //¡Destino no válido!
                         Message = "100013"
                     };
@@ -295,7 +300,7 @@ namespace CarpoolingCR.Controllers
                     Trips = trips,
                     PassengerReservations = passengerReservations,
                     DriverTrips = driverTrips,
-                    Towns = Common.GetLocationsStrings(user.CountryId),//db.Towns.ToList()
+                    DistrictControlOptions = districtsSelectHtml.Replace("[control-id]", "FromTown"),
                     CouldNotFindExactTrip = couldNotFindExactTrip
                 };
 
@@ -815,6 +820,10 @@ namespace CarpoolingCR.Controllers
                         .Include(x => x.ApplicationUser)
                         .Single();
 
+                    reservation.Trip.Route = db.Districts.Where(x => x.DistrictId == reservation.Trip.RouteId).Single();
+                    reservation.Trip.Qualifications = db.Qualifications.Where(x => x.TripId == reservation.TripId && x.QualifierId != user.Id)
+                        .Include(x => x.Qualifier)
+                        .ToList();
                     reservation.Qualifications = db.Qualifications.Where(x => x.ReservationId == reservation.ReservationId && x.QualifierId != user.Id)
                         .Include(x => x.Qualifier)
                         .ToList();

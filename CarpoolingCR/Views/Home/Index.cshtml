@@ -16,12 +16,12 @@
 </div>
 
 <div class="jumbotron">
-    @*<div class="row visible-xs">
+    <div class="row visible-xs">
         <div class="col-xs-12">
-            <img src="~/Content/Icons/100Sancarleno.png" class="center-block" />
+            <img src="~/Content/Icons/ride_small_darkbg.jpg" class="center-block" />
             <br /><br />
         </div>
-    </div>*@
+    </div>
     @{
         //if user not logged, display
         if (User.Identity == null || !User.Identity.IsAuthenticated)
@@ -33,25 +33,25 @@
             </div>
         }
     }
-    @*<div class="row">
-            <div class="col-lg-9 col-md-7 col-sm-7 col-xs-12" style="text-align:justify">
-                <b>¡Bienvenidos!</b><br /><br />
-                ¿Necesitas movilizarte entre ciudades y no tenés vehículo? ¿Pero también querés evitar el sistema de transporte público? (Largas filas para comprar
-                tiquete, unidades sucias y en mal estado, tiempos prolongados de viaje largas horas de espera...) bueno pues igual que vos, existen conductores que se dirigen hacia tu destino
-                con espacio disponible para llevarte. ¡Imagínate! un viaje más tranquilo, breve, cómodo y personalizado mientras conoces nuevos amigos!<br /><br />
-            </div>
-            <div class="col-lg-3 col-md-5 col-sm-5 col-xs-6 hidden-xs">
-                <img src="~/Content/Icons/100Sancarleno.png" class="pull-right" />
-            </div>
-        </div>*@
     <div class="row">
+        <div class="col-lg-9 col-md-7 col-sm-7 col-xs-12" style="text-align:justify">
+            <b>¡Bienvenidos!</b><br /><br />
+            ¿Necesitas movilizarte entre ciudades y no tenés vehículo? ¿Pero también querés evitar el sistema de transporte público? (Largas filas para comprar
+            tiquete, unidades sucias y en mal estado, tiempos prolongados de viaje largas horas de espera...) bueno pues igual que vos, existen conductores que se dirigen hacia tu destino
+            con espacio disponible para llevarte. ¡Imagínate! un viaje más tranquilo, breve, cómodo y personalizado mientras conoces nuevos amigos!<br /><br />
+        </div>
+        <div class="col-lg-3 col-md-5 col-sm-5 hidden-xs pull-right" style="width:50px; height:50px">
+            <img src="~/Content/Icons/ride_small.jpg" class="pull-right" />
+        </div>
+    </div>
+    @*<div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:justify">
             <b>¡Bienvenidos!</b><br /><br />
             ¿Necesitas movilizarte entre ciudades y no tenés vehículo? ¿Pero también querés evitar el sistema de transporte público? (Largas filas para comprar
             tiquete, unidades sucias y en mal estado, tiempos prolongados de viaje largas horas de espera...) bueno pues igual que vos, existen conductores que se dirigen hacia tu destino
             con espacio disponible para llevarte. ¡Imagínate! un viaje más tranquilo, breve, cómodo y personalizado mientras conoces nuevos amigos!<br /><br />
         </div>
-    </div>
+    </div>*@
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:justify">
             <b>¿Cómo Funciona?</b><br />
@@ -59,8 +59,8 @@
             se hacen directamente al conductor así que te aconsejamos acordar con él antes con cuánto vas a pagar, en caso de que se necesite cambio.<br /><br />
 
             <b>¿Y la seguridad?</b><br />
-            En Buscoridecr.com nos preocupamos por su seguridad. Todo usuario registra sus datos de contacto como nombre, correo electrónico y teléfonos. Además debe validar su correo electrónico. Todos los usuarios de tipo "Conductor" 
-            deberán registrar la información de su vehículo incluyendo la placa. A su vez, los usuarios pueden calificarse mutuamente y estas publicaciones y comentarios serán públicos a la hora de reservar. Por último, el sistema cuenta 
+            En Buscoridecr.com nos preocupamos por su seguridad. Todo usuario registra sus datos de contacto como nombre, correo electrónico y teléfonos. Además debe validar su correo electrónico. Todos los usuarios de tipo "Conductor"
+            deberán registrar la información de su vehículo incluyendo la placa. A su vez, los usuarios pueden calificarse mutuamente y estas publicaciones y comentarios serán públicos a la hora de reservar. Por último, el sistema cuenta
             con un historial de viajes con la información y contactos del conductor y los pasajeros. Esta información podrá ser suministrada por buscoridecr.com en caso de ser solicitada.<br /><br />
 
             Habiendo dicho esto, buscoridecr.com es una página que sirve de puente de comunicación entre conductores y pasajeros; no tiene relación directa con éstos y por ende no se hace

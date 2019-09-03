@@ -295,7 +295,13 @@
     <Compile Include="Objects\Responses\TripIndexResponse.cs" />
     <Compile Include="Objects\Responses\UserManageResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="Content\Icons\ride .png" />
+    <Content Include="Content\Icons\ride.jpg" />
+    <Content Include="Content\Icons\ride.png" />
+    <Content Include="Content\Icons\ride_small.jpg" />
+    <Content Include="Content\Icons\ride_small_darkbg.jpg" />
     <Content Include="Content\rating.css" />
+    <Content Include="ride.ico" />
     <Content Include="Scripts\rating.js" />
     <Content Include="SQL\Costa Rica\all.sql" />
     <Content Include="SQL\Costa Rica\Counties\Limon.sql" />
@@ -856,6 +862,9 @@
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>ride.ico</ApplicationIcon>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />

@@ -298,7 +298,8 @@ namespace CarpoolingCR.Utils
         {
             //var timeZone = TimeZoneInfo.FindSystemTimeZoneById(WebConfigurationManager.AppSettings["CR_TimeZone"]);//Common.GetCurrentTimeZoneId());
             //var utcDate = Convert.ToDateTime(dateTime);
-            var localDate = DateTime.SpecifyKind(dateTime, DateTimeKind.Local);
+            //var localDate = DateTime.SpecifyKind(dateTime, DateTimeKind.Local);
+            var localDate = TimeZoneInfo.ConvertTimeFromUtc(dateTime, TimeZoneInfo.Local);
 
             return localDate;
         }
@@ -307,9 +308,11 @@ namespace CarpoolingCR.Utils
         {
             //var timeZone = TimeZoneInfo.FindSystemTimeZoneById(WebConfigurationManager.AppSettings["CR_TimeZone"]);//Common.GetCurrentTimeZoneId());
             //var utcDate = Convert.ToDateTime(dateTime);
-            var localDate = DateTime.SpecifyKind(dateTime, DateTimeKind.Utc);
-            
-            return localDate;
+            //var localDate = DateTime.SpecifyKind(dateTime, DateTimeKind.Utc);
+
+            var utcDate = TimeZoneInfo.ConvertTimeToUtc(dateTime, TimeZoneInfo.Local);
+
+            return utcDate;
         }
 
         public static string GetCurrentTimeZoneId()

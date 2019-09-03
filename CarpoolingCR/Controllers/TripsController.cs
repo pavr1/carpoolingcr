@@ -398,7 +398,7 @@ namespace CarpoolingCR.Controllers
                     var toDistrict = new District();
                     var routeDistrict = new District();
 
-                    var tripDate = Convert.ToDateTime(Request["DateTime"]);
+                    var tripDate = DateTime.SpecifyKind(Convert.ToDateTime(Request["DateTime"]), DateTimeKind.Local);
                     fromDistrict = Common.ValidateDistrictString(Request["FromTown"]);
 
                     if (fromDistrict == null)
@@ -459,8 +459,8 @@ namespace CarpoolingCR.Controllers
                     {
                         ApplicationUserId = user.Id,
                         AvailableSpaces = Convert.ToInt32(Request["AvailableSpaces"]),
-                        CreatedTime = Common.ConvertToUTCTime(DateTime.Now),
-                        DateTime = Common.ConvertToUTCTime(tripDate),
+                        CreatedTime = TimeZoneInfo.ConvertTimeToUtc(DateTime.Now, TimeZoneInfo.Local),
+                        DateTime = TimeZoneInfo.ConvertTimeToUtc(tripDate, TimeZoneInfo.Local),
                         Details = Request["Trip.Details"],
                         FromTownId = fromDistrict.DistrictId,
                         Price = Convert.ToDecimal(Request["Trip.Price"]),

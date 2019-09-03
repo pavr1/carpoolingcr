@@ -13,25 +13,10 @@
 
     <input id="AvailableSpaces" type="hidden" value="" />
     <div class="row">
-        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-            @Html.ActionLink("<<", "Transportation", "Reservations", new { from = "", to = "" }, new { @class = "btn btn-primary" })
-        </div>
-        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
-            <label class="control-label" style="text-align:left">Trayecto: </label> @Model.From -> @Model.To
-        </div>
-    <div class="row">
-        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-        </div>
-        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
-            @*@{
-                    if (Model.CouldNotFindExactTrip)
-                    {
-                        <small class="text-warning" style="text-align:justify">Rutas Alternas</small>
-                    }
-                }*@
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <label class="control-label" style="text-align:left">Origen: </label> @Model.From <br /><label class="control-label" style="text-align:left">Destino: </label> @Model.To
         </div>
     </div>
-    <hr />
     <div class="row form-group">
         <div id="dayCalendar" style="height:100%" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 

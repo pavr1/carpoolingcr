@@ -225,6 +225,7 @@
     <Compile Include="Controllers\DistrictsController.cs" />
     <Compile Include="Controllers\MonthlyBalancesController.cs" />
     <Compile Include="Controllers\MonthlyTransactionsController.cs" />
+    <Compile Include="Controllers\NotificationRequestsController.cs" />
     <Compile Include="Controllers\OfflineController.cs" />
     <Compile Include="Controllers\ProfileQualificationsController.cs" />
     <Compile Include="Controllers\ProvincesController.cs" />
@@ -245,6 +246,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201909031951373_Created NotificationRequest.cs" />
+    <Compile Include="Migrations\201909031951373_Created NotificationRequest.Designer.cs">
+      <DependentUpon>201909031951373_Created NotificationRequest.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Bank.cs" />
@@ -259,6 +264,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\MonthlyBalance.cs" />
     <Compile Include="Models\MonthlyTransactions.cs" />
+    <Compile Include="Models\NotificationRequest.cs" />
     <Compile Include="Models\ProfileQualification.cs" />
     <Compile Include="Models\Qualification.cs" />
     <Compile Include="Models\Reservation.cs" />
@@ -813,6 +819,11 @@
     <Content Include="Views\ProfileQualifications\Index.cshtml" />
     <Content Include="Views\Trips\LoadDriverTripHistorial.cshtml" />
     <Content Include="Views\Reservations\LoadPassengerReservationHistorial.cshtml" />
+    <Content Include="Views\NotificationRequests\Create.cshtml" />
+    <Content Include="Views\NotificationRequests\Delete.cshtml" />
+    <Content Include="Views\NotificationRequests\Details.cshtml" />
+    <Content Include="Views\NotificationRequests\Edit.cshtml" />
+    <Content Include="Views\NotificationRequests\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -836,6 +847,11 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201909031951373_Created NotificationRequest.resx">
+      <DependentUpon>201909031951373_Created NotificationRequest.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

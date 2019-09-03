@@ -102,6 +102,18 @@ namespace CarpoolingCR.Utils
             Error,
             Warning
         }
+
+        public enum RequestNotificationStatus
+        {
+            [Description("Activo")]
+            Active,
+            [Description("Cancelado")]
+            Cancelled,
+            [Description("Finalizado por reserva")]
+            Finised,
+            [Description("Expirado")]
+            Expired
+        }
     }
 
     public static class EnumHelper<T>

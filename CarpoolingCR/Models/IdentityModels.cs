@@ -205,5 +205,7 @@ namespace CarpoolingCR.Models
         public System.Data.Entity.DbSet<CarpoolingCR.Models.Vehicle.Vehicle> Vehicles { get; set; }
         public System.Data.Entity.DbSet<CarpoolingCR.Models.Vehicle.Brand> Brands { get; set; }
         public System.Data.Entity.DbSet<CarpoolingCR.Models.Vehicle.Model> Models { get; set; }
+
+        public System.Data.Entity.DbSet<CarpoolingCR.Models.NotificationRequest> NotificationRequests { get; set; }
     }
 }

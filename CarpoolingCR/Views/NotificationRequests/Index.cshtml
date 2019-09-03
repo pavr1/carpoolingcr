@@ -1,0 +1,75 @@
+﻿@model IEnumerable<CarpoolingCR.Models.NotificationRequest>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Reservation.ApplicationUserId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FromTownId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ToTownId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreatedDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RequestedFromDateTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RequestedToDateTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Reservation.ApplicationUserId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FromTownId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ToTownId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreatedDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RequestedFromDateTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RequestedToDateTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Status)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.NotificationRequestId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.NotificationRequestId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.NotificationRequestId })
+        </td>
+    </tr>
+}
+
+</table>

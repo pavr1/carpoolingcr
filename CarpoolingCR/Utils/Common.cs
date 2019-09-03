@@ -127,19 +127,30 @@ namespace CarpoolingCR.Utils
 
                     var currentTime = Common.ConvertToUTCTime(DateTime.Now);
 
-                    trips = db.Trips.Where(x => fromCountyDistricts.Contains(x.FromTownId) && toCountyDistricts.Contains(x.ToTownId))
+                    if (user.UserType == Enums.UserType.Administrador)
+                    {
+                        trips = db.Trips.Where(x => fromCountyDistricts.Contains(x.FromTownId) && toCountyDistricts.Contains(x.ToTownId))
+                        .Where(x => x.Status == Status.Activo)
+                        .Where(x => x.AvailableSpaces > 0)
+                        .Where(x => x.DateTime > currentTime)
+                        .ToList();
+                    }
+                    else
+                    {
+                        trips = db.Trips.Where(x => fromCountyDistricts.Contains(x.FromTownId) && toCountyDistricts.Contains(x.ToTownId))
                         .Where(x => x.Status == Status.Activo)
                         .Where(x => x.ApplicationUserId != user.Id)
                         .Where(x => x.AvailableSpaces > 0)
                         .Where(x => x.DateTime > currentTime)
                         .ToList();
+                    }
                 }
 
                 couldNotFindExactTrip = (trips.Count > 0);
             }
         }
 
-        public static void GetNearByTripsForReservationTransportation(District fromDistrict, District toDistrict, ref List<Trip> trips, DateTime startDate, DateTime endDate, out bool couldNotFindExactTrip)
+        public static void GetNearByTripsForReservationTransportation(District fromDistrict, District toDistrict, ApplicationUser user, ref List<Trip> trips, DateTime startDate, DateTime endDate, out bool couldNotFindExactTrip)
         {
             couldNotFindExactTrip = false;
 
@@ -160,12 +171,19 @@ namespace CarpoolingCR.Utils
 
                     var currentTime = Common.ConvertToUTCTime(DateTime.Now);
 
-                    trips = db.Trips.Where(x => x.Status == Enums.Status.Activo)
+                    if (user.UserType == Enums.UserType.Administrador)
+                    {
+
+                    }
+                    else
+                    {
+                        trips = db.Trips.Where(x => x.Status == Enums.Status.Activo)
                         .Where(x => x.DateTime >= startDate && x.DateTime <= endDate)
                         .Where(x => fromCountyDistricts.Contains(x.FromTownId) && toCountyDistricts.Contains(x.ToTownId))
                         .Include(x => x.ApplicationUser)
                         .Where(x => x.DateTime > currentTime)
                         .ToList();
+                    }
                 }
 
                 couldNotFindExactTrip = (trips.Count > 0);
@@ -289,9 +307,9 @@ namespace CarpoolingCR.Utils
         {
             //var timeZone = TimeZoneInfo.FindSystemTimeZoneById(WebConfigurationManager.AppSettings["CR_TimeZone"]);//Common.GetCurrentTimeZoneId());
             //var utcDate = Convert.ToDateTime(dateTime);
-            //var localDate = DateTime.SpecifyKind(dateTime, DateTimeKind.Utc);
+            var localDate = DateTime.SpecifyKind(dateTime, DateTimeKind.Utc);
             
-            return dateTime.ToUniversalTime();
+            return localDate;
         }
 
         public static string GetCurrentTimeZoneId()

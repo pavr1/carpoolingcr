@@ -192,7 +192,6 @@ namespace CarpoolingCR.Controllers
                         reservation.Trip.FromTown = db.Districts.Where(x => x.DistrictId == reservation.Trip.FromTownId).Single();
                         reservation.Trip.ToTown = db.Districts.Where(x => x.DistrictId == reservation.Trip.ToTownId).Single();
                         reservation.Trip.Route = db.Districts.Where(x => x.DistrictId == reservation.Trip.RouteId).Single();
-                        reservation.Trip.DateTime = Common.ConvertToLocalTime(reservation.Trip.DateTime);
                     }
                 }
                 else if (user.UserType == Enums.UserType.Conductor)
@@ -215,8 +214,6 @@ namespace CarpoolingCR.Controllers
                         trip.FromTown = db.Districts.Where(x => x.DistrictId == trip.FromTownId).Single();
                         trip.ToTown = db.Districts.Where(x => x.DistrictId == trip.ToTownId).Single();
                         trip.Route = db.Districts.Where(x => x.DistrictId == trip.RouteId).Single();
-
-                        trip.DateTime = Common.ConvertToLocalTime(trip.DateTime);
                     }
 
                     passengerReservations = db.Reservations.Where(x => x.ApplicationUser.Email == User.Identity.Name && (x.Status == ReservationStatus.Accepted || x.Status == ReservationStatus.Pending))
@@ -280,12 +277,23 @@ namespace CarpoolingCR.Controllers
 
                 var currentTime = Common.ConvertToUTCTime(DateTime.Now);
 
-                trips = db.Trips.Where(x => x.FromTownId == fromDistrict.DistrictId && x.ToTownId == toDistrict.DistrictId)
+                if (user.UserType == Enums.UserType.Administrador)
+                {
+                    trips = db.Trips.Where(x => x.FromTownId == fromDistrict.DistrictId && x.ToTownId == toDistrict.DistrictId)
+                   .Where(x => x.Status == Status.Activo)
+                   .Where(x => x.DateTime > currentTime)
+                   .Where(x => x.AvailableSpaces > 0)
+                   .ToList();
+                }
+                else
+                {
+                    trips = db.Trips.Where(x => x.FromTownId == fromDistrict.DistrictId && x.ToTownId == toDistrict.DistrictId)
                     .Where(x => x.Status == Status.Activo)
                     .Where(x => x.ApplicationUserId != user.Id)
                     .Where(x => x.DateTime > currentTime)
                     .Where(x => x.AvailableSpaces > 0)
                     .ToList();
+                }
 
                 var couldNotFindExactTrip = false;
 

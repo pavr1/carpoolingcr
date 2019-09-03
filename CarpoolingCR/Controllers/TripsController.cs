@@ -163,6 +163,7 @@ namespace CarpoolingCR.Controllers
                     return RedirectToAction("Login", "Account");
                 }
 
+                var user = Common.GetUserByEmail(User.Identity.Name);
                 var fromDistrict = new District();
                 var toDistrict = new District();
 
@@ -189,7 +190,7 @@ namespace CarpoolingCR.Controllers
                     .ToList();
 
                 var couldNotFindExactTrip = false;
-                Common.GetNearByTripsForReservationTransportation(fromDistrict, toDistrict, ref trips, startDate, endDate, out couldNotFindExactTrip);
+                Common.GetNearByTripsForReservationTransportation(fromDistrict, toDistrict, user, ref trips, startDate, endDate, out couldNotFindExactTrip);
 
                 for (int i = 0; i < trips.Count; i++)
                 {
@@ -206,8 +207,6 @@ namespace CarpoolingCR.Controllers
                     trips[i].ToTown.County = null;
                     trips[i].Route.County = null;
                 }
-
-                var user = Common.GetUserByEmail(User.Identity.Name);
 
                 var existentReservation = db.Reservations.Where(x => x.ApplicationUserId == user.Id)
                     .Where(x => x.Status == ReservationStatus.Accepted || x.Status == ReservationStatus.Pending)

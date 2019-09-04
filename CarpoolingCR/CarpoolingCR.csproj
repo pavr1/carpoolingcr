@@ -18,10 +18,13 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
-    <IISExpressSSLPort>443</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
+    <IISExpressSSLPort>44346</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication>
+    </IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>
+    </IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>
+    </IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -247,6 +250,10 @@
     <Compile Include="Migrations\201909031951373_Created NotificationRequest.Designer.cs">
       <DependentUpon>201909031951373_Created NotificationRequest.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201909042333469_Changed user id from int to string in request notifications.cs" />
+    <Compile Include="Migrations\201909042333469_Changed user id from int to string in request notifications.Designer.cs">
+      <DependentUpon>201909042333469_Changed user id from int to string in request notifications.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Bank.cs" />
@@ -280,6 +287,7 @@
     <Compile Include="Objects\Responses\DriverTripHistorialResponse.cs" />
     <Compile Include="Objects\Responses\EditUserResponse.cs" />
     <Compile Include="Objects\Responses\LocationsResponse.cs" />
+    <Compile Include="Objects\Responses\NotificationsRequestResponse.cs" />
     <Compile Include="Objects\Responses\TownCreateResponse.cs" />
     <Compile Include="Objects\Responses\TownIndexResponse.cs" />
     <Compile Include="Objects\Responses\TripDayTripsResponse.cs" />
@@ -856,6 +864,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201909031951373_Created NotificationRequest.resx">
       <DependentUpon>201909031951373_Created NotificationRequest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201909042333469_Changed user id from int to string in request notifications.resx">
+      <DependentUpon>201909042333469_Changed user id from int to string in request notifications.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Web;
+using static CarpoolingCR.Utils.Enums;
 
 namespace CarpoolingCR.Models
 {
@@ -12,7 +12,7 @@ namespace CarpoolingCR.Models
         public int NotificationRequestId { get; set; }
         [Required]
         [Display(Name = "Pasajero")]
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         public virtual ApplicationUser User { get; set; }
         [Required]
         [Display(Name = "Origen")]

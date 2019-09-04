@@ -1,4 +1,4 @@
-﻿@model CarpoolingCR.Models.NotificationRequest
+﻿@model CarpoolingCR.Objects.Responses.NotificationsRequestResponse
 
 @{
     ViewBag.Title = "Create";
@@ -13,130 +13,130 @@
         {
             @Html.AntiForgeryToken()
 
-        <div class="row form-group">
             <div class="row form-group">
-                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                    <label class="control-label">Origen: </label>
+                <div class="row form-group">
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                        <label class="control-label">Origen: </label>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        <select id="FromTown" name="FromTown" class="form-control" onfocus="this.select()">
+                            @Html.Raw(Model.DistrictSelectOptionsHtml)
+                        </select>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                        <label class="control-label">Destino: </label>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        <select id="ToTown" name="ToTown" class="form-control" onfocus="this.select()">
+                            @Html.Raw(Model.DistrictSelectOptionsHtml)
+                        </select>
+                    </div>
                 </div>
-                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                    <select id="FromTown" name="FromTown" class="form-control" onfocus="this.select()">
-                        @*@Html.Raw(Model.DistrictControlOptions)*@
-                    </select>
+                <div class="row form-group">
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                        <label class="control-label">Fecha: </label>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        <input id="DateTimeDisplay" name="DateTimeDisplay" autocomplete="off" class="form-control" type="text" onfocus="blur();">
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                        <label class="control-label">Hora: </label>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        <input id="TimeDisplay" name="TimeDisplay" autocomplete="off" class="form-control" type="text" onfocus="blur();" style="width:100px">
+                        <select id="hour-type" name="hour-type" class="form-control hidden" onfocus="this.select()">
+                            <option value="1">Todo el día (12:00 am-11:59 pm)</option>
+                            <option value="2">Madrugada (12:00 am-5:59 am)</option>
+                            <option value="3">Mañana (6:00 am-11:59 am)</option>
+                            <option value="4">Medio día (12:00 pm-12:59 pm)</option>
+                            <option value="5">Tarde (1:00 pm-6:59 pm)</option>
+                            <option value="6">Noche (7:00 pm-11:59 pm)</option>
+                        </select>
+                        <input id="time-options-check" name="time-options-check" type="checkbox" /> Hora Flexible
+                    </div>
                 </div>
-                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                    <label class="control-label">Destino: </label>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                    <select id="ToTown" name="ToTown" class="form-control" onfocus="this.select()">
-                        @*@Html.Raw(Model.DistrictControlOptions)*@
-                    </select>
+                <div class="row form-group">
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        <input type="submit" value="Solicitar Notificaciones" class="btn btn-info btn-sm" />
+                    </div>
                 </div>
             </div>
-            <div class="row form-group">
-                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                    <label class="control-label">Fecha: </label>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                    <input id="DateTimeDisplay" name="DateTimeDisplay" autocomplete="off" class="form-control" type="text" onfocus="blur();">
-                </div>
-                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                    <label class="control-label">Hora: </label>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                    <input id="TimeDisplay" name="TimeDisplay" autocomplete="off" class="form-control" type="text" onfocus="blur();" style="width:100px">
-                    <select id="hour-type" name="hour-type" class="form-control hidden" onfocus="this.select()">
-                        <option value="1">Todo el día (12:00 am-11:59 pm)</option>
-                        <option value="2">Madrugada (12:00 am-5:59 am)</option>
-                        <option value="3">Mañana (6:00 am-11:59 am)</option>
-                        <option value="4">Medio día (12:00 pm-12:59 pm)</option>
-                        <option value="5">Tarde (1:00 pm-6:59 pm)</option>
-                        <option value="6">Noche (7:00 pm-11:59 pm)</option>
-                    </select>
-                    <input id="time-options-check" type="checkbox" /> Hora Flexible
-                </div>
-            </div>
-            <div class="row form-group">
-                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                    <input type="submit" value="Solicitar Notificaciones" class="btn btn-info btn-sm" />
-                </div>
-            </div>
-        </div>
             @*<div class="form-horizontal">
-                <h4>NotificationRequest</h4>
-                <hr />
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="form-group">
-                    @Html.LabelFor(model => model.UserId, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.UserId, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })
+                    <h4>NotificationRequest</h4>
+                    <hr />
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.UserId, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.UserId, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.FromTownId, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.FromTownId, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.FromTownId, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.FromTownId, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.FromTownId, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.FromTownId, "", new { @class = "text-danger" })
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.ToTownId, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.ToTownId, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.ToTownId, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ToTownId, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.ToTownId, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.ToTownId, "", new { @class = "text-danger" })
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.CreatedDate, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.CreatedDate, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.CreatedDate, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CreatedDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.CreatedDate, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.CreatedDate, "", new { @class = "text-danger" })
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.RequestedFromDateTime, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.RequestedFromDateTime, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.RequestedFromDateTime, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.RequestedFromDateTime, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.RequestedFromDateTime, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.RequestedFromDateTime, "", new { @class = "text-danger" })
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.RequestedToDateTime, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.RequestedToDateTime, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.RequestedToDateTime, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.RequestedToDateTime, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.RequestedToDateTime, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.RequestedToDateTime, "", new { @class = "text-danger" })
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.ReservationId, "ReservationId", htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.DropDownList("ReservationId", null, htmlAttributes: new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.ReservationId, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ReservationId, "ReservationId", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownList("ReservationId", null, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.ReservationId, "", new { @class = "text-danger" })
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EnumDropDownListFor(model => model.Status, htmlAttributes: new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EnumDropDownListFor(model => model.Status, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Create" class="btn btn-default" />
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Create" class="btn btn-default" />
+                        </div>
                     </div>
-                </div>
-            </div>*@
+                </div>*@
         }
     </div>
 </div>

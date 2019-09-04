@@ -18,13 +18,10 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
-    <IISExpressSSLPort>44346</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication>
-    </IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>
-    </IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>
-    </IISExpressUseClassicPipelineMode>
+    <IISExpressSSLPort>443</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -300,8 +297,11 @@
     <Content Include="Content\Icons\ride.png" />
     <Content Include="Content\Icons\ride_small.jpg" />
     <Content Include="Content\Icons\ride_small_darkbg.jpg" />
+    <Content Include="Content\Icons\ride_small_pkW_icon.ico" />
     <Content Include="Content\rating.css" />
     <Content Include="ride.ico" />
+    <Content Include="ride2.ico" />
+    <Content Include="ride_small_pkW_icon.ico" />
     <Content Include="Scripts\rating.js" />
     <Content Include="SQL\Costa Rica\all.sql" />
     <Content Include="SQL\Costa Rica\Counties\Limon.sql" />
@@ -379,7 +379,6 @@
     <Content Include="Content\Icons\facebook.png" />
     <Content Include="Content\Icons\Newsvine_512x512.png" />
     <Content Include="Content\Icons\processing.gif" />
-    <Content Include="Content\Icons\ride.ico" />
     <Content Include="Content\jquery-weekcalendar-1.2.2\full_demo\demo.css" />
     <Content Include="Content\jquery-weekcalendar-1.2.2\full_demo\demo.js" />
     <Content Include="Content\jquery-weekcalendar-1.2.2\full_demo\images\header-bg.png" />
@@ -864,7 +863,7 @@
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>ride.ico</ApplicationIcon>
+    <ApplicationIcon>ride_small_pkW_icon.ico</ApplicationIcon>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />

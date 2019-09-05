@@ -1,13 +1,7 @@
-﻿using CarpoolingCR.Utils;
-using Microsoft.Owin;
+﻿using Microsoft.Owin;
 using Owin;
-using System.Diagnostics;
 using System.Globalization;
 using System.Threading;
-using System.Threading.Tasks;
-using Twilio;
-using Twilio.Rest.Api.V2010.Account;
-using Twilio.Types;
 
 [assembly: OwinStartupAttribute(typeof(CarpoolingCR.Startup))]
 namespace CarpoolingCR

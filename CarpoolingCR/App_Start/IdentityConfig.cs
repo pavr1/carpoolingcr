@@ -23,7 +23,7 @@ namespace CarpoolingCR
     {
         private object webconfigurationmanager;
 
-        public Task SendAsync(IdentityMessage message)
+        public Task SendNotificationsAsync(IdentityMessage message, string logo)
         {
             MailMessage mail = new MailMessage(WebConfigurationManager.AppSettings["notificationsemail"], message.Destination, message.Subject, message.Body);
             mail.IsBodyHtml = true;
@@ -49,31 +49,21 @@ namespace CarpoolingCR
                     Method = Common.GetCurrentMethod(),
                     Timestamp = Common.ConvertToUTCTime(DateTime.Now),
                     UserEmail = message.Destination
-                });
+                }, logo);
             }
 
             return Task.FromResult(0);
         }
 
-        public Task SendAsyncToClients(string email, string subject, string description, string contentId, Stream picture, string contentType)
+        public Task SendErrorsAsync(IdentityMessage message, string logo)
         {
-            var htmlBody = ""; //get this from /Templates/EmailBody.html
-            htmlBody = htmlBody.Replace("{subject}", subject);
-            htmlBody = htmlBody.Replace("{Description}", description);
-            htmlBody = htmlBody.Replace("{contentId}", contentId);
-
-            MailMessage mail = new MailMessage(WebConfigurationManager.AppSettings["notificationsemail"], email, subject, htmlBody);
+            MailMessage mail = new MailMessage(WebConfigurationManager.AppSettings["ErrorsEmail"], message.Destination, message.Subject, message.Body);
             mail.IsBodyHtml = true;
-            //contenttype = "image/jpeg"
-            var attachment = new Attachment(picture, contentType);
-            attachment.ContentId = contentId;
-
-            mail.Attachments.Add(attachment);
 
             var client = new SmtpClient(WebConfigurationManager.AppSettings["mailhost"], Convert.ToInt32(WebConfigurationManager.AppSettings["mailport"]))
             {
-                Credentials = new NetworkCredential(WebConfigurationManager.AppSettings["notificationsemail"], WebConfigurationManager.AppSettings["notificationspassword"]),
-                EnableSsl = true
+                Credentials = new NetworkCredential(WebConfigurationManager.AppSettings["ErrorsEmail"], WebConfigurationManager.AppSettings["ErrorsPassword"]),
+                EnableSsl = false
             };
 
             try
@@ -90,11 +80,109 @@ namespace CarpoolingCR
                     Message = ex.Message + " / " + ex.StackTrace,
                     Method = Common.GetCurrentMethod(),
                     Timestamp = Common.ConvertToUTCTime(DateTime.Now),
-                    UserEmail = email
-                });
+                    UserEmail = message.Destination
+                }, logo);
             }
 
             return Task.FromResult(0);
+        }
+
+        public Task SendInformativeAsync(string email, string subject, string description, string contentId, Stream picture, string contentType, int? picWidth, int? picHeight, string providerEmail, string providerPwd, string logo)
+        {
+            if (picWidth == null)
+            {
+                picWidth = 200;
+            }
+            if (picHeight == null)
+            {
+                picHeight = 200;
+            }
+
+            var htmlBody = "<!DOCTYPE html>";
+            htmlBody += "<html>";
+            htmlBody += "<head>";
+            htmlBody += "<meta charset=\"utf -8\" />";
+            htmlBody += "<title></title>";
+            htmlBody += "</head>";
+            htmlBody += "<body>";
+            htmlBody += "<div class=\"jumbotron\">";
+            htmlBody += "<div class=\"row visible-xs\">";
+            htmlBody += "<div class=\"col -xs-12\">";
+            htmlBody += "<img src=\"cid:{contentId}\" class=\"center-block\" />";
+            htmlBody += "<br><br>";
+            htmlBody += "</div>";
+            htmlBody += "</div>";
+
+            htmlBody += "<div class=\"row\">";
+            htmlBody += "<div class=\"col-lg-10 col-md-9 col-sm-8 col-xs-12\" style=\"text-align:justify\">";
+            htmlBody += "<b>{subject}</b><br><br>";
+            htmlBody += "{Description}";
+            htmlBody += "</div>";
+
+            //if (picture != null)
+            //{
+            //    htmlBody += "<div class=\"col-lg-2 col-md-3 col-sm-4 hidden-xs pull-right\" style=\"width:" + picWidth + "px; height:" + picHeight + "px\">";
+            //    htmlBody += "<img src=\"cid:{contentId}\" style=\"width:" + picWidth + "px; height:" + picHeight + "px\" class=\"center-block\" />";
+            //    htmlBody += "</div>";
+            //}
+
+            htmlBody += "</div>";
+
+            htmlBody += "<div class=\"row\">";
+            htmlBody += "<div class=\"col-lg-12 col-md-12 col-sm-12 col-xs-12\" style=\"text-align:justify\">";
+            htmlBody += "¡Hagamos Ride!<br />";
+
+            htmlBody += "<a href=\"https://buscoridecr.com\">https://buscoridecr.com</a>";
+            htmlBody += "</div>";
+            htmlBody += "</div>";
+            htmlBody += "</div>";
+            htmlBody += "</body>";
+            htmlBody += "</html>";
+
+            //get this from /Templates/EmailBody.html
+            htmlBody = htmlBody.Replace("{subject}", subject);
+            htmlBody = htmlBody.Replace("{Description}", description);
+            htmlBody = htmlBody.Replace("{contentId}", contentId);
+
+            MailMessage mail = new MailMessage(providerEmail, email, subject, htmlBody);
+            mail.IsBodyHtml = true;
+            //contenttype = "image/jpeg"
+            var attachment = new Attachment(picture, contentType);
+            attachment.ContentId = contentId;
+
+            mail.Attachments.Add(attachment);
+
+            var client = new SmtpClient(WebConfigurationManager.AppSettings["mailhost"], Convert.ToInt32(WebConfigurationManager.AppSettings["mailport"]))
+            {
+                Credentials = new NetworkCredential(providerEmail, providerPwd),
+                EnableSsl = false
+            };
+
+            try
+            {
+                client.Send(mail);
+            }
+            catch (Exception ex)
+            {
+                //this will cycle error sending message
+                //Common.LogData(new Log
+                //{
+                //    Line = Common.GetCurrentLine(),
+                //    Location = Enums.LogLocation.Server,
+                //    LogType = Enums.LogType.Error,
+                //    Message = ex.Message + " / " + ex.StackTrace,
+                //    Method = Common.GetCurrentMethod(),
+                //    Timestamp = Common.ConvertToUTCTime(DateTime.Now),
+                //    UserEmail = email
+                //}, logo);
+            }
+
+            return Task.FromResult(0);
+        }
+
+        public Task SendAsync(IdentityMessage message)
+        {
+            throw new NotImplementedException();
         }
     }
 
@@ -115,7 +203,7 @@ namespace CarpoolingCR
         {
         }
 
-        public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context) 
+        public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context)
         {
             var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<ApplicationDbContext>()));
             // Configure validation logic for usernames
@@ -156,7 +244,7 @@ namespace CarpoolingCR
             var dataProtectionProvider = options.DataProtectionProvider;
             if (dataProtectionProvider != null)
             {
-                manager.UserTokenProvider = 
+                manager.UserTokenProvider =
                     new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
             }
             return manager;

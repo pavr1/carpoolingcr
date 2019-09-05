@@ -20,6 +20,8 @@ namespace CarpoolingCR.Controllers
 
         public ActionResult DisplayMessages()
         {
+            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg");;
+
             try
             {
                 if (!Common.IsAuthorized(User))
@@ -59,7 +61,7 @@ namespace CarpoolingCR.Controllers
                     Method = Common.GetCurrentMethod(),
                     Timestamp = Common.ConvertToUTCTime(DateTime.Now),
                     UserEmail = User.Identity.Name
-                });
+                }, logo);
 
                 ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
@@ -70,6 +72,8 @@ namespace CarpoolingCR.Controllers
         [HttpPost]
         public string SendQuestion(string driverId, string passengerId, int? tripQuestionInfoId, string message)
         {
+            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg");;
+
             var tran = db.Database.BeginTransaction();
 
             try
@@ -153,7 +157,7 @@ namespace CarpoolingCR.Controllers
                     Method = Common.GetCurrentMethod(),
                     Timestamp = Common.ConvertToUTCTime(DateTime.Now),
                     UserEmail = User.Identity.Name
-                });
+                }, logo);
 
                 ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
@@ -164,6 +168,8 @@ namespace CarpoolingCR.Controllers
         [HttpPost]
         public string SendQuestion2(string driverId, string passengerId, int? tripQuestionInfoId, string message)
         {
+            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg");;
+
             var tran = db.Database.BeginTransaction();
 
             try
@@ -251,7 +257,7 @@ namespace CarpoolingCR.Controllers
                     Method = Common.GetCurrentMethod(),
                     Timestamp = Common.ConvertToUTCTime(DateTime.Now),
                     UserEmail = User.Identity.Name
-                });
+                }, logo);
 
                 ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 

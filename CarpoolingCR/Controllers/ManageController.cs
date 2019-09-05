@@ -59,6 +59,8 @@ namespace CarpoolingCR.Controllers
         // GET: /Manage/Index
         public async Task<ActionResult> Index(ManageMessageId? message)
         {
+            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg");;
+
             try
             {
                 ViewBag.StatusMessage =
@@ -122,7 +124,7 @@ namespace CarpoolingCR.Controllers
                     Method = Common.GetCurrentMethod(),
                     Timestamp = Common.ConvertToUTCTime(DateTime.Now),
                     UserEmail = User.Identity.Name
-                });
+                }, logo);
 
                 ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
@@ -132,6 +134,8 @@ namespace CarpoolingCR.Controllers
 
         public ActionResult ProfileInfo()
         {
+            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg");;
+
             try
             {
                 var user = Common.GetUserByEmail(User.Identity.Name);
@@ -160,7 +164,7 @@ namespace CarpoolingCR.Controllers
                     Method = Common.GetCurrentMethod(),
                     Timestamp = Common.ConvertToUTCTime(DateTime.Now),
                     UserEmail = User.Identity.Name
-                });
+                }, logo);
 
                 ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
@@ -172,6 +176,8 @@ namespace CarpoolingCR.Controllers
         //public string ProfileInfo(string name, string lastName, string secLastName, string phone1, string phone2, string picture)
         public ActionResult ProfileInfo(string id)
         {
+            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg");;
+
             var fields = "Fields => ";
 
             var user = Common.GetUserByEmail(User.Identity.Name);
@@ -386,7 +392,7 @@ namespace CarpoolingCR.Controllers
                     Timestamp = Common.ConvertToUTCTime(DateTime.Now),
                     UserEmail = User.Identity.Name,
                     Fields = fields
-                });
+                }, logo);
 
                 user.Message = "Error inesperado, intente de nuevo!";
                 user.MessageType = "error";
@@ -547,6 +553,8 @@ namespace CarpoolingCR.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ChangePassword(ChangePasswordViewModel model)
         {
+            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg");;
+
             try
             {
                 if (!ModelState.IsValid)
@@ -577,7 +585,7 @@ namespace CarpoolingCR.Controllers
                     Method = Common.GetCurrentMethod(),
                     Timestamp = Common.ConvertToUTCTime(DateTime.Now),
                     UserEmail = User.Identity.Name
-                });
+                }, logo);
 
                 ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
@@ -598,6 +606,8 @@ namespace CarpoolingCR.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> SetPassword(SetPasswordViewModel model)
         {
+            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg");;
+
             try
             {
                 if (ModelState.IsValid)
@@ -629,7 +639,7 @@ namespace CarpoolingCR.Controllers
                     Method = Common.GetCurrentMethod(),
                     Timestamp = Common.ConvertToUTCTime(DateTime.Now),
                     UserEmail = User.Identity.Name
-                });
+                }, logo);
 
                 ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 

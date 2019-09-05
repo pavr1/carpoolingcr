@@ -15,6 +15,8 @@ namespace CarpoolingCR.Controllers
         // GET: ProfileQualifications
         public ActionResult Index(string userId)
         {
+            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg");;
+
             try
             {
                 if (!Common.IsAuthorized(User))
@@ -40,7 +42,7 @@ namespace CarpoolingCR.Controllers
                     Method = Common.GetCurrentMethod(),
                     Timestamp = Common.ConvertToUTCTime(DateTime.Now),
                     UserEmail = User.Identity.Name
-                });
+                }, logo);
 
                 ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 

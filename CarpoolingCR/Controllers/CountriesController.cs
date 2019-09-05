@@ -16,6 +16,8 @@ namespace CarpoolingCR.Controllers
         // GET: Countries
         public ActionResult Index(string message, string type)
         {
+            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg");;
+
             try
             {
                 if (!Common.IsAuthorized(User))
@@ -53,7 +55,7 @@ namespace CarpoolingCR.Controllers
                     Method = Common.GetCurrentMethod(),
                     Timestamp = Common.ConvertToUTCTime(DateTime.Now),
                     UserEmail = User.Identity.Name
-                });
+                }, logo);
 
                 ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
@@ -64,6 +66,8 @@ namespace CarpoolingCR.Controllers
         // GET: Countries/Details/5
         public ActionResult Details(int? id)
         {
+            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg");;
+
             try
             {
                 if (!Common.IsAuthorized(User))
@@ -93,7 +97,7 @@ namespace CarpoolingCR.Controllers
                     Method = Common.GetCurrentMethod(),
                     Timestamp = Common.ConvertToUTCTime(DateTime.Now),
                     UserEmail = User.Identity.Name
-                });
+                }, logo);
 
                 ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
@@ -119,6 +123,8 @@ namespace CarpoolingCR.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "CountryId,Name,Status")] Country country)
         {
+            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg");;
+
             try
             {
                 if (!Common.IsAuthorized(User))
@@ -158,7 +164,7 @@ namespace CarpoolingCR.Controllers
                     Method = Common.GetCurrentMethod(),
                     Timestamp = Common.ConvertToUTCTime(DateTime.Now),
                     UserEmail = User.Identity.Name
-                });
+                }, logo);
 
                 ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
@@ -169,6 +175,8 @@ namespace CarpoolingCR.Controllers
         // GET: Countries/Edit/5
         public ActionResult Edit(int? id)
         {
+            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg");;
+
             try
             {
                 if (!Common.IsAuthorized(User))
@@ -203,7 +211,7 @@ namespace CarpoolingCR.Controllers
                     Method = Common.GetCurrentMethod(),
                     Timestamp = Common.ConvertToUTCTime(DateTime.Now),
                     UserEmail = User.Identity.Name
-                });
+                }, logo);
 
                 ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
@@ -218,6 +226,8 @@ namespace CarpoolingCR.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "CountryId,Name,Status")] Country country)
         {
+            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg");;
+
             try
             {
                 if (!Common.IsAuthorized(User))
@@ -246,7 +256,7 @@ namespace CarpoolingCR.Controllers
                     Method = Common.GetCurrentMethod(),
                     Timestamp = Common.ConvertToUTCTime(DateTime.Now),
                     UserEmail = User.Identity.Name
-                });
+                }, logo);
 
                 ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
@@ -257,6 +267,8 @@ namespace CarpoolingCR.Controllers
         // GET: Countries/Delete/5
         public ActionResult Delete(int? id)
         {
+            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg");;
+
             try
             {
                 if (!Common.IsAuthorized(User))
@@ -286,7 +298,7 @@ namespace CarpoolingCR.Controllers
                     Method = Common.GetCurrentMethod(),
                     Timestamp = Common.ConvertToUTCTime(DateTime.Now),
                     UserEmail = User.Identity.Name
-                });
+                }, logo);
 
                 ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
@@ -299,6 +311,8 @@ namespace CarpoolingCR.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg");;
+
             try
             {
                 if (!Common.IsAuthorized(User))
@@ -326,7 +340,7 @@ namespace CarpoolingCR.Controllers
                     Method = Common.GetCurrentMethod(),
                     Timestamp = Common.ConvertToUTCTime(DateTime.Now),
                     UserEmail = User.Identity.Name
-                });
+                }, logo);
 
                 ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 

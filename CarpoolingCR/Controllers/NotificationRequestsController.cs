@@ -42,6 +42,8 @@ namespace CarpoolingCR.Controllers
         // GET: NotificationRequests/Create
         public ActionResult Create()
         {
+            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg");;
+
             try
             {
                 if (!Common.IsAuthorized(User))
@@ -72,7 +74,7 @@ namespace CarpoolingCR.Controllers
                     Method = Common.GetCurrentMethod(),
                     Timestamp = Common.ConvertToUTCTime(DateTime.Now),
                     UserEmail = User.Identity.Name
-                });
+                }, logo);
 
                 ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
@@ -87,6 +89,8 @@ namespace CarpoolingCR.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "NotificationRequestId,UserId,FromTownId,ToTownId,CreatedDate,RequestedFromDateTime,RequestedToDateTime,ReservationId,Status")] NotificationRequest notificationRequest)
         {
+            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg");;
+
             var fields = "Fields => ";
 
             if (!Common.IsAuthorized(User))
@@ -151,7 +155,7 @@ namespace CarpoolingCR.Controllers
                 var createdDate = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Local);
                 var requestedFromDateTime = DateTime.SpecifyKind(tripDate, DateTimeKind.Local);
                 var requestedToDateTime = DateTime.SpecifyKind(tripDate, DateTimeKind.Local);
-                
+
 
                 //get time by hour-type
                 if (timeFlexibleCheck)
@@ -202,7 +206,8 @@ namespace CarpoolingCR.Controllers
                     requestedToDateTime = new DateTime(requestedToDateTime.Year, requestedToDateTime.Month, requestedToDateTime.Day, toUserSelectedTime.Hour, toUserSelectedTime.Minute, 0);
                 }
 
-                notificationRequest = new NotificationRequest {
+                notificationRequest = new NotificationRequest
+                {
                     CreatedDate = Common.ConvertToUTCTime(createdDate),
                     FromTownId = fromDistrict.DistrictId,
                     ToTownId = toDistrict.DistrictId,
@@ -228,7 +233,7 @@ namespace CarpoolingCR.Controllers
                     Method = Common.GetCurrentMethod(),
                     Timestamp = Common.ConvertToUTCTime(DateTime.Now),
                     UserEmail = User.Identity.Name
-                });
+                }, logo);
 
                 ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 

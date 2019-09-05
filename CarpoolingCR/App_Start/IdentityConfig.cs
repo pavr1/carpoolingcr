@@ -15,6 +15,7 @@ using System.Net.Mail;
 using System.Net;
 using System.Web.Configuration;
 using CarpoolingCR.Utils;
+using System.IO;
 
 namespace CarpoolingCR
 {
@@ -48,6 +49,48 @@ namespace CarpoolingCR
                     Method = Common.GetCurrentMethod(),
                     Timestamp = Common.ConvertToUTCTime(DateTime.Now),
                     UserEmail = message.Destination
+                });
+            }
+
+            return Task.FromResult(0);
+        }
+
+        public Task SendAsyncToClients(string email, string subject, string description, string contentId, Stream picture, string contentType)
+        {
+            var htmlBody = ""; //get this from /Templates/EmailBody.html
+            htmlBody = htmlBody.Replace("{subject}", subject);
+            htmlBody = htmlBody.Replace("{Description}", description);
+            htmlBody = htmlBody.Replace("{contentId}", contentId);
+
+            MailMessage mail = new MailMessage(WebConfigurationManager.AppSettings["notificationsemail"], email, subject, htmlBody);
+            mail.IsBodyHtml = true;
+            //contenttype = "image/jpeg"
+            var attachment = new Attachment(picture, contentType);
+            attachment.ContentId = contentId;
+
+            mail.Attachments.Add(attachment);
+
+            var client = new SmtpClient(WebConfigurationManager.AppSettings["mailhost"], Convert.ToInt32(WebConfigurationManager.AppSettings["mailport"]))
+            {
+                Credentials = new NetworkCredential(WebConfigurationManager.AppSettings["notificationsemail"], WebConfigurationManager.AppSettings["notificationspassword"]),
+                EnableSsl = true
+            };
+
+            try
+            {
+                client.Send(mail);
+            }
+            catch (Exception ex)
+            {
+                Common.LogData(new Log
+                {
+                    Line = Common.GetCurrentLine(),
+                    Location = Enums.LogLocation.Server,
+                    LogType = Enums.LogType.Error,
+                    Message = ex.Message + " / " + ex.StackTrace,
+                    Method = Common.GetCurrentMethod(),
+                    Timestamp = Common.ConvertToUTCTime(DateTime.Now),
+                    UserEmail = email
                 });
             }
 

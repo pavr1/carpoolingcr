@@ -692,6 +692,7 @@
     <Content Include="serviceworker.js" />
     <Content Include="SQL\Costa Rica\Provinces\Todas.sql" />
     <Content Include="SQL\Vehicles\vehicles.sql" />
+    <Content Include="Templates\EmailBody.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

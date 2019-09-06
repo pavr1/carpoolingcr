@@ -114,6 +114,12 @@ namespace CarpoolingCR.Utils
             [Description("Expirado")]
             Expired
         }
+
+        public enum EmailType {
+            Notifications,
+            Updates,
+            Errors
+        }
     }
 
     public static class EnumHelper<T>

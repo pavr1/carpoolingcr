@@ -23,6 +23,8 @@ namespace CarpoolingCR.Controllers
         //if trip is not null then it means it's the driver qualifying passenger
         public string QualifyUser(int? reservationId, int? tripId, int stars, string comment)
         {
+            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg");;
+
             var tran = db.Database.BeginTransaction();
 
             try
@@ -77,7 +79,7 @@ namespace CarpoolingCR.Controllers
                     Method = Common.GetCurrentMethod(),
                     Timestamp = Common.ConvertToUTCTime(DateTime.Now),
                     UserEmail = User.Identity.Name
-                });
+                }, logo);
 
                 ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 

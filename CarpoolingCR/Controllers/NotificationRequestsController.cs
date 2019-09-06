@@ -7,6 +7,9 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using CarpoolingCR.Models;
+using CarpoolingCR.Models.Locations;
+using CarpoolingCR.Objects.Responses;
+using CarpoolingCR.Utils;
 
 namespace CarpoolingCR.Controllers
 {
@@ -39,8 +42,44 @@ namespace CarpoolingCR.Controllers
         // GET: NotificationRequests/Create
         public ActionResult Create()
         {
-            ViewBag.ReservationId = new SelectList(db.Reservations, "ReservationId", "ApplicationUserId");
-            return View();
+            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg");;
+
+            try
+            {
+                if (!Common.IsAuthorized(User))
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+
+                var user = Common.GetUserByEmail(User.Identity.Name);
+
+                var districtsSelectHtml = Common.GetLocationsStrings(user.CountryId);
+
+                var response = new NotificationsRequestResponse
+                {
+                    DistrictSelectOptionsHtml = districtsSelectHtml
+                };
+
+                //ViewBag.ReservationId = new SelectList(db.Reservations, "ReservationId", "ApplicationUserId");
+                return View(response);
+            }
+            catch (Exception ex)
+            {
+                Common.LogData(new Log
+                {
+                    Line = Common.GetCurrentLine(),
+                    Location = Enums.LogLocation.Server,
+                    LogType = Enums.LogType.Error,
+                    Message = ex.Message + " / " + ex.StackTrace,
+                    Method = Common.GetCurrentMethod(),
+                    Timestamp = Common.ConvertToUTCTime(DateTime.Now),
+                    UserEmail = User.Identity.Name
+                }, logo);
+
+                ViewBag.Error = "¡Error inesperado, intente de nuevo!";
+
+                return View();
+            }
         }
 
         // POST: NotificationRequests/Create
@@ -50,15 +89,156 @@ namespace CarpoolingCR.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "NotificationRequestId,UserId,FromTownId,ToTownId,CreatedDate,RequestedFromDateTime,RequestedToDateTime,ReservationId,Status")] NotificationRequest notificationRequest)
         {
-            if (ModelState.IsValid)
+            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg");;
+
+            var fields = "Fields => ";
+
+            if (!Common.IsAuthorized(User))
             {
-                db.NotificationRequests.Add(notificationRequest);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Login", "Account");
             }
 
-            ViewBag.ReservationId = new SelectList(db.Reservations, "ReservationId", "ApplicationUserId", notificationRequest.ReservationId);
-            return View(notificationRequest);
+            var user = Common.GetUserByEmail(User.Identity.Name);
+
+            try
+            {
+                #region Fields
+                fields += "FromTown: " + Request["FromTown"];
+                fields += "ToTown: " + Request["ToTown"] + ", ";
+                fields += "Route: " + Request["Route"] + ", ";
+                fields += "AvailableSpaces: " + Request["AvailableSpaces"];
+                fields += "DateTime: " + Request["DateTime"];
+                fields += "Trip.Details: " + Request["Trip.Details"];
+                fields += "Trip.Price: " + Request["Trip.Price"];
+                fields += "TotalSpaces: " + Request["TotalSpaces"];
+                #endregion
+
+                var districtsSelectHtml = Common.GetLocationsStrings(user.CountryId);
+                var fromDistrict = new District();
+                var toDistrict = new District();
+
+                fromDistrict = Common.ValidateDistrictString(Request["FromTown"]);
+
+                if (fromDistrict == null)
+                {
+                    //¡Origen no válido!
+                    ViewBag.Warning = "10005";
+
+                    var response = new NotificationsRequestResponse
+                    {
+                        DistrictSelectOptionsHtml = districtsSelectHtml
+                    };
+
+                    return View(response);
+                }
+
+                toDistrict = Common.ValidateDistrictString(Request["ToTown"]);
+
+                if (toDistrict == null)
+                {
+                    //¡Destino no válido!
+                    ViewBag.Warning = "10006";
+
+                    var response = new NotificationsRequestResponse
+                    {
+                        DistrictSelectOptionsHtml = districtsSelectHtml
+                    };
+
+                    return View(response);
+                }
+
+                var tripDate = DateTime.SpecifyKind(Convert.ToDateTime(Request["DateTimeDisplay"]), DateTimeKind.Local);
+                var timeFlexibleCheck = Convert.ToBoolean(Request["time-options-check"]);
+                var timeDisplay = Request["TimeDisplay"];
+                var hourType = Convert.ToInt32(Request["hour-type"]);
+
+                var createdDate = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Local);
+                var requestedFromDateTime = DateTime.SpecifyKind(tripDate, DateTimeKind.Local);
+                var requestedToDateTime = DateTime.SpecifyKind(tripDate, DateTimeKind.Local);
+
+
+                //get time by hour-type
+                if (timeFlexibleCheck)
+                {
+                    switch (hourType)
+                    {
+                        case 1:
+                            requestedFromDateTime = new DateTime(requestedFromDateTime.Year, requestedFromDateTime.Month, requestedFromDateTime.Day, 0, 0, 0);
+                            requestedToDateTime = new DateTime(requestedToDateTime.Year, requestedToDateTime.Month, requestedToDateTime.Day, 23, 59, 0);
+                            break;
+                        case 2:
+                            requestedFromDateTime = new DateTime(requestedFromDateTime.Year, requestedFromDateTime.Month, requestedFromDateTime.Day, 0, 0, 0);
+                            requestedToDateTime = new DateTime(requestedToDateTime.Year, requestedToDateTime.Month, requestedToDateTime.Day, 5, 59, 0);
+                            break;
+                        case 3:
+                            requestedFromDateTime = new DateTime(requestedFromDateTime.Year, requestedFromDateTime.Month, requestedFromDateTime.Day, 6, 0, 0);
+                            requestedToDateTime = new DateTime(requestedToDateTime.Year, requestedToDateTime.Month, requestedToDateTime.Day, 11, 59, 0);
+                            break;
+                        case 4:
+                            requestedFromDateTime = new DateTime(requestedFromDateTime.Year, requestedFromDateTime.Month, requestedFromDateTime.Day, 12, 0, 0);
+                            requestedToDateTime = new DateTime(requestedToDateTime.Year, requestedToDateTime.Month, requestedToDateTime.Day, 12, 59, 0);
+                            break;
+                        case 5:
+                            requestedFromDateTime = new DateTime(requestedFromDateTime.Year, requestedFromDateTime.Month, requestedFromDateTime.Day, 13, 0, 0);
+                            requestedToDateTime = new DateTime(requestedToDateTime.Year, requestedToDateTime.Month, requestedToDateTime.Day, 18, 59, 0);
+                            break;
+                        case 6:
+                            requestedFromDateTime = new DateTime(requestedFromDateTime.Year, requestedFromDateTime.Month, requestedFromDateTime.Day, 19, 0, 0);
+                            requestedToDateTime = new DateTime(requestedToDateTime.Year, requestedToDateTime.Month, requestedToDateTime.Day, 23, 59, 0);
+                            break;
+                        default:
+                            requestedFromDateTime = new DateTime(requestedFromDateTime.Year, requestedFromDateTime.Month, requestedFromDateTime.Day, 0, 0, 0);
+                            requestedToDateTime = new DateTime(requestedToDateTime.Year, requestedToDateTime.Month, requestedToDateTime.Day, 23, 59, 0);
+                            break;
+                    }
+                }
+                else
+                {
+                    //get user specific time
+
+                    //split timeDisplay 5:15 PM to get hour and minutes, substract 15 mins before to get FromDateTime, and sum up 15 mins after to get toDateTime
+                    DateTime userSelectedTime = DateTime.Parse("05:00 PM");
+
+                    var fromUserSelectedTime = userSelectedTime.AddMinutes(-15);
+                    var toUserSelectedTime = userSelectedTime.AddMinutes(15);
+
+                    requestedFromDateTime = new DateTime(requestedFromDateTime.Year, requestedFromDateTime.Month, requestedFromDateTime.Day, fromUserSelectedTime.Hour, fromUserSelectedTime.Minute, 0);
+                    requestedToDateTime = new DateTime(requestedToDateTime.Year, requestedToDateTime.Month, requestedToDateTime.Day, toUserSelectedTime.Hour, toUserSelectedTime.Minute, 0);
+                }
+
+                notificationRequest = new NotificationRequest
+                {
+                    CreatedDate = Common.ConvertToUTCTime(createdDate),
+                    FromTownId = fromDistrict.DistrictId,
+                    ToTownId = toDistrict.DistrictId,
+                    RequestedFromDateTime = Common.ConvertToUTCTime(requestedFromDateTime),
+                    RequestedToDateTime = Common.ConvertToUTCTime(requestedToDateTime),
+                    Status = Enums.RequestNotificationStatus.Active,
+                    UserId = user.Id
+                };
+
+                db.NotificationRequests.Add(notificationRequest);
+                db.SaveChanges();
+
+                return RedirectToAction("Index?message=Solicitud de notificacion creada");
+            }
+            catch (Exception ex)
+            {
+                Common.LogData(new Log
+                {
+                    Line = Common.GetCurrentLine(),
+                    Location = Enums.LogLocation.Server,
+                    LogType = Enums.LogType.Error,
+                    Message = ex.Message + " / " + ex.StackTrace,
+                    Method = Common.GetCurrentMethod(),
+                    Timestamp = Common.ConvertToUTCTime(DateTime.Now),
+                    UserEmail = User.Identity.Name
+                }, logo);
+
+                ViewBag.Error = "¡Error inesperado, intente de nuevo!";
+
+                return View();
+            }
         }
 
         // GET: NotificationRequests/Edit/5

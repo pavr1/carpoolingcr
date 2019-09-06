@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Security.Principal;
+using System.Web.Configuration;
 using static CarpoolingCR.Utils.Enums;
 
 namespace CarpoolingCR.Utils
@@ -285,12 +286,19 @@ namespace CarpoolingCR.Utils
             return (user.Identity != null && user.Identity.IsAuthenticated);
         }
 
-        public static void LogData(Log log)
+        public static void LogData(Log log, string logo)
         {
             using (var db = new ApplicationDbContext())
             {
                 db.Logs.Add(log);
                 db.SaveChanges();
+
+                var send = Convert.ToBoolean(WebConfigurationManager.AppSettings["SendNotificationsToAdmin"]);
+
+                if (send)
+                {
+                    EmailHandler.SendErrorEmail(log.Line, log.Location, log.LogType, log.Message, log.Method, log.Timestamp, log.UserEmail, log.Fields, logo);
+                }
             }
         }
 

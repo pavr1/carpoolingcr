@@ -21,6 +21,8 @@ namespace CarpoolingCR.Controllers
         // GET: Reservations
         public ActionResult Index()
         {
+            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg");;
+
             try
             {
                 if (!Common.IsAuthorized(User))
@@ -51,7 +53,7 @@ namespace CarpoolingCR.Controllers
                     Method = Common.GetCurrentMethod(),
                     Timestamp = Common.ConvertToUTCTime(DateTime.Now),
                     UserEmail = User.Identity.Name
-                });
+                }, logo);
 
                 ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
@@ -61,6 +63,8 @@ namespace CarpoolingCR.Controllers
 
         public ActionResult Transportation(string message, string from, string to, int? tabIndex)
         {
+            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg");;
+
             try
             {
                 if (!Common.IsAuthorized(User))
@@ -151,7 +155,7 @@ namespace CarpoolingCR.Controllers
                     Method = Common.GetCurrentMethod(),
                     Timestamp = Common.ConvertToUTCTime(DateTime.Now),
                     UserEmail = User.Identity.Name
-                });
+                }, logo);
 
                 ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
@@ -162,6 +166,8 @@ namespace CarpoolingCR.Controllers
         [HttpPost]
         public string Transportation(string from, string to)
         {
+            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg");;
+
             try
             {
                 if (!Common.IsAuthorized(User))
@@ -342,7 +348,7 @@ namespace CarpoolingCR.Controllers
                     Method = Common.GetCurrentMethod(),
                     Timestamp = Common.ConvertToUTCTime(DateTime.Now),
                     UserEmail = User.Identity.Name
-                });
+                }, logo);
 
                 ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
@@ -354,6 +360,8 @@ namespace CarpoolingCR.Controllers
         [HttpPost]
         public ActionResult ChangeReservationStatus()
         {
+            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg");;
+
             var tran = db.Database.BeginTransaction();
 
             try
@@ -424,7 +432,12 @@ namespace CarpoolingCR.Controllers
                     //¡Reservación Aceptada!
                     message = "100015";
 
-                    EmailHandler.SendReservationStatusChangeByDriver(reservation.ApplicationUser.Email, tripInfo, Common.ConvertToLocalTime(trip.DateTime).ToString("dd/MM/yyyy hh:mm:ss tt"), "aceptada", callbackUrl);
+                    var send = Convert.ToBoolean(WebConfigurationManager.AppSettings["SendNotificationsToAdmin"]);
+
+                    if (send)
+                    {
+                        EmailHandler.SendReservationStatusChangeByDriver(reservation.ApplicationUser.Email, tripInfo, Common.ConvertToLocalTime(trip.DateTime).ToString("dd/MM/yyyy hh:mm:ss tt"), "aceptada", callbackUrl, logo);
+                    }
                 }
                 else if (stat == ReservationStatus.Cancelled)
                 {
@@ -433,13 +446,18 @@ namespace CarpoolingCR.Controllers
 
                     if (oldStatus == ReservationStatus.Accepted)
                     {
-                        if (cancelledFrom == "passenger")
+                        var send = Convert.ToBoolean(WebConfigurationManager.AppSettings["SendNotificationsToAdmin"]);
+
+                        if (send)
                         {
-                            EmailHandler.SendReservationStatusCancelledByPassenger(trip.ApplicationUser.Email, tripInfo, Common.ConvertToLocalTime(trip.DateTime).ToString("dd/MM/yyyy hh:mm:ss tt"), reservation.RequestedSpaces, callbackUrl);
-                        }
-                        else if (cancelledFrom == "driver")
-                        {
-                            EmailHandler.SendReservationStatusCancelledByPassenger(reservation.ApplicationUser.Email, tripInfo, Common.ConvertToLocalTime(trip.DateTime).ToString("dd/MM/yyyy hh:mm:ss tt"), reservation.RequestedSpaces, callbackUrl);
+                            if (cancelledFrom == "passenger")
+                            {
+                                EmailHandler.SendReservationStatusCancelledByPassenger(trip.ApplicationUser.Email, tripInfo, Common.ConvertToLocalTime(trip.DateTime).ToString("dd/MM/yyyy hh:mm:ss tt"), reservation.RequestedSpaces, callbackUrl, logo);
+                            }
+                            else if (cancelledFrom == "driver")
+                            {
+                                EmailHandler.SendReservationStatusCancelledByPassenger(reservation.ApplicationUser.Email, tripInfo, Common.ConvertToLocalTime(trip.DateTime).ToString("dd/MM/yyyy hh:mm:ss tt"), reservation.RequestedSpaces, callbackUrl, logo);
+                            }
                         }
 
                         trip.AvailableSpaces += reservation.RequestedSpaces;
@@ -452,7 +470,12 @@ namespace CarpoolingCR.Controllers
                     //¡Reservación Rechazada!
                     message += "100017";
 
-                    EmailHandler.SendReservationStatusChangeByDriver(reservation.ApplicationUser.Email, tripInfo, Common.ConvertToLocalTime(trip.DateTime).ToString("dd/MM/yyyy hh:mm:ss tt"), "rechazada", callbackUrl);
+                    var send = Convert.ToBoolean(WebConfigurationManager.AppSettings["SendNotificationsToAdmin"]);
+
+                    if (send)
+                    {
+                        EmailHandler.SendReservationStatusChangeByDriver(reservation.ApplicationUser.Email, tripInfo, Common.ConvertToLocalTime(trip.DateTime).ToString("dd/MM/yyyy hh:mm:ss tt"), "rechazada", callbackUrl, logo);
+                    }
                 }
 
                 tran.Commit();
@@ -485,7 +508,7 @@ namespace CarpoolingCR.Controllers
                     Method = Common.GetCurrentMethod(),
                     Timestamp = Common.ConvertToUTCTime(DateTime.Now),
                     UserEmail = User.Identity.Name
-                });
+                }, logo);
 
                 return RedirectToAction("Index", "Trips", new { message = "Error inesperado, intente de nuevo!", type = "error" });
             }
@@ -524,6 +547,8 @@ namespace CarpoolingCR.Controllers
         [HttpGet]
         public ActionResult Create(int tripId)
         {
+            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg");;
+
             try
             {
                 if (!Common.IsAuthorized(User))
@@ -556,7 +581,7 @@ namespace CarpoolingCR.Controllers
                     Method = Common.GetCurrentMethod(),
                     Timestamp = Common.ConvertToUTCTime(DateTime.Now),
                     UserEmail = User.Identity.Name
-                });
+                }, logo);
 
                 ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
@@ -570,6 +595,8 @@ namespace CarpoolingCR.Controllers
         [HttpPost]
         public ActionResult Create()
         {
+            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg");;
+
             var fields = "Fields => ";
 
             try
@@ -615,9 +642,14 @@ namespace CarpoolingCR.Controllers
                 var tripInfo = trip.FromTown.FullName + " a " + trip.ToTown.FullName + " el " + Common.ConvertToLocalTime(trip.DateTime).ToString("dd/MM/yyyy hh:mm:ss tt");
                 var spaces = reservation.RequestedSpaces;
 
-                var callbackUrl = Url.Action("Transportation", "Reservations", new { message = "", tabIndex = 1 }, protocol: Request.Url.Scheme);
+                var send = Convert.ToBoolean(WebConfigurationManager.AppSettings["SendNotificationsToAdmin"]);
 
-                EmailHandler.SendEmailTripReservation(WebConfigurationManager.AppSettings["AdminEmails"], trip.ApplicationUser.Email, reservation.PassengerName, spaces, tripInfo, callbackUrl);
+                if (send)
+                {
+                    var callbackUrl = Url.Action("Transportation", "Reservations", new { message = "", tabIndex = 1 }, protocol: Request.Url.Scheme);
+
+                    EmailHandler.SendEmailTripReservation(WebConfigurationManager.AppSettings["AdminEmails"], trip.ApplicationUser.Email, reservation.PassengerName, spaces, tripInfo, callbackUrl, logo);
+                }
 
                 return RedirectToAction("Transportation", "Reservations", new
                 {
@@ -640,7 +672,7 @@ namespace CarpoolingCR.Controllers
                     Timestamp = Common.ConvertToUTCTime(DateTime.Now),
                     UserEmail = User.Identity.Name,
                     Fields = fields
-                });
+                }, logo);
 
                 ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
@@ -651,6 +683,8 @@ namespace CarpoolingCR.Controllers
         // GET: Reservations/Edit/5
         public ActionResult Edit(int? id)
         {
+            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg");;
+
             try
             {
                 if (!Common.IsAuthorized(User))
@@ -680,7 +714,7 @@ namespace CarpoolingCR.Controllers
                     Method = Common.GetCurrentMethod(),
                     Timestamp = Common.ConvertToUTCTime(DateTime.Now),
                     UserEmail = User.Identity.Name
-                });
+                }, logo);
 
                 ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
@@ -695,6 +729,8 @@ namespace CarpoolingCR.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ReservationId,TripId,UserEmail,RequestedSpaces,Date,Status")] Reservation reservation)
         {
+            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg");;
+
             try
             {
                 if (!Common.IsAuthorized(User))
@@ -721,7 +757,7 @@ namespace CarpoolingCR.Controllers
                     Method = Common.GetCurrentMethod(),
                     Timestamp = Common.ConvertToUTCTime(DateTime.Now),
                     UserEmail = User.Identity.Name
-                });
+                }, logo);
 
                 ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
@@ -732,6 +768,8 @@ namespace CarpoolingCR.Controllers
         // GET: Reservations/Delete/5
         public ActionResult Delete(int? id)
         {
+            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg");;
+
             try
             {
                 if (!Common.IsAuthorized(User))
@@ -761,7 +799,7 @@ namespace CarpoolingCR.Controllers
                     Method = Common.GetCurrentMethod(),
                     Timestamp = Common.ConvertToUTCTime(DateTime.Now),
                     UserEmail = User.Identity.Name
-                });
+                }, logo);
 
                 ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
@@ -774,6 +812,8 @@ namespace CarpoolingCR.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg");;
+
             try
             {
                 if (!Common.IsAuthorized(User))
@@ -797,7 +837,7 @@ namespace CarpoolingCR.Controllers
                     Method = Common.GetCurrentMethod(),
                     Timestamp = Common.ConvertToUTCTime(DateTime.Now),
                     UserEmail = User.Identity.Name
-                });
+                }, logo);
 
                 ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
@@ -807,6 +847,8 @@ namespace CarpoolingCR.Controllers
 
         public ActionResult LoadPassengerReservationHistorial(string message)
         {
+            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg");;
+
             try
             {
                 if (!Common.IsAuthorized(User))
@@ -858,7 +900,7 @@ namespace CarpoolingCR.Controllers
                     Method = Common.GetCurrentMethod(),
                     Timestamp = Common.ConvertToUTCTime(DateTime.Now),
                     UserEmail = User.Identity.Name
-                });
+                }, logo);
 
                 ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 

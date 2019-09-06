@@ -1,6 +1,8 @@
-﻿using CarpoolingCR.Utils;
+﻿using CarpoolingCR.Models;
+using CarpoolingCR.Utils;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Configuration;
@@ -12,19 +14,41 @@ namespace CarpoolingCR.Controllers
     {
         public ActionResult Index()
         {
-            var user = Common.GetUserByEmail(User.Identity.Name);
+            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg");;
 
-            if (!Common.IsAuthorized(User))
+            try
             {
-                var send = Convert.ToBoolean(WebConfigurationManager.AppSettings["SendNotificationsToAdmin"]);
+                var user = Common.GetUserByEmail(User.Identity.Name);
 
-                if (send)
+                if (!Common.IsAuthorized(User))
                 {
-                    EmailHandler.HomePageHit();
-                }
-            }
+                    var send = Convert.ToBoolean(WebConfigurationManager.AppSettings["SendNotificationsToAdmin"]);
 
-            return View();
+                    if (send)
+                    {
+                        EmailHandler.HomePageHit(logo);
+                    }
+                }
+                
+                return View();
+            }
+            catch (Exception ex)
+            {
+                Common.LogData(new Log
+                {
+                    Line = Common.GetCurrentLine(),
+                    Location = Enums.LogLocation.Server,
+                    LogType = Enums.LogType.Error,
+                    Message = ex.Message + " / " + ex.StackTrace,
+                    Method = Common.GetCurrentMethod(),
+                    Timestamp = Common.ConvertToUTCTime(DateTime.Now),
+                    UserEmail = User.Identity.Name
+                }, logo);
+
+                ViewBag.Error = "¡Error inesperado, intente de nuevo!";
+
+                return View();
+            }
         }
 
         public ActionResult About()

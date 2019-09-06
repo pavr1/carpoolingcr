@@ -18,10 +18,14 @@ namespace CarpoolingCR.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: NotificationRequests
-        public ActionResult Index()
+        public ActionResult Index(string message)
         {
-            var notificationRequests = db.NotificationRequests.Include(n => n.Reservation);
-            return View(notificationRequests.ToList());
+            if (!string.IsNullOrEmpty(message))
+            {
+                ViewBag.Info = message;
+            }
+
+            return View();
         }
 
         // GET: NotificationRequests/Details/5
@@ -103,14 +107,13 @@ namespace CarpoolingCR.Controllers
             try
             {
                 #region Fields
-                fields += "FromTown: " + Request["FromTown"];
+                fields += "FromTown: " + Request["FromTown"] + ", ";
                 fields += "ToTown: " + Request["ToTown"] + ", ";
-                fields += "Route: " + Request["Route"] + ", ";
-                fields += "AvailableSpaces: " + Request["AvailableSpaces"];
-                fields += "DateTime: " + Request["DateTime"];
-                fields += "Trip.Details: " + Request["Trip.Details"];
-                fields += "Trip.Price: " + Request["Trip.Price"];
-                fields += "TotalSpaces: " + Request["TotalSpaces"];
+                fields += "DateTimeDisplay: " + Request["DateTimeDisplay"] + ", ";
+                fields += "TimeDisplay: " + Request["TimeDisplay"] + ", ";
+                fields += "HourType: " + Request["hour-type"] + ", ";
+                fields += "TimeOptionsCheck: " + Request["time-options-check"] + ", ";
+                fields += "DateTime: " + Request["DateTime"] + ", ";
                 #endregion
 
                 var districtsSelectHtml = Common.GetLocationsStrings(user.CountryId);
@@ -148,8 +151,8 @@ namespace CarpoolingCR.Controllers
                 }
 
                 var tripDate = DateTime.SpecifyKind(Convert.ToDateTime(Request["DateTimeDisplay"]), DateTimeKind.Local);
-                var timeFlexibleCheck = Convert.ToBoolean(Request["time-options-check"]);
-                var timeDisplay = Request["TimeDisplay"];
+                var timeFlexibleCheck = (Request["time-options-check"] == "on");
+                var timeDisplay = Convert.ToDateTime(Request["TimeDisplay"]);
                 var hourType = Convert.ToInt32(Request["hour-type"]);
 
                 var createdDate = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Local);
@@ -220,7 +223,8 @@ namespace CarpoolingCR.Controllers
                 db.NotificationRequests.Add(notificationRequest);
                 db.SaveChanges();
 
-                return RedirectToAction("Index?message=Solicitud de notificacion creada");
+                //¡Notificación de viaje creada!
+                return RedirectToAction("Index?message=100049");
             }
             catch (Exception ex)
             {

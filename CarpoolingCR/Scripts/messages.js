@@ -79,8 +79,8 @@
         return "¡Cuota Requerida!";
     } else if (code === "100039") {
         return "¡Ruta inválida!";
-    } else if (code === "xxxxxxxxx") {
-        return "zzzzzzzzzzzzzzzzzzzzzz";
+    } else if (code === "100049") {
+        return "¡Notificación de viaje creada!";
     } else if (code === "xxxxxxxxx") {
         return "zzzzzzzzzzzzzzzzzzzzzz";
     } else if (code === "xxxxxxxxx") {

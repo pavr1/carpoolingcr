@@ -18,13 +18,10 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
-    <IISExpressSSLPort>44346</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication>
-    </IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>
-    </IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>
-    </IISExpressUseClassicPipelineMode>
+    <IISExpressSSLPort>443</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -226,7 +223,6 @@
     <Compile Include="Controllers\MonthlyBalancesController.cs" />
     <Compile Include="Controllers\MonthlyTransactionsController.cs" />
     <Compile Include="Controllers\NotificationRequestsController.cs" />
-    <Compile Include="Controllers\OfflineController.cs" />
     <Compile Include="Controllers\ProfileQualificationsController.cs" />
     <Compile Include="Controllers\ProvincesController.cs" />
     <Compile Include="Controllers\QualificationsController.cs" />
@@ -281,6 +277,7 @@
     <Compile Include="Models\VehicleInfo.cs" />
     <Compile Include="Models\Vehicle\Vehicle.cs" />
     <Compile Include="Objects\Responses\Base\BaseResponse.cs" />
+    <Compile Include="Objects\Responses\CancelNotificationResponse.cs" />
     <Compile Include="Objects\Responses\ChatMessageResponse.cs" />
     <Compile Include="Objects\Responses\ContactUsResponse.cs" />
     <Compile Include="Objects\Responses\DisplayMessagesResponse.cs" />
@@ -803,7 +800,6 @@
     <Content Include="Views\ChattingMessages\Details.cshtml" />
     <Content Include="Views\ChattingMessages\Edit.cshtml" />
     <Content Include="Views\ChattingMessages\_Index.cshtml" />
-    <Content Include="Views\Offline\Index.cshtml" />
     <Content Include="Views\Account\ContactUs.cshtml" />
     <Content Include="Views\TripQuestions\DisplayMessages.cshtml" />
     <Content Include="Views\TripQuestions\Partials\_MessageHistory.cshtml" />
@@ -839,6 +835,7 @@
     <Content Include="Views\NotificationRequests\Details.cshtml" />
     <Content Include="Views\NotificationRequests\Edit.cshtml" />
     <Content Include="Views\NotificationRequests\Index.cshtml" />
+    <Content Include="Views\NotificationRequests\Partials\p_Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -848,6 +845,7 @@
     <Folder Include="Content\jquery-weekcalendar-1.2.2\full_demo\images\.svn\tmp\text-base\" />
     <Folder Include="Content\Pictures\Users\" />
     <Folder Include="Views\Manage\Partials\" />
+    <Folder Include="Views\Offline\" />
     <Folder Include="Views\Vehicles\" />
   </ItemGroup>
   <ItemGroup>

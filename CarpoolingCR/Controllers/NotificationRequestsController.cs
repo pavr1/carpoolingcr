@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
-using System.Net;
-using System.Web;
-using System.Web.Mvc;
-using CarpoolingCR.Models;
+﻿using CarpoolingCR.Models;
 using CarpoolingCR.Models.Locations;
 using CarpoolingCR.Objects.Responses;
 using CarpoolingCR.Utils;
+using System;
+using System.Data.Entity;
+using System.Linq;
+using System.Net;
+using System.Web.Mvc;
 
 namespace CarpoolingCR.Controllers
 {
@@ -20,12 +17,60 @@ namespace CarpoolingCR.Controllers
         // GET: NotificationRequests
         public ActionResult Index(string message)
         {
-            if (!string.IsNullOrEmpty(message))
-            {
-                ViewBag.Info = message;
-            }
+            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg"); ;
 
-            return View();
+            try
+            {
+                if (!Common.IsAuthorized(User))
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+
+                var user = Common.GetUserByEmail(User.Identity.Name);
+
+                if (string.IsNullOrEmpty(message))
+                {
+                    ViewBag.Info = message;
+                }
+
+                var notificationRequests = db.NotificationRequests
+                    .Where(x => x.UserId == user.Id)
+                    .Include(n => n.Reservation)
+                    .ToList();
+
+                foreach (var notification in notificationRequests)
+                {
+                    notification.RequestedFromDateTime = Common.ConvertToLocalTime(notification.RequestedFromDateTime);
+                    notification.RequestedToDateTime = Common.ConvertToLocalTime(notification.RequestedToDateTime);
+
+                    notification.FromTown = db.Districts.Where(x => x.DistrictId == notification.FromTownId).Single();
+                    notification.ToTown = db.Districts.Where(x => x.DistrictId == notification.ToTownId).Single();
+                }
+
+                var response = new CancelNotificationResponse
+                {
+                    Notifications = notificationRequests
+                };
+
+                return View(response);
+            }
+            catch (Exception ex)
+            {
+                Common.LogData(new Log
+                {
+                    Line = Common.GetCurrentLine(),
+                    Location = Enums.LogLocation.Server,
+                    LogType = Enums.LogType.Error,
+                    Message = ex.Message + " / " + ex.StackTrace,
+                    Method = Common.GetCurrentMethod(),
+                    Timestamp = Common.ConvertToUTCTime(DateTime.Now),
+                    UserEmail = User.Identity.Name
+                }, logo);
+
+                ViewBag.Error = "¡Error inesperado, intente de nuevo!";
+
+                return View();
+            }
         }
 
         // GET: NotificationRequests/Details/5
@@ -46,7 +91,7 @@ namespace CarpoolingCR.Controllers
         // GET: NotificationRequests/Create
         public ActionResult Create()
         {
-            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg");;
+            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg"); ;
 
             try
             {
@@ -93,7 +138,7 @@ namespace CarpoolingCR.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "NotificationRequestId,UserId,FromTownId,ToTownId,CreatedDate,RequestedFromDateTime,RequestedToDateTime,ReservationId,Status")] NotificationRequest notificationRequest)
         {
-            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg");;
+            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg"); ;
 
             var fields = "Fields => ";
 
@@ -107,13 +152,14 @@ namespace CarpoolingCR.Controllers
             try
             {
                 #region Fields
-                fields += "FromTown: " + Request["FromTown"] + ", ";
+                fields += "FromTown: " + Request["FromTown"];
                 fields += "ToTown: " + Request["ToTown"] + ", ";
-                fields += "DateTimeDisplay: " + Request["DateTimeDisplay"] + ", ";
-                fields += "TimeDisplay: " + Request["TimeDisplay"] + ", ";
-                fields += "HourType: " + Request["hour-type"] + ", ";
-                fields += "TimeOptionsCheck: " + Request["time-options-check"] + ", ";
-                fields += "DateTime: " + Request["DateTime"] + ", ";
+                fields += "Route: " + Request["Route"] + ", ";
+                fields += "AvailableSpaces: " + Request["AvailableSpaces"];
+                fields += "DateTime: " + Request["DateTime"];
+                fields += "Trip.Details: " + Request["Trip.Details"];
+                fields += "Trip.Price: " + Request["Trip.Price"];
+                fields += "TotalSpaces: " + Request["TotalSpaces"];
                 #endregion
 
                 var districtsSelectHtml = Common.GetLocationsStrings(user.CountryId);
@@ -151,9 +197,9 @@ namespace CarpoolingCR.Controllers
                 }
 
                 var tripDate = DateTime.SpecifyKind(Convert.ToDateTime(Request["DateTimeDisplay"]), DateTimeKind.Local);
-                var timeFlexibleCheck = (Request["time-options-check"] == "on");
-                var timeDisplay = Convert.ToDateTime(Request["TimeDisplay"]);
-                var hourType = Convert.ToInt32(Request["hour-type"]);
+                var timeFlexibleCheck = Request["time-options-check"] == "on";
+                var timeDisplay = Request["TimeDisplay"];
+                var hourType = Request["hour-type"];
 
                 var createdDate = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Local);
                 var requestedFromDateTime = DateTime.SpecifyKind(tripDate, DateTimeKind.Local);
@@ -165,27 +211,27 @@ namespace CarpoolingCR.Controllers
                 {
                     switch (hourType)
                     {
-                        case 1:
+                        case "Todo el día (12:00 am-11:59 pm)":
                             requestedFromDateTime = new DateTime(requestedFromDateTime.Year, requestedFromDateTime.Month, requestedFromDateTime.Day, 0, 0, 0);
                             requestedToDateTime = new DateTime(requestedToDateTime.Year, requestedToDateTime.Month, requestedToDateTime.Day, 23, 59, 0);
                             break;
-                        case 2:
+                        case "Madrugada (12:00 am-5:59 am)":
                             requestedFromDateTime = new DateTime(requestedFromDateTime.Year, requestedFromDateTime.Month, requestedFromDateTime.Day, 0, 0, 0);
                             requestedToDateTime = new DateTime(requestedToDateTime.Year, requestedToDateTime.Month, requestedToDateTime.Day, 5, 59, 0);
                             break;
-                        case 3:
+                        case "Mañana (6:00 am-11:59 am)":
                             requestedFromDateTime = new DateTime(requestedFromDateTime.Year, requestedFromDateTime.Month, requestedFromDateTime.Day, 6, 0, 0);
                             requestedToDateTime = new DateTime(requestedToDateTime.Year, requestedToDateTime.Month, requestedToDateTime.Day, 11, 59, 0);
                             break;
-                        case 4:
+                        case "Medio día (12:00 pm-12:59 pm)":
                             requestedFromDateTime = new DateTime(requestedFromDateTime.Year, requestedFromDateTime.Month, requestedFromDateTime.Day, 12, 0, 0);
                             requestedToDateTime = new DateTime(requestedToDateTime.Year, requestedToDateTime.Month, requestedToDateTime.Day, 12, 59, 0);
                             break;
-                        case 5:
+                        case "Tarde (1:00 pm-6:59 pm)":
                             requestedFromDateTime = new DateTime(requestedFromDateTime.Year, requestedFromDateTime.Month, requestedFromDateTime.Day, 13, 0, 0);
                             requestedToDateTime = new DateTime(requestedToDateTime.Year, requestedToDateTime.Month, requestedToDateTime.Day, 18, 59, 0);
                             break;
-                        case 6:
+                        case "Noche (7:00 pm-11:59 pm)":
                             requestedFromDateTime = new DateTime(requestedFromDateTime.Year, requestedFromDateTime.Month, requestedFromDateTime.Day, 19, 0, 0);
                             requestedToDateTime = new DateTime(requestedToDateTime.Year, requestedToDateTime.Month, requestedToDateTime.Day, 23, 59, 0);
                             break;
@@ -200,7 +246,9 @@ namespace CarpoolingCR.Controllers
                     //get user specific time
 
                     //split timeDisplay 5:15 PM to get hour and minutes, substract 15 mins before to get FromDateTime, and sum up 15 mins after to get toDateTime
-                    DateTime userSelectedTime = DateTime.Parse("05:00 PM");
+                    DateTime userSelectedTime = DateTime.Parse(timeDisplay);
+
+                    userSelectedTime = new DateTime(tripDate.Year, tripDate.Month, tripDate.Day, userSelectedTime.Hour, userSelectedTime.Minute, 0);
 
                     var fromUserSelectedTime = userSelectedTime.AddMinutes(-15);
                     var toUserSelectedTime = userSelectedTime.AddMinutes(15);
@@ -223,8 +271,7 @@ namespace CarpoolingCR.Controllers
                 db.NotificationRequests.Add(notificationRequest);
                 db.SaveChanges();
 
-                //¡Notificación de viaje creada!
-                return RedirectToAction("Index?message=100049");
+                return RedirectToAction("Index", new { message = "100040" });
             }
             catch (Exception ex)
             {
@@ -245,6 +292,96 @@ namespace CarpoolingCR.Controllers
             }
         }
 
+        [HttpPost]
+        public ActionResult CancelNotification(int notificationRequestId)
+        {
+            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg"); ;
+
+            if (!Common.IsAuthorized(User))
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            var user = Common.GetUserByEmail(User.Identity.Name);
+
+            try
+            {
+                var notification = db.NotificationRequests
+                    .Where(x => x.NotificationRequestId == notificationRequestId)
+                    .Where(x => x.Status == Enums.RequestNotificationStatus.Active)
+                    .SingleOrDefault();
+
+                if (notification != null)
+                {
+                    notification.Status = Enums.RequestNotificationStatus.Cancelled;
+
+                    db.Entry(notification).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+
+                var notificationRequests = db.NotificationRequests
+                    .Where(x => x.UserId == user.Id)
+                    .Include(n => n.Reservation)
+                    .ToList();
+
+                foreach (var not in notificationRequests)
+                {
+                    not.RequestedFromDateTime = Common.ConvertToLocalTime(not.RequestedFromDateTime);
+                    not.RequestedToDateTime = Common.ConvertToLocalTime(not.RequestedToDateTime);
+
+                    not.FromTown = db.Districts.Where(x => x.DistrictId == not.FromTownId).Single();
+                    not.ToTown = db.Districts.Where(x => x.DistrictId == not.ToTownId).Single();
+                }
+
+                var response = new CancelNotificationResponse
+                {
+                    //¡Notificación automática cancelada!
+                    Message = "100041",
+                    Notifications = notificationRequests,
+                    Html = Serializer.RenderViewToString(this.ControllerContext, "_Index", notificationRequests)
+                };
+
+                return Content(Serializer.Serialize(response));
+
+            }
+            catch (Exception ex)
+            {
+                Common.LogData(new Log
+                {
+                    Line = Common.GetCurrentLine(),
+                    Location = Enums.LogLocation.Server,
+                    LogType = Enums.LogType.Error,
+                    Message = ex.Message + " / " + ex.StackTrace,
+                    Method = Common.GetCurrentMethod(),
+                    Timestamp = Common.ConvertToUTCTime(DateTime.Now),
+                    UserEmail = User.Identity.Name
+                }, logo);
+
+                ViewBag.Error = "¡Error inesperado, intente de nuevo!";
+
+                var notificationRequests = db.NotificationRequests
+                   .Where(x => x.UserId == user.Id)
+                   .Include(n => n.Reservation)
+                   .ToList();
+
+                foreach (var not in notificationRequests)
+                {
+                    not.RequestedFromDateTime = Common.ConvertToLocalTime(not.RequestedFromDateTime);
+                    not.RequestedToDateTime = Common.ConvertToLocalTime(not.RequestedToDateTime);
+
+                    not.FromTown = db.Districts.Where(x => x.DistrictId == not.FromTownId).Single();
+                    not.ToTown = db.Districts.Where(x => x.DistrictId == not.ToTownId).Single();
+                }
+
+                var response = new CancelNotificationResponse
+                {
+                    Notifications = notificationRequests,
+                    Html = Serializer.RenderViewToString(this.ControllerContext, "_Index", notificationRequests)
+                };
+
+                return Content(Serializer.Serialize(response));
+            }
+        }
         // GET: NotificationRequests/Edit/5
         public ActionResult Edit(int? id)
         {

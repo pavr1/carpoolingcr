@@ -28,13 +28,14 @@ namespace CarpoolingCR.Controllers
 
                 var user = Common.GetUserByEmail(User.Identity.Name);
 
-                if (string.IsNullOrEmpty(message))
+                if (!string.IsNullOrEmpty(message))
                 {
                     ViewBag.Info = message;
                 }
 
                 var notificationRequests = db.NotificationRequests
                     .Where(x => x.UserId == user.Id)
+                    .Where(x => x.Status == Enums.RequestNotificationStatus.Active)
                     .Include(n => n.Reservation)
                     .ToList();
 
@@ -49,6 +50,7 @@ namespace CarpoolingCR.Controllers
 
                 var response = new CancelNotificationResponse
                 {
+                    UserId = user.Id,
                     Notifications = notificationRequests
                 };
 
@@ -293,16 +295,9 @@ namespace CarpoolingCR.Controllers
         }
 
         [HttpPost]
-        public ActionResult CancelNotification(int notificationRequestId)
+        public string CancelNotification(int notificationRequestId, string userId)
         {
             var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg"); ;
-
-            if (!Common.IsAuthorized(User))
-            {
-                return RedirectToAction("Login", "Account");
-            }
-
-            var user = Common.GetUserByEmail(User.Identity.Name);
 
             try
             {
@@ -320,7 +315,8 @@ namespace CarpoolingCR.Controllers
                 }
 
                 var notificationRequests = db.NotificationRequests
-                    .Where(x => x.UserId == user.Id)
+                    .Where(x => x.UserId == userId)
+                    .Where(x => x.Status == Enums.RequestNotificationStatus.Active)
                     .Include(n => n.Reservation)
                     .ToList();
 
@@ -337,11 +333,15 @@ namespace CarpoolingCR.Controllers
                 {
                     //¡Notificación automática cancelada!
                     Message = "100041",
+                    UserId = userId,
                     Notifications = notificationRequests,
-                    Html = Serializer.RenderViewToString(this.ControllerContext, "_Index", notificationRequests)
                 };
 
-                return Content(Serializer.Serialize(response));
+                var html = Serializer.RenderViewToString(this.ControllerContext, "Partials/p_Index", response);
+
+                response.Html = html;
+
+                return Serializer.Serialize(response);
 
             }
             catch (Exception ex)
@@ -360,7 +360,7 @@ namespace CarpoolingCR.Controllers
                 ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
                 var notificationRequests = db.NotificationRequests
-                   .Where(x => x.UserId == user.Id)
+                   .Where(x => x.UserId == userId)
                    .Include(n => n.Reservation)
                    .ToList();
 
@@ -376,10 +376,11 @@ namespace CarpoolingCR.Controllers
                 var response = new CancelNotificationResponse
                 {
                     Notifications = notificationRequests,
+                    UserId = userId,
                     Html = Serializer.RenderViewToString(this.ControllerContext, "_Index", notificationRequests)
                 };
 
-                return Content(Serializer.Serialize(response));
+                return Serializer.Serialize(response);
             }
         }
         // GET: NotificationRequests/Edit/5

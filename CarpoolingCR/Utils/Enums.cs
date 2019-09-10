@@ -110,7 +110,7 @@ namespace CarpoolingCR.Utils
             [Description("Cancelado")]
             Cancelled,
             [Description("Finalizado por reserva")]
-            Finised,
+            Finished,
             [Description("Expirado")]
             Expired
         }

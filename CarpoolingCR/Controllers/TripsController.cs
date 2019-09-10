@@ -372,6 +372,38 @@ namespace CarpoolingCR.Controllers
             }
         }
 
+        private void ProcessNotificationRequests(int fromId, int toId, DateTime tripDate)
+        {
+            var notifications = db.NotificationRequests.Where(x => x.FromTownId == fromId && x.ToTownId == toId)
+                .Where(x => x.Status == RequestNotificationStatus.Active)
+                .ToList();
+
+            foreach (var notification in notifications)
+            {
+                notification.RequestedFromDateTime = Common.ConvertToLocalTime(notification.RequestedFromDateTime);
+                notification.RequestedToDateTime = Common.ConvertToLocalTime(notification.RequestedToDateTime);
+                
+                //if notification time has expired
+                if (notification.RequestedToDateTime < DateTime.Now)
+                {
+                    notification.Status = RequestNotificationStatus.Expired;
+
+                    db.Entry(notification).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+                else
+                {
+                    //trip found, send notification email
+                    if(tripDate >= notification.RequestedFromDateTime && tripDate <= notification.RequestedToDateTime)
+                    {
+                        var userEmail = notification.User.Email;
+
+
+                    }
+                }
+            }
+        }
+
         // POST: Trips/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.

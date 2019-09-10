@@ -5,21 +5,17 @@
 
     ViewBag.Title = "Index";
 }
-
-<h3>Viajes</h3>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-
+<br />
 <div id="trips">
     <div class="row form-group">
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-            <input class="search form-control" style="border-radius:25px" placeholder="Búsqueda" />
+            <input type="text" class="search form-control small" placeholder="Viajes creados" />
         </div>
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
             @{
                 if (Model.ReachedMaxCount)
                 {
                     <small class="pull-right text-warning">¡Cantidad máxima de viajes alcanzada! <a href="#" data-toggle="tooltip" class="btn btn-sm btn-info" style="border-radius:10px" title="¡Sólo pueden haber 2 viajes activos por conductor simultáneamente!">?</a></small>
-                    @*<a class="btn btn-primary pull-right disabled" style="border-radius:25px">Crear</a>*@
                 }
                 else
                 {
@@ -42,6 +38,7 @@
             <b class="pull-right">Viajes: @Model.Trips.Count</b>
         </div>
     </div>
+    <hr />
     <ul class="list" style="list-style:none; margin:0; padding:0">
         @{
             if (Model.Trips.Count == 0)
@@ -51,7 +48,7 @@
 
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" style="text-align:center">
-                        <small class="center-block">No se encontraror viajes</small>
+                        <small class="center-block">¡No hay viajes registrados!</small>
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
 
@@ -72,9 +69,15 @@
 
                     index++;
                     <li>
-                        <div class="panel panel-default" style="border-radius:25px">
+                        <div class="panel panel-default" style="border-radius:10px">
                             <div class="row form-group">
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-7" style="padding-left:20px"><br />
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <input type="button" class="btn btn-danger btn-sm pull-right" style="width:150px" value="Cancelar Viaje" onclick="ConfirmDelete(@trip.TripId, '@from -> @to')" /><br />
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-7" style="padding-left:20px">
+                                    <br />
                                     <b>Origen: </b><small class="from">@from</small><br />
                                     <b>Destino: </b><small class="to">@to</small><br />
                                     @{
@@ -85,13 +88,11 @@
                                     }
                                     <b>Salida: </b><small class="date">@trip.DateTime.ToString("dd/MM/yyyy hh:mm tt")</small><br />
                                 </div>
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-5">
-                                    <input type="button" class="btn btn-danger btn-sm visible-xs pull-right" style="width:150px;" value="Cancelar Viaje" onclick="ConfirmDelete(@trip.TripId, '@from -> @to')" /><br />
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                     <small class="price"><b>Cuota :</b> ₡ @trip.Price</small><br />
                                     <small class="spaces"><b>Espacios:</b> @trip.AvailableSpaces</small><br /><br />
                                 </div>
                                 <div class="col-lg-2 col-md-2 col-sm-2" style="text-align:center">
-                                    <input type="button" class="btn btn-danger btn-sm hidden-xs pull-right" style="width:150px" value="Cancelar Viaje" onclick="ConfirmDelete(@trip.TripId, '@from -> @to')" /><br />
                                     @{
                                         if (Model.IsAdmin)
                                         {
@@ -370,7 +371,7 @@
             });
     }
 
-    //$(document).ready(function () {
-    //    $('[data-toggle="tooltip"]').tooltip();
-    //});
+//$(document).ready(function () {
+//    $('[data-toggle="tooltip"]').tooltip();
+//});
 </script>

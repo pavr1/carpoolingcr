@@ -4,8 +4,30 @@
     ViewBag.Title = "Transportation";
 }
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-<h3>Viajes</h3>
-<div class="row form-group">
+<br />
+<div class="row form-group" style="text-align:center">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <h5 class="panel-title pull-left">Solicitud de Viajes</h5>
+    </div>
+</div>
+<div id="loading-content" class="row form-group">
+    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:center">
+        <div class="progress">
+            <div class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:100%">
+                Procesando...
+            </div>
+            <i class='fa fa-circle-o-notch fa-spin pull-right'></i>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+
+    </div>
+</div>
+
+<div id="main-content" class="row form-group hidden">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div id="tabs" class="ui-tabs ui-corner-all ui-widget ui-widget-content">
             <ul role="tablist" class="ui-tabs-nav ui-corner-all ui-helper-reset ui-helper-clearfix ui-widget-header">
@@ -19,26 +41,26 @@
             <div id="tabs-1" aria-labelledby="ui-id-15" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true">
                 <div class="row form-group">
                     <div class="col-lg-1 col-md-1 col-sm-6 col-xs-12">
-                        <label class="control-label visible-xs visible-sm">Origen</label>
-                        <label class="control-label pull-right visible-md visible-lg">Origen</label>
+                        <label class="control-label panel-title visible-xs visible-sm">Origen</label>
+                        <label class="control-label panel-title pull-right visible-md visible-lg">Origen</label>
                     </div>
-                    <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12 form-inline">
+                    <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12">
                         <select id="FromTown" name="FromTown" class="form-control" onfocus="this.select()">
                             @Html.Raw(Model.DistrictControlOptions)
                         </select>
-                        <input type="button" class="form-control btn btn-info btn-sm visible-xs pull-right" onclick="EraseValue('#FromTown')" style="width:42px" value="&#9003;" />
-                        <input type="button" class="form-control btn btn-info btn-sm hidden-xs" onclick="EraseValue('#FromTown')" style="width:42px" value="&#9003;" />
+                        @*<input type="button" class="form-control btn btn-info btn-sm visible-xs pull-right" onclick="EraseValue('#FromTown')" style="width:42px" value="&#9003;" />
+                            <input type="button" class="form-control btn btn-info btn-sm hidden-xs" onclick="EraseValue('#FromTown')" style="width:42px" value="&#9003;" />*@
                     </div>
                     <div class="col-lg-1 col-md-1 col-sm-6 col-xs-12">
                         <label class="control-label visible-xs visible-sm">Destino</label>
                         <label class="control-label pull-right visible-md visible-lg">Destino</label>
                     </div>
-                    <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12 form-inline">
+                    <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12">
                         <select id="ToTown" name="ToTown" class="form-control" onfocus="this.select()">
                             @Html.Raw(Model.DistrictControlOptions)
                         </select>
-                        <input type="button" class="form-control btn btn-info btn-sm visible-xs pull-right" onclick="EraseValue('#ToTown')" style="width:42px" value="&#9003;" />
-                        <input type="button" class="form-control btn btn-info btn-sm hidden-xs" onclick="EraseValue('#ToTown')" style="width:42px" value="&#9003;" />
+                        @*<input type="button" class="form-control btn btn-info btn-sm visible-xs pull-right" onclick="EraseValue('#ToTown')" style="width:42px" value="&#9003;" />
+                            <input type="button" class="form-control btn btn-info btn-sm hidden-xs" onclick="EraseValue('#ToTown')" style="width:42px" value="&#9003;" />*@
                     </div>
                 </div>
                 <div class="row form-group">
@@ -48,7 +70,7 @@
                         }
                     </div>
                     <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12">
-                        <button class="btn btn-info btn-sm btn-block" id="btn-retrieve-trips" style="width:240px; border-radius:25px" data-loading-text="<i class='fa fa-circle-o-notch fa-spin pull-right'></i> Consultar Viajes" onclick="RetrieveTrips()">Consultar Viajes</button>
+                        <input type="button" class="btn btn-info btn-sm btn-block" id="btn-retrieve-trips" style="width:240px;" data-loading-text="<i class='fa fa-circle-o-notch fa-spin pull-right'></i> Consultar Viajes" onclick="RetrieveTrips()" value="Consultar Viajes" />
                         <small>@ViewBag.ExactLocationTripsNotFound</small>
                     </div>
                 </div>
@@ -73,13 +95,10 @@
 
         $('#tabs').tabs("option", "active", tabIndex);
 
+        $('#main-content').removeClass('hidden');
+        $('#loading-content').addClass('hidden');
 
-        var from = '@Model.From';
-        var to = '@Model.To';
-
-        if (from != '' && to != '') {
-
-        }
+        $('#calendar').fullCalendar('gotoDate', Date.now());
     });
 
     function EraseValue(controlId) {

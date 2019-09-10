@@ -365,12 +365,13 @@ namespace CarpoolingCR.Utils
             return control;
         }
 
-        public static void FinilizeExpiredTrips()
+        public static void FinalizeExpiredTrips(string userId)
         {
             using (var db = new ApplicationDbContext())
             {
                 var currentUTCTime = ConvertToUTCTime(DateTime.Now);
                 var currentExpiredTrips = db.Trips
+                    .Where(x => x.ApplicationUserId == userId)
                     .Where(x => x.DateTime < currentUTCTime)
                     .Where(x => x.Status != Status.Finalizado)
                     .ToList();
@@ -383,6 +384,26 @@ namespace CarpoolingCR.Utils
                 }
 
                 db.SaveChanges();
+            }
+        }
+
+        public static void FinalizeExpiredReservations(string userId)
+        {
+            using (var db = new ApplicationDbContext())
+            {
+                var currentUTCTime = Common.ConvertToUTCTime(DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Local));
+                var expiredReservations = db.Reservations.Where(x => x.ApplicationUserId == userId && (x.Status == ReservationStatus.Accepted || x.Status == ReservationStatus.Pending))
+                    .Where(x => x.Date < currentUTCTime)
+                    .ToList();
+
+                //finalizing expired reservations
+                foreach (var expiredReservation in expiredReservations)
+                {
+                    expiredReservation.Status = ReservationStatus.Finalized;
+
+                    db.Entry(expiredReservation).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
             }
         }
     }

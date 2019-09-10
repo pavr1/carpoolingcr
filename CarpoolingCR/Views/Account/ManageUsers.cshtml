@@ -4,12 +4,11 @@
     ViewBag.Title = "ManageUsers";
 }
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-<h3>Usuarios</h3>
-
+<br />
 <div id="users">
     <div class="row">
         <div class="col-lg-6 col-md-6 col-sm-11 col-xs-11">
-            <input class="search form-control" style="border-radius:25px" placeholder="Búsqueda" />
+            <input type="button" class="search form-control" placeholder="Usuarios" />
         </div>
         <div class="col-lg-6 col-md-6 col-sm-1 col-xs-1">
 
@@ -21,7 +20,7 @@
             <b class="pull-right">Usuarios: @Model.Count</b>
         </div>
     </div>
-    <ul class="list">
+    <ul class="list" style="list-style:none">
         @{
             foreach (var item in Model)
             {
@@ -81,8 +80,8 @@
                                 </small>
                             }
 
-                            @Html.ActionLink("X", "EditUser", new { id = item.Id }, new { @class = "btn btn-danger pull-right", @disabled = "disabled" })
-                            @Html.ActionLink("...", "DeleteUser", new { id = item.Id }, new { @class = "btn btn-info pull-right" })
+                            @Html.ActionLink("Eliminar", "EditUser", new { id = item.Id }, new { @class = "btn btn-danger btn-sm pull-right", @disabled = "disabled" })
+                            @Html.ActionLink("Editar", "DeleteUser", new { id = item.Id }, new { @class = "btn btn-info btn-sm pull-right" })
                         </div>
                     </div>
                     <hr />

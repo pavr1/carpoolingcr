@@ -39,35 +39,36 @@
     <script src="~/Scripts/List.js"></script>
     <script src="~/Scripts/messages.js"></script>
     <script src="~/Scripts/notify.js"></script>
+    <script src="~/Scripts/WaitingDialog.js"></script>
     @*<link rel="stylesheet" href="~/Content/processingmodal.css">*@
 
     <style type="text/css">
         input[type="text"] {
-            border-radius: 25px
+            border-radius: 10px
         }
 
         input[type="tel"] {
-            border-radius: 25px
+            border-radius: 10px
         }
 
         input[type="submit"] {
-            border-radius: 25px
+            border-radius: 10px
         }
 
         input[type="password"] {
-            border-radius: 25px
+            border-radius: 10px
         }
 
         input[type="button"] {
-            border-radius: 25px
+            border-radius: 10px
         }
 
         a.btn {
-            border-radius: 25px !important;
+            border-radius: 10px !important;
         }
 
         select {
-            border-radius: 25px !important;
+            border-radius: 10px !important;
         }
 
         .checked {
@@ -230,10 +231,10 @@
         @RenderBody()
         <hr />
         <footer>
-            <p class="pull-right">&copy; @DateTime.Now.Year - https://www.buscoridecr.com <img src="~/Content/Icons/ride_small_pkW_icon.ico" style="width:20px; height:20px" /></p>
+            <br />
+            <small class="pull-right">&copy; @DateTime.Now.Year - https://www.buscoridecr.com <img src="~/Content/Icons/ride_small_pkW_icon.ico" style="width:20px; height:20px" /></small>
         </footer>
         <div class="modal fade" id="qualifyUserModal" tabindex="-1" role="dialog" aria-labelledby="qualifyUserModalModalLabel" aria-hidden="true">
-            @*<form action="~/Reservations/Create" method="post">*@
             <div class="vertical-alignment-helper">
                 <div class="modal-dialog vertical-align-center">
                     <div class="modal-content">
@@ -274,21 +275,18 @@
                     </div>
                 </div>
             </div>
-            @*</form>*@
         </div>
-    </div>
-    @*<div class="modal fade" id="loadMe" tabindex="-1" role="dialog" aria-labelledby="loadMeLabel">
-            <div class="modal-dialog modal-sm" role="document">
-                <div class="modal-content">
-                    <div class="modal-body text-center">
-                        <div class="loader"></div>
-                        <div clas="loader-txt">
-                            <p>Check out this slick bootstrap spinner modal. <br><br><small>We are addicted to Bootstrap... #love</small></p>
-                        </div>
-                    </div>
+        @*<div class="modal hide" id="pleaseWaitDialog" data-backdrop="static" data-keyboard="false">
+            <div class="modal-header">
+                <h1>Processing...</h1>
+            </div>
+            <div class="modal-body">
+                <div class="progress progress-striped active">
+                    <div class="bar" style="width: 100%;"></div>
                 </div>
             </div>
         </div>*@
+    </div>
 
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
@@ -399,24 +397,6 @@
         }
 
         function DisplayGrowlMessage(message, type) {
-
-            //if (message != '' && message != null) {
-            //    $.bootstrapGrowl(message, // Messages
-            //        { // options
-            //            type: type, // info, success, warning and danger
-            //            ele: "body", // parent container
-            //            offset: {
-            //                from: "top",
-            //                amount: 54
-            //            },
-            //            align: "right", // right, left or center
-            //            width: 385,
-            //            delay: 4000,
-            //            allow_dismiss: true, // add a close button to the message
-            //            stackup_spacing: 10
-            //        });
-            //}
-
             var codingmessage = GetMessage(message);
 
             if (codingmessage === "") {
@@ -503,8 +483,13 @@
     </script>
 
     <script>
+        //$(function () {
+        //    waitingDialog.show('Procesando...', {dialogSize: 'sm', progressType: 'info'});
+        //});
+
         $(document).ready(function () {
             $('[data-toggle="tooltip"]').tooltip();
+            //waitingDialog.hide();
         });
     </script>
 </body>

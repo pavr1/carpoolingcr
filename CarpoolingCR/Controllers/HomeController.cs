@@ -14,7 +14,7 @@ namespace CarpoolingCR.Controllers
     {
         public ActionResult Index()
         {
-            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg");;
+            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg");
 
             try
             {

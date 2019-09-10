@@ -5,32 +5,34 @@
 }
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-<h3>Países</h3>
-
 <div id="countries">
-    <div class="row">
-        <div class="col-lg-6 col-md-6 col-sm-11 col-xs-11">
-            <input class="search form-control" style="border-radius:25px" placeholder="Búsqueda" />
+    <br />
+    <div class="row form-group" style="text-align:center">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+            <h5 class="panel-title pull-left">Países</h5>
         </div>
-        <div class="col-lg-6 col-md-6 col-sm-1 col-xs-1">
-            <a class="btn btn-primary pull-right" href="~/Countries/Create" style="border-radius:25px">Crear</a>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+            <a class="btn btn-info btn-sm btn-block custom-spin-button pull-right" href="~/Countries/Create" data-loading-text="<i class='fa fa-circle-o-notch fa-spin pull-right'></i> Crear Países" style="width:150px">Crear Países</a>
         </div>
     </div>
-    <br />
-
-    <ul class="list">
+    <div class="row" style="text-align:center">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <hr />
+        </div>
+    </div>
+    <ul class="list" style="list-style:none">
         @{
             foreach (var item in Model)
             {
                 <div class="row">
                     <li>
                         <div class="col-lg-10 col-md-10 col-sm-10 col-xs-6">
-                            <h4 class="country">@item.Name</h4>
+                            <h6 class="country">@item.Name</h6>
                             <small class="status">@item.Status</small>
                         </div>
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6">
-                            @Html.ActionLink("...", "Edit", new { id = item.CountryId }, new { @class = "btn btn-info" })
-                            <input type="button" class="btn btn-danger" onclick="ConfirmDelete(@item.CountryId, '@item.Name')" value="X" />
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6 pull-right">
+                            @Html.ActionLink("Actualizar", "Edit", new { id = item.CountryId }, new { @class = "btn btn-info btn-sm" })
+                            <input type="button" class="btn btn-danger btn-sm" onclick="ConfirmDelete(@item.CountryId, '@item.Name')" value="Borrar" />
                         </div>
                     </li>
                 </div>

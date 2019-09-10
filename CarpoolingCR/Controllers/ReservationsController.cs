@@ -81,6 +81,13 @@ namespace CarpoolingCR.Controllers
                 var driverTrips = new List<Trip>();
                 var user = Common.GetUserByEmail(User.Identity.Name);
 
+                Common.FinalizeExpiredReservations(user.Id);
+
+                if(user.UserType != UserType.Pasajero)
+                {
+                    Common.FinalizeExpiredTrips(user.Id);
+                }
+
                 passengerReservations = db.Reservations.Where(x => x.ApplicationUser.Email == User.Identity.Name && (x.Status == ReservationStatus.Accepted || x.Status == ReservationStatus.Pending))
                     .Include(x => x.ApplicationUser)
                     .ToList();
@@ -185,7 +192,7 @@ namespace CarpoolingCR.Controllers
 
                 if (user.UserType == Enums.UserType.Pasajero)
                 {
-                    passengerReservations = db.Reservations.Where(x => x.ApplicationUser.Email == User.Identity.Name && (x.Status == ReservationStatus.Accepted || x.Status == ReservationStatus.Pending))
+                    passengerReservations = db.Reservations.Where(x => x.ApplicationUserId == user.Id && (x.Status == ReservationStatus.Accepted || x.Status == ReservationStatus.Pending))
                         .Include(x => x.ApplicationUser)
                         .ToList();
 

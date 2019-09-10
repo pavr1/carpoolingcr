@@ -30,7 +30,9 @@ namespace CarpoolingCR.Utils
             [Description("Pendiente")]
             Pending,
             [Description("Cancelado")]
-            Cancelled
+            Cancelled,
+            [Description("Finalizado")]
+            Finalized
         }
 
         public enum ProfileStatus

@@ -102,7 +102,7 @@
 
                                 if (!reservation.IsDriverQualified)
                                 {
-                                    <input type="button" class="btn btn-info pull-right" value="Calificar" onclick="PopUpQualifyModal(@reservation.ReservationId, @reservation.TripId, '@reservation.Trip.ApplicationUser.FullName','/Reservations/LoadPassengerReservationHistorial?message=100027')" />
+                                    <input type="button" class="btn btn-info pull-right" value="Calificar" onclick="PopUpQualifyModal(@reservation.ReservationId, @reservation.TripId, '@reservation.Trip.ApplicationUser.FullName','@Url.Action("LoadPassengerReservationHistorial","Reservations")?message=100027')" />
                                 }
                             }
                         </div>

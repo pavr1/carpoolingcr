@@ -147,20 +147,6 @@ namespace CarpoolingCR.Utils
             }, EmailType.Notifications, appLogo);
         }
 
-        public static void SendTripNotification(string email, string tripInfo, string callbackUrl, string appLogo)
-        {
-            callbackUrl = callbackUrl.Replace("http://", "https://");
-
-            var html = "¡Hemos encontrado el viaje que solicitaste de " + tripInfo  + "!<br/><br/>>Da click <b><a href='" + callbackUrl + "'>aquí</a></b> para ver la solicitud de reservación!";
-
-            SendEmail(new IdentityMessage
-            {
-                Destination = email,
-                Subject = "¡Notificación automática de viajes!",
-                Body = html
-            }, EmailType.Notifications, appLogo);
-        }
-
         //[Obsolete]
         //public static void SendEmailTripCreation(string email, string driverName, string tripInfo, int availableSpaces, string callback)
         //{
@@ -255,6 +241,20 @@ namespace CarpoolingCR.Utils
 
                 new EmailService().SendInformativeAsync(msg.Destination, msg.Subject, msg.Body, "logo", stream, "image/jpg", null, null, providerEmail, providerPwd, logo);
             }
+        }
+
+        public static void SendTripNotification(string email, string date,  string tripInfo, string callbackUrl, string appLogo)
+        {
+            callbackUrl = callbackUrl.Replace("http://", "https://");
+
+            var html = "¡Hemos encontrado al menos un viaje que te puede servir el " + date  + " de " + tripInfo + "!<br/><br/> Para ver la información y poder reservar da click <b><a href='" + callbackUrl + "'>aquí</a></b>";
+
+            SendEmail(new IdentityMessage
+            {
+                Destination = email,
+                Subject = "¡Notificación automática de viajes!",
+                Body = html
+            }, EmailType.Notifications, appLogo);
         }
     }
 }

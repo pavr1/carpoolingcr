@@ -3,10 +3,6 @@
 @{
     ViewBag.Title = "Index";
 }
-
-<h4>Notificaciones</h4>
-<br />
-
 <div id="notification-request-index-container" class="row container">
     @Html.Partial("~/Views/NotificationRequests/Partials/p_Index.cshtml", Model)
 </div>
@@ -16,9 +12,9 @@
         <div class="modal-dialog vertical-align-center">
             <div class="modal-content">
                 <div class="modal-header">
+                    <input type="text" id="selected-notification-id" name="selected-notification-id" class="hidden" />
+                    <input type="text" id="selected-user-id" name="selected-user-id" class="hidden" />
                     <button type="button" class="close" data-dismiss="modal">
-                        <input type="text" id="selected-notification-id" name="selected-notification-id" class="hidden" />
-                        <input type="text" id="selected-user-id" name="selected-user-id" class="hidden" />
                         <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
                     </button>
                     <h4 class="modal-title" id="dayTripModalLabel">Cancelación de notificaciones</h4>
@@ -38,3 +34,4 @@
         </div>
     </div>
 </div>
+

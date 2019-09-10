@@ -1,4 +1,4 @@
-﻿@model CarpoolingCR.Objects.Responses.TownIndexResponse
+﻿@*@model CarpoolingCR.Objects.Responses.TownIndexResponse
 
 @{
     ViewBag.Title = "Index";
@@ -17,32 +17,22 @@
     </div>
     <div class="row">
         <div class="col-lg-6 col-md-6 col-sm-11 col-xs-11">
-            <input class="search form-control" style="border-radius:25px" placeholder="Búsqueda" />
+            <input class="search form-control" style="border-radius:10px" placeholder="Búsqueda" />
         </div>
         <div class="col-lg-6 col-md-6 col-sm-1 col-xs-1">
             @{
                 if (Model.UserType == CarpoolingCR.Utils.Enums.UserType.Administrador)
                 {
-                    <a class="btn btn-primary pull-right" href="~/Towns/Create" style="border-radius:25px">Crear</a>
+                    <a class="btn btn-primary pull-right" href="~/Towns/Create" style="border-radius:10px">Crear</a>
                 }
                 else
                 {
-                    <a class="btn btn-primary pull-right" href="~/Towns/Create" style="border-radius:25px">Solicitar</a>
+                    <a class="btn btn-primary pull-right" href="~/Towns/Create" style="border-radius:10px">Solicitar</a>
                 }
             }
         </div>
     </div>
     <br />
-    @*<div class="row">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <button class="sort btn btn-secondary pull-right" style="border-radius:25px" data-sort="country">
-                    <small>Por País</small>
-                </button>&nbsp;
-                <button class="sort btn btn-secondary pull-right" style="border-radius:25px" data-sort="town">
-                    <small>Por Localidad</small>
-                </button>
-            </div>
-        </div>*@
 
     <ul class="list">
         @{
@@ -58,8 +48,8 @@
                             <small class="status">@item.Status</small>
 
                             <div class="pull-right">
-                                <a class="btn btn-info" href="~/Towns/Edit/@item.TownId" style="border-radius:25px">...</a>
-                                <input type="button" class="btn btn-danger" style="border-radius:25px" onclick="ConfirmDelete(@item.TownId, '@item.Name')" value="X" />
+                                <a class="btn btn-info" href="~/Towns/Edit/@item.TownId" style="border-radius:10px">...</a>
+                                <input type="button" class="btn btn-danger" onclick="ConfirmDelete(@item.TownId, '@item.Name')" value="X" />
                             </div>
                         }
 
@@ -110,4 +100,4 @@
 
         $("#confirmTownDelete").modal();
     }
-</script>
+</script>*@

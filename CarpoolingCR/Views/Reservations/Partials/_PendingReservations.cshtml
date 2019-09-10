@@ -8,40 +8,37 @@
 </style>
 
 <div id="yourreservations">
-    <small>Reservaciones Pendientes</small><br /><br />
     <div class="row">
         <div class="col-lg-6 col-md-6 col-sm-11 col-xs-11">
-            <input class="search form-control" style="border-radius:25px" placeholder="Búsqueda" />
+            <input type="tel" class="search form-control" placeholder="Búsqueda" />
         </div>
         <div class="col-lg-6 col-md-6 col-sm-1 col-xs-1">
         </div>
     </div>
     <br />
-    <ul class="list">
-        @{
-            if (Model.PassengerReservations.Count == 0)
-            {
-                <div class="row form-group">
-                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                        <small style="align-content:center">No se encontraror reservaciones</small>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-
-                    </div>
+    @{
+        if (Model.PassengerReservations.Count == 0)
+        {
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-2">
                 </div>
-            }
-            else
-            {
-                foreach (var reservation in Model.PassengerReservations)
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-8" style="text-align:center">
+                    <small>¡No se encontraror reservaciones!</small>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-2">
+                </div>
+            </div>
+        }
+        else
+        {
+            <ul class="list" style="list-style:none">
+                @foreach (var reservation in Model.PassengerReservations)
                 {
                     var from = reservation.Trip.FromTown.FullName;
                     var to = reservation.Trip.ToTown.FullName;
                     var route = reservation.Trip.Route.Name;
 
-                    <div class="row">
+                    <li class="row">
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 panel panel-default" style="border-radius:10px">
                             <div class="row form-group">
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
@@ -143,13 +140,13 @@
                                     @{
                                         if (reservation.Status != CarpoolingCR.Utils.Enums.ReservationStatus.Cancelled)
                                         {
-                                            <input type="button" class="btn btn-danger btn-sm pull-right" value="Cancelar Reservación" style="border-radius:25px" onclick="ConfirmAction(@reservation.ReservationId, '@CarpoolingCR.Utils.Enums.ReservationStatus.Cancelled','cancelar esta reservación','Reservaciones', 'Cancelar', 'btn-danger', 'passenger')" />
+                                            <input type="button" class="btn btn-danger btn-sm pull-right" value="Cancelar Reservación" onclick="ConfirmAction(@reservation.ReservationId, '@CarpoolingCR.Utils.Enums.ReservationStatus.Cancelled','cancelar esta reservación','Reservaciones', 'Cancelar', 'btn-danger', 'passenger')" />
                                         }
                                     }
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </li>
                     @*var from = item.Trip.FromTown.FullName;
                         var to = item.Trip.ToTown.FullName;
 
@@ -251,7 +248,7 @@
                                         @{
                                             if (item.Status != CarpoolingCR.Utils.Enums.ReservationStatus.Cancelled)
                                             {
-                                                <input type="button" class="btn btn-danger btn-sm" value="Cancelar Reservación" style="border-radius:25px" onclick="ConfirmAction(@item.ReservationId, '@CarpoolingCR.Utils.Enums.ReservationStatus.Cancelled','cancelar esta reservación','Reservaciones', 'Cancelar', 'btn-danger', 'passenger')" />
+                                                <input type="button" class="btn btn-danger btn-sm" value="Cancelar Reservación" onclick="ConfirmAction(@item.ReservationId, '@CarpoolingCR.Utils.Enums.ReservationStatus.Cancelled','cancelar esta reservación','Reservaciones', 'Cancelar', 'btn-danger', 'passenger')" />
                                             }
                                         }
                                     </div>
@@ -259,9 +256,9 @@
                             </div>
                         </li>*@
                 }
-            }
+            </ul>
         }
-    </ul>
+    }
 </div>
 
 <hr />
@@ -308,7 +305,11 @@
         valueNames: ['fromto', 'date', 'price', 'driver', 'spaces', 'status']
     };
 
-    var userList = new List('yourreservations', options);
+    var reservationCount = @Model.PassengerReservations.Count;
+
+    if (reservationCount > 0) {
+        var userList = new List('yourreservations', options);
+    }
 
     function ConfirmAction(reservationId, status, detail, title, btnVal, btnClass, cancelledFrom) {
         $('#confirmReservationModalLabel').html(title);
@@ -343,7 +344,7 @@
     function SendMessage(reservationId, from) {
         var message = $('#messageChatText').val();
 
-        $.post('/ChattingMessages/Create', { reservationId: reservationId, userId: from, message: message },
+        $.post('@Url.Action("Create","ChattingMessages")', { reservationId: reservationId, userId: from, message: message },
             function (data) {
                 $('#chatContainer').html(data);
 

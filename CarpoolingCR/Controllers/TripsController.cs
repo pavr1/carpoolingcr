@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Web.Configuration;
 using System.Web.Mvc;
 using static CarpoolingCR.Utils.Enums;
@@ -17,11 +18,11 @@ namespace CarpoolingCR.Controllers
     public class TripsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-        
+
         // GET: Trips
         public ActionResult Index(string message, string type)
         {
-            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg");;
+            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg"); ;
 
             try
             {
@@ -38,8 +39,8 @@ namespace CarpoolingCR.Controllers
                 }
 
                 //sets expired trips' status "Finalizado"
-                Common.FinilizeExpiredTrips();
-                
+                Common.FinalizeExpiredTrips(user.Id);
+
                 var maxTripsPerUser = Convert.ToInt32(WebConfigurationManager.AppSettings["MaxTripsPerUser"]);
                 var currentTrips = db.Trips.Where(x => x.ApplicationUserId == user.Id)
                     .Where(x => x.Status == Status.Activo)
@@ -158,7 +159,7 @@ namespace CarpoolingCR.Controllers
 
         public ActionResult DayTrips(string date, string from, string to)
         {
-            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg");;
+            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg"); ;
 
             try
             {
@@ -248,7 +249,7 @@ namespace CarpoolingCR.Controllers
 
         public ActionResult TripDetail(int id)
         {
-            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg");;
+            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg"); ;
 
             try
             {
@@ -287,7 +288,7 @@ namespace CarpoolingCR.Controllers
         // GET: Trips/Details/5
         public ActionResult Details(int? id)
         {
-            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg");;
+            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg"); ;
 
             try
             {
@@ -332,7 +333,7 @@ namespace CarpoolingCR.Controllers
         // GET: Trips/Create
         public ActionResult Create()
         {
-            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg");;
+            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg");
 
             try
             {
@@ -372,38 +373,6 @@ namespace CarpoolingCR.Controllers
             }
         }
 
-        private void ProcessNotificationRequests(int fromId, int toId, DateTime tripDate)
-        {
-            var notifications = db.NotificationRequests.Where(x => x.FromTownId == fromId && x.ToTownId == toId)
-                .Where(x => x.Status == RequestNotificationStatus.Active)
-                .ToList();
-
-            foreach (var notification in notifications)
-            {
-                notification.RequestedFromDateTime = Common.ConvertToLocalTime(notification.RequestedFromDateTime);
-                notification.RequestedToDateTime = Common.ConvertToLocalTime(notification.RequestedToDateTime);
-                
-                //if notification time has expired
-                if (notification.RequestedToDateTime < DateTime.Now)
-                {
-                    notification.Status = RequestNotificationStatus.Expired;
-
-                    db.Entry(notification).State = EntityState.Modified;
-                    db.SaveChanges();
-                }
-                else
-                {
-                    //trip found, send notification email
-                    if(tripDate >= notification.RequestedFromDateTime && tripDate <= notification.RequestedToDateTime)
-                    {
-                        var userEmail = notification.User.Email;
-
-
-                    }
-                }
-            }
-        }
-
         // POST: Trips/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
@@ -411,7 +380,7 @@ namespace CarpoolingCR.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "")] Trip trip)
         {
-            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg");;
+            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg"); ;
 
             var fields = "Fields => ";
 
@@ -530,9 +499,12 @@ namespace CarpoolingCR.Controllers
                         FacebookHandler.PublishFacebookPost(trip.FromTown.FullName, trip.ToTown.FullName, trip.Route.Name, trip.DateTime, user.Country.CurrencyChar, trip.Price, trip.AvailableSpaces, callbackUrl);
                     }
 
-                    //EmailHandler.SendEmailTripCreation(WebConfigurationManager.AppSettings["AdminEmails"], user.FullName, tripInfo, trip.AvailableSpaces, callbackUrl);
-
                     new SignalHandler().SendMessage(Enums.EventTriggered.TripCreated.ToString(), "");
+
+                    callbackUrl = Url.Action("DayTrips", "Trips", new { date = "[date]", from = "[from]", to = "[to]" }, protocol: Request.Url.Scheme);
+
+                    var sendNotificationRequests = new Thread(() => ProcessNotificationRequests(callbackUrl));
+                    sendNotificationRequests.Start();
 
                     //¡Viaje Creado!
                     return RedirectToAction("Index", new { message = "10007", type = "info" });
@@ -566,6 +538,54 @@ namespace CarpoolingCR.Controllers
                 ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
                 return View(response);
+            }
+        }
+
+        private void ProcessNotificationRequests(string callback)
+        {
+            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg"); ;
+
+            using (var db = new ApplicationDbContext())
+            {
+                var notifications = db.NotificationRequests.Where(x => x.Status == RequestNotificationStatus.Active)
+                .ToList();
+
+                foreach (var notification in notifications)
+                {
+                    notification.User = db.Users.Where(x => x.Id == notification.UserId).Single();
+                    notification.FromTown = db.Districts.Where(x => x.DistrictId == notification.FromTownId).Single();
+                    notification.ToTown = db.Districts.Where(x => x.DistrictId == notification.ToTownId).Single();
+
+                    //if notification time has expired
+                    if (notification.RequestedToDateTime < DateTime.Now)
+                    {
+                        notification.Status = RequestNotificationStatus.Expired;
+
+                        db.Entry(notification).State = EntityState.Modified;
+                        db.SaveChanges();
+                    }
+                    else
+                    {
+                        //date validation is being done UTC time, not local
+                        var fromToTrips = db.Trips.Where(x => x.FromTownId == notification.FromTownId)
+                            .Where(x => x.ToTownId == notification.ToTownId)
+                            .Where(x => x.DateTime >= notification.RequestedFromDateTime && x.DateTime <= notification.RequestedToDateTime)
+                            .Where(x => x.Status == Status.Activo)
+                            .ToList();
+
+                        //trip found, send notification email
+                        if (fromToTrips.Count > 0)
+                        {
+                            var userEmail = notification.User.Email;
+                            var tripInfo = notification.FromTown.FullName + " a " + notification.ToTown.FullName + " entre " + notification.RequestedFromDateTime.ToString("hh:mm tt") + " y " + notification.RequestedToDateTime.ToString("hh:mm tt");
+                            callback = callback.Replace("%5Bdate%5D", notification.RequestedFromDateTime.ToString("yyyy-mm-dd"));
+                            callback = callback.Replace("%5Bfrom%5D", notification.FromTown.FullName);
+                            callback = callback.Replace("%5Bto%5D", notification.ToTown.FullName);
+
+                            EmailHandler.SendTripNotification(userEmail, DateTime.Now.ToString("dddd d, MMMM yyyy"), tripInfo, callback, logo);
+                        }
+                    }
+                }
             }
         }
 
@@ -628,7 +648,7 @@ namespace CarpoolingCR.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "")] Trip trip)
         {
-            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg");;
+            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg"); ;
 
             try
             {
@@ -686,7 +706,7 @@ namespace CarpoolingCR.Controllers
         // GET: Trips/Delete/5
         public ActionResult Delete(int? id)
         {
-            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg");;
+            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg"); ;
 
             try
             {
@@ -734,7 +754,7 @@ namespace CarpoolingCR.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg");;
+            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg"); ;
 
             var tran = db.Database.BeginTransaction();
 
@@ -819,7 +839,7 @@ namespace CarpoolingCR.Controllers
 
         public ActionResult LoadDriverTripHistorial(string message)
         {
-            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg");;
+            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg"); ;
 
             try
             {
@@ -833,9 +853,9 @@ namespace CarpoolingCR.Controllers
                     ViewBag.Info = message;
                 }
 
-                Common.FinilizeExpiredTrips();
-
                 var user = Common.GetUserByEmail(User.Identity.Name);
+
+                Common.FinalizeExpiredTrips(user.Id);
 
                 List<Trip> trips = new List<Trip>();
                 List<Reservation> reservations = new List<Reservation>();

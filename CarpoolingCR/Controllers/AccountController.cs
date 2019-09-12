@@ -146,8 +146,17 @@ namespace CarpoolingCR.Controllers
 
                                 return View();
                             }
-                        }
 
+                            var send = Convert.ToBoolean(WebConfigurationManager.AppSettings["SendNotificationsToAdmin"]);
+
+                            if (send)
+                            {
+                                if (user.UserType != Enums.UserType.Administrador)
+                                {
+                                    EmailHandler.SendUserLogin(user.FullName, user.UserType, user.Email, logo);
+                                }
+                            }
+                        }
 
                         return RedirectToAction("ValidateUserRol", "UserRols"); ;
                     case SignInStatus.LockedOut:

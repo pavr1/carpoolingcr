@@ -82,6 +82,18 @@ namespace CarpoolingCR.Utils
             }, EmailType.Notifications, appLogo);
         }
 
+        public static void SendUserLogin(string userName, UserType userType, string userEmail, string appLogo)
+        {
+            var html = "¡El " + userType.ToString() + " " + userName + " se ha logueado en el sistema!";
+            
+            SendEmail(new IdentityMessage
+            {
+                Destination = WebConfigurationManager.AppSettings["AdminEmails"],
+                Subject = "¡Usuario Logueado!",
+                Body = html
+            }, EmailType.Notifications, appLogo);
+        }
+
         public static void SendReservationStatusChangeByDriver(string email, string trip, string date, string status, string callbackUrl, string appLogo)
         {
             callbackUrl = callbackUrl.Replace("http://", "https://");
@@ -215,7 +227,7 @@ namespace CarpoolingCR.Utils
 
         private static void SendEmail(IdentityMessage msg, EmailType EmailType, string logo)
         {
-            using (FileStream stream = System.IO.File.Open(logo, FileMode.Open))
+            using (FileStream stream = System.IO.File.Open(logo, FileMode.Open, FileAccess.Read))
             {
                 var providerEmail = string.Empty;
                 var providerPwd = string.Empty;

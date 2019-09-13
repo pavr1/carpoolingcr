@@ -64,14 +64,13 @@
                     </div>
                 </div>
                 <div class="row form-group">
-                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
-                        @{
-                            <small id="warningLabel" style="text-align:justify" class="text-warning hidden">¡No encontramos viajes según tu búsqueda pero si algunos que quizás te sirvan!</small>
-                        }
+                    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12">
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <a href="~/NotificationRequests/Create" style="color:blue">Notificaciones Automáticas</a> <a href="#" data-toggle="tooltip" class="btn btn-info btn-xs" style="color:white" title="¡Crea una notificación automática y te avisaremos cuando el viaje que necesites esté disponible!">?</a><br /><br />
                     </div>
                     <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12">
-                        <input type="button" class="btn btn-info btn-sm btn-block" id="btn-retrieve-trips" style="width:240px;" data-loading-text="<i class='fa fa-circle-o-notch fa-spin pull-right'></i> Consultar Viajes" onclick="RetrieveTrips()" value="Consultar Viajes" />
-                        <small>@ViewBag.ExactLocationTripsNotFound</small>
+                        <buton class="btn btn-info btn-sm btn-block" id="btn-retrieve-trips" style="width:240px;border-radius:10px" data-loading-text="<i class='fa fa-circle-o-notch fa-spin pull-right'></i> Consultar Viajes" onclick="RetrieveTrips()">Consultar Viajes</buton>
                     </div>
                 </div>
                 @Html.Partial("~/Views/Reservations/Partials/_RequestJourney.cshtml", Model)
@@ -140,11 +139,11 @@
                 $('#imgProcessing').addClass('hidden');
 
                 //var tripsCount = $('#TripsCount').html();
-                if (json.CouldNotFindExactTrip) {
-                    $('#warningLabel').removeClass('hidden');
-                } else {
-                    $('#warningLabel').addClass('hidden');
-                }
+                //if (json.CouldNotFindExactTrip) {
+                //    $('#warningLabel').removeClass('hidden');
+                //} else {
+                //    $('#warningLabel').addClass('hidden');
+                //}
 
                 if (json.Message != null && json.Message != '') {
                     displayMessages(json.Message, 'warning')

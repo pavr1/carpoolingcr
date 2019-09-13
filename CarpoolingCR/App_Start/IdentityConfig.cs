@@ -190,7 +190,12 @@ namespace CarpoolingCR
     {
         public Task SendAsync(IdentityMessage message)
         {
-            // Plug in your SMS service here to send a text message.
+            WebRequest request;
+            request = WebRequest.Create("https://api.sms506.com/sms/b6b99d0aba70318828cb28c6fe37a496/t=" + message.Destination + "&m=" + message.Body);
+            WebResponse response = request.GetResponse();
+            Stream dataStream = response.GetResponseStream();
+            StreamReader reader = new StreamReader(dataStream);
+             var result = reader.ReadToEnd();
             return Task.FromResult(0);
         }
     }

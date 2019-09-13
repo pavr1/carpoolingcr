@@ -406,5 +406,16 @@ namespace CarpoolingCR.Utils
                 }
             }
         }
+
+        public static int GetRandomPhoneVerificationNumber()
+        {
+            var from = Convert.ToInt32(WebConfigurationManager.AppSettings["PhoneFromVerificationNumberLength"]);
+            var to = Convert.ToInt32(WebConfigurationManager.AppSettings["PhoneToVerificationNumberLength"]);
+
+            Random random = new Random();
+            int randomNumber = random.Next(from, to);
+
+            return randomNumber;
+        }
     }
 }

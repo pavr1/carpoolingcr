@@ -31,13 +31,15 @@ namespace CarpoolingCR.Models
         public string SecondLastName { get; set; }
 
         [Required]
-        [Display(Name = "Teléfono #1")]
+        [Display(Name = "Celular")]
         [DataType(DataType.PhoneNumber)]
         public string Phone1 { get; set; }
 
-        [Display(Name = "Teléfono #2")]
+        [Display(Name = "Teléfono")]
         [DataType(DataType.PhoneNumber)]
         public string Phone2 { get; set; }
+        public int MobileVerficationNumber { get; set; }
+        public bool IsPhoneVerified { get; set; }
 
         [Display(Name = "Cuenta de Facebook")]
         public string FacebookAccount { get; set; }

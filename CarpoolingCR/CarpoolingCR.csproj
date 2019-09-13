@@ -18,13 +18,10 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
-    <IISExpressSSLPort>44346</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication>
-    </IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>
-    </IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>
-    </IISExpressUseClassicPipelineMode>
+    <IISExpressSSLPort>443</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -252,6 +249,10 @@
     <Compile Include="Migrations\201909042333469_Changed user id from int to string in request notifications.cs" />
     <Compile Include="Migrations\201909042333469_Changed user id from int to string in request notifications.Designer.cs">
       <DependentUpon>201909042333469_Changed user id from int to string in request notifications.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201909131408555_Phone verifications.cs" />
+    <Compile Include="Migrations\201909131408555_Phone verifications.Designer.cs">
+      <DependentUpon>201909131408555_Phone verifications.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -871,6 +872,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201909042333469_Changed user id from int to string in request notifications.resx">
       <DependentUpon>201909042333469_Changed user id from int to string in request notifications.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201909131408555_Phone verifications.resx">
+      <DependentUpon>201909131408555_Phone verifications.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

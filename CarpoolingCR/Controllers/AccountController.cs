@@ -348,6 +348,7 @@ namespace CarpoolingCR.Controllers
                             LastName = model.LastName,
                             SecondLastName = model.SecondLastName,
                             Phone1 = model.Phone1,
+                            MobileVerficationNumber = Common.GetRandomPhoneVerificationNumber(),
                             Phone2 = model.Phone2,
                             CountryId = model.CountryId,
                             UserType = model.UserType,

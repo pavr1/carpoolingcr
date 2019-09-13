@@ -4,7 +4,7 @@ namespace CarpoolingCR.Utils
 {
     public class SMSHandler
     {
-        public static void SendSMS(string countryCode, string phoneNumber, string text, string url)
+        public static void SendSMS(string phoneNumber, string text, string url)
         {
             var message = new IdentityMessage
             {

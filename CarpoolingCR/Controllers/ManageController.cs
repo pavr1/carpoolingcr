@@ -59,7 +59,7 @@ namespace CarpoolingCR.Controllers
         // GET: /Manage/Index
         public async Task<ActionResult> Index(ManageMessageId? message)
         {
-            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg");;
+            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg"); ;
 
             try
             {
@@ -132,13 +132,97 @@ namespace CarpoolingCR.Controllers
             }
         }
 
-        public ActionResult ProfileInfo()
+        [HttpPost]
+        public string SendMobileVerificationCode(string unneededParam)
         {
-            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg");;
+            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg");
 
             try
             {
                 var user = Common.GetUserByEmail(User.Identity.Name);
+
+                SMSHandler.SendSMS(user.Phone1, "Código de Verificación: " + user.MobileVerficationNumber + ". ¡Hagamos Ride!", "https://buscoridecr.com");
+
+                //¡Código de verificación enviado!
+                return "100042";
+            }
+            catch (Exception ex)
+            {
+                Common.LogData(new Log
+                {
+                    Line = Common.GetCurrentLine(),
+                    Location = Enums.LogLocation.Server,
+                    LogType = Enums.LogType.Error,
+                    Message = ex.Message + " / " + ex.StackTrace,
+                    Method = Common.GetCurrentMethod(),
+                    Timestamp = Common.ConvertToUTCTime(DateTime.Now),
+                    UserEmail = User.Identity.Name
+                }, logo);
+
+                ViewBag.Error = "¡Error inesperado, intente de nuevo!";
+
+                //¡Código no enviado, contacte al administrador!
+                return "100043";
+            }
+        }
+
+        [HttpPost]
+        public string ConfirmMobileVerificationCode(int verificationCode)
+        {
+            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg");
+
+            try
+            {
+                var user = Common.GetUserByEmail(User.Identity.Name);
+
+                if (user.MobileVerficationNumber == verificationCode)
+                {
+                    user.IsPhoneVerified = true;
+
+                    db.Entry(user).State = System.Data.Entity.EntityState.Modified;
+                    db.SaveChanges();
+
+                    return "true";
+                }
+                else
+                {
+                    return "false";
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.LogData(new Log
+                {
+                    Line = Common.GetCurrentLine(),
+                    Location = Enums.LogLocation.Server,
+                    LogType = Enums.LogType.Error,
+                    Message = ex.Message + " / " + ex.StackTrace,
+                    Method = Common.GetCurrentMethod(),
+                    Timestamp = Common.ConvertToUTCTime(DateTime.Now),
+                    UserEmail = User.Identity.Name
+                }, logo);
+
+                ViewBag.Error = "¡Error inesperado, intente de nuevo!";
+
+                return "false";
+            }
+        }
+
+        public ActionResult ProfileInfo()
+        {
+            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg");
+
+            try
+            {
+                var user = Common.GetUserByEmail(User.Identity.Name);
+
+                if (user.MobileVerficationNumber == 0)
+                {
+                    user.MobileVerficationNumber = Common.GetRandomPhoneVerificationNumber();
+
+                    db.Entry(user).State = System.Data.Entity.EntityState.Modified;
+                    db.SaveChanges();
+                }
 
                 ViewBag.BrandId = new SelectList(user.Brands, "BrandId", "Name");
 
@@ -176,7 +260,7 @@ namespace CarpoolingCR.Controllers
         //public string ProfileInfo(string name, string lastName, string secLastName, string phone1, string phone2, string picture)
         public ActionResult ProfileInfo(string id)
         {
-            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg");;
+            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg"); ;
 
             var fields = "Fields => ";
 
@@ -553,7 +637,7 @@ namespace CarpoolingCR.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ChangePassword(ChangePasswordViewModel model)
         {
-            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg");;
+            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg"); ;
 
             try
             {
@@ -606,7 +690,7 @@ namespace CarpoolingCR.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> SetPassword(SetPasswordViewModel model)
         {
-            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg");;
+            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg"); ;
 
             try
             {

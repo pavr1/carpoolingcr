@@ -83,18 +83,18 @@
         return "¡Notificación automática Creada!";
     } else if (code === "100041") {
         return "¡Notificación automática cancelada!";
-    } else if (code === "xxxxxxxxx") {
-        return "zzzzzzzzzzzzzzzzzzzzzz";
-    } else if (code === "xxxxxxxxx") {
-        return "zzzzzzzzzzzzzzzzzzzzzz";
-    } else if (code === "xxxxxxxxx") {
-        return "zzzzzzzzzzzzzzzzzzzzzz";
-    } else if (code === "xxxxxxxxx") {
-        return "zzzzzzzzzzzzzzzzzzzzzz";
-    } else if (code === "xxxxxxxxx") {
-        return "zzzzzzzzzzzzzzzzzzzzzz";
-    } else if (code === "xxxxxxxxx") {
-        return "zzzzzzzzzzzzzzzzzzzzzz";
+    } else if (code === "100042") {
+        return "¡Código de verificación enviado!";
+    } else if (code === "100043") {
+        return "¡Código no enviado, contacte al administrador!";
+    } else if (code === "100044") {
+        return "¡Código de verificación requerido!";
+    } else if (code === "100045") {
+        return "¡El código de verificación debe ser de 6 dígitos!";
+    } else if (code === "100046") {
+        return "¡Su número de celular ha sido confimado!";
+    } else if (code === "100047") {
+        return "¡Código de verificación incorrecto!";
     } else if (code === "xxxxxxxxx") {
         return "zzzzzzzzzzzzzzzzzzzzzz";
     } else if (code === "xxxxxxxxx") {

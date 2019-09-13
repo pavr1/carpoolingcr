@@ -99,10 +99,10 @@
         <div class="row form-group">
             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
             </div>
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 center-block" style="text-align:center">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                 <label class="control-label">Correo Electrónico</label>
             </div>
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 center-block" style="text-align:center">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                 @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "Correo Electrónico", @readonly = "readonly" })
             </div>
             <div class="col-lg-4 col-md-2 col-sm-2 col-xs-0">
@@ -153,23 +153,43 @@
             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                <label class="control-label">Teléfono #1</label>
+                <label class="control-label">Celular</label>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                @Html.TextBoxFor(m => m.Phone1, new { @class = "form-control", @placeholder = "Teléfono #1" })
+                @Html.TextBoxFor(m => m.Phone1, new { @class = "form-control", @placeholder = "####-####" })
+                @{
+                    if (!Model.IsPhoneVerified)
+                    {
+                        <br />
+                        <input type="button" id="send-verification-code-btn" class="btn btn-info btn-sm" value="Enviar código de verificación" />   <a href="#" data-toggle="tooltip" class="btn btn-info btn-xs" style="color:white" title="¡Te enviaremos un mensaje de texto con el código de verificación para verificar tu celular!">?</a><br /><br />
+                    }
+                }
             </div>
             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
             </div>
         </div>
-
+        <div id="verification-code-container" class="row form-group">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                <label class="control-label">Verificación de celular</label>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                <input type="text" class="form-control" placeholder="######" id="verificationCode" name="verificationCode" />
+                <br />
+                <input type="button" id="confirm-verification-code-btn" class="btn btn-info btn-sm" value="Confirmar código de verificación" />   <a href="#" data-toggle="tooltip" class="btn btn-info btn-xs" style="color:white" title="¡Ingresa el código de verificación enviado a tu celular y da clic en 'Confirmar código de verificación'!">?</a><br /><br />
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+            </div>
+        </div>
         <div class="row form-group">
             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                <label class="control-label">Teléfono #2</label>
+                <label class="control-label">Teléfono</label>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                @Html.TextBoxFor(m => m.Phone2, new { @class = "form-control", @placeholder = "Teléfono #2" })
+                @Html.TextBoxFor(m => m.Phone2, new { @class = "form-control", @placeholder = "####-####" })
             </div>
             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
             </div>
@@ -413,9 +433,12 @@
 </form>
 
 <script>
-    $(document).ready(function () {
-        //$('[data-toggle="tooltip"]').tooltip();
+    $('#verification-code-container').slideUp(1);
+    $('#send-verification-code-btn').click(function () {
+        SendVerificationCode();
+    });
 
+    $(document).ready(function () {
         SetRandomImage();
 
         @{ 
@@ -484,4 +507,53 @@
             }
         }
     }
+
+    function SendVerificationCode() {
+        $.post('/Manage/SendMobileVerificationCode', new { unneededParam: ''},
+            function (data) {
+                ////¡Código de verificación enviado!
+                if (data == '100042') {
+                    DisplayGrowlMessage(data, 'success');
+
+                    $('#verification-code-container').slideDown();
+                } else {
+                    DisplayGrowlMessage(data, 'error');
+                }
+            });
+    }
+
+    function ConfirmVerificationCode() {
+        var verificationCode = $('#verificationCode').val();
+
+        if (verificationCode == '') {
+            //¡Código de verificación requerido!
+            DisplayGrowlMessage('100044', 'warn');
+
+            return;
+        } else {
+            if (verificationCode.length < 6) {
+                //¡El código de verificación debe ser de 6 dígitos!
+                DisplayGrowlMessage('100045', 'warn');
+
+                return;
+            }
+        }
+
+        $.post('/Manage/ConfirmMobileVerificationCode', { verificationCode: verificationCode },
+            function (data) {
+                if (data == 'true') {
+                    //¡Su número de celular ha sido confimado!
+                    DisplayGrowlMessage('100046', 'success');
+
+                    $('#verification-code-container').slideUp();
+                } else {
+                    //¡Código de verificación incorrecto!
+                    DisplayGrowlMessage('100047', 'error');
+                }
+            });
+    }
+
+    $('#Phone1').mask('0000-0000');
+    $('#Phone2').mask('0000-0000');
+    $('#verificationCode').mask('00000000');
 </script>

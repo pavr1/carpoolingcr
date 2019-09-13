@@ -18,7 +18,7 @@ namespace CarpoolingCR.Controllers
 
             try
             {
-                SMSHandler.SendSMS("+506", "8844-3317", "Mensaje de prueba de envío SMS", "https:buscoridecr.com");
+                SMSHandler.SendSMS("+506", "8844-3317", "Mensaje de prueba de envío SMS", "https://buscoridecr.com");
 
                 var user = Common.GetUserByEmail(User.Identity.Name);
 

@@ -305,5 +305,30 @@ namespace CarpoolingCR.Utils
                 Body = html
             }, EmailType.Notifications, appLogo);
         }
+
+        public static void SendEmailVerification(string email, bool isUseridentificationVerified, string appLogo)
+        {
+            var html = string.Empty;
+            var title = string.Empty;
+
+            if (isUseridentificationVerified)
+            {
+                title = "¡Número de cédula verificada!";
+                html = "¡Felicidades! Tu número de cédula fue verificada por buscoridecr.com. Con esto generas más confianza entre los usuarios del sitio";
+            }
+            else
+            {
+                title = "¡Número de cédula inválida!";
+                html = "¡Lo sentimos! Parece que el número de cédula que proveyó no concuerda con el nombre de usuario registrado. Buscoridecr.com ha inactivado tu cuenta hasta que corrijas esta información.<br/><br/>";
+                html += "Para más información por favor contacte al administrador a " + WebConfigurationManager.AppSettings["AdminEmails"];
+            }
+
+            SendEmail(new IdentityMessage
+            {
+                Destination = email,
+                Subject = "Verificación de Cédula",
+                Body = html
+            }, EmailType.Notifications, appLogo);
+        }
     }
 }

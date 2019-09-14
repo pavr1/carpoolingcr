@@ -67,10 +67,14 @@
                     <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12">
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                        <a href="~/NotificationRequests/Create" style="color:blue">Notificaciones Automáticas</a> <a href="#" data-toggle="tooltip" class="btn btn-info btn-xs" style="color:white" title="¡Crea una notificación automática y te avisaremos cuando el viaje que necesites esté disponible!">?</a><br /><br />
+                        <div class="input-group btn-block">
+                            <input onclick="window.location='@Url.Action("Create","NotificationRequests")'" type="button" class="btn btn-info btn-sm" style="border-radius: 10px 0px 0px 10px" value="Notificaciones Automáticas" />
+                            <button onclick="return false" class="btn btn-info btn-sm" style="border-radius: 0px 10px 10px 0px" aria-label="Help"><span class="glyphicon glyphicon-alert" data-toggle="tooltip" title="¡Crea una notificación automática y te avisaremos cuando el viaje que necesites esté disponible!"></span></button>
+                        </div>
                     </div>
                     <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12">
-                        <buton class="btn btn-info btn-sm btn-block" id="btn-retrieve-trips" style="width:240px;border-radius:10px" data-loading-text="<i class='fa fa-circle-o-notch fa-spin pull-right'></i> Consultar Viajes" onclick="RetrieveTrips()">Consultar Viajes</buton>
+                        <input onclick="window.location='@Url.Action("Create","NotificationRequests")'" type="button" class="btn btn-info btn-sm" style="width:260px" value="Consultar Viajes" />
+                        @*<buton class="btn btn-info btn-sm" id="btn-retrieve-trips" style="width:240px;border-radius:10px" data-loading-text="<i class='fa fa-circle-o-notch fa-spin pull-right'></i> Consultar Viajes" onclick="RetrieveTrips()">Consultar Viajes</buton>*@
                     </div>
                 </div>
                 @Html.Partial("~/Views/Reservations/Partials/_RequestJourney.cshtml", Model)

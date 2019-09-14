@@ -99,10 +99,10 @@
         return "¡Servicio SMS inactivo!";
     } else if (code === "100049") {
         return "¡Cédula Requerida!";
-    } else if (code === "xxxxxxxxx") {
-        return "zzzzzzzzzzzzzzzzzzzzzz";
-    } else if (code === "xxxxxxxxx") {
-        return "zzzzzzzzzzzzzzzzzzzzzz";
+    } else if (code === "100050") {
+        return "¡Cédula Verificada!";
+    } else if (code === "100051") {
+        return "¡Cuenta Inactiva!";
     } else if (code === "xxxxxxxxx") {
         return "zzzzzzzzzzzzzzzzzzzzzz";
     } else if (code === "xxxxxxxxx") {

@@ -18,13 +18,10 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
-    <IISExpressSSLPort>44346</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication>
-    </IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>
-    </IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>
-    </IISExpressUseClassicPipelineMode>
+    <IISExpressSSLPort>443</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -264,6 +261,10 @@
     <Compile Include="Migrations\201909140022393_Added prop IsUserIdentificationVerified.cs" />
     <Compile Include="Migrations\201909140022393_Added prop IsUserIdentificationVerified.Designer.cs">
       <DependentUpon>201909140022393_Added prop IsUserIdentificationVerified.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201909140137221_deleted required for UserIdentification.cs" />
+    <Compile Include="Migrations\201909140137221_deleted required for UserIdentification.Designer.cs">
+      <DependentUpon>201909140137221_deleted required for UserIdentification.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -853,6 +854,8 @@
     <Content Include="Views\NotificationRequests\Index.cshtml" />
     <Content Include="Views\NotificationRequests\Partials\p_Index.cshtml" />
     <Content Include="Views\UserRols\PhoneNumberNotVerified.cshtml" />
+    <Content Include="Views\Account\GetPendingUserIdentifications.cshtml" />
+    <Content Include="Views\Account\Partials\p_PendingUserIdentifications.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -893,6 +896,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201909140022393_Added prop IsUserIdentificationVerified.resx">
       <DependentUpon>201909140022393_Added prop IsUserIdentificationVerified.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201909140137221_deleted required for UserIdentification.resx">
+      <DependentUpon>201909140137221_deleted required for UserIdentification.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

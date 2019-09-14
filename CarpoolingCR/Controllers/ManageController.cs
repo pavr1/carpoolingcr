@@ -146,18 +146,7 @@ namespace CarpoolingCR.Controllers
 
                 if (smsServiceEnabled)
                 {
-                    SMSHandler.SendSMS(user.Phone1, "Código de Verificación: " + user.MobileVerficationNumber + ". ¡Hagamos Ride!", "www.buscoridecr.com");
-
-                    Common.LogData(new Log
-                    {
-                        Line = Common.GetCurrentLine(),
-                        Location = Enums.LogLocation.Server,
-                        LogType = Enums.LogType.SMS,
-                        Message = "El " + user.UserType + " " + user.FullName + ", email: " + user.Email + " verificó su número telefónico.",
-                        Method = Common.GetCurrentMethod(),
-                        Timestamp = Common.ConvertToUTCTime(DateTime.Now),
-                        UserEmail = User.Identity.Name
-                    }, logo);
+                    SMSHandler.SendSMS(user, "Código de Verificación: " + user.MobileVerficationNumber + ". ¡Hagamos Ride!", "www.buscoridecr.com", logo);
 
                     //¡Código de verificación enviado!
                     return "100042";
@@ -214,6 +203,17 @@ namespace CarpoolingCR.Controllers
 
                     db.Entry(user).State = System.Data.Entity.EntityState.Modified;
                     db.SaveChanges();
+
+                    Common.LogData(new Log
+                    {
+                        Line = Common.GetCurrentLine(),
+                        Location = Enums.LogLocation.Server,
+                        LogType = Enums.LogType.SMS,
+                        Message = "El " + user.UserType + " " + user.FullName + ", email: " + user.Email + " verificó su número telefónico.",
+                        Method = Common.GetCurrentMethod(),
+                        Timestamp = Common.ConvertToUTCTime(DateTime.Now),
+                        UserEmail = User.Identity.Name
+                    }, logo);
 
                     return "true";
                 }
@@ -386,7 +386,7 @@ namespace CarpoolingCR.Controllers
                                 Line = Common.GetCurrentLine(),
                                 Location = Enums.LogLocation.Server,
                                 LogType = Enums.LogType.UserIdVerification,
-                                Message = "El " + user.UserType + " " + user.FullName + " ha ingresado su número de cédula " + user.UserIdentification + ". Proceda a validar esta información en el sitio https://www.rnpdigital.com/shopping/consultaDocumentos/bienesMuebles/paramConsultaPersona.jspx",
+                                Message = "El " + user.UserType + " " + user.FullName + " ha ingresado su número de cédula " + Request["UserIdentification"] + ". Proceda a validar esta información en el sitio https://www.rnpdigital.com/shopping/consultaDocumentos/bienesMuebles/paramConsultaPersona.jspx",
                                 Method = Common.GetCurrentMethod(),
                                 Timestamp = Common.ConvertToUTCTime(DateTime.Now),
                                 UserEmail = User.Identity.Name,

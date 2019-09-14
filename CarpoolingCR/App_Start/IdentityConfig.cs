@@ -173,7 +173,7 @@ namespace CarpoolingCR
             mail.AlternateViews.Add(avHtml);
             mail.IsBodyHtml = true;
             mail.From = new MailAddress(providerEmail);
-            mail.To.Add("pavr1@hotmail.com");
+            mail.To.Add(email);
             mail.Subject = subject;
 
             //MailMessage mail = new MailMessage();

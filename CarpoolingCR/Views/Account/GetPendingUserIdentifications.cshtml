@@ -1,0 +1,27 @@
+﻿@model ICollection<CarpoolingCR.Models.ApplicationUser>
+
+@{
+    ViewBag.Title = "ManageUsers";
+}
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<br />
+<div class="row form-group" style="text-align:center">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <h5 class="panel-title pull-left">Verificación de Cédulas</h5>
+    </div>
+</div>
+<div class="row" style="text-align:center">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <hr />
+    </div>
+</div>
+
+<div id="user-identification-container">
+    @Html.Partial("~/Views/Account/Partials/p_PendingUserIdentifications.cshtml", Model)
+</div>
+
+<script>
+
+</script>
+

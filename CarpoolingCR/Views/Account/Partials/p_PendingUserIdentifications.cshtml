@@ -1,0 +1,61 @@
+﻿@model ICollection<CarpoolingCR.Models.ApplicationUser>
+
+@{
+    ViewBag.Title = "ManageUsers";
+}
+
+<ul class="list" style="list-style:none">
+    @{
+        if (Model.Count == 0)
+        {
+            <li>
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                        <small>¡No hay cédulas pendientes de verificar!</small>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 hidden-xs">
+                    </div>
+                </div>
+            </li>
+        }
+        else
+        {
+            foreach (var item in Model)
+            {
+                <li>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                            <label class="control-label passenger">@item.UserIdentification</label>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                            <small class="status">
+                                @item.FullName @item.SecondLastName
+                            </small>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 hidden-xs">
+                            <input type="button" class="btn btn-danger btn-sm pull-right" onclick="UpdateUserIdentification('@item.Id', false)" value="Inactivar Cuenta" />
+                            <input type="button" class="btn btn-info btn-sm pull-right" onclick="UpdateUserIdentification('@item.Id', true)" value="Verificar Cédula" />
+                        </div>
+                        <div class="visible-xs col-xs-12">
+                            <input type="button" class="btn btn-danger btn-sm pull-right" onclick="UpdateUserIdentification('@item.Id', false)" value="Inactivar Cuenta" />
+                            <input type="button" class="btn btn-info btn-sm pull-left" onclick="UpdateUserIdentification('@item.Id', true)" value="Verificar Cédula" />
+                        </div>
+                    </div>
+                    <hr />
+                </li>
+            }
+        }
+    }
+</ul>
+
+<script>
+    function UpdateUserIdentification(userId, verified) {
+        $.post('@Url.Action("VerifyUserIdentification", "Account")', { userId: userId, isUserVerified: verified },
+            function (data) {
+                $('#user-identification-container').html(data);
+        });
+    }
+</script>
+

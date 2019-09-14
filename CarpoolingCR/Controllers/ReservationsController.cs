@@ -443,7 +443,7 @@ namespace CarpoolingCR.Controllers
 
                     if (send)
                     {
-                        EmailHandler.SendReservationStatusChangeByDriver(reservation.ApplicationUser.Email, tripInfo, Common.ConvertToLocalTime(trip.DateTime).ToString("dd/MM/yyyy hh:mm:ss tt"), "aceptada", callbackUrl, logo);
+                        EmailHandler.SendReservationStatusChangeByDriver(reservation.ApplicationUser.Email, tripInfo, Common.ConvertToLocalTime(trip.DateTime).ToString(WebConfigurationManager.AppSettings["DateTimeFormat"]), "aceptada", callbackUrl, logo);
                     }
                 }
                 else if (stat == ReservationStatus.Cancelled)
@@ -459,11 +459,11 @@ namespace CarpoolingCR.Controllers
                         {
                             if (cancelledFrom == "passenger")
                             {
-                                EmailHandler.SendReservationStatusCancelledByPassenger(trip.ApplicationUser.Email, tripInfo, Common.ConvertToLocalTime(trip.DateTime).ToString("dd/MM/yyyy hh:mm:ss tt"), reservation.RequestedSpaces, callbackUrl, logo);
+                                EmailHandler.SendReservationStatusCancelledByPassenger(trip.ApplicationUser.Email, tripInfo, Common.ConvertToLocalTime(trip.DateTime).ToString(WebConfigurationManager.AppSettings["DateTimeFormat"]), reservation.RequestedSpaces, callbackUrl, logo);
                             }
                             else if (cancelledFrom == "driver")
                             {
-                                EmailHandler.SendReservationStatusCancelledByPassenger(reservation.ApplicationUser.Email, tripInfo, Common.ConvertToLocalTime(trip.DateTime).ToString("dd/MM/yyyy hh:mm:ss tt"), reservation.RequestedSpaces, callbackUrl, logo);
+                                EmailHandler.SendReservationStatusCancelledByPassenger(reservation.ApplicationUser.Email, tripInfo, Common.ConvertToLocalTime(trip.DateTime).ToString(WebConfigurationManager.AppSettings["DateTimeFormat"]), reservation.RequestedSpaces, callbackUrl, logo);
                             }
                         }
 
@@ -481,7 +481,7 @@ namespace CarpoolingCR.Controllers
 
                     if (send)
                     {
-                        EmailHandler.SendReservationStatusChangeByDriver(reservation.ApplicationUser.Email, tripInfo, Common.ConvertToLocalTime(trip.DateTime).ToString("dd/MM/yyyy hh:mm:ss tt"), "rechazada", callbackUrl, logo);
+                        EmailHandler.SendReservationStatusChangeByDriver(reservation.ApplicationUser.Email, tripInfo, Common.ConvertToLocalTime(trip.DateTime).ToString(WebConfigurationManager.AppSettings["DateTimeFormat"]), "rechazada", callbackUrl, logo);
                     }
                 }
 
@@ -646,7 +646,7 @@ namespace CarpoolingCR.Controllers
                 db.Reservations.Add(reservation);
                 db.SaveChanges();
 
-                var tripInfo = trip.FromTown.FullName + " a " + trip.ToTown.FullName + " el " + Common.ConvertToLocalTime(trip.DateTime).ToString("dd/MM/yyyy hh:mm:ss tt");
+                var tripInfo = trip.FromTown.FullName + " a " + trip.ToTown.FullName + " el " + Common.ConvertToLocalTime(trip.DateTime).ToString(WebConfigurationManager.AppSettings["DateTimeFormat"]);
                 var spaces = reservation.RequestedSpaces;
 
                 var send = Convert.ToBoolean(WebConfigurationManager.AppSettings["SendNotificationsToAdmin"]);

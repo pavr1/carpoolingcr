@@ -10,7 +10,7 @@
     @Html.AntiForgeryToken()
     <input type="hidden" id="message" value="@Model.Message" />
     <input type="hidden" id="messageType" value="@Model.MessageType" />
-    
+
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="row form-group">
             <div class="row form-group">
@@ -25,411 +25,477 @@
                             </div>
                         </div>
                     </div>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 center-block">
-                <label id="SelectedPicture" name="SelectedPicture" class="hidden"></label>
-                <div id="profile-container" class="center-block" data-toggle="tooltip" title="¡Actualiza tu foto de perfíl!">
-                    <img id="profileImage" src="@Url.Content(Model.Picture)" />
                 </div>
-                <input id="imageUpload" type="file" name="profile_photo" placeholder="Photo" accept="image/*">
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
 
-            </div>
-        </div>
-        <div class="row form-group">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <h2 style="text-align:center">
-                    @{
-                        var stars = Model.Stars;
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 center-block">
+                    <label id="SelectedPicture" name="SelectedPicture" class="hidden"></label>
+                    <div id="profile-container" class="center-block" data-toggle="tooltip" title="¡Actualiza tu foto de perfíl!">
+                        <img id="profileImage" src="@Url.Content(Model.Picture)" />
+                    </div>
+                    <input id="imageUpload" type="file" name="profile_photo" placeholder="Photo" accept="image/*">
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
 
-                        switch (stars)
-                        {
-                            case 1:
-                                <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star1" class="fa fa-star checked" data-toggle="Muy Malo"></span></a>
-                                <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star2" class="fa fa-star" data-toggle="Muy Malo"></span></a>
-                                <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star3" class="fa fa-star" data-toggle="Muy Malo"></span></a>
-                                <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star4" class="fa fa-star" data-toggle="Muy Malo"></span></a>
-                                <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star5" class="fa fa-star" data-toggle="Muy Malo"></span></a>
-                                break;
-                            case 2:
-                                <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star1" class="fa fa-star checked" data-toggle="Malo"></span></a>
-                                <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star2" class="fa fa-star checked" data-toggle="Malo"></span></a>
-                                <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star3" class="fa fa-star" data-toggle="Malo"></span></a>
-                                <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star4" class="fa fa-star" data-toggle="Malo"></span></a>
-                                <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star5" class="fa fa-star" data-toggle="Malo"></span></a>
-                                break;
-                            case 3:
-                                <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star1" class="fa fa-star checked" data-toggle="Bueno"></span></a>
-                                <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star2" class="fa fa-star checked" data-toggle="Bueno"></span></a>
-                                <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star3" class="fa fa-star checked" data-toggle="Bueno"></span></a>
-                                <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star4" class="fa fa-star" data-toggle="Bueno"></span></a>
-                                <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star5" class="fa fa-star" data-toggle="Bueno"></span></a>
-                                break;
-                            case 4:
-                                <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star1" class="fa fa-star checked" data-toggle="Muy Bueno"></span></a>
-                                <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star2" class="fa fa-star checked" data-toggle="Muy Bueno"></span></a>
-                                <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star3" class="fa fa-star checked" data-toggle="Muy Bueno"></span></a>
-                                <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star4" class="fa fa-star checked" data-toggle="Muy Bueno"></span></a>
-                                <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star5" class="fa fa-star" data-toggle="Muy Bueno"></span></a>
-                                break;
-                            case 5:
-                                <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star1" class="fa fa-star checked" data-toggle="Excelente"></span></a>
-                                <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star2" class="fa fa-star checked" data-toggle="Excelente"></span></a>
-                                <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star3" class="fa fa-star checked" data-toggle="Excelente"></span></a>
-                                <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star4" class="fa fa-star checked" data-toggle="Excelente"></span></a>
-                                <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star5" class="fa fa-star checked" data-toggle="Excelente"></span></a>
-                                break;
-                            case -1:
-                                <a href="#" data-toggle="tooltip" title="¡Usuario no calificado!"><span id="p-star1" class="fa fa-star" data-toggle="¡Usuario no calificado!"></span></a>
-                                <a href="#" data-toggle="tooltip" title="¡Usuario no calificado!"><span id="p-star2" class="fa fa-star" data-toggle="¡Usuario no calificado!"></span></a>
-                                <a href="#" data-toggle="tooltip" title="¡Usuario no calificado!"><span id="p-star3" class="fa fa-star" data-toggle="¡Usuario no calificado!"></span></a>
-                                <a href="#" data-toggle="tooltip" title="¡Usuario no calificado!"><span id="p-star4" class="fa fa-star" data-toggle="¡Usuario no calificado!"></span></a>
-                                <a href="#" data-toggle="tooltip" title="¡Usuario no calificado!"><span id="p-star5" class="fa fa-star" data-toggle="¡Usuario no calificado!"></span></a>
-                                break;
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <h2 style="text-align:center">
+                        @{
+                            var stars = Model.Stars;
+
+                            switch (stars)
+                            {
+                                case 1:
+                                    <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star1" class="fa fa-star checked" data-toggle="Muy Malo"></span></a>
+                                    <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star2" class="fa fa-star" data-toggle="Muy Malo"></span></a>
+                                    <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star3" class="fa fa-star" data-toggle="Muy Malo"></span></a>
+                                    <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star4" class="fa fa-star" data-toggle="Muy Malo"></span></a>
+                                    <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star5" class="fa fa-star" data-toggle="Muy Malo"></span></a>
+                                    break;
+                                case 2:
+                                    <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star1" class="fa fa-star checked" data-toggle="Malo"></span></a>
+                                    <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star2" class="fa fa-star checked" data-toggle="Malo"></span></a>
+                                    <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star3" class="fa fa-star" data-toggle="Malo"></span></a>
+                                    <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star4" class="fa fa-star" data-toggle="Malo"></span></a>
+                                    <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star5" class="fa fa-star" data-toggle="Malo"></span></a>
+                                    break;
+                                case 3:
+                                    <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star1" class="fa fa-star checked" data-toggle="Bueno"></span></a>
+                                    <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star2" class="fa fa-star checked" data-toggle="Bueno"></span></a>
+                                    <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star3" class="fa fa-star checked" data-toggle="Bueno"></span></a>
+                                    <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star4" class="fa fa-star" data-toggle="Bueno"></span></a>
+                                    <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star5" class="fa fa-star" data-toggle="Bueno"></span></a>
+                                    break;
+                                case 4:
+                                    <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star1" class="fa fa-star checked" data-toggle="Muy Bueno"></span></a>
+                                    <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star2" class="fa fa-star checked" data-toggle="Muy Bueno"></span></a>
+                                    <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star3" class="fa fa-star checked" data-toggle="Muy Bueno"></span></a>
+                                    <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star4" class="fa fa-star checked" data-toggle="Muy Bueno"></span></a>
+                                    <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star5" class="fa fa-star" data-toggle="Muy Bueno"></span></a>
+                                    break;
+                                case 5:
+                                    <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star1" class="fa fa-star checked" data-toggle="Excelente"></span></a>
+                                    <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star2" class="fa fa-star checked" data-toggle="Excelente"></span></a>
+                                    <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star3" class="fa fa-star checked" data-toggle="Excelente"></span></a>
+                                    <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star4" class="fa fa-star checked" data-toggle="Excelente"></span></a>
+                                    <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star5" class="fa fa-star checked" data-toggle="Excelente"></span></a>
+                                    break;
+                                case -1:
+                                    <a href="#" data-toggle="tooltip" title="¡Usuario no calificado!"><span id="p-star1" class="fa fa-star" data-toggle="¡Usuario no calificado!"></span></a>
+                                    <a href="#" data-toggle="tooltip" title="¡Usuario no calificado!"><span id="p-star2" class="fa fa-star" data-toggle="¡Usuario no calificado!"></span></a>
+                                    <a href="#" data-toggle="tooltip" title="¡Usuario no calificado!"><span id="p-star3" class="fa fa-star" data-toggle="¡Usuario no calificado!"></span></a>
+                                    <a href="#" data-toggle="tooltip" title="¡Usuario no calificado!"><span id="p-star4" class="fa fa-star" data-toggle="¡Usuario no calificado!"></span></a>
+                                    <a href="#" data-toggle="tooltip" title="¡Usuario no calificado!"><span id="p-star5" class="fa fa-star" data-toggle="¡Usuario no calificado!"></span></a>
+                                    break;
+                            }
                         }
-                    }
-                </h3>
-                <hr />
-            </div>
-        </div>
-        <div class="row form-group">
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                <label class="control-label">Correo Electrónico</label>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "Correo Electrónico", @readonly = "readonly" })
-            </div>
-            <div class="col-lg-4 col-md-2 col-sm-2 col-xs-0">
-
-            </div>
-        </div>
-
-        <div class="row form-group">
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                <label class="control-label">Nombre</label>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @placeholder = "Nombre" })
-            </div>
-            <div class="col-lg-4 col-md-2 col-sm-2 col-xs-0">
-            </div>
-        </div>
-
-        <div class="row form-group">
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                <label class="control-label">Primer Apellido</label>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", @placeholder = "Primer Apellido" })
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-            </div>
-        </div>
-
-        <div class="row form-group">
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                <label class="control-label">Segundo Apellido</label>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                @Html.TextBoxFor(m => m.SecondLastName, new { @class = "form-control", @placeholder = "Segundo Apellido" })
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-            </div>
-        </div>
-
-        <div class="row form-group">
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                <label class="control-label">Celular</label>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                @Html.TextBoxFor(m => m.Phone1, new { @class = "form-control", @placeholder = "####-####" })
-                @{
-                    if (!Model.IsPhoneVerified)
-                    {
-                        <br />
-                        <input type="button" id="send-verification-code-btn" class="btn btn-info btn-sm" value="Enviar código de verificación" />   <a href="#" data-toggle="tooltip" class="btn btn-info btn-xs" style="color:white" title="¡Te enviaremos un mensaje de texto con el código de verificación para verificar tu celular!">?</a><br /><br />
-                    }
-                }
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-            </div>
-        </div>
-        <div id="verification-code-container" class="row form-group">
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                <label class="control-label">Verificación de celular</label>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                <input type="text" class="form-control" placeholder="######" id="verificationCode" name="verificationCode" />
-                <br />
-                <input type="button" id="confirm-verification-code-btn" class="btn btn-info btn-sm" value="Confirmar código de verificación" />   <a href="#" data-toggle="tooltip" class="btn btn-info btn-xs" style="color:white" title="¡Ingresa el código de verificación enviado a tu celular y da clic en 'Confirmar código de verificación'!">?</a><br /><br />
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-            </div>
-        </div>
-        <div class="row form-group">
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                <label class="control-label">Teléfono</label>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                @Html.TextBoxFor(m => m.Phone2, new { @class = "form-control", @placeholder = "####-####" })
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-            </div>
-        </div>
-
-        <div class="row form-group">
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                <label class="control-label">Tipo de Usuario</label>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                @Html.TextBoxFor(m => m.UserType, new { @class = "form-control", @placeholder = "Tipo de Usuario", @disabled = "disabled" })
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-            </div>
-        </div>
-
-        <div class="row form-group">
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                <label class="control-label">Estado</label>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                @Html.TextBoxFor(m => m.Status, new { @class = "form-control", @placeholder = "Estado", @disabled = "disabled" })
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-            </div>
-        </div>
-
-        <div class="row form-group">
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                <label class="control-label">¿Correo Confirmado?</label>
-                @{
-                    if (Model.EmailConfirmed)
-                    {
-                        <input type="checkbox" class="disabled" onclick="return false;" checked />
-                    }
-                    else
-                    {
-                        <input type="checkbox" class="disabled" onclick="return false;" />
-                    }
-                }
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-            </div>
-        </div>
-
-        @{
-            if ((Model.UserType == CarpoolingCR.Utils.Enums.UserType.Conductor) || (Model.UserType == CarpoolingCR.Utils.Enums.UserType.Administrador))
-            {
-                <hr />
-                <div class="row form-group">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:center">
-                        <h3>Información del Vehículo</h3>
-                    </div>
+                        </h3>
+                        <hr />
                 </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <label class="control-label">Correo Electrónico</label>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "Correo Electrónico", @readonly = "readonly" })
+                </div>
+                <div class="col-lg-4 col-md-2 col-sm-2 col-xs-0">
 
-                if (Model.Vehicle == null)
-                {
-                    <div class="row form-group">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:center">
-                            <small style="color:red">¡Información del vehículo requerida!"</small>
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            <label class="control-label">Marca</label>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            @Html.DropDownList("BrandId", (SelectList)ViewBag.BrandId.Items, htmlAttributes: new { @class = "form-control" })
-                        </div>
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            <label class="control-label">Modelo</label>
-                        </div>
-                        <div id="modelContainer" class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            <select id="Model" name="Model" class="form-control" disabled></select>
-                        </div>
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            <label class="control-label">Placa</label>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            <input type="text" class="form-control" id="Plate" name="Plate" placeholder="Placa" />
-                        </div>
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            <label class="control-label">Color</label>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            <input type="text" class="form-control" id="Color" name="Color" placeholder="Color" />
-                        </div>
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            <label class="control-label">Capacidad</label> <small>*** Incluido el conductor</small>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            <input id="Capacity" name="Capacity" class="" style="width:40px;" onfocus="blur();">
-                        </div>
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-                        </div>
-                    </div>
-                }
-                else
-                {
-                    <div class="row form-group">
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            <label class="control-label">Marca</label>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            <select class="form-control" id="BrandId" name="BrandId">
-                                @{
-                                    foreach (var brand in ViewBag.BrandId.Items.Items)
-                                    {
-                                        if (brand.BrandId == Model.Vehicle.BrandId)
-                                        {
-                                            <option value="@brand.BrandId" selected>@brand.Name</option>
-                                        }
-                                        else
-                                        {
-                                            <option value="@brand.BrandId">@brand.Name</option>
-                                        }
-                                    }
-                                }
-                            </select>
-                        </div>
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            <label class="control-label">Modelo</label>
-                        </div>
-                        <div id="modelContainer" class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            @{
-                                if (ViewBag.ModelId != null)
+                </div>
+            </div>
+
+            <div class="row form-group">
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <label class="control-label">Cédula</label>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <div class="input-group btn-block">
+                        @{
+                            if (Model.IsUserIdentificationVerified)
+                            {
+                                @Html.TextBoxFor(m => m.UserIdentification, new { @class = "form-control", @placeholder = "Cédula", @disabled = "disabled" })
+                                <div id="information-type-tooltip-button">
+                                    <button onclick="return false" class="btn btn-info pull-left" style="border-radius:0px 10px 10px 0px" aria-label="Help"><span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" title="¡Número de cédula verificado!"></span></button>
+                                </div>
+                            }
+                            else
+                            {
+                                if (string.IsNullOrEmpty(Model.UserIdentification))
                                 {
-                                    <select class="form-control" id="Model" name="Model">
-                                        @{ foreach (var mdl in ViewBag.ModelId.Items)
-                                            {
-                                                if (mdl.ModelId == Model.Vehicle.ModelId)
-                                                {
-                                                    <option value="@mdl.ModelId" selected>@mdl.Description</option>
-                                                }
-                                                else
-                                                {
-                                                    <option value="@mdl.ModelId">@mdl.Description</option>
-                                                }
-                                            }
-                                        }
-                                    </select>
+                                    @Html.TextBoxFor(m => m.UserIdentification, new { @class = "form-control", @placeholder = "Cédula" })
+                                    <div id="information-type-tooltip-button">
+                                        <button onclick="return false" class="btn btn-danger pull-left" style="border-radius:0px 10px 10px 0px" aria-label="Help"><span class="glyphicon glyphicon-alert" data-toggle="tooltip" title="¡El número de cédula debe ser provisto!"></span></button>
+                                    </div>
                                 }
                                 else
                                 {
-                                    <select class="form-control" id="Model" name="Model" disabled></select>
+                                    @Html.TextBoxFor(m => m.UserIdentification, new { @class = "form-control", @placeholder = "Cédula", @disabled = "disabled" })
+                                    <div id="information-type-tooltip-button">
+                                        <button onclick="return false" class="btn btn-warning pull-left" style="border-radius:0px 10px 10px 0px" aria-label="Help"><span class="glyphicon glyphicon-exclamation-sign" data-toggle="tooltip" title="¡El número de cédula se encuentra en período de verificación!"></span></button>
+                                    </div>
                                 }
                             }
-                        </div>
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-                        </div>
+                        }
                     </div>
-                    <div class="row form-group">
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            <label class="control-label">Placa</label>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            <input type="text" class="form-control" id="Plate" name="Plate" placeholder="Placa" value="@Model.Vehicle.Plate" />
-                        </div>
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-                        </div>
+                </div>
+                <div class="col-lg-4 col-md-2 col-sm-2 col-xs-0">
+                </div>
+            </div>
+
+            <div class="row form-group">
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <label class="control-label">Nombre</label>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @placeholder = "Nombre" })
+                </div>
+                <div class="col-lg-4 col-md-2 col-sm-2 col-xs-0">
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <label class="control-label">Primer Apellido</label>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", @placeholder = "Primer Apellido" })
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <label class="control-label">Segundo Apellido</label>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    @Html.TextBoxFor(m => m.SecondLastName, new { @class = "form-control", @placeholder = "Segundo Apellido" })
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <label class="control-label">Celular</label>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <div class="input-group btn-block">
+                        @Html.TextBoxFor(m => m.Phone1, new { @class = "form-control", @placeholder = "####-####" })
+                        @{
+                            if (!Model.IsPhoneVerified)
+                            {
+                                <div id="information-type-tooltip-button">
+                                    <button onclick="return false" class="btn btn-danger pull-left" style="border-radius:0px 10px 10px 0px" aria-label="Help"><span class="glyphicon glyphicon-alert" data-toggle="tooltip" title="¡El número de celular debe ser verificado!"></span></button>
+                                </div>
+                            }
+                            else
+                            {
+                                <div id="information-type-tooltip-button">
+                                    <button onclick="return false" class="btn btn-info pull-left" style="border-radius:0px 10px 10px 0px" aria-label="Help"><span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" title="¡Número de celular verificado!"></span></button>
+                                </div>
+                            }
+                        }
                     </div>
-                    <div class="row form-group">
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                    @if (!Model.IsPhoneVerified)
+                    {
+                        <div id="send-verification-code-container">
+                            <br />
+                            <input type="button" id="send-verification-code-btn" class="btn btn-info btn-sm" value="Enviar código de verificación" />
                         </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            <label class="control-label">Color</label>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            <input type="text" class="form-control" id="Color" name="Color" placeholder="Color" value="@Model.Vehicle.Color" />
-                        </div>
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-                        </div>
+                    }
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                </div>
+            </div>
+            <div id="verification-code-container" class="row form-group">
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <label class="control-label">Ingresa el código de Verificación</label>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <div class="input-group btn-block">
+                        <input type="text" class="form-control" placeholder="######" style="border-radius:10px 10px 10px 10px" id="verificationCode" name="verificationCode" />
+                        <br /><br /><br />
+                        <input type="button" id="confirm-verification-code-btn" style="border-radius:10px 0px 0px 10px" class="btn btn-info btn-sm" value="Confirmar código de verificación" />
+                        <button type="button" class="btn btn-info btn-sm" aria-label="Help" style="border-radius:0px 10px 10px 0px"><span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" title="¡Ingresa el código de verificación enviado a tu celular y da clic en 'Confirmar código de verificación'!"></span></button>
                     </div>
-                    <div class="row form-group">
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <label class="control-label">Teléfono</label>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    @Html.TextBoxFor(m => m.Phone2, new { @class = "form-control", @placeholder = "####-####" })
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <label class="control-label">Tipo de Usuario</label>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    @Html.TextBoxFor(m => m.UserType, new { @class = "form-control", @placeholder = "Tipo de Usuario", @disabled = "disabled" })
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <label class="control-label">Estado</label>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    @Html.TextBoxFor(m => m.Status, new { @class = "form-control", @placeholder = "Estado", @disabled = "disabled" })
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <label class="control-label">¿Correo Confirmado?</label>
+                    @{
+                        if (Model.EmailConfirmed)
+                        {
+                            <input type="checkbox" class="disabled" onclick="return false;" checked />
+                        }
+                        else
+                        {
+                            <input type="checkbox" class="disabled" onclick="return false;" />
+                        }
+                    }
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                </div>
+            </div>
+            @{
+                if (string.IsNullOrEmpty(Model.UserIdentification))
+                {
+                    <div class="row form-group" style="text-align:justify">
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+
                         </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            <label class="control-label">Capacidad</label> <small>*** Incluido el conductor</small>
+                        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 text-warning">
+                            <small>*** El número de cédula será revisado y verificado contra la base de datos del registro nacional. De no concordar o existir el número de cédula provista la cuenta será bloqueada.</small>
                         </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            <input id="Capacity" name="Capacity" class="" style="width:40px;" onfocus="blur();" value="@Model.Vehicle.Spaces">
-                        </div>
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+
                         </div>
                     </div>
                 }
             }
-        }
+            @{
+                if ((Model.UserType == CarpoolingCR.Utils.Enums.UserType.Conductor) || (Model.UserType == CarpoolingCR.Utils.Enums.UserType.Administrador))
+                {
+                    <hr />
+                    <div class="row form-group">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:center">
+                            <h3>Información del Vehículo</h3>
+                        </div>
+                    </div>
 
-        <div class="row form-group">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <input type="submit" class="btn btn-info center-block" value="Actualizar" />
+                    if (Model.Vehicle == null)
+                    {
+                        <div class="row form-group">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:center">
+                                <small style="color:red">¡Información del vehículo requerida!"</small>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                <label class="control-label">Marca</label>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                @Html.DropDownList("BrandId", (SelectList)ViewBag.BrandId.Items, htmlAttributes: new { @class = "form-control" })
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                <label class="control-label">Modelo</label>
+                            </div>
+                            <div id="modelContainer" class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                <select id="Model" name="Model" class="form-control" disabled></select>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                <label class="control-label">Placa</label>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                <input type="text" class="form-control" id="Plate" name="Plate" placeholder="Placa" />
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                <label class="control-label">Color</label>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                <input type="text" class="form-control" id="Color" name="Color" placeholder="Color" />
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                <label class="control-label">Capacidad</label> <small>*** Incluido el conductor</small>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                <input id="Capacity" name="Capacity" class="" style="width:40px;" onfocus="blur();">
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="row form-group">
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                <label class="control-label">Marca</label>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                <select class="form-control" id="BrandId" name="BrandId">
+                                    @{
+                                        foreach (var brand in ViewBag.BrandId.Items.Items)
+                                        {
+                                            if (brand.BrandId == Model.Vehicle.BrandId)
+                                            {
+                                                <option value="@brand.BrandId" selected>@brand.Name</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@brand.BrandId">@brand.Name</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                <label class="control-label">Modelo</label>
+                            </div>
+                            <div id="modelContainer" class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                @{
+                                    if (ViewBag.ModelId != null)
+                                    {
+                                        <select class="form-control" id="Model" name="Model">
+                                            @{ foreach (var mdl in ViewBag.ModelId.Items)
+                                                {
+                                                    if (mdl.ModelId == Model.Vehicle.ModelId)
+                                                    {
+                                                        <option value="@mdl.ModelId" selected>@mdl.Description</option>
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="@mdl.ModelId">@mdl.Description</option>
+                                                    }
+                                                }
+                                            }
+                                        </select>
+                                    }
+                                    else
+                                    {
+                                        <select class="form-control" id="Model" name="Model" disabled></select>
+                                    }
+                                }
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                <label class="control-label">Placa</label>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                <input type="text" class="form-control" id="Plate" name="Plate" placeholder="Placa" value="@Model.Vehicle.Plate" />
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                <label class="control-label">Color</label>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                <input type="text" class="form-control" id="Color" name="Color" placeholder="Color" value="@Model.Vehicle.Color" />
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                <label class="control-label">Capacidad</label> <small>*** Incluido el conductor</small>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                <input id="Capacity" name="Capacity" class="" style="width:40px;" onfocus="blur();" value="@Model.Vehicle.Spaces">
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                            </div>
+                        </div>
+                    }
+                }
+            }
+
+            <div class="row form-group">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <input type="submit" class="btn btn-info center-block" value="Actualizar" />
+                </div>
             </div>
         </div>
-    </div>
 </form>
 
 <script>
@@ -438,10 +504,14 @@
         SendVerificationCode();
     });
 
+    $('#confirm-verification-code-btn').click(function () {
+        ConfirmVerificationCode();
+    });
+
     $(document).ready(function () {
         SetRandomImage();
 
-        @{ 
+        @{
             var spacesValue = 1;
 
             if (Model.Vehicle != null)
@@ -509,12 +579,13 @@
     }
 
     function SendVerificationCode() {
-        $.post('/Manage/SendMobileVerificationCode', new { unneededParam: ''},
+        $.post('@Url.Action("SendMobileVerificationCode", "Manage")', { unneededParam: ''},
             function (data) {
                 ////¡Código de verificación enviado!
                 if (data == '100042') {
                     DisplayGrowlMessage(data, 'success');
 
+                    $('#send-verification-code-container').slideUp();
                     $('#verification-code-container').slideDown();
                 } else {
                     DisplayGrowlMessage(data, 'error');
@@ -539,21 +610,24 @@
             }
         }
 
-        $.post('/Manage/ConfirmMobileVerificationCode', { verificationCode: verificationCode },
+        $.post('@Url.Action("ConfirmMobileVerificationCode", "Manage")', { verificationCode: verificationCode },
             function (data) {
                 if (data == 'true') {
                     //¡Su número de celular ha sido confimado!
                     DisplayGrowlMessage('100046', 'success');
 
+                    $('#send-verification-code-container').slideUp();
                     $('#verification-code-container').slideUp();
+                    $('#information-type-tooltip-button').html('<button onclick="return false" class="btn btn-info pull-left" style="border-radius:0px 10px 10px 0px" aria-label="Help"><span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" title="¡Número de celular verificado!"></span></button>')
                 } else {
                     //¡Código de verificación incorrecto!
-                    DisplayGrowlMessage('100047', 'error');
+                    DisplayGrowlMessage('100047', 'warn');
                 }
             });
     }
 
     $('#Phone1').mask('0000-0000');
     $('#Phone2').mask('0000-0000');
-    $('#verificationCode').mask('00000000');
+    $('#verificationCode').mask('000000');
+    $('#UserIdentification').mask('000000000');
 </script>

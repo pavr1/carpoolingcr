@@ -20,6 +20,10 @@ namespace CarpoolingCR.Models
     public class ApplicationUser : IdentityUser
     {
         [Required]
+        [Display(Name = "Cédula")]
+        public string UserIdentification { get; set; }
+        public bool IsUserIdentificationVerified { get; set; }
+        [Required]
         [Display(Name = "Nombre")]
         public string Name { get; set; }
 

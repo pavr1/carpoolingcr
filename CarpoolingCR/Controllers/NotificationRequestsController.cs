@@ -6,6 +6,7 @@ using System;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Web.Configuration;
 using System.Web.Mvc;
 
 namespace CarpoolingCR.Controllers
@@ -272,6 +273,18 @@ namespace CarpoolingCR.Controllers
 
                 db.NotificationRequests.Add(notificationRequest);
                 db.SaveChanges();
+
+                Common.LogData(new Log
+                {
+                    Line = Common.GetCurrentLine(),
+                    Location = Enums.LogLocation.Server,
+                    LogType = Enums.LogType.Info,
+                    Message = user.UserType + " " + user.FullName + " ha creado una notificación automática para un viaje desde " + fromDistrict.FullName + " hasta " + toDistrict.FullName + "con un rango desde " +
+                    requestedFromDateTime.ToString(WebConfigurationManager.AppSettings["TimeFormat"]) + " a las " + requestedToDateTime.ToString(WebConfigurationManager.AppSettings["TimeFormat"]),
+                    Method = Common.GetCurrentMethod(),
+                    Timestamp = Common.ConvertToUTCTime(DateTime.Now),
+                    UserEmail = User.Identity.Name
+                }, logo);
 
                 return RedirectToAction("Index", new { message = "100040" });
             }

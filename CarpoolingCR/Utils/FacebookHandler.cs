@@ -24,10 +24,10 @@ namespace CarpoolingCR.Utils
                 httpClient.BaseAddress = new Uri(WebConfigurationManager.AppSettings["FacebookBaseAddress"]);
 
                 var message = "Se ha creado un nuevo viaje de " + from + " a " + to + ", ruta " + route +
-                    ".\nFecha: " + Common.ConvertToLocalTime(date).ToString("dd/MM/yyyy hh:mm:ss tt") +
+                    ".\nFecha: " + Common.ConvertToLocalTime(date).ToString(WebConfigurationManager.AppSettings["DateTimeFormat"]) +
                     "\nEspacios Disponibles: " + availableSpaces +
                     "\nCuota: " + currencyChar + price.ToString("N2") +
-                    "\n\n¡Visita https://buscoridecr.com para reservar!";
+                    "\n\n¡Visita www.buscoridecr.com para reservar!";
 
                 var parametters = new Dictionary<string, string>
                 {

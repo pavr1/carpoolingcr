@@ -494,3 +494,26 @@
     </script>
 </body>
 </html>
+
+
+
+@*
+
+//cod para poner botones de tooltips    
+<div class="input-group btn-block">
+    @Html.TextBoxFor(m => m.Phone1, new { @class = "form-control", @placeholder = "####-####" })
+    @{
+        if (!Model.IsPhoneVerified)
+        {
+            <div id="information-type-tooltip-button">
+                <button type="button" onclick="return false" class="btn btn-danger pull-left" aria-label="Help"><span class="glyphicon glyphicon-alert" data-toggle="tooltip" title="¡Número telefónico no verificado!"></span></button>
+            </div>
+        }
+        else
+        {
+            <div id="information-type-tooltip-button">
+                <button type="button" class="btn btn-info pull-left" aria-label="Help"><span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" title="¡Número telefónico verificado!"></span></button>
+            </div>
+        }
+    }
+</div>*@

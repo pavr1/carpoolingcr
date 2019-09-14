@@ -18,10 +18,13 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
-    <IISExpressSSLPort>443</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
+    <IISExpressSSLPort>44346</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication>
+    </IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>
+    </IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>
+    </IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -253,6 +256,14 @@
     <Compile Include="Migrations\201909131408555_Phone verifications.cs" />
     <Compile Include="Migrations\201909131408555_Phone verifications.Designer.cs">
       <DependentUpon>201909131408555_Phone verifications.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201909132340466_Added UserIdentification to user.cs" />
+    <Compile Include="Migrations\201909132340466_Added UserIdentification to user.Designer.cs">
+      <DependentUpon>201909132340466_Added UserIdentification to user.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201909140022393_Added prop IsUserIdentificationVerified.cs" />
+    <Compile Include="Migrations\201909140022393_Added prop IsUserIdentificationVerified.Designer.cs">
+      <DependentUpon>201909140022393_Added prop IsUserIdentificationVerified.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -841,6 +852,7 @@
     <Content Include="Views\NotificationRequests\Edit.cshtml" />
     <Content Include="Views\NotificationRequests\Index.cshtml" />
     <Content Include="Views\NotificationRequests\Partials\p_Index.cshtml" />
+    <Content Include="Views\UserRols\PhoneNumberNotVerified.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -875,6 +887,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201909131408555_Phone verifications.resx">
       <DependentUpon>201909131408555_Phone verifications.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201909132340466_Added UserIdentification to user.resx">
+      <DependentUpon>201909132340466_Added UserIdentification to user.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201909140022393_Added prop IsUserIdentificationVerified.resx">
+      <DependentUpon>201909140022393_Added prop IsUserIdentificationVerified.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

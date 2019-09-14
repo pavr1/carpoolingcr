@@ -202,11 +202,48 @@ namespace CarpoolingCR.Utils
 
         }
 
-        public static void SendErrorEmail(int line, Enums.LogLocation location, Enums.LogType logType, string message, string method, DateTime time, string user, string fields, string appLogo)
+        public static void SendEmail(int line, Enums.LogLocation location, Enums.LogType logType, string message, string method, DateTime time, string user, string fields, string appLogo)
         {
-            string callbackUrl = "https://buscoridecr.com/Logs/Index";
+            string callbackUrl = "www.buscoridecr.com/Logs/Index";
 
-            var html = "¡Hemos detectado un error en el sistema! Abajo detallamos los datos del error: <br/><br/>";
+            string dataType = string.Empty;
+            string title = string.Empty;
+            EmailType emailType = EmailType.Notifications;
+
+            switch (logType)
+            {
+                case LogType.Info:
+                    dataType = "información";
+                    title = "Correo Informativo";
+                    emailType = EmailType.Notifications;
+                    break;
+                case LogType.Error:
+                    dataType = "error";
+                    title = "Correo Informativo (Error)";
+                    emailType = EmailType.Errors;
+                    break;
+                case LogType.Warning:
+                    dataType = "advertencia";
+                    title = "Correo Informativo (Advertencia)";
+                    emailType = EmailType.Notifications;
+                    break;
+                case LogType.SMS:
+                    dataType = "información sobre SMS";
+                    title = "Correo Informativo (SMS)";
+                    emailType = EmailType.Notifications;
+                    break;
+                case LogType.UserIdVerification:
+                    dataType = "información sobre cédula del ususario";
+                    title = "Correo Informativo (Actualización de cédula)";
+                    emailType = EmailType.Notifications;
+                    break;
+                default:
+                    title = "Correo Informativo";
+                    emailType = EmailType.Notifications;
+                    break;
+            }
+
+            var html = "¡Hemos recibido " + dataType + " del sistema! Abajo detallamos los datos: <br/><br/>";
             html += "<b>Localización: </b>" + location + "<br/>";
             html += "<b>Tipo de Log: </b>" + logType + "<br/>";
             html += "<b>Descrición: </b>" + message + "<br/>";
@@ -220,9 +257,9 @@ namespace CarpoolingCR.Utils
             SendEmail(new IdentityMessage
             {
                 Destination = WebConfigurationManager.AppSettings["AdminEmails"],
-                Subject = "¡Hemos encontrado un error!",
+                Subject = title,
                 Body = html
-            }, EmailType.Errors, appLogo);
+            }, emailType, appLogo);
         }
 
         private static void SendEmail(IdentityMessage msg, EmailType EmailType, string logo)

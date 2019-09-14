@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Configuration;
 using System.Web.Mvc;
 
 namespace CarpoolingCR.Controllers
@@ -141,10 +142,42 @@ namespace CarpoolingCR.Controllers
             {
                 var user = Common.GetUserByEmail(User.Identity.Name);
 
-                SMSHandler.SendSMS(user.Phone1, "Código de Verificación: " + user.MobileVerficationNumber + ". ¡Hagamos Ride!", "https://buscoridecr.com");
+                var smsServiceEnabled = Convert.ToBoolean(WebConfigurationManager.AppSettings["EnableSMS"]);
 
-                //¡Código de verificación enviado!
-                return "100042";
+                if (smsServiceEnabled)
+                {
+                    SMSHandler.SendSMS(user.Phone1, "Código de Verificación: " + user.MobileVerficationNumber + ". ¡Hagamos Ride!", "www.buscoridecr.com");
+
+                    Common.LogData(new Log
+                    {
+                        Line = Common.GetCurrentLine(),
+                        Location = Enums.LogLocation.Server,
+                        LogType = Enums.LogType.SMS,
+                        Message = "El " + user.UserType + " " + user.FullName + ", email: " + user.Email + " verificó su número telefónico.",
+                        Method = Common.GetCurrentMethod(),
+                        Timestamp = Common.ConvertToUTCTime(DateTime.Now),
+                        UserEmail = User.Identity.Name
+                    }, logo);
+
+                    //¡Código de verificación enviado!
+                    return "100042";
+                }
+                else
+                {
+                    Common.LogData(new Log
+                    {
+                        Line = Common.GetCurrentLine(),
+                        Location = Enums.LogLocation.Server,
+                        LogType = Enums.LogType.SMS,
+                        Message = "El " + user.UserType + " " + user.FullName + ", email: " + user.Email + " no pudo verificar su número telefónico. Detalle: Servicio SMS inactivo",
+                        Method = Common.GetCurrentMethod(),
+                        Timestamp = Common.ConvertToUTCTime(DateTime.Now),
+                        UserEmail = User.Identity.Name
+                    }, logo);
+
+                    //¡Servicio SMS inactivo!
+                    return "100048";
+                }
             }
             catch (Exception ex)
             {
@@ -277,6 +310,7 @@ namespace CarpoolingCR.Controllers
                 ViewBag.BrandJson = Serializer.Serialize(user.BrandsJson);
 
                 #region Fields
+                fields += "UserIdentification: " + Request["UserIdentification"];
                 fields += "Name: " + Request["Name"];
                 fields += "LastName: " + Request["LastName"] + ", ";
                 fields += "SecondLastName: " + Request["SecondLastName"] + ", ";
@@ -318,23 +352,50 @@ namespace CarpoolingCR.Controllers
                             //path = "~/" + path.Replace("\\", "/");
                         }
                     }
-
+                    if (string.IsNullOrEmpty(Request["UserIdentification"]))
+                    {
+                        //¡Cédula Requerida!
+                        ViewBag.Warning = "100049";
+                        return View(user);
+                    }
                     if (string.IsNullOrEmpty(Request["Name"]))
                     {
+                        //Nombre Requerido
                         ViewBag.Warning = "100030";
                         return View(user);
                     }
                     if (string.IsNullOrEmpty(Request["LastName"]))
                     {
+                        //Apellido Requerido
                         ViewBag.Warning = "100031";
                         return View(user);
                     }
                     if (string.IsNullOrEmpty(Request["Phone1"]))
                     {
+                        //Celular Requerido
                         ViewBag.Warning = "100032";
                         return View(user);
                     }
 
+                    if (!user.IsUserIdentificationVerified)
+                    {
+                        if (user.UserIdentification != Request["UserIdentification"])
+                        {
+                            Common.LogData(new Log
+                            {
+                                Line = Common.GetCurrentLine(),
+                                Location = Enums.LogLocation.Server,
+                                LogType = Enums.LogType.UserIdVerification,
+                                Message = "El " + user.UserType + " " + user.FullName + " ha ingresado su número de cédula " + user.UserIdentification + ". Proceda a validar esta información en el sitio https://www.rnpdigital.com/shopping/consultaDocumentos/bienesMuebles/paramConsultaPersona.jspx",
+                                Method = Common.GetCurrentMethod(),
+                                Timestamp = Common.ConvertToUTCTime(DateTime.Now),
+                                UserEmail = User.Identity.Name,
+                                Fields = fields
+                            }, logo);
+                        }
+                    }
+
+                    user.UserIdentification = Request["UserIdentification"];
                     user.Name = Request["Name"];
                     user.LastName = Request["LastName"];
                     user.SecondLastName = Request["SecondLastName"];

@@ -297,7 +297,7 @@ namespace CarpoolingCR.Utils
 
                 if (send)
                 {
-                    EmailHandler.SendErrorEmail(log.Line, log.Location, log.LogType, log.Message, log.Method, log.Timestamp, log.UserEmail, log.Fields, logo);
+                    EmailHandler.SendEmail(log.Line, log.Location, log.LogType, log.Message, log.Method, log.Timestamp, log.UserEmail, log.Fields, logo);
                 }
             }
         }

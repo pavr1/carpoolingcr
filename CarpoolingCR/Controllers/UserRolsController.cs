@@ -82,6 +82,15 @@ namespace CarpoolingCR.Controllers
                 {
                     return ValidateUserRol();
                 }
+
+                if (!user.IsPhoneVerified)
+                {
+                    return RedirectToAction("PhoneNumberNotVerified", "UserRols");
+                }
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
             }
 
 
@@ -103,6 +112,15 @@ namespace CarpoolingCR.Controllers
                 {
                     return ValidateUserRol();
                 }
+
+                if (!user.IsPhoneVerified)
+                {
+                    return RedirectToAction("PhoneNumberNotVerified", "UserRols");
+                }
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
             }
 
             return View();
@@ -123,8 +141,22 @@ namespace CarpoolingCR.Controllers
                 {
                     return ValidateUserRol();
                 }
+
+                if (!user.IsPhoneVerified)
+                {
+                    return RedirectToAction("PhoneNumberNotVerified", "UserRols");
+                }
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
             }
 
+            return View();
+        }
+
+        public ActionResult PhoneNumberNotVerified()
+        {
             return View();
         }
     }

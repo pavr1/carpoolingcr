@@ -64,7 +64,7 @@
     } else if (code === "100031") {
         return "¡Apellido Requerido!";
     } else if (code === "100032") {
-        return "¡Teléfono Requerido!";
+        return "¡Celular Requerido!";
     } else if (code === "100033") {
         return "¡Color Vehículo Requerido!";
     } else if (code === "100034") {
@@ -95,6 +95,30 @@
         return "¡Su número de celular ha sido confimado!";
     } else if (code === "100047") {
         return "¡Código de verificación incorrecto!";
+    } else if (code === "100048") {
+        return "¡Servicio SMS inactivo!";
+    } else if (code === "100049") {
+        return "¡Cédula Requerida!";
+    } else if (code === "xxxxxxxxx") {
+        return "zzzzzzzzzzzzzzzzzzzzzz";
+    } else if (code === "xxxxxxxxx") {
+        return "zzzzzzzzzzzzzzzzzzzzzz";
+    } else if (code === "xxxxxxxxx") {
+        return "zzzzzzzzzzzzzzzzzzzzzz";
+    } else if (code === "xxxxxxxxx") {
+        return "zzzzzzzzzzzzzzzzzzzzzz";
+    } else if (code === "xxxxxxxxx") {
+        return "zzzzzzzzzzzzzzzzzzzzzz";
+    } else if (code === "xxxxxxxxx") {
+        return "zzzzzzzzzzzzzzzzzzzzzz";
+    } else if (code === "xxxxxxxxx") {
+        return "zzzzzzzzzzzzzzzzzzzzzz";
+    } else if (code === "xxxxxxxxx") {
+        return "zzzzzzzzzzzzzzzzzzzzzz";
+    } else if (code === "xxxxxxxxx") {
+        return "zzzzzzzzzzzzzzzzzzzzzz";
+    } else if (code === "xxxxxxxxx") {
+        return "zzzzzzzzzzzzzzzzzzzzzz";
     } else if (code === "xxxxxxxxx") {
         return "zzzzzzzzzzzzzzzzzzzzzz";
     } else if (code === "xxxxxxxxx") {

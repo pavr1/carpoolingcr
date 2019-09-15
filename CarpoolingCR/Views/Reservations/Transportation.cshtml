@@ -63,18 +63,28 @@
                             <input type="button" class="form-control btn btn-info btn-sm hidden-xs" onclick="EraseValue('#ToTown')" style="width:42px" value="&#9003;" />*@
                     </div>
                 </div>
-                <div class="row form-group">
-                    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12">
+                <div class="row form-group hidden-xs">
+                    <div class="col-lg-1 col-md-1 col-sm-0">
                     </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    <div class="col-lg-6 col-md-6 col-sm-6">
                         <div class="input-group btn-block">
                             <input onclick="window.location='@Url.Action("Create","NotificationRequests")'" type="button" class="btn btn-info btn-sm" style="border-radius: 10px 0px 0px 10px" value="Notificaciones Automáticas" />
                             <button onclick="return false" class="btn btn-info btn-sm" style="border-radius: 0px 10px 10px 0px" aria-label="Help"><span class="glyphicon glyphicon-alert" data-toggle="tooltip" title="¡Crea una notificación automática y te avisaremos cuando el viaje que necesites esté disponible!"></span></button>
                         </div>
                     </div>
-                    <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12">
-                        <input onclick="window.location='@Url.Action("Create","NotificationRequests")'" type="button" class="btn btn-info btn-sm" style="width:260px" value="Consultar Viajes" />
-                        @*<buton class="btn btn-info btn-sm" id="btn-retrieve-trips" style="width:240px;border-radius:10px" data-loading-text="<i class='fa fa-circle-o-notch fa-spin pull-right'></i> Consultar Viajes" onclick="RetrieveTrips()">Consultar Viajes</buton>*@
+                    <div class="col-lg-5 col-md-5 col-sm-6">
+                        <button onclick="RetrieveTrips()" type="button" class="btn btn-info btn-sm" style="width:260px;border-radius:10px" data-loading-text="<i class='fa fa-circle-o-notch fa-spin pull-right'></i> Consultar Viajes">Consultar Viajes</button>
+                    </div>
+                </div>
+                <div class="row form-group visible-xs">
+                    <div class="col-xs-7">
+                        <div class="input-group btn-block">
+                            <input onclick="window.location='@Url.Action("Create","NotificationRequests")'" type="button" class="btn btn-info btn-sm" style="border-radius: 10px 0px 0px 10px" value="Notificaciones" />
+                            <button onclick="return false" class="btn btn-info btn-sm" style="border-radius: 0px 10px 10px 0px" aria-label="Help"><span class="glyphicon glyphicon-alert" data-toggle="tooltip" title="¡Crea una notificación automática y te avisaremos cuando el viaje que necesites esté disponible!"></span></button>
+                        </div>
+                    </div>
+                    <div class="col-xs-5">
+                        <button onclick="RetrieveTrips()" type="button" class="btn btn-info btn-sm" style="width:120px;border-radius:10px" data-loading-text="<i class='fa fa-circle-o-notch fa-spin pull-right'></i> Consultar">Consultar</button>
                     </div>
                 </div>
                 @Html.Partial("~/Views/Reservations/Partials/_RequestJourney.cshtml", Model)

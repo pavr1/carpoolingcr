@@ -103,18 +103,18 @@
         return "¡Cédula Verificada!";
     } else if (code === "100051") {
         return "¡Cuenta Inactiva!";
-    } else if (code === "xxxxxxxxx") {
-        return "zzzzzzzzzzzzzzzzzzzzzz";
-    } else if (code === "xxxxxxxxx") {
-        return "zzzzzzzzzzzzzzzzzzzzzz";
-    } else if (code === "xxxxxxxxx") {
-        return "zzzzzzzzzzzzzzzzzzzzzz";
-    } else if (code === "xxxxxxxxx") {
-        return "zzzzzzzzzzzzzzzzzzzzzz";
-    } else if (code === "xxxxxxxxx") {
-        return "zzzzzzzzzzzzzzzzzzzzzz";
-    } else if (code === "xxxxxxxxx") {
-        return "zzzzzzzzzzzzzzzzzzzzzz";
+    } else if (code === "100052") {
+        return "¡Ya existe una cuenta asignada a este correo electrónico!";
+    } else if (code === "100053") {
+        return "¡Ya existe una cuenta asignada a esta cédula!";
+    } else if (code === "100054") {
+        return "¡Ya existe una cuenta asignada a este número celular!";
+    } else if (code === "100055"){
+        return "¡Correo electrónico requerido!";
+    } else if (code === "100056") {
+        return "¡Contraseña Requerida!";
+    } else if (code === "100057") {
+        return "¡Usuario o constraseña incorrectos!";
     } else if (code === "xxxxxxxxx") {
         return "zzzzzzzzzzzzzzzzzzzzzz";
     } else if (code === "xxxxxxxxx") {

@@ -4,63 +4,115 @@
     ViewBag.Title = "Log in";
 }
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<br />
+<div class="row form-group" style="text-align:center">
+    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-0">
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+        <h5 class="panel-title pull-left">Inicia Sesión</h5>
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-0">
+    </div>
+</div>
+<div class="row" style="text-align:center">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <hr />
+    </div>
+</div>
 <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        <h3>Inicia Sesión.</h3>
         <section id="loginForm">
-            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form", id= "LoginForm" }))
             {
                 @Html.AntiForgeryToken()
-                <hr />
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="row form-group">
-                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-3">
-                        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+                    @*<div class="col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                            @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+                        </div>
+                        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-9">
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                        </div>*@
+
+                    @*<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            @Html.LabelFor(m => m.Email, new { @class = "control-label pull-left" })
+                        </div>*@
+                    <div class="col-lg-4 col-md-2 col-sm-1 col-xs-0">
+
                     </div>
-                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-9">
-                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                    <div class="col-lg-4 col-md-8 col-sm-10 col-xs-12">
+                        <div class="input-group">
+                            <input type="text" id="UserEmail" name="UserEmail" class="form-control" aria-label="..." style="width:40%" placeholder="Correo">
+                            <input type="text" id="Email" name="Email" style="display:none" />
+                            <label class="form-control bg-secondary" style="width:15%;font-size:medium;text-align:center;background-color:lightgrey;">@@</label>
+                            <select class="form-control" id="emailDomain" style="width:45%; border-radius: 0px 10px 10px 0px !important">
+                                @{
+                                    foreach (var item in (SelectList)ViewBag.EmailDomains)
+                                    {
+                                        <option>@item.Text</option>
+                                    }
+                                }
+                            </select>
+                        </div><!-- /input-group -->
+                    </div>
+                    <div class="col-lg-4 col-md-2 col-sm-1 col-xs-0">
+
                     </div>
                 </div>
 
                 <div class="row form-group">
-                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-3">
-                        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+                    @*<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            @Html.LabelFor(m => m.Password, new { @class = "control-label" })
+                        </div>*@
+                    <div class="col-lg-4 col-md-2 col-sm-1 col-xs-0">
+
                     </div>
-                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-9">
-                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                    <div class="col-lg-4 col-md-8 col-sm-10 col-xs-12">
+                        <input type="password" id="Password" name="Password" class="form-control" aria-label="..." style="width:100%" placeholder="Clave">
+                        @*@Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })*@
+                    </div>
+                    <div class="col-lg-4 col-md-2 col-sm-1 col-xs-0">
+
                     </div>
                 </div>
 
                 <div class="row form-group">
-                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                    <div class="col-lg-4 col-md-2 col-sm-1 col-xs-0">
 
                     </div>
-                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-9">
-                        <div class="checkbox">
-                            @Html.CheckBoxFor(m => m.RememberMe)
-                            @Html.LabelFor(m => m.RememberMe)
+                    <div class="col-lg-4 col-md-8 col-sm-10 col-xs-12">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                @Html.CheckBoxFor(m => m.RememberMe)
+                                @Html.LabelFor(m => m.RememberMe)
+                            </div>
                         </div>
                     </div>
-                </div>
+                    <div class="col-lg-4 col-md-2 col-sm-1 col-xs-0">
 
-                <div class="row form-group">
-                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-3">
-
-                    </div>
-                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-9">
-                        <button class="btn btn-info btn-sm btn-block custom-spin-button" style="width:250px; border-radius:10px" data-loading-text="<i class='fa fa-circle-o-notch fa-spin pull-right'></i> Iniciar Sesión">Iniciar Sesión</button>
-                        @*<a href="~/Trips/Index" class="btn btn-info btn-sm btn-block custom-spin-button" data-loading-text="<i class='fa fa-circle-o-notch fa-spin pull-right'></i> Viajes como conductor">Viajes como conductor</a>*@
-                        <fb:login-button class="pull-right" scope="public_profile,email" onlogin="checkLoginState();"></fb:login-button>
                     </div>
                 </div>
 
                 <div class="row form-group">
-                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                    <div class="col-lg-4 col-md-2 col-sm-1 col-xs-0">
 
                     </div>
-                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-9">
+                    <div class="col-lg-4 col-md-8 col-sm-10 col-xs-12">
+                        <input type="button" id="btn-login" name="btn-login" class="btn btn-info btn-sm btn-block" onclick="return Login()" style="width:250px; border-radius:10px" value="Iniciar Sesión" />
+                        @*<fb:login-button class="pull-right" scope="public_profile,email" onlogin="checkLoginState();"></fb:login-button>*@
+                    </div>
+                    <div class="col-lg-4 col-md-2 col-sm-1 col-xs-0">
+
+                    </div>
+                </div>
+
+                <div class="row form-group">
+                    <div class="col-lg-4 col-md-2 col-sm-1 col-xs-0">
+
+                    </div>
+                    <div class="col-lg-4 col-md-8 col-sm-10 col-xs-12">
                         <p>
                             @Html.ActionLink("Regístrate", "Register")
                         </p>
@@ -68,8 +120,11 @@
                             @Html.ActionLink("Olvidaste tu contraseña?", "ForgotPassword")
                         </p>
                     </div>
+                    <div class="col-lg-4 col-md-2 col-sm-1 col-xs-0">
+
+                    </div>
                 </div>
-            }
+                                    }
         </section>
     </div>
     <div class="row form-group">
@@ -98,6 +153,32 @@
 }
 
 <script>
+    function Login() {
+        var email = $('#UserEmail').val();
+        var emailDomain = $('#emailDomain').val();
+        var Password = $('#Password').val();
+
+        if (email == '') {
+            //¡Correo electrónico requerido!
+            DisplayGrowlMessage('100055', 'warn')
+            $('#btn-login').button(reset);
+
+            return false;
+        }
+
+        email = email.trim() + "@@" + emailDomain;
+        $('#Email').val(email);
+
+        if (Password == '') {
+            //¡Contraseña Requerida!
+            DisplayGrowlMessage('100056', 'warn')
+            $('#btn-login').button(reset);
+
+            return false;
+        }
+
+        $('#LoginForm').submit();
+    }
     //window.fbAsyncInit = function () {
     //    FB.init({
     //        appId: '403030990339059',

@@ -10,6 +10,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Security.Principal;
 using System.Web.Configuration;
+using System.Web.Mvc;
 using static CarpoolingCR.Utils.Enums;
 
 namespace CarpoolingCR.Utils
@@ -416,6 +417,13 @@ namespace CarpoolingCR.Utils
             int randomNumber = random.Next(from, to);
 
             return randomNumber;
+        }
+
+        public static SelectList GetEmailDomains()
+        {
+            var emailDomainsSplit = WebConfigurationManager.AppSettings["EmailDomains"].Split(new string[] { "," }, StringSplitOptions.None);
+
+            return new SelectList(emailDomainsSplit, string.Empty);
         }
     }
 }

@@ -62,6 +62,7 @@ namespace CarpoolingCR.Models
 
         [Display(Name = "Recuérdame?")]
         public bool RememberMe { get; set; }
+        public SelectList EmailDomains { get; set; }
     }
 
     public class RegisterViewModel
@@ -83,6 +84,10 @@ namespace CarpoolingCR.Models
         public string ConfirmPassword { get; set; }
 
         [Required]
+        [Display(Name = "Cédula")]
+        public string UserIdentification { get; set; }
+
+        [Required]
         [Display(Name = "Nombre")]
         public string Name { get; set; }
         [Required]
@@ -92,10 +97,10 @@ namespace CarpoolingCR.Models
         [Display(Name = "Segundo Apellido")]
         public string SecondLastName { get; set; }
         [Required]
-        [Display(Name = "Teléfono #1")]
+        [Display(Name = "Celular")]
         public string Phone1 { get; set; }
         [Required]
-        [Display(Name = "Teléfono #2")]
+        [Display(Name = "Teléfono")]
         public string Phone2 { get; set; }
         [Required]
         [Display(Name = "Cuenta de Facebook")]
@@ -106,6 +111,8 @@ namespace CarpoolingCR.Models
         [Required]
         [Display(Name = "País")]
         public int CountryId { get; set; }
+
+        public SelectList EmailDomains { get; set; }
     }
 
     public class ResetPasswordViewModel

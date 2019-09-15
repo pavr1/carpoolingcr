@@ -85,6 +85,8 @@ namespace CarpoolingCR.Controllers
             try
             {
                 ViewBag.ReturnUrl = returnUrl;
+
+                ReloadEmailDomains();
             }
             catch (Exception ex)
             {
@@ -113,6 +115,8 @@ namespace CarpoolingCR.Controllers
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
             var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg"); ;
+
+            ReloadEmailDomains();
 
             try
             {
@@ -165,7 +169,9 @@ namespace CarpoolingCR.Controllers
                         return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                     case SignInStatus.Failure:
                     default:
-                        ModelState.AddModelError("", "Usuario o constraseña incorrectos.");
+                        //¡Usuario o constraseña incorrectos!
+                        ViewBag.Warning = "100057";
+
                         return View(model);
                 }
             }
@@ -285,6 +291,7 @@ namespace CarpoolingCR.Controllers
             try
             {
                 ReloadCountryList();
+                ReloadEmailDomains();
             }
             catch (Exception ex)
             {
@@ -403,107 +410,124 @@ namespace CarpoolingCR.Controllers
 
             try
             {
-                ModelState.Values.ToList()[5].Errors.Clear();
-                ModelState.Values.ToList()[7].Errors.Clear();
-                ModelState.Values.ToList()[9].Errors.Clear();
-                ModelState.Values.ToList()[10].Errors.Clear();
-
                 ReloadCountryList();
+                ReloadEmailDomains();
 
-                if (ModelState.IsValid)
+                using (var db = new ApplicationDbContext())
                 {
-                    using (var db = new ApplicationDbContext())
+                    var userRetrieved = db.Users.Where(x => x.Email == model.Email).ToList();
+
+                    if (userRetrieved.Count > 0)
                     {
-                        var userRetrieved = db.Users.SingleOrDefault(x => x.Email == model.Email);
+                        //¡Ya existe una cuenta asignada a este correo electrónico!
+                        ViewBag.Warning = "100052";
 
-                        if (userRetrieved != null)
+                        return View(model);
+                    }
+                    else
+                    {
+                        userRetrieved = db.Users.Where(x => x.UserIdentification == model.UserIdentification).ToList();
+
+                        if (userRetrieved.Count > 0)
                         {
-                            var r = new IdentityResult(new string[] { "Ya existe una cuenta ligada a este correo!" });
-
-                            AddErrors(r);
+                            //"¡Ya existe una cuenta asignada a esta cédula!"
+                            ViewBag.Warning = "100053";
 
                             return View(model);
                         }
-
-                        var picture = Request["registeredUserPicture"];
-
-                        var user = new ApplicationUser
-                        {
-                            UserName = model.Email,
-                            Email = model.Email,
-                            Name = model.Name,
-                            LastName = model.LastName,
-                            SecondLastName = model.SecondLastName,
-                            Phone1 = model.Phone1,
-                            MobileVerficationNumber = Common.GetRandomPhoneVerificationNumber(),
-                            Phone2 = model.Phone2,
-                            CountryId = model.CountryId,
-                            UserType = model.UserType,
-                            FacebookAccount = model.FacebookAccount,
-                            Status = Enums.ProfileStatus.Active,
-                            Picture = picture
-                        };
-
-                        string emailForAdmin = WebConfigurationManager.AppSettings["AdminEmails"];
-
-                        if (emailForAdmin.Contains(model.Email))
-                        {
-                            user.UserType = Enums.UserType.Administrador;
-                        }
-
-                        var result = await UserManager.CreateAsync(user, model.Password);
-
-                        if (result.Succeeded)
-                        {
-                            string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-
-                            var callbackUrl = string.Empty;
-
-                            try
-                            {
-                                callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-
-                                EmailHandler.SendEmailConfirmation(callbackUrl, model.Email, logo);
-
-                                callbackUrl = Url.Action("EditUser", "Account", new { id = user.Id, }, protocol: Request.Url.Scheme);
-
-                                var send = Convert.ToBoolean(WebConfigurationManager.AppSettings["SendNotificationsToAdmin"]);
-
-                                if (send)
-                                {
-                                    EmailHandler.SendEmailNewUserRegistered(user, callbackUrl, logo);
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                Common.LogData(new Log
-                                {
-                                    Line = Common.GetCurrentLine(),
-                                    Location = Enums.LogLocation.Server,
-                                    LogType = Enums.LogType.Error,
-                                    Message = "Hubo un error al enviar el correo a " + model.Email + ". " + ex.Message + " / " + ex.StackTrace,
-                                    Method = Common.GetCurrentMethod(),
-                                    Timestamp = Common.ConvertToUTCTime(DateTime.Now),
-                                    UserEmail = User.Identity.Name
-                                }, logo);
-                            }
-
-                            return RedirectToAction("CheckEmail", "Account");
-                        }
                         else
                         {
-                            var message = result.Errors.ToList()[0].ToString();
+                            userRetrieved = db.Users.Where(x => x.Phone1 == model.Phone1).ToList();
 
-                            if (result.Errors.ToList()[0].ToString().Contains("Passwords must have at least one non letter or digit character"))
+                            if (userRetrieved.Count > 0)
                             {
-                                //¡La contraseña debe tener al menos una letra y un número!
-                                message = "10001";
+                                //¡Ya existe una cuenta asignada a este número celular!
+                                ViewBag.Warning = "100054";
+
+                                return View(model);
                             }
-
-                            ViewBag.Warning = message;
-
-                            return View();
                         }
+                    }
+
+                    var picture = Request["registeredUserPicture"];
+
+                    var user = new ApplicationUser
+                    {
+                        UserName = model.Email,
+                        Email = model.Email,
+                        UserIdentification = model.UserIdentification,
+                        Name = model.Name,
+                        LastName = model.LastName,
+                        SecondLastName = model.SecondLastName,
+                        Phone1 = model.Phone1,
+                        MobileVerficationNumber = Common.GetRandomPhoneVerificationNumber(),
+                        Phone2 = model.Phone2,
+                        CountryId = model.CountryId,
+                        UserType = model.UserType,
+                        FacebookAccount = model.FacebookAccount,
+                        Status = Enums.ProfileStatus.Active,
+                        Picture = picture
+                    };
+
+                    string emailForAdmin = WebConfigurationManager.AppSettings["AdminEmails"];
+
+                    if (emailForAdmin.Contains(model.Email))
+                    {
+                        user.UserType = Enums.UserType.Administrador;
+                    }
+
+                    var result = await UserManager.CreateAsync(user, model.Password);
+
+                    if (result.Succeeded)
+                    {
+                        string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+
+                        var callbackUrl = string.Empty;
+
+                        try
+                        {
+                            callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+
+                            EmailHandler.SendEmailConfirmation(callbackUrl, model.Email, logo);
+
+                            callbackUrl = Url.Action("EditUser", "Account", new { id = user.Id, }, protocol: Request.Url.Scheme);
+
+                            var send = Convert.ToBoolean(WebConfigurationManager.AppSettings["SendNotificationsToAdmin"]);
+
+                            if (send)
+                            {
+                                EmailHandler.SendEmailNewUserRegistered(user, callbackUrl, logo);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Common.LogData(new Log
+                            {
+                                Line = Common.GetCurrentLine(),
+                                Location = Enums.LogLocation.Server,
+                                LogType = Enums.LogType.Error,
+                                Message = "Hubo un error al enviar el correo a " + model.Email + ". " + ex.Message + " / " + ex.StackTrace,
+                                Method = Common.GetCurrentMethod(),
+                                Timestamp = Common.ConvertToUTCTime(DateTime.Now),
+                                UserEmail = User.Identity.Name
+                            }, logo);
+                        }
+
+                        return RedirectToAction("CheckEmail", "Account");
+                    }
+                    else
+                    {
+                        var message = result.Errors.ToList()[0].ToString();
+
+                        if (result.Errors.ToList()[0].ToString().Contains("Passwords must have at least one non letter or digit character"))
+                        {
+                            //¡La contraseña debe tener al menos una letra y un número!
+                            message = "10001";
+                        }
+
+                        ViewBag.Warning = message;
+
+                        return View();
                     }
                 }
             }
@@ -536,6 +560,33 @@ namespace CarpoolingCR.Controllers
                 var db = new ApplicationDbContext();
 
                 ViewBag.CountryId = new SelectList(db.Countries.Where(x => x.Status == Enums.Status.Activo).ToList(), "CountryId", "Name");
+            }
+            catch (Exception ex)
+            {
+                Common.LogData(new Log
+                {
+                    Line = Common.GetCurrentLine(),
+                    Location = Enums.LogLocation.Server,
+                    LogType = Enums.LogType.Error,
+                    Message = ex.Message + " / " + ex.StackTrace,
+                    Method = Common.GetCurrentMethod(),
+                    Timestamp = Common.ConvertToUTCTime(DateTime.Now),
+                    UserEmail = User.Identity.Name
+                }, logo);
+
+                ViewBag.Error = "¡Error inesperado, intente de nuevo!";
+            }
+        }
+
+        private void ReloadEmailDomains()
+        {
+            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg"); ;
+
+            try
+            {
+                SelectList emailDomains = Common.GetEmailDomains();
+
+                ViewBag.EmailDomains = emailDomains;
             }
             catch (Exception ex)
             {

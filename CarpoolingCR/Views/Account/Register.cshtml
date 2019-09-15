@@ -3,21 +3,39 @@
     ViewBag.Title = "Register";
 }
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-<h3>Registro de Usuarios</h3>
+<br />
+<div class="row form-group" style="text-align:center">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <h5 class="panel-title pull-left">Registro de Usuarios</h5>
+    </div>
+</div>
+<div class="row" style="text-align:center">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <hr />
+    </div>
+</div>
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-
-@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form", @id = "RegisterForm" }))
 {
     @Html.TextBoxFor(m => m.UserType, new { @class = "form-control", @Value = "Pasajero", style = "display: none;" })
     @Html.AntiForgeryToken()
-    <hr />
-    @Html.ValidationSummary("", new { @class = "text-danger" })
     <input type="text" id="registeredUserPicture" name="registeredUserPicture" class="hidden" />
     <div class="form-group">
         <label class="col-md-2 control-label">Correo</label>
         <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Correo Electrónico" })
+            <div class="input-group">
+                <input type="text" id="UserEmail" name="UserEmail" class="form-control" aria-label="..." style="width:180px">
+                <input type="text" id="Email" name="Email" style="display:none" />
+                <label class="form-control" style="width:40px; background-color:lightgray;font-size:medium">@@</label>
+                <select class="form-control" id="emailDomain" style="width:130px; border-radius: 0px 10px 10px 0px !important">
+                    @{
+                        foreach (var item in (SelectList)ViewBag.EmailDomains)
+                        {
+                            <option>@item.Text</option>
+                        }
+                    }
+                </select>
+            </div><!-- /input-group -->
         </div>
     </div>
     <div class="form-group">
@@ -46,8 +64,25 @@
     <div class="form-group">
         <label class="col-md-2 control-label">Tipo de Usuario</label>
         <div id="radioset" role="toolbar" class="ui-controlgroup ui-controlgroup-horizontal ui-helper-clearfix col-md-10">
-            <input type="radio" id="rbPassenger" name="radio" checked="checked" class="ui-checkboxradio ui-helper-hidden-accessible"><label for="rbPassenger" style="border-radius:10px" class="ui-button ui-widget ui-checkboxradio-radio-label ui-controlgroup-item ui-checkboxradio-label ui-corner-left"><span class="ui-checkboxradio-icon ui-corner-all ui-icon ui-icon-background ui-icon-blank"></span><span class="ui-checkboxradio-icon-space"> </span>Pasajero</label>
-            <input type="radio" id="rbDriver" name="radio" class="ui-checkboxradio ui-helper-hidden-accessible"><label for="rbDriver" style="border-radius:10px" class="ui-button ui-widget ui-checkboxradio-radio-label ui-checkboxradio-checked ui-state-active ui-checkboxradio-label ui-controlgroup-item"><span class="ui-checkboxradio-icon ui-corner-all ui-icon ui-icon-background ui-icon-blank ui-state-hover"></span><span class="ui-checkboxradio-icon-space"> </span>Conductor</label>
+            <div class="input-group" onclick="CheckChange(false)">
+                <span class="input-group-addon" style="border-radius: 10px 0px 0px 10px">
+                    <input type="radio" id="rbPassenger" onclick="return false" name="userTypeGroup" aria-label="..." checked>
+                </span>
+                <label class="form-control" aria-label="..." style="width:240px; border-radius: 0px 10px 10px 0px"><span class="glyphicon glyphicon-user"></span> Pasajero</label>
+            </div>
+            <br />
+            <div class="input-group" onclick="CheckChange(true)">
+                <span class="input-group-addon" style="border-radius: 10px 0px 0px 10px">
+                    <input type="radio" id="rbDriver" onclick="return false" name="userTypeGroup" aria-label="...">
+                </span>
+                <label class="form-control" aria-label="..." style="width:240px;border-radius: 0px 10px 10px 0px"><span class="glyphicon glyphicon-road"></span> Conductor</label>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.UserIdentification, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.UserIdentification, new { @class = "form-control", placeholder = "Cédula" })
         </div>
     </div>
     <div class="form-group">
@@ -83,7 +118,7 @@
     </div>
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-info" value="Registrar" />
+            <input type="button" class="btn btn-info" value="Registrar" onclick="checkFields()" />
         </div>
     </div>
 }
@@ -93,30 +128,114 @@
 }
 
 <script>
-    $('rbPassenger').click(function () {
-        SetUserType('Pasajero');
-    });
-
-    $('rbDriver').click(function () {
-        SetUserType('Conductor');
-    });
-
     $(document).ready(function () {
         var image = SetRandomImage();
 
         $('#registeredUserPicture').val(image);
     });
 
-    $("#radioset").buttonset();
+    //$("#CountryId").editableSelect();
 
     $('#SecondLastName').attr('data-val', false);
     $('#Phone2').attr('data-val', false);
     $('#FacebookAccount').attr('data-val', false);
 
     function SetUserType(type) {
-        document.getElementById('UserType').value = type
+        document.getElementById('UserType').value = type;
     }
 
     $('#Phone1').mask('0000-0000');
     $('#Phone2').mask('0000-0000');
+    $('#UserIdentification').mask('000000000');
+
+    function CheckChange(isDriver) {
+        if (isDriver) {
+            $("#rbDriver").prop("checked", true);
+
+            SetUserType('Conductor');
+        } else {
+            $("#rbPassenger").prop("checked", true);
+
+            SetUserType('Pasajero');
+        }
+    }
+
+    function checkFields() {
+        var email = $('#UserEmail').val().trim();
+        var pwd = $('#Password').val().trim();
+        var country = $('#CountryId').val();
+        var pwdConfirmation = $('#ConfirmPassword').val().trim();
+        var isDriver = false;
+
+        if (email == '') {
+            DisplayGrowlMessage("¡Correo Electrónico requerido!", "warn")
+
+            return;
+        } else if (pwd == '') {
+            DisplayGrowlMessage("¡Clave requerida!", "warn")
+
+            return;
+        } else if (pwdConfirmation == '') {
+            DisplayGrowlMessage("¡Confirmación de clave requerida!", "warn")
+
+            return;
+        } else if (country == '') {
+            DisplayGrowlMessage("¡País requerido!", "warn")
+
+            return;
+        } else if (pwd != pwdConfirmation) {
+            DisplayGrowlMessage("¡Clave y confirmación de clave no concuerdan!", "warn")
+
+            return;
+        } else if (pwd.length < 6) {
+            DisplayGrowlMessage("¡La clave debe contener al menos 6 caracteres y dígitos!", "warn")
+
+            return;
+        }
+
+        var emailDomain = $('#emailDomain').val();
+
+        email = email + '@@' + emailDomain;
+
+        $('#Email').val(email);
+
+        var selectedUser = $('input[name=userTypeGroup]:checked', '#RegisterForm').add('id');
+
+        if (selectedUser.length == 0) {
+            DisplayGrowlMessage("¡Tipo de usuario requerido!", "warn")
+
+            return;
+        } else {
+            var currentUserControlId = selectedUser[0].id;
+
+            if (selectedUser.id == 'rbDriver') {
+                isDriver = true;
+            }
+        }
+
+        var UserIdentification = $('#UserIdentification').val();
+        var Name = $('#Name').val();
+        var LastName = $('#LastName').val();
+        var Phone1 = $('#Phone1').val();
+
+        if (UserIdentification == '') {
+            DisplayGrowlMessage("¡Número de cédula requerido!", "warn")
+
+            return;
+        } else if (Name == '') {
+            DisplayGrowlMessage("¡Nombre Requerido!", "warn")
+
+            return;
+        } else if (LastName == '') {
+            DisplayGrowlMessage("¡Primer apellido requerido!", "warn")
+
+            return;
+        } else if (Phone1 == '') {
+            DisplayGrowlMessage("¡Número de celular requerido!", "warn")
+
+            return;
+        }
+
+        $("#RegisterForm").submit();
+    }
 </script>

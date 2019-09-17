@@ -45,7 +45,7 @@
                         <div class="input-group">
                             <input type="text" id="UserEmail" name="UserEmail" class="form-control" aria-label="..." style="width:40%" placeholder="Correo">
                             <input type="text" id="Email" name="Email" style="display:none" />
-                            <label class="form-control bg-secondary" style="width:15%;font-size:medium;text-align:center;background-color:lightgrey;">@@</label>
+                            <label class="form-control input-group-addon" style="width:10%;font-size:medium;text-align:center;">@@</label>
                             <select class="form-control" id="emailDomain" style="width:45%; border-radius: 0px 10px 10px 0px !important">
                                 @{
                                     foreach (var item in (SelectList)ViewBag.EmailDomains)
@@ -62,16 +62,11 @@
                 </div>
 
                 <div class="row form-group">
-                    @*<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            @Html.LabelFor(m => m.Password, new { @class = "control-label" })
-                        </div>*@
                     <div class="col-lg-4 col-md-2 col-sm-1 col-xs-0">
 
                     </div>
                     <div class="col-lg-4 col-md-8 col-sm-10 col-xs-12">
-                        <input type="password" id="Password" name="Password" class="form-control" aria-label="..." style="width:100%" placeholder="Clave">
-                        @*@Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })*@
+                        <input type="password" id="Password" name="Password" class="form-control" aria-label="..." style="width:200px" placeholder="Contraseña" />
                     </div>
                     <div class="col-lg-4 col-md-2 col-sm-1 col-xs-0">
 

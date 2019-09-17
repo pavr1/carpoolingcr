@@ -117,7 +117,22 @@
                     <label class="control-label">Cédula</label>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                    <div class="input-group btn-block">
+                    @{
+                        var classStr = "";
+
+                        if (!Model.IsUserIdentificationVerified)
+                        {
+                            if (string.IsNullOrEmpty(Model.UserIdentification))
+                            {
+                                classStr = "has-error";
+                            }
+                            else
+                            {
+                                classStr = "has-warning";
+                            }
+                        }
+                    }
+                    <div class="input-group btn-block @classStr">
                         @{
                             if (Model.IsUserIdentificationVerified)
                             {
@@ -131,7 +146,7 @@
                                 if (string.IsNullOrEmpty(Model.UserIdentification))
                                 {
                                     @Html.TextBoxFor(m => m.UserIdentification, new { @class = "form-control", @placeholder = "Cédula" })
-                                    <div id="user-identification-tooltip-button">
+                                    <div id="user-identification-tooltip-button" class="form-group">
                                         <button onclick="return false" class="btn btn-danger pull-left" style="border-radius:0px 10px 10px 0px" aria-label="Help"><span class="glyphicon glyphicon-alert" data-toggle="tooltip" title="¡El número de cédula debe ser provisto!"></span></button>
                                     </div>
                                 }

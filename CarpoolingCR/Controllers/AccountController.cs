@@ -375,8 +375,7 @@ namespace CarpoolingCR.Controllers
                     db.SaveChanges();
 
                     var users = db.Users.Where(x => x.UserIdentification != string.Empty && !x.IsUserIdentificationVerified).ToList();
-
-
+                    
                     return Serializer.RenderViewToString(this.ControllerContext, "Partials/p_PendingUserIdentifications", users);
                 }
             }

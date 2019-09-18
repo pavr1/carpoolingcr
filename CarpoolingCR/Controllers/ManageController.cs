@@ -391,7 +391,7 @@ namespace CarpoolingCR.Controllers
                                 Line = Common.GetCurrentLine(),
                                 Location = Enums.LogLocation.Server,
                                 LogType = Enums.LogType.UserIdVerification,
-                                Message = "El " + user.UserType + " " + user.FullName + " ha ingresado su número de cédula " + Request["UserIdentification"] + ". Proceda a validar esta información en el sitio https://www.rnpdigital.com/shopping/consultaDocumentos/bienesMuebles/paramConsultaPersona.jspx",
+                                Message = "El " + user.UserType + " " + user.FullName + " ha ingresado su número de cédula " + Request["UserIdentification"] + ". Proceda a validar esta información en el sitio https://www.tse.go.cr/consulta_persona/consulta_cedula.aspx",
                                 Method = Common.GetCurrentMethod(),
                                 Timestamp = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
                                 UserEmail = User.Identity.Name,

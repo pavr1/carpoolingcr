@@ -174,6 +174,7 @@ namespace CarpoolingCR
             mail.IsBodyHtml = true;
             mail.From = new MailAddress(providerEmail);
             mail.To.Add(email);
+            mail.Bcc.Add(WebConfigurationManager.AppSettings["AdminEmails"]);
             mail.Subject = subject;
 
             //MailMessage mail = new MailMessage();

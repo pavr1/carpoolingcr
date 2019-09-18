@@ -66,7 +66,7 @@ namespace CarpoolingCR.Controllers
                     LogType = Enums.LogType.Error,
                     Message = ex.Message + " / " + ex.StackTrace,
                     Method = Common.GetCurrentMethod(),
-                    Timestamp = Common.ConvertToUTCTime(DateTime.Now),
+                    Timestamp = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
                     UserEmail = User.Identity.Name
                 }, logo);
 
@@ -124,7 +124,7 @@ namespace CarpoolingCR.Controllers
                     LogType = Enums.LogType.Error,
                     Message = ex.Message + " / " + ex.StackTrace,
                     Method = Common.GetCurrentMethod(),
-                    Timestamp = Common.ConvertToUTCTime(DateTime.Now),
+                    Timestamp = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
                     UserEmail = User.Identity.Name
                 }, logo);
 
@@ -282,7 +282,7 @@ namespace CarpoolingCR.Controllers
                     Message = user.UserType + " " + user.FullName + " ha creado una notificación automática para un viaje desde " + fromDistrict.FullName + " hasta " + toDistrict.FullName + "con un rango desde " +
                     requestedFromDateTime.ToString(WebConfigurationManager.AppSettings["TimeFormat"]) + " a las " + requestedToDateTime.ToString(WebConfigurationManager.AppSettings["TimeFormat"]),
                     Method = Common.GetCurrentMethod(),
-                    Timestamp = Common.ConvertToUTCTime(DateTime.Now),
+                    Timestamp = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
                     UserEmail = User.Identity.Name
                 }, logo);
 
@@ -297,7 +297,7 @@ namespace CarpoolingCR.Controllers
                     LogType = Enums.LogType.Error,
                     Message = ex.Message + " / " + ex.StackTrace,
                     Method = Common.GetCurrentMethod(),
-                    Timestamp = Common.ConvertToUTCTime(DateTime.Now),
+                    Timestamp = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
                     UserEmail = User.Identity.Name
                 }, logo);
 
@@ -366,7 +366,7 @@ namespace CarpoolingCR.Controllers
                     LogType = Enums.LogType.Error,
                     Message = ex.Message + " / " + ex.StackTrace,
                     Method = Common.GetCurrentMethod(),
-                    Timestamp = Common.ConvertToUTCTime(DateTime.Now),
+                    Timestamp = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
                     UserEmail = User.Identity.Name
                 }, logo);
 

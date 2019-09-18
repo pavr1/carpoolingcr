@@ -123,7 +123,7 @@ namespace CarpoolingCR.Controllers
                     LogType = Enums.LogType.Error,
                     Message = ex.Message + " / " + ex.StackTrace,
                     Method = Common.GetCurrentMethod(),
-                    Timestamp = Common.ConvertToUTCTime(DateTime.Now),
+                    Timestamp = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
                     UserEmail = User.Identity.Name
                 }, logo);
 
@@ -160,7 +160,7 @@ namespace CarpoolingCR.Controllers
                         LogType = Enums.LogType.SMS,
                         Message = "El " + user.UserType + " " + user.FullName + ", email: " + user.Email + " no pudo verificar su número telefónico. Detalle: Servicio SMS inactivo",
                         Method = Common.GetCurrentMethod(),
-                        Timestamp = Common.ConvertToUTCTime(DateTime.Now),
+                        Timestamp = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
                         UserEmail = User.Identity.Name
                     }, logo);
 
@@ -177,7 +177,7 @@ namespace CarpoolingCR.Controllers
                     LogType = Enums.LogType.Error,
                     Message = ex.Message + " / " + ex.StackTrace,
                     Method = Common.GetCurrentMethod(),
-                    Timestamp = Common.ConvertToUTCTime(DateTime.Now),
+                    Timestamp = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
                     UserEmail = User.Identity.Name
                 }, logo);
 
@@ -211,7 +211,7 @@ namespace CarpoolingCR.Controllers
                         LogType = Enums.LogType.SMS,
                         Message = "El " + user.UserType + " " + user.FullName + ", email: " + user.Email + " verificó su número telefónico.",
                         Method = Common.GetCurrentMethod(),
-                        Timestamp = Common.ConvertToUTCTime(DateTime.Now),
+                        Timestamp = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
                         UserEmail = User.Identity.Name
                     }, logo);
 
@@ -231,7 +231,7 @@ namespace CarpoolingCR.Controllers
                     LogType = Enums.LogType.Error,
                     Message = ex.Message + " / " + ex.StackTrace,
                     Method = Common.GetCurrentMethod(),
-                    Timestamp = Common.ConvertToUTCTime(DateTime.Now),
+                    Timestamp = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
                     UserEmail = User.Identity.Name
                 }, logo);
 
@@ -241,12 +241,17 @@ namespace CarpoolingCR.Controllers
             }
         }
 
-        public ActionResult ProfileInfo()
+        public ActionResult ProfileInfo(string id, string message)
         {
             var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg");
 
             try
             {
+                if (!string.IsNullOrEmpty(message))
+                {
+                    ViewBag.Warning = message;
+                }
+
                 var user = Common.GetUserByEmail(User.Identity.Name);
 
                 if (user.MobileVerficationNumber == 0)
@@ -279,7 +284,7 @@ namespace CarpoolingCR.Controllers
                     LogType = Enums.LogType.Error,
                     Message = ex.Message + " / " + ex.StackTrace,
                     Method = Common.GetCurrentMethod(),
-                    Timestamp = Common.ConvertToUTCTime(DateTime.Now),
+                    Timestamp = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
                     UserEmail = User.Identity.Name
                 }, logo);
 
@@ -388,7 +393,7 @@ namespace CarpoolingCR.Controllers
                                 LogType = Enums.LogType.UserIdVerification,
                                 Message = "El " + user.UserType + " " + user.FullName + " ha ingresado su número de cédula " + Request["UserIdentification"] + ". Proceda a validar esta información en el sitio https://www.rnpdigital.com/shopping/consultaDocumentos/bienesMuebles/paramConsultaPersona.jspx",
                                 Method = Common.GetCurrentMethod(),
-                                Timestamp = Common.ConvertToUTCTime(DateTime.Now),
+                                Timestamp = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
                                 UserEmail = User.Identity.Name,
                                 Fields = fields
                             }, logo);
@@ -534,7 +539,7 @@ namespace CarpoolingCR.Controllers
                     LogType = Enums.LogType.Error,
                     Message = ex.Message + " / " + ex.StackTrace,
                     Method = Common.GetCurrentMethod(),
-                    Timestamp = Common.ConvertToUTCTime(DateTime.Now),
+                    Timestamp = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
                     UserEmail = User.Identity.Name,
                     Fields = fields
                 }, logo);
@@ -728,7 +733,7 @@ namespace CarpoolingCR.Controllers
                     LogType = Enums.LogType.Error,
                     Message = ex.Message + " / " + ex.StackTrace,
                     Method = Common.GetCurrentMethod(),
-                    Timestamp = Common.ConvertToUTCTime(DateTime.Now),
+                    Timestamp = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
                     UserEmail = User.Identity.Name
                 }, logo);
 
@@ -782,7 +787,7 @@ namespace CarpoolingCR.Controllers
                     LogType = Enums.LogType.Error,
                     Message = ex.Message + " / " + ex.StackTrace,
                     Method = Common.GetCurrentMethod(),
-                    Timestamp = Common.ConvertToUTCTime(DateTime.Now),
+                    Timestamp = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
                     UserEmail = User.Identity.Name
                 }, logo);
 

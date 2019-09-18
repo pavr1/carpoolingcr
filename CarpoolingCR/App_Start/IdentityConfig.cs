@@ -48,7 +48,7 @@ namespace CarpoolingCR
                     LogType = Enums.LogType.Error,
                     Message = ex.Message + " / " + ex.StackTrace,
                     Method = Common.GetCurrentMethod(),
-                    Timestamp = Common.ConvertToUTCTime(DateTime.Now),
+                    Timestamp = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
                     UserEmail = message.Destination
                 }, logo);
             }
@@ -80,7 +80,7 @@ namespace CarpoolingCR
                     LogType = Enums.LogType.Error,
                     Message = ex.Message + " / " + ex.StackTrace,
                     Method = Common.GetCurrentMethod(),
-                    Timestamp = Common.ConvertToUTCTime(DateTime.Now),
+                    Timestamp = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
                     UserEmail = message.Destination
                 }, logo);
             }
@@ -206,7 +206,7 @@ namespace CarpoolingCR
                 //    LogType = Enums.LogType.Error,
                 //    Message = ex.Message + " / " + ex.StackTrace,
                 //    Method = Common.GetCurrentMethod(),
-                //    Timestamp = Common.ConvertToUTCTime(DateTime.Now),
+                //    Timestamp = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
                 //    UserEmail = email
                 //}, logo);
             }
@@ -243,7 +243,7 @@ namespace CarpoolingCR
                 LogType = Enums.LogType.SMS,
                 Message = "Código de verificación " + message.Destination  + " SMS enviado a " + user.FullName + ". Resultado: " + result,
                 Method = Common.GetCurrentMethod(),
-                Timestamp = Common.ConvertToUTCTime(DateTime.Now),
+                Timestamp = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
                 UserEmail = user.Name
             }, logo);
 

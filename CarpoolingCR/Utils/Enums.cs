@@ -104,7 +104,8 @@ namespace CarpoolingCR.Utils
             Error,
             Warning,
             SMS,
-            UserIdVerification
+            UserIdVerification,
+            VehicleCreation
         }
 
         public enum RequestNotificationStatus

@@ -382,6 +382,12 @@ namespace CarpoolingCR.Controllers
                         return View(user);
                     }
 
+                    if (user.UserIdentification != Request["UserIdentification"])
+                    {
+                        user.IsUserIdentificationInvalidated = false;
+                        user.IsUserIdentificationVerified = false;
+                    }
+
                     if (!user.IsUserIdentificationVerified)
                     {
                         if (user.UserIdentification != Request["UserIdentification"])
@@ -514,6 +520,18 @@ namespace CarpoolingCR.Controllers
                             newVehicle.ApplicationUser = null;
 
                             db.Entry(newVehicle).State = System.Data.Entity.EntityState.Added;
+
+                            Common.LogData(new Log
+                            {
+                                Line = Common.GetCurrentLine(),
+                                Location = Enums.LogLocation.Server,
+                                LogType = Enums.LogType.VehicleCreation,
+                                Message = "¡El " + user.UserType + " " + user.FullName + " ha ingresado la información de su vehículo!",
+                                Method = Common.GetCurrentMethod(),
+                                Timestamp = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
+                                UserEmail = User.Identity.Name,
+                                Fields = fields
+                            }, logo);
                         }
                         else
                         {

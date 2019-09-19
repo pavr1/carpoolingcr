@@ -102,7 +102,7 @@
     } else if (code === "100050") {
         return "¡Cédula Verificada!";
     } else if (code === "100051") {
-        return "¡Cuenta Inactiva!";
+        return "¡Cédula Invalidada!";
     } else if (code === "100052") {
         return "¡Ya existe una cuenta asignada a este correo electrónico!";
     } else if (code === "100053") {
@@ -117,6 +117,30 @@
         return "¡Usuario o constraseña incorrectos!";
     } else if (code === "100058") {
         return "¡Número de cédula requerido!";
+    } else if (code === "100059") {
+        return "¡Número de cédula inválida, ingrésela nuevamente!";
+    } else if (code === "100060") {
+        return "¡Número celular no verificado!";
+    } else if (code === "100061") {
+        return "¡Información del vehículo requerida!";
+    } else if (code === "xxxxxxxxx") {
+        return "zzzzzzzzzzzzzzzzzzzzzz";
+    } else if (code === "xxxxxxxxx") {
+        return "zzzzzzzzzzzzzzzzzzzzzz";
+    } else if (code === "xxxxxxxxx") {
+        return "zzzzzzzzzzzzzzzzzzzzzz";
+    } else if (code === "xxxxxxxxx") {
+        return "zzzzzzzzzzzzzzzzzzzzzz";
+    } else if (code === "xxxxxxxxx") {
+        return "zzzzzzzzzzzzzzzzzzzzzz";
+    } else if (code === "xxxxxxxxx") {
+        return "zzzzzzzzzzzzzzzzzzzzzz";
+    } else if (code === "xxxxxxxxx") {
+        return "zzzzzzzzzzzzzzzzzzzzzz";
+    } else if (code === "xxxxxxxxx") {
+        return "zzzzzzzzzzzzzzzzzzzzzz";
+    } else if (code === "xxxxxxxxx") {
+        return "zzzzzzzzzzzzzzzzzzzzzz";
     } else if (code === "xxxxxxxxx") {
         return "zzzzzzzzzzzzzzzzzzzzzz";
     } else if (code === "xxxxxxxxx") {

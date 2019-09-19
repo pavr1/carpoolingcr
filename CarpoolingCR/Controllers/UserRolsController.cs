@@ -25,10 +25,33 @@ namespace CarpoolingCR.Controllers
 
                 var user = db.Users.Where(x => x.Email == User.Identity.Name).SingleOrDefault();
 
-                if (!user.IsUserIdentificationVerified)
+                if (string.IsNullOrEmpty(user.UserIdentification))
                 {
                     //¡Número de cédula requerido!
                     return RedirectToAction("ProfileInfo", "Manage", new { id = "", message = "100058" });
+                }
+
+                if (user.IsUserIdentificationInvalidated)
+                {
+                    //¡Número de cédula inválida, ingrésela nuevamente!
+                    return RedirectToAction("ProfileInfo", "Manage", new { id = "", message = "100059" });
+                }
+
+                if (!user.IsPhoneVerified)
+                {
+                    //¡Número celular no verificado!
+                    return RedirectToAction("ProfileInfo", "Manage", new { id = "", message = "100060" });
+                }
+
+                if (user.UserType != Enums.UserType.Pasajero)
+                {
+                    var vehicle = db.Vehicles.Where(x => x.ApplicationUserId == user.Id).SingleOrDefault();
+
+                    if (vehicle == null)
+                    {
+                        //¡Información del vehículo requerida!
+                        return RedirectToAction("ProfileInfo", "Manage", new { id = "", message = "100061" });
+                    }
                 }
 
                 if (user != null)

@@ -136,7 +136,7 @@
                         @{
                             if (Model.IsUserIdentificationVerified)
                             {
-                                @Html.TextBoxFor(m => m.UserIdentification, new { @class = "form-control", @placeholder = "Cédula", @disabled = "disabled" })
+                                @Html.TextBoxFor(m => m.UserIdentification, new { @class = "form-control", @placeholder = "Cédula", @readonly= "readonly" })
                                 <div id="user-identification-tooltip-button">
                                     <button onclick="return false" class="btn btn-info pull-left" style="border-radius:0px 10px 10px 0px" aria-label="Help"><span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" title="¡Número de cédula verificado!"></span></button>
                                 </div>
@@ -208,7 +208,15 @@
                     <label class="control-label">Celular</label>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                    <div class="input-group btn-block">
+                    @{
+                        classStr = "";
+
+                        if (!Model.IsPhoneVerified)
+                        {
+                            classStr = "has-error";
+                        }
+                    }
+                    <div class="input-group btn-block @classStr">
                         @Html.TextBoxFor(m => m.Phone1, new { @class = "form-control", @placeholder = "####-####" })
                         @{
                             if (!Model.IsPhoneVerified)
@@ -317,7 +325,7 @@
 
                         </div>
                         <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 text-warning">
-                            <small>*** El número de cédula será revisado y verificado contra la base de datos del TSE. De no concordar o existir el número de cédula provista la cuenta será bloqueada.</small>
+                            <small>*** El número de cédula será revisado y verificado contra la bases de datos del TSE. De no concordar con el nombre provisto o de no existir el número de cédula, ésta será invalidada y deberá ingresarla nuevamente para su validación.</small>
                         </div>
                         <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
 

@@ -18,13 +18,10 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
-    <IISExpressSSLPort>44346</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication>
-    </IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>
-    </IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>
-    </IISExpressUseClassicPipelineMode>
+    <IISExpressSSLPort>443</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -265,6 +262,10 @@
     <Compile Include="Migrations\201909140022393_Added prop IsUserIdentificationVerified.cs" />
     <Compile Include="Migrations\201909140022393_Added prop IsUserIdentificationVerified.Designer.cs">
       <DependentUpon>201909140022393_Added prop IsUserIdentificationVerified.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201909190150128_Added IsUserIdentificationInvalidated to ApplicationUser.cs" />
+    <Compile Include="Migrations\201909190150128_Added IsUserIdentificationInvalidated to ApplicationUser.Designer.cs">
+      <DependentUpon>201909190150128_Added IsUserIdentificationInvalidated to ApplicationUser.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -896,6 +897,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201909140022393_Added prop IsUserIdentificationVerified.resx">
       <DependentUpon>201909140022393_Added prop IsUserIdentificationVerified.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201909190150128_Added IsUserIdentificationInvalidated to ApplicationUser.resx">
+      <DependentUpon>201909190150128_Added IsUserIdentificationInvalidated to ApplicationUser.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

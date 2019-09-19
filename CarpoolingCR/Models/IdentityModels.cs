@@ -22,6 +22,7 @@ namespace CarpoolingCR.Models
         [Display(Name = "Cédula")]
         public string UserIdentification { get; set; }
         public bool IsUserIdentificationVerified { get; set; }
+        public bool IsUserIdentificationInvalidated { get; set; }
         [Required]
         [Display(Name = "Nombre")]
         public string Name { get; set; }

@@ -237,13 +237,18 @@ namespace CarpoolingCR.Utils
                     title = "Correo Informativo (Actualización de cédula)";
                     emailType = EmailType.Notifications;
                     break;
+                case LogType.VehicleCreation:
+                    dataType = "información sobre vehículo del conductor";
+                    title = "Correo Informativo (Registro de vehículo)";
+                    emailType = EmailType.Notifications;
+                    break;
                 default:
                     title = "Correo Informativo";
                     emailType = EmailType.Notifications;
                     break;
             }
 
-            var html = "¡Hemos recibido " + dataType + " del sistema! Abajo detallamos los datos: <br/><br/>";
+            var html = "¡Hemos recibido " + dataType + " en el sistema! Abajo detallamos los datos: <br/><br/>";
             html += "<b>Localización: </b>" + location + "<br/>";
             html += "<b>Tipo de Log: </b>" + logType + "<br/>";
             html += "<b>Descrición: </b>" + message + "<br/>";
@@ -314,12 +319,13 @@ namespace CarpoolingCR.Utils
             if (isUseridentificationVerified)
             {
                 title = "¡Número de cédula verificada!";
-                html = "¡Felicidades! Tu número de cédula fue verificada por buscoridecr.com. Con esto generas más confianza entre los usuarios del sitio";
+                html = "¡Felicidades! Tu número de cédula fue verificado por buscoridecr.com. Con esto generas más confianza entre los usuarios del sitio";
             }
             else
             {
                 title = "¡Número de cédula inválida!";
-                html = "¡Lo sentimos! Parece que el número de cédula que proveyó no concuerda con el nombre de usuario registrado. Buscoridecr.com ha inactivado tu cuenta, por favor ingresa a tu perfíl e ingresa tu número de cédula correctamente.<br/><br/>";
+                html = "¡Lo sentimos! Parece que el número de cédula brindado no concuerda con el nombre de usuario registrado. Por favor entre a su perfíl e ingrese el número de cédula que concuerde con su nombre.<br/><br/>";
+                html += "Recuerde que buscoridecr.com hace la verificación de existencia de número de cédula por medio del Tribunal Supremo de Elecciones, por lo cual la cédula debe concordar con el nombre del usuario brindado.</br></br>";
                 html += "Para más información por favor contacte al administrador a " + WebConfigurationManager.AppSettings["AdminEmails"];
             }
 

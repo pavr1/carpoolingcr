@@ -363,9 +363,9 @@ namespace CarpoolingCR.Controllers
                     }
                     else
                     {
-                        user.Status = Enums.ProfileStatus.Inactive;
+                        user.IsUserIdentificationInvalidated = true;
 
-                        //¡Cuenta Inactiva!
+                        //¡Cédula Invalidada!
                         ViewBag.success = "100051";
                     }
 
@@ -374,7 +374,7 @@ namespace CarpoolingCR.Controllers
                     db.Entry(user).State = EntityState.Modified;
                     db.SaveChanges();
 
-                    var users = db.Users.Where(x => x.UserIdentification != string.Empty && !x.IsUserIdentificationVerified).ToList();
+                    var users = db.Users.Where(x => x.UserIdentification != string.Empty && !x.IsUserIdentificationVerified && !x.IsUserIdentificationInvalidated).ToList();
                     
                     return Serializer.RenderViewToString(this.ControllerContext, "Partials/p_PendingUserIdentifications", users);
                 }

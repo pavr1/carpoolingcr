@@ -35,11 +35,11 @@
                             </small>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4 hidden-xs">
-                            <input type="button" class="btn btn-danger btn-sm pull-right" onclick="UpdateUserIdentification('@item.Id', false)" value="Inactivar Cuenta" />
+                            <input type="button" class="btn btn-danger btn-sm pull-right" onclick="UpdateUserIdentification('@item.Id', false)" value="Invalidar Cédula" />
                             <input type="button" class="btn btn-info btn-sm pull-right" onclick="UpdateUserIdentification('@item.Id', true)" value="Verificar Cédula" />
                         </div>
                         <div class="visible-xs col-xs-12">
-                            <input type="button" class="btn btn-danger btn-sm pull-right" onclick="UpdateUserIdentification('@item.Id', false)" value="Inactivar Cuenta" />
+                            <input type="button" class="btn btn-danger btn-sm pull-right" onclick="UpdateUserIdentification('@item.Id', false)" value="Invalidar Cédula" />
                             <input type="button" class="btn btn-info btn-sm pull-left" onclick="UpdateUserIdentification('@item.Id', true)" value="Verificar Cédula" />
                         </div>
                     </div>
@@ -55,6 +55,12 @@
         $.post('@Url.Action("VerifyUserIdentification", "Account")', { userId: userId, isUserVerified: verified },
             function (data) {
                 $('#user-identification-container').html(data);
+
+                if (verified) {
+                    DisplayGrowlMessage('Cédula Verificada', 'success');
+                } else {
+                    DisplayGrowlMessage('Cédula Invalidada', 'success');
+                }
         });
     }
 </script>

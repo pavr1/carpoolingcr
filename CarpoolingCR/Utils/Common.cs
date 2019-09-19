@@ -127,7 +127,7 @@ namespace CarpoolingCR.Utils
                         .Select(x => x.DistrictId)
                         .ToList();
 
-                    var currentTime = Common.ConvertToUTCTime(DateTime.Now);
+                    var currentTime = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime());
 
                     if (user.UserType == Enums.UserType.Administrador)
                     {
@@ -171,7 +171,7 @@ namespace CarpoolingCR.Utils
                     startDate = Common.ConvertToUTCTime(startDate);
                     endDate = Common.ConvertToUTCTime(endDate);
 
-                    var currentTime = Common.ConvertToUTCTime(DateTime.Now);
+                    var currentTime = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime());
 
                     if (user.UserType == Enums.UserType.Administrador)
                     {

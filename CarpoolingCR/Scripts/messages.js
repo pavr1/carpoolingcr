@@ -115,8 +115,8 @@
         return "¡Contraseña Requerida!";
     } else if (code === "100057") {
         return "¡Usuario o constraseña incorrectos!";
-    } else if (code === "xxxxxxxxx") {
-        return "zzzzzzzzzzzzzzzzzzzzzz";
+    } else if (code === "100058") {
+        return "¡Número de cédula requerido!";
     } else if (code === "xxxxxxxxx") {
         return "zzzzzzzzzzzzzzzzzzzzzz";
     } else if (code === "xxxxxxxxx") {

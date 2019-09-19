@@ -319,7 +319,7 @@ namespace CarpoolingCR.Utils
             else
             {
                 title = "¡Número de cédula inválida!";
-                html = "¡Lo sentimos! Parece que el número de cédula que proveyó no concuerda con el nombre de usuario registrado. Buscoridecr.com ha inactivado tu cuenta hasta que corrijas esta información.<br/><br/>";
+                html = "¡Lo sentimos! Parece que el número de cédula que proveyó no concuerda con el nombre de usuario registrado. Buscoridecr.com ha inactivado tu cuenta, por favor ingresa a tu perfíl e ingresa tu número de cédula correctamente.<br/><br/>";
                 html += "Para más información por favor contacte al administrador a " + WebConfigurationManager.AppSettings["AdminEmails"];
             }
 

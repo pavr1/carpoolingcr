@@ -14,7 +14,7 @@ namespace CarpoolingCR.Controllers
 
         public ActionResult ValidateUserRol()
         {
-            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg");;
+            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg"); ;
 
             try
             {
@@ -24,6 +24,12 @@ namespace CarpoolingCR.Controllers
                 }
 
                 var user = db.Users.Where(x => x.Email == User.Identity.Name).SingleOrDefault();
+
+                if (!user.IsUserIdentificationVerified)
+                {
+                    //¡Número de cédula requerido!
+                    return RedirectToAction("ProfileInfo", "Manage", new { id = "", message = "100058" });
+                }
 
                 if (user != null)
                 {
@@ -57,7 +63,7 @@ namespace CarpoolingCR.Controllers
                     LogType = Enums.LogType.Error,
                     Message = ex.Message + " / " + ex.StackTrace,
                     Method = Common.GetCurrentMethod(),
-                    Timestamp = Common.ConvertToUTCTime(DateTime.Now),
+                    Timestamp = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
                     UserEmail = User.Identity.Name
                 }, logo);
 
@@ -78,7 +84,7 @@ namespace CarpoolingCR.Controllers
 
             if (user != null)
             {
-               if(user.UserType != Enums.UserType.Administrador)
+                if (user.UserType != Enums.UserType.Administrador)
                 {
                     return ValidateUserRol();
                 }

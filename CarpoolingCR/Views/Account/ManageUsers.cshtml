@@ -5,10 +5,10 @@
 }
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <br />
-<div id="users">
+<div id="manage-users-search">
     <div class="row">
         <div class="col-lg-6 col-md-6 col-sm-11 col-xs-11">
-            <input type="button" class="search form-control" placeholder="Usuarios" />
+            <input type="text" class="search form-control" placeholder="Usuarios" />
         </div>
         <div class="col-lg-6 col-md-6 col-sm-1 col-xs-1">
 
@@ -41,14 +41,14 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 country">
                             <small>@item.Country.Name</small>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                             <small class="email"><b>Correo:</b> @item.Email</small>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            <small class="email"><b>¿Confirmado?:</b><input type="checkbox" checked="@item.EmailConfirmed" disabled /></small>
+                            <small class="email"><b>Confirmación (Cédula/Celular/Correo):</b><input type="checkbox" checked="@item.IsUserIdentificationVerified" disabled /><input type="checkbox" checked="@item.IsPhoneVerified" disabled /><input type="checkbox" checked="@item.EmailConfirmed" disabled /></small>
                         </div>
                     </div>
                     <div class="row">
@@ -93,8 +93,8 @@
 
 <script language="javascript">
     var options = {
-        valueNames: ['passenger', 'email', 'country', 'phones', 'status', 'usertype']
+        valueNames: ['passenger', 'status', 'country', 'email', 'usertype', 'phones', ]
     };
 
-    var userList = new List('users', options);
+    var userList = new List('manage-users-search', options);
 </script>

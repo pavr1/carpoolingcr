@@ -59,7 +59,7 @@ namespace CarpoolingCR.Controllers
                     LogType = Enums.LogType.Error,
                     Message = ex.Message + " / " + ex.StackTrace,
                     Method = Common.GetCurrentMethod(),
-                    Timestamp = Common.ConvertToUTCTime(DateTime.Now),
+                    Timestamp = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
                     UserEmail = User.Identity.Name
                 }, logo);
 
@@ -96,7 +96,7 @@ namespace CarpoolingCR.Controllers
 
                     if (existentQuestionInfo != null)
                     {
-                        existentQuestionInfo.LastMessageSent = Common.ConvertToUTCTime(DateTime.Now);
+                        existentQuestionInfo.LastMessageSent = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime());
 
                         db.Entry(existentQuestionInfo).State = System.Data.Entity.EntityState.Modified;
                         db.SaveChanges();
@@ -155,7 +155,7 @@ namespace CarpoolingCR.Controllers
                     LogType = Enums.LogType.Error,
                     Message = ex.Message + " / " + ex.StackTrace,
                     Method = Common.GetCurrentMethod(),
-                    Timestamp = Common.ConvertToUTCTime(DateTime.Now),
+                    Timestamp = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
                     UserEmail = User.Identity.Name
                 }, logo);
 
@@ -193,7 +193,7 @@ namespace CarpoolingCR.Controllers
 
                     if (existentQuestionInfo != null)
                     {
-                        existentQuestionInfo.LastMessageSent = Common.ConvertToUTCTime(DateTime.Now);
+                        existentQuestionInfo.LastMessageSent = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime());
 
                         db.Entry(existentQuestionInfo).State = System.Data.Entity.EntityState.Modified;
                         db.SaveChanges();
@@ -255,7 +255,7 @@ namespace CarpoolingCR.Controllers
                     LogType = Enums.LogType.Error,
                     Message = ex.Message + " / " + ex.StackTrace,
                     Method = Common.GetCurrentMethod(),
-                    Timestamp = Common.ConvertToUTCTime(DateTime.Now),
+                    Timestamp = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
                     UserEmail = User.Identity.Name
                 }, logo);
 

@@ -38,7 +38,7 @@ namespace CarpoolingCR.Controllers
         //            LogType = Enums.LogType.Error,
         //            Message = ex.Message + " / " + ex.StackTrace,
         //            Method = Common.GetCurrentMethod(),
-        //            Timestamp = Common.ConvertToUTCTime(DateTime.Now),
+        //            Timestamp = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
         //            UserEmail = User.Identity.Name
         //        });
 
@@ -78,7 +78,7 @@ namespace CarpoolingCR.Controllers
         //            LogType = Enums.LogType.Error,
         //            Message = ex.Message + " / " + ex.StackTrace,
         //            Method = Common.GetCurrentMethod(),
-        //            Timestamp = Common.ConvertToUTCTime(DateTime.Now),
+        //            Timestamp = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
         //            UserEmail = User.Identity.Name
         //        });
 
@@ -131,7 +131,7 @@ namespace CarpoolingCR.Controllers
         //            LogType = Enums.LogType.Error,
         //            Message = ex.Message + " / " + ex.StackTrace,
         //            Method = Common.GetCurrentMethod(),
-        //            Timestamp = Common.ConvertToUTCTime(DateTime.Now),
+        //            Timestamp = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
         //            UserEmail = User.Identity.Name
         //        });
 
@@ -171,7 +171,7 @@ namespace CarpoolingCR.Controllers
         //            LogType = Enums.LogType.Error,
         //            Message = ex.Message + " / " + ex.StackTrace,
         //            Method = Common.GetCurrentMethod(),
-        //            Timestamp = Common.ConvertToUTCTime(DateTime.Now),
+        //            Timestamp = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
         //            UserEmail = User.Identity.Name
         //        });
 
@@ -212,7 +212,7 @@ namespace CarpoolingCR.Controllers
         //            LogType = Enums.LogType.Error,
         //            Message = ex.Message + " / " + ex.StackTrace,
         //            Method = Common.GetCurrentMethod(),
-        //            Timestamp = Common.ConvertToUTCTime(DateTime.Now),
+        //            Timestamp = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
         //            UserEmail = User.Identity.Name
         //        });
 
@@ -252,7 +252,7 @@ namespace CarpoolingCR.Controllers
         //            LogType = Enums.LogType.Error,
         //            Message = ex.Message + " / " + ex.StackTrace,
         //            Method = Common.GetCurrentMethod(),
-        //            Timestamp = Common.ConvertToUTCTime(DateTime.Now),
+        //            Timestamp = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
         //            UserEmail = User.Identity.Name
         //        });
 
@@ -292,7 +292,7 @@ namespace CarpoolingCR.Controllers
         //            LogType = Enums.LogType.Error,
         //            Message = ex.Message + " / " + ex.StackTrace,
         //            Method = Common.GetCurrentMethod(),
-        //            Timestamp = Common.ConvertToUTCTime(DateTime.Now),
+        //            Timestamp = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
         //            UserEmail = User.Identity.Name
         //        });
 

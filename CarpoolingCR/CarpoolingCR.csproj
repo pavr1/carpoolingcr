@@ -263,6 +263,10 @@
     <Compile Include="Migrations\201909140022393_Added prop IsUserIdentificationVerified.Designer.cs">
       <DependentUpon>201909140022393_Added prop IsUserIdentificationVerified.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201909140137221_deleted required for UserIdentification.cs" />
+    <Compile Include="Migrations\201909140137221_deleted required for UserIdentification.Designer.cs">
+      <DependentUpon>201909140137221_deleted required for UserIdentification.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\201909190150128_Added IsUserIdentificationInvalidated to ApplicationUser.cs" />
     <Compile Include="Migrations\201909190150128_Added IsUserIdentificationInvalidated to ApplicationUser.Designer.cs">
       <DependentUpon>201909190150128_Added IsUserIdentificationInvalidated to ApplicationUser.cs</DependentUpon>
@@ -897,6 +901,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201909140022393_Added prop IsUserIdentificationVerified.resx">
       <DependentUpon>201909140022393_Added prop IsUserIdentificationVerified.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201909140137221_deleted required for UserIdentification.resx">
+      <DependentUpon>201909140137221_deleted required for UserIdentification.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201909190150128_Added IsUserIdentificationInvalidated to ApplicationUser.resx">
       <DependentUpon>201909190150128_Added IsUserIdentificationInvalidated to ApplicationUser.cs</DependentUpon>

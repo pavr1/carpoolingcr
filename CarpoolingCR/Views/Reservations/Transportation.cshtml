@@ -10,17 +10,13 @@
         <h5 class="panel-title pull-left">Solicitud de Viajes</h5>
     </div>
 </div>
-<div id="loading-content" class="row form-group">
+<div id="loading-content" class="row form-group" style="text-align:center; height:500px;">
     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
 
     </div>
-    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:center">
-        <div class="progress">
-            <div class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:100%">
-                Procesando...
-            </div>
-            <i class='fa fa-circle-o-notch fa-spin pull-right'></i>
-        </div>
+    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+        <img src="~/Content/Icons/processing.gif" style="vertical-align:middle" /><br />
+        <small>Procesando...</small>
     </div>
     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
 
@@ -103,13 +99,22 @@
     $('#ToTown').editableSelect();
     //$('#tooltipRetrieveTrips').tooltip();
 
+    //$('#main-content').removeClass('hidden');
+    //$('#loading-content').addClass('hidden');
+    $('#main-content').slideUp(1);
+    $('#loading-content').slideDown(1);
+
+
     $(document).ready(function () {
         var tabIndex = @Model.TabIndex;
 
         $('#tabs').tabs("option", "active", tabIndex);
 
         $('#main-content').removeClass('hidden');
-        $('#loading-content').addClass('hidden');
+        //$('#loading-content').addClass('hidden');
+
+        $('#main-content').slideDown();
+        $('#loading-content').slideUp();
 
         $('#calendar').fullCalendar('gotoDate', Date.now());
     });

@@ -267,7 +267,7 @@ namespace CarpoolingCR.Utils
             }, emailType, appLogo);
         }
 
-        private static void SendEmail(IdentityMessage msg, EmailType EmailType, string logo)
+        public static void SendEmail(IdentityMessage msg, EmailType EmailType, string logo)
         {
             using (FileStream stream = System.IO.File.Open(logo, FileMode.Open, FileAccess.Read))
             {

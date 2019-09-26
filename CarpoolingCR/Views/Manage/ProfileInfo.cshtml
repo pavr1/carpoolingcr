@@ -110,61 +110,130 @@
                 </div>
             </div>
 
-            <div class="row form-group">
-                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                    <label class="control-label">Cédula</label>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                    @{
-                        var classStr = "";
+            @{
+                if (string.IsNullOrEmpty(Model.UserIdentification))
+                {
+                    <div class="panel panel-danger" style="padding:10px; border-radius:10px">
+                        <h5 class="text-danger"><b><u>Verifica tu número de cédula</u></b></h5>
+                        <h6 style="text-align:justify" class="text-danger">
+                            Ingresa tu número de cédula y da click en el botón "Actualizar" abajo. Tu número de cédula será revisado y verificado por buscoridecr.com contra la bases de datos del TSE. De no concordar con el nombre provisto o de no existir el número de cédula, ésta será invalidada
+                            y deberá corregirla nuevamente para su revalidación.
+                        </h6>
 
-                        if (!Model.IsUserIdentificationVerified)
-                        {
-                            if (string.IsNullOrEmpty(Model.UserIdentification))
-                            {
-                                classStr = "has-error";
-                            }
-                            else
-                            {
-                                classStr = "has-warning";
-                            }
-                        }
-                    }
-                    <div class="input-group btn-block @classStr">
-                        @{
-                            if (Model.IsUserIdentificationVerified)
-                            {
-                                @Html.TextBoxFor(m => m.UserIdentification, new { @class = "form-control", @placeholder = "Cédula", @readonly= "readonly" })
-                                <div id="user-identification-tooltip-button">
-                                    <button onclick="return false" class="btn btn-info pull-left" style="border-radius:0px 10px 10px 0px" aria-label="Help"><span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" title="¡Número de cédula verificado!"></span></button>
+                        <div class="row form-group">
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                <label class="control-label">Cédula</label>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                @{
+                                    var classStr = "";
+
+                                    if (!Model.IsUserIdentificationVerified)
+                                    {
+                                        if (string.IsNullOrEmpty(Model.UserIdentification))
+                                        {
+                                            classStr = "has-error";
+                                        }
+                                        else
+                                        {
+                                            classStr = "has-warning";
+                                        }
+                                    }
+                                }
+                                <div class="input-group btn-block @classStr">
+                                    @{
+                                        if (Model.IsUserIdentificationVerified)
+                                        {
+                                            @Html.TextBoxFor(m => m.UserIdentification, new { @class = "form-control", @placeholder = "Cédula", @readonly = "readonly" })
+                                            <div id="user-identification-tooltip-button">
+                                                <button onclick="return false" class="btn btn-info pull-left" style="border-radius:0px 10px 10px 0px" aria-label="Help"><span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" title="¡Número de cédula verificado!"></span></button>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            if (string.IsNullOrEmpty(Model.UserIdentification))
+                                            {
+                                                @Html.TextBoxFor(m => m.UserIdentification, new { @class = "form-control", @placeholder = "Cédula" })
+                                                <div id="user-identification-tooltip-button" class="form-group">
+                                                    <button onclick="return false" class="btn btn-danger pull-left" style="border-radius:0px 10px 10px 0px" aria-label="Help"><span class="glyphicon glyphicon-alert" data-toggle="tooltip" title="¡El número de cédula debe ser provisto!"></span></button>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                @Html.TextBoxFor(m => m.UserIdentification, new { @class = "form-control", @placeholder = "Cédula" })
+                                                <div id="user-identification-tooltip-button">
+                                                    <button onclick="return false" class="btn btn-warning pull-left" style="border-radius:0px 10px 10px 0px" aria-label="Help"><span class="glyphicon glyphicon-exclamation-sign" data-toggle="tooltip" title="¡El número de cédula se encuentra en período de verificación!"></span></button>
+                                                </div>
+                                            }
+                                        }
+                                    }
                                 </div>
-                            }
-                            else
-                            {
-                                if (string.IsNullOrEmpty(Model.UserIdentification))
-                                {
-                                    @Html.TextBoxFor(m => m.UserIdentification, new { @class = "form-control", @placeholder = "Cédula" })
-                                    <div id="user-identification-tooltip-button" class="form-group">
-                                        <button onclick="return false" class="btn btn-danger pull-left" style="border-radius:0px 10px 10px 0px" aria-label="Help"><span class="glyphicon glyphicon-alert" data-toggle="tooltip" title="¡El número de cédula debe ser provisto!"></span></button>
-                                    </div>
-                                }
-                                else
-                                {
-                                    @Html.TextBoxFor(m => m.UserIdentification, new { @class = "form-control", @placeholder = "Cédula" })
-                                    <div id="user-identification-tooltip-button">
-                                        <button onclick="return false" class="btn btn-warning pull-left" style="border-radius:0px 10px 10px 0px" aria-label="Help"><span class="glyphicon glyphicon-exclamation-sign" data-toggle="tooltip" title="¡El número de cédula se encuentra en período de verificación!"></span></button>
-                                    </div>
-                                }
-                            }
-                        }
+                            </div>
+                            <div class="col-lg-4 col-md-2 col-sm-2 col-xs-0">
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="col-lg-4 col-md-2 col-sm-2 col-xs-0">
-                </div>
-            </div>
+                }
+                else
+                {
+                    <div class="row form-group">
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            <label class="control-label">Cédula</label>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            @{
+                                var classStr = "";
 
+                                if (!Model.IsUserIdentificationVerified)
+                                {
+                                    if (string.IsNullOrEmpty(Model.UserIdentification))
+                                    {
+                                        classStr = "has-error";
+                                    }
+                                    else
+                                    {
+                                        classStr = "has-warning";
+                                    }
+                                }
+                            }
+                            <div class="input-group btn-block @classStr">
+                                @{
+                                    if (Model.IsUserIdentificationVerified)
+                                    {
+                                        @Html.TextBoxFor(m => m.UserIdentification, new { @class = "form-control", @placeholder = "Cédula", @readonly = "readonly" })
+                                        <div id="user-identification-tooltip-button">
+                                            <button onclick="return false" class="btn btn-info pull-left" style="border-radius:0px 10px 10px 0px" aria-label="Help"><span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" title="¡Número de cédula verificado!"></span></button>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        if (string.IsNullOrEmpty(Model.UserIdentification))
+                                        {
+                                            @Html.TextBoxFor(m => m.UserIdentification, new { @class = "form-control", @placeholder = "Cédula" })
+                                            <div id="user-identification-tooltip-button" class="form-group">
+                                                <button onclick="return false" class="btn btn-danger pull-left" style="border-radius:0px 10px 10px 0px" aria-label="Help"><span class="glyphicon glyphicon-alert" data-toggle="tooltip" title="¡El número de cédula debe ser provisto!"></span></button>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            @Html.TextBoxFor(m => m.UserIdentification, new { @class = "form-control", @placeholder = "Cédula" })
+                                            <div id="user-identification-tooltip-button">
+                                                <button onclick="return false" class="btn btn-warning pull-left" style="border-radius:0px 10px 10px 0px" aria-label="Help"><span class="glyphicon glyphicon-exclamation-sign" data-toggle="tooltip" title="¡El número de cédula se encuentra en período de verificación!"></span></button>
+                                            </div>
+                                        }
+                                    }
+                                }
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-2 col-sm-2 col-xs-0">
+                        </div>
+                    </div>
+                }
+            }
             <div class="row form-group">
                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
                 </div>
@@ -201,63 +270,76 @@
                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
                 </div>
             </div>
-            <div class="row form-group">
-                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                    <label class="control-label">Celular</label>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                    @{
-                        classStr = "";
-
-                        if (!Model.IsPhoneVerified)
-                        {
-                            classStr = "has-error";
-                        }
-                    }
-                    <div class="input-group btn-block @classStr">
-                        @Html.TextBoxFor(m => m.Phone1, new { @class = "form-control", @placeholder = "####-####" })
-                        @{
-                            if (!Model.IsPhoneVerified)
-                            {
-                                <div id="information-type-tooltip-button">
-                                    <button onclick="return false" class="btn btn-danger pull-left" style="border-radius:0px 10px 10px 0px" aria-label="Help"><span class="glyphicon glyphicon-alert" data-toggle="tooltip" title="¡El número de celular debe ser verificado!"></span></button>
-                                </div>
-                            }
-                            else
-                            {
-                                <div id="information-type-tooltip-button">
-                                    <button onclick="return false" class="btn btn-info pull-left" style="border-radius:0px 10px 10px 0px" aria-label="Help"><span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" title="¡Número de celular verificado!"></span></button>
-                                </div>
-                            }
-                        }
-                    </div>
-                    @if (!Model.IsPhoneVerified)
+            <div id="mobile-container">
+                @{
+                    if (!Model.IsPhoneVerified)
                     {
-                        <div id="send-verification-code-container">
-                            <br />
-                            <input type="button" id="send-verification-code-btn" class="btn btn-info btn-sm" value="Enviar código de verificación" />
+                        <div class="panel panel-danger" style="padding:10px; border-radius:10px">
+                            <h5 class="text-danger"><b><u>Verifica tu número de celular</u></b></h5>
+                            <h6 style="text-align:justify" class="text-danger">
+                                Da click en el botón "Enviar código de verificación" para enviar un código de 6 dígitos por mensaje de texto a tu número celular provisto. Esto habilitará un campo de texto para ingresar dicho código, ingrésalo
+                                ahí y da click en el botón "Confirmar código de verificación"
+                            </h6>
+
+                            <div class="row form-group">
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                    <label class="control-label">Celular</label>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                    <div class="input-group btn-block has-error">
+                                        @Html.TextBoxFor(m => m.Phone1, new { @class = "form-control", @placeholder = "####-####" })
+                                        <div id="information-type-tooltip-button">
+                                            <button onclick="return false" class="btn btn-danger pull-left" style="border-radius:0px 10px 10px 0px" aria-label="Help"><span class="glyphicon glyphicon-alert" data-toggle="tooltip" title="¡El número de celular debe ser verificado!"></span></button>
+                                        </div>
+                                    </div>
+                                    <div id="send-verification-code-container">
+                                        <br />
+                                        <input type="button" id="send-verification-code-btn" class="btn btn-info btn-sm" value="Enviar código de verificación" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                                </div>
+                            </div>
+                            <div id="verification-code-container" class="row form-group">
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                    <label class="control-label">Ingresa el código de Verificación</label>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                    <div class="input-group btn-block">
+                                        <input type="text" class="form-control" placeholder="######" style="border-radius:10px 10px 10px 10px" id="verificationCode" name="verificationCode" />
+                                        <br /><br /><br />
+                                        <input type="button" id="confirm-verification-code-btn" style="border-radius:10px 0px 0px 10px" class="btn btn-info btn-sm" value="Confirmar código de verificación" />
+                                        <button type="button" class="btn btn-info btn-sm" aria-label="Help" style="border-radius:0px 10px 10px 0px"><span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" title="¡Ingresa el código de verificación enviado a tu celular y da clic en 'Confirmar código de verificación'!"></span></button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     }
-                </div>
-                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-                </div>
-            </div>
-            <div id="verification-code-container" class="row form-group">
-                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                    <label class="control-label">Ingresa el código de Verificación</label>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                    <div class="input-group btn-block">
-                        <input type="text" class="form-control" placeholder="######" style="border-radius:10px 10px 10px 10px" id="verificationCode" name="verificationCode" />
-                        <br /><br /><br />
-                        <input type="button" id="confirm-verification-code-btn" style="border-radius:10px 0px 0px 10px" class="btn btn-info btn-sm" value="Confirmar código de verificación" />
-                        <button type="button" class="btn btn-info btn-sm" aria-label="Help" style="border-radius:0px 10px 10px 0px"><span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" title="¡Ingresa el código de verificación enviado a tu celular y da clic en 'Confirmar código de verificación'!"></span></button>
-                    </div>
-                </div>
+                    else
+                    {
+                        <div class="row form-group">
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                <label class="control-label">Celular</label>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                <div class="input-group btn-block">
+                                    @Html.TextBoxFor(m => m.Phone1, new { @class = "form-control", @placeholder = "####-####" })
+                                    <div id="information-type-tooltip-button">
+                                        <button onclick="return false" class="btn btn-info pull-left" style="border-radius:0px 10px 10px 0px" aria-label="Help"><span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" title="¡Número de celular verificado!"></span></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                            </div>
+                        </div>
+                    }
+                }
             </div>
             <div class="row form-group">
                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
@@ -317,22 +399,22 @@
                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
                 </div>
             </div>
-            @{
-                if (string.IsNullOrEmpty(Model.UserIdentification))
-                {
-                    <div class="row form-group" style="text-align:justify">
-                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+            @*@{
+                    if (string.IsNullOrEmpty(Model.UserIdentification))
+                    {
+                        <div class="row form-group" style="text-align:justify">
+                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
 
-                        </div>
-                        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 text-warning">
-                            <small>*** El número de cédula será revisado y verificado contra la bases de datos del TSE. De no concordar con el nombre provisto o de no existir el número de cédula, ésta será invalidada y deberá ingresarla nuevamente para su validación.</small>
-                        </div>
-                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                            </div>
+                            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 text-warning">
+                                <small>*** El número de cédula será revisado y verificado contra la bases de datos del TSE. De no concordar con el nombre provisto o de no existir el número de cédula, ésta será invalidada y deberá ingresarla nuevamente para su validación.</small>
+                            </div>
+                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
 
+                            </div>
                         </div>
-                    </div>
-                }
-            }
+                    }
+                }*@
             @{
                 if ((Model.UserType == CarpoolingCR.Utils.Enums.UserType.Conductor) || (Model.UserType == CarpoolingCR.Utils.Enums.UserType.Administrador))
                 {
@@ -641,6 +723,26 @@
 
                     $('#send-verification-code-container').slideUp();
                     $('#verification-code-container').slideUp();
+
+                    var mobileHtml = "<div class=\"row form-group\">";
+                    mobileHtml += "<div class=\"col-lg-2 col-md-2 col-sm-2 col-xs-0\">";
+                    mobileHtml += "</div>";
+                    mobileHtml += "<div class=\"col-lg-4 col-md-4 col-sm-4 col-xs-12\">";
+                    mobileHtml += "<label class=\"control-label\">Celular</label>";
+                    mobileHtml += "</div>";
+                    mobileHtml += "<div class=\"col-lg-4 col-md-4 col-sm-4 col-xs-12\">";
+                    mobileHtml += "<div class=\"input-group btn-block\">";
+                    mobileHtml += "<input class=\"form-control\" id=\"UserIdentification\" name=\"UserIdentification\" placeholder=\"Cédula\" type=\"text\" value=\"@Model.UserIdentification\">";
+                    mobileHtml += "<div id=\"information-type-tooltip-button\">";
+                    mobileHtml += "<button onclick=\"return false\" class=\"btn btn-info pull-left\" style=\"border-radius: 0px 10px 10px 0px\" aria-label=\"Help\"><span class=\"glyphicon glyphicon-info-sign\" data-toggle=\"tooltip\" title=\"¡Número de celular verificado!\"></span></button>";
+                    mobileHtml += "</div>";
+                    mobileHtml += "</div>";
+                    mobileHtml += "</div>";
+                    mobileHtml += "<div class=\"col-lg-2 col-md-2 col-sm-2 col-xs-0\">";
+                    mobileHtml += "</div>";
+                    mobileHtml += "</div>";
+
+                    $('#mobile-container').html(mobileHtml);
                     $('#information-type-tooltip-button').html('<button onclick="return false" class="btn btn-info pull-left" style="border-radius:0px 10px 10px 0px" aria-label="Help"><span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" title="¡Número de celular verificado!"></span></button>')
                 } else {
                     //¡Código de verificación incorrecto!

@@ -123,8 +123,8 @@
         return "¡Número celular no verificado!";
     } else if (code === "100061") {
         return "¡Información del vehículo requerida!";
-    } else if (code === "xxxxxxxxx") {
-        return "zzzzzzzzzzzzzzzzzzzzzz";
+    } else if (code === "100062") {
+        return "¡Procesando de envío a todos los usuarios!";
     } else if (code === "xxxxxxxxx") {
         return "zzzzzzzzzzzzzzzzzzzzzz";
     } else if (code === "xxxxxxxxx") {

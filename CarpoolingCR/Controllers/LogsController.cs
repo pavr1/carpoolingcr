@@ -24,7 +24,7 @@ namespace CarpoolingCR.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
-            return View(db.Logs.ToList());
+            return View(db.Logs.OrderByDescending(x => x.Timestamp).ToList());
         }
 
         // GET: Logs/Details/5

@@ -298,7 +298,7 @@ namespace CarpoolingCR.Controllers
         //public string ProfileInfo(string name, string lastName, string secLastName, string phone1, string phone2, string picture)
         public ActionResult ProfileInfo(string id)
         {
-            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg"); ;
+            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg");
 
             var fields = "Fields => ";
 

@@ -99,14 +99,14 @@ namespace CarpoolingCR
 
             //MailMessage mail = new MailMessage();
             //mail.AlternateViews.Add(avHtml);
-           
+
             //mail.From = new MailAddress(providerEmail);
             //mail.To.Add("pavr1@hotmail.com");
             //mail.Subject = "Client: Has Sent You A Screenshot";
             //mail.Body = String.Format("<h3>Client: Has Sent You A Screenshot</h3>" + @"<img src=""cid:{0}"" />", "logo");
 
             //mail.IsBodyHtml = true;
-            
+
             if (picWidth == null)
             {
                 picWidth = 200;
@@ -133,7 +133,7 @@ namespace CarpoolingCR
 
             htmlBody += "<div class=\"row\">";
             htmlBody += "<div class=\"col-lg-10 col-md-9 col-sm-8 col-xs-12\" style=\"text-align:justify\">";
-            htmlBody += "<b>{subject}</b><br><br>";
+            //htmlBody += "<b>{subject}</b><br><br>";
             htmlBody += "{Description}";
             htmlBody += "</div>";
 
@@ -215,6 +215,97 @@ namespace CarpoolingCR
             return Task.FromResult(0);
         }
 
+        public Task SendInformativePictureAsync(string email, string subject, string description, string contentId, Stream picture, string contentType, int? picWidth, int? picHeight, string providerEmail, string providerPwd)
+        {
+            if (picWidth == null)
+            {
+                picWidth = 200;
+            }
+            if (picHeight == null)
+            {
+                picHeight = 200;
+            }
+
+            var htmlBody = "<!DOCTYPE html>";
+            htmlBody += "<html>";
+            htmlBody += "<head>";
+            htmlBody += "<meta charset=\"utf -8\" />";
+            htmlBody += "<title></title>";
+            htmlBody += "</head>";
+            htmlBody += "<body>";
+            htmlBody += "<div class=\"jumbotron\">";
+            htmlBody += "<div class=\"row visible-xs\">";
+            htmlBody += "<div class=\"col -xs-12\">";
+            htmlBody += "<img src=\"cid:logo\" class=\"center-block\" />";
+            htmlBody += "<br><br>";
+            htmlBody += "</div>";
+            htmlBody += "</div>";
+
+            htmlBody += "<div class=\"row\">";
+            htmlBody += "<div class=\"col-lg-10 col-md-9 col-sm-8 col-xs-12\" style=\"text-align:justify\">";
+            htmlBody += "<b>{subject}</b><br><br>";
+            htmlBody += "</div>";
+            htmlBody += "</div>";
+
+            htmlBody += "<div class=\"row\">";
+            htmlBody += "<div class=\"col-lg-12 col-md-12 col-sm-12 col-xs-12\" style=\"text-align:justify\">";
+            htmlBody += "¡Hagamos Ride!<br />";
+
+            htmlBody += "<a href='www.buscoridecr.com'>www.buscoridecr.com</a>";
+            htmlBody += "</div>";
+            htmlBody += "</div>";
+            htmlBody += "</div>";
+            htmlBody += "</body>";
+            htmlBody += "</html>";
+
+            //get this from /Templates/EmailBody.html
+            htmlBody = htmlBody.Replace("{subject}", subject);
+            htmlBody = htmlBody.Replace("{Description}", description);
+            htmlBody = htmlBody.Replace("{contentId}", contentId);
+
+            AlternateView avHtml = AlternateView.CreateAlternateViewFromString(htmlBody, null, MediaTypeNames.Text.Html);
+
+            LinkedResource inline = new LinkedResource(picture, MediaTypeNames.Image.Jpeg);
+            inline.ContentId = "logo";
+            inline.ContentType = new ContentType("image/jpeg");
+            avHtml.LinkedResources.Add(inline);
+
+            MailMessage mail = new MailMessage();
+            mail.AlternateViews.Add(avHtml);
+            mail.IsBodyHtml = true;
+            mail.From = new MailAddress(providerEmail);
+            mail.To.Add(email);
+            mail.Bcc.Add(WebConfigurationManager.AppSettings["AdminEmails"]);
+            mail.Subject = subject;
+
+            var client = new SmtpClient(WebConfigurationManager.AppSettings["mailhost"], Convert.ToInt32(WebConfigurationManager.AppSettings["mailport"]))
+            {
+                Credentials = new NetworkCredential(providerEmail, providerPwd),
+                EnableSsl = false
+            };
+
+            try
+            {
+                client.Send(mail);
+            }
+            catch (Exception ex)
+            {
+                //this will cycle error sending message
+                //Common.LogData(new Log
+                //{
+                //    Line = Common.GetCurrentLine(),
+                //    Location = Enums.LogLocation.Server,
+                //    LogType = Enums.LogType.Error,
+                //    Message = ex.Message + " / " + ex.StackTrace,
+                //    Method = Common.GetCurrentMethod(),
+                //    Timestamp = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
+                //    UserEmail = email
+                //}, logo);
+            }
+
+            return Task.FromResult(0);
+        }
+
         public Task SendAsync(IdentityMessage message)
         {
             throw new NotImplementedException();
@@ -235,14 +326,14 @@ namespace CarpoolingCR
             WebResponse response = request.GetResponse();
             Stream dataStream = response.GetResponseStream();
             StreamReader reader = new StreamReader(dataStream);
-             var result = reader.ReadToEnd();
+            var result = reader.ReadToEnd();
 
             Common.LogData(new Log
             {
                 Line = Common.GetCurrentLine(),
                 Location = Enums.LogLocation.Server,
                 LogType = Enums.LogType.SMS,
-                Message = "Código de verificación " + message.Destination  + " SMS enviado a " + user.FullName + ". Resultado: " + result,
+                Message = "Código de verificación " + message.Destination + " SMS enviado a " + user.FullName + ". Resultado: " + result,
                 Method = Common.GetCurrentMethod(),
                 Timestamp = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
                 UserEmail = user.Name

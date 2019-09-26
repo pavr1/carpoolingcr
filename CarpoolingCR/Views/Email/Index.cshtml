@@ -1,0 +1,65 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<br />
+<hr />
+<form action="~/Email/SendEmailToAll" method="post" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+            Envío de correo automático a todos los usuarios
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+            <label id="SelectedPicture" name="SelectedPicture" class="hidden"></label>
+            @*<div id="profile-container" style="width:300px; height:300px" class="center-block" data-toggle="tooltip" title="¡Sube la imágen para enviar a los usuarios!">
+
+                </div>*@
+            <img id="emailImage" style="width:100%; height:200px" src="" />
+            <input id="imageUpload" type="file" name="profile_photo" placeholder="Photo" accept="image/*">
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+            <input type="submit" value="Enviar" class="btn btn-info btn-sm" style="width:150px" />
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+
+        </div>
+    </div>
+</form>
+
+<script>
+    $("#emailImage").click(function (e) {
+        $("#imageUpload").click();
+    });
+
+    function fasterPreview(uploader) {
+        if (uploader.files && uploader.files[0]) {
+            $('#emailImage').attr('src', window.URL.createObjectURL(uploader.files[0]));
+
+            $('#SelectedPicture').val(uploader.files[0]);
+        }
+    }
+
+    $("#imageUpload").change(function () {
+        fasterPreview(this);
+    });
+</script>

@@ -18,10 +18,13 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
-    <IISExpressSSLPort>443</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
+    <IISExpressSSLPort>44346</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication>
+    </IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>
+    </IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>
+    </IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -221,6 +224,7 @@
     <Compile Include="Controllers\ChattingMessagesController.cs" />
     <Compile Include="Controllers\CountiesController.cs" />
     <Compile Include="Controllers\DistrictsController.cs" />
+    <Compile Include="Controllers\EmailController.cs" />
     <Compile Include="Controllers\MonthlyBalancesController.cs" />
     <Compile Include="Controllers\MonthlyTransactionsController.cs" />
     <Compile Include="Controllers\NotificationRequestsController.cs" />
@@ -861,6 +865,8 @@
     <Content Include="Views\UserRols\PhoneNumberNotVerified.cshtml" />
     <Content Include="Views\Account\GetPendingUserIdentifications.cshtml" />
     <Content Include="Views\Account\Partials\p_PendingUserIdentifications.cshtml" />
+    <Content Include="Views\Reservations\CarSeats\CarSeats.cshtml" />
+    <Content Include="Views\Email\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -868,6 +874,7 @@
     <Folder Include="Content\jquery-weekcalendar-1.2.2\full_demo\images\.svn\tmp\prop-base\" />
     <Folder Include="Content\jquery-weekcalendar-1.2.2\full_demo\images\.svn\tmp\props\" />
     <Folder Include="Content\jquery-weekcalendar-1.2.2\full_demo\images\.svn\tmp\text-base\" />
+    <Folder Include="Content\Pictures\GroupEmails\" />
     <Folder Include="Content\Pictures\Users\" />
     <Folder Include="Views\Manage\Partials\" />
     <Folder Include="Views\Offline\" />

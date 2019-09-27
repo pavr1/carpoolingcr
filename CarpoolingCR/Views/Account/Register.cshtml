@@ -61,19 +61,19 @@
             }
         </div>
     </div>
-    <div class="form-group">
+    <div class="row form-group">
         <label class="col-md-2 control-label">Tipo de Usuario</label>
         <div id="radioset" role="toolbar" class="ui-controlgroup ui-controlgroup-horizontal ui-helper-clearfix col-md-10">
             <div class="input-group" onclick="CheckChange(false)">
                 <span class="input-group-addon" style="border-radius: 10px 0px 0px 10px">
-                    <input type="radio" id="rbPassenger" onclick="return false" name="userTypeGroup" aria-label="..." checked>
+                    <input type="radio" id="rbPassenger" onclick="CheckChange(false);" name="userTypeGroup" aria-label="..." checked>
                 </span>
                 <label class="form-control" aria-label="..." style="width:240px; border-radius: 0px 10px 10px 0px"><span class="glyphicon glyphicon-user"></span> Pasajero</label>
             </div>
             <br />
             <div class="input-group" onclick="CheckChange(true)">
                 <span class="input-group-addon" style="border-radius: 10px 0px 0px 10px">
-                    <input type="radio" id="rbDriver" onclick="return false" name="userTypeGroup" aria-label="...">
+                    <input type="radio" id="rbDriver" onclick="CheckChange(true);" name="userTypeGroup" aria-label="...">
                 </span>
                 <label class="form-control" aria-label="..." style="width:240px;border-radius: 0px 10px 10px 0px"><span class="glyphicon glyphicon-road"></span> Conductor</label>
             </div>

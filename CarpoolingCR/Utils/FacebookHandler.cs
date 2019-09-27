@@ -40,7 +40,6 @@ namespace CarpoolingCR.Utils
                 var msg = result.EnsureSuccessStatusCode();
                 return await msg.Content.ReadAsStringAsync();
             }
-
         }
     }
 }

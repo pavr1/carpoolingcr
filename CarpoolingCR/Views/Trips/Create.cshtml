@@ -1,9 +1,9 @@
 ﻿@model CarpoolingCR.Objects.Responses.TripCreateResponse
 
 @{
-                /**/
+    /**/
 
-                ViewBag.Title = "Create";
+    ViewBag.Title = "Create";
 }
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -39,10 +39,9 @@
 
         </div>
     </div>
-
     <div id="main-content" class="form-horizontal hidden">
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="row form-group">
+        <div class="row">
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                 <div class="row form-group">
                     <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
@@ -70,84 +69,180 @@
                 </div>
             </div>
         </div>
+        <div class="row form-group" style="padding:20px">
+            <div class="row form-group panel panel-default" style="padding:20px; border-radius:10px">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <div id="radioset" role="toolbar" class="ui-controlgroup ui-controlgroup-horizontal ui-helper-clearfix">
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                        <div class="input-group" onclick="ChangeTripRound(false)">
+                                            <span class="input-group-addon" style="border-radius: 10px 0px 0px 10px">
+                                                <input type="radio" id="rbOneWay" onclick="ChangeTripRound(false)" name="rbOneWay" aria-label="..." checked>
+                                            </span>
+                                            <small class="form-control" style="width:160px; border-radius: 0px 10px 10px 0px"><span class="glyphicon glyphicon-arrow-up"></span> Sólo Ida</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                        <div class="input-group" onclick="ChangeTripRound(true)">
+                                            <span class="input-group-addon" style="border-radius: 10px 0px 0px 10px">
+                                                <input type="radio" id="rbRound" onclick="ChangeTripRound(true)" name="rbRound" aria-label="...">
+                                            </span>
+                                            <small class="form-control" style="width:160px;border-radius: 0px 10px 10px 0px"><span class="glyphicon glyphicon-arrow-up"></span><span class="glyphicon glyphicon-arrow-down"></span> Ida y Vuelta</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 pull-right">
 
-        <div class="row form-group">
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                <div class="row form-group">
-                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                        <label class="control-label" style="text-align:left">Ruta</label>
+                        </div>
                     </div>
-                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-13">
-                        <select id="Route" name="Route" class="form-control waypoints">
-                            @Html.Raw(Model.DistrictControlOptions)
-                        </select>
-                        <div class="spinner-border m-5" role="status">
-                            <span class="sr-only">Loading...</span>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <hr />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <div class="row form-group">
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                </div>
+                                <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+                                    <label class="control-label" style="text-align:left">Ida</label>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    <label class="control-label" style="text-align:left">Ruta</label>
+                                </div>
+                                <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+                                    <select id="Route" name="Route" class="form-control waypoints">
+                                        @Html.Raw(Model.DistrictControlOptions)
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    <label class="control-label" style="text-align:left">Fecha</label>
+                                </div>
+                                <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+                                    <input id="DateTimeDisplay" name="DateTimeDisplay" autocomplete="off" class="form-control" type="text" onfocus="blur();">
+                                    <input type="text" id="DateTime" name="DateTime" class="hidden" />
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-lg-2 col-md-2 col-sm-2">
+                                </div>
+
+                                <div class="col-lg-2 col-md-5 col-sm-5 col-xs-6">
+                                    @*<label class="control-label" style="text-align:left">Espacios</label>*@
+                                </div>
+                                <div class="col-lg-2 col-md-5 col-sm-5 col-xs-6">
+
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-lg-2 col-md-2 col-sm-2">
+                                    <label class="control-label" style="text-align:left">Campos</label>
+                                </div>
+                                <div class="col-lg-2 col-md-5 col-sm-5 col-xs-6">
+                                    @*<input id="TotalSpaces" class="hidden" style="width:40px;" name="TotalSpaces" disabled onfocus="blur();">*@
+                                    <input id="AvailableSpaces" class="hidden" style="width:40px;" name="AvailableSpaces" onfocus="blur();">
+                                </div>
+                                <div class="col-lg-2 col-md-5 col-sm-5 col-xs-6">
+
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    <label class="control-label" style="text-align:left">Cuota</label>
+                                </div>
+                                <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+                                    @Html.EditorFor(model => model.Trip.Price, new { htmlAttributes = new { @class = "form-control" } })
+                                </div>
+                            </div>
+                            <div class="form-group hidden">
+                                @Html.LabelFor(model => model.Trip.Status, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EnumDropDownListFor(model => model.Trip.Status, htmlAttributes: new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    <label class="control-label" style="text-align:left">Encuentro</label>
+                                </div>
+                                <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12 pull-left">
+                                    @Html.EditorFor(model => model.Trip.Details, new { htmlAttributes = new { @class = "form-control w-100" } })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pull-left">
+                                    <div id="map" style="height:90px;border-radius:10px"></div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div id="aprox-time-div" class="text-info pull-left">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="to-route-container">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <hr />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                <div class="row form-group">
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    </div>
+                                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+                                        <label class="control-label" style="text-align:left">Vuelta</label>
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                        <label class="control-label" style="text-align:left">Ruta</label>
+                                    </div>
+                                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+                                        <select id="Route-To" name="Route-To" class="form-control waypoints">
+                                            @Html.Raw(Model.DistrictControlOptions)
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                        <label class="control-label" style="text-align:left">Fecha</label>
+                                    </div>
+                                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+                                        <input id="DateTimeDisplay-To" name="DateTimeDisplay-To" autocomplete="off" class="form-control" type="text" onfocus="blur();">
+                                        <input type="text" id="DateTime-To" name="DateTime-To" class="hidden" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pull-left">
+                                        <div id="map-to" style="height:90px;border-radius:10px"></div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div id="aprox-time-div-to" class="text-info pull-left">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="row form-group">
-                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                        <label class="control-label" style="text-align:left">Fecha</label>
-                    </div>
-                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
-                        <input id="DateTimeDisplay" name="DateTimeDisplay" autocomplete="off" class="form-control" type="text" onfocus="blur();">
-                        <input type="text" id="DateTime" name="DateTime" class="hidden" />
-                    </div>
-                </div>
-
-                <div class="row form-group">
-                    <div class="col-lg-2 col-md-2 col-sm-2">
-                    </div>
-
-                    <div class="col-lg-2 col-md-5 col-sm-5 col-xs-6">
-                        <label class="control-label" style="text-align:left">Espacios</label>
-                    </div>
-                    <div class="col-lg-2 col-md-5 col-sm-5 col-xs-6">
-                        <label class="control-label" style="text-align:left">Disponibles</label>
-                    </div>
-                </div>
-                <div class="row form-group">
-                    <div class="col-lg-2 col-md-2 col-sm-2">
-                    </div>
-
-                    <div class="col-lg-2 col-md-5 col-sm-5 col-xs-6">
-                        <input id="TotalSpaces" class="hidden" style="width:40px;" name="TotalSpaces" disabled onfocus="blur();">
-                    </div>
-                    <div class="col-lg-2 col-md-5 col-sm-5 col-xs-6">
-                        <input id="AvailableSpaces" class="hidden" style="width:40px;" name="AvailableSpaces" onfocus="blur();">
-                    </div>
-                </div>
-                <div class="row form-group">
-                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                        <label class="control-label" style="text-align:left">Cuota</label>
-                    </div>
-                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
-                        @Html.EditorFor(model => model.Trip.Price, new { htmlAttributes = new { @class = "form-control" } })
-                    </div>
-                </div>
-
-                <div class="row form-group">
-                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                        <label class="control-label" style="text-align:left">Encuentro</label>
-                    </div>
-                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
-                        @Html.EditorFor(model => model.Trip.Details, new { htmlAttributes = new { @class = "form-control" } })
-                    </div>
-                </div>
-
-                <div class="form-group hidden">
-                    @Html.LabelFor(model => model.Trip.Status, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EnumDropDownListFor(model => model.Trip.Status, htmlAttributes: new { @class = "form-control" })
-                    </div>
-                </div>
-
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style="text-align:center;vertical-align:middle;height:250px">
-                <div id="aprox-time-div">
-                </div>
-                <div id="map" style="height:100px;border-radius:10px"></div>
             </div>
         </div>
 
@@ -156,7 +251,7 @@
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 @*@Html.ActionLink("<<", "Index", new { }, new { @class = "btn btn-primary" })*@
-                <input type="submit" id="btn-create-trip" onclick="return SetDateTimeFormats()" class="btn btn-info btn-sm btn-block pull-right" data-loading-text="<i class='fa fa-circle-o-notch fa-spin pull-right'></i> Crear" style="width:150px; border-radius:25px" value="Crear" />
+                <button id="btn-create-trip" onclick="return SetDateTimeFormats()" class="btn btn-info btn-sm btn-block pull-right" data-loading-text="<i class='fa fa-circle-o-notch fa-spin pull-right'></i> Crear Viaje" style="width:150px; border-radius:25px">Crear Viaje</button>
             </div>
         </div>
     </div>
@@ -168,11 +263,15 @@
 <script>
     $('#main-content').slideUp(1);
     $('#loading-content').slideDown(1);
+    $('#to-route-container').slideUp(1);
+    $('#aprox-time-div').slideUp(1);
+    $('#aprox-time-div-to').slideUp(1);
 
     $(document).ready(function () {
         //$('#spinning-gif').addClass("hidden");
         $('#main-content').removeClass('hidden');
         $('#map').css('height', '300px');
+        $('#map-to').css('height', '300px');
         $('#main-content').slideDown();
         $('#loading-content').slideUp();
         $('#TotalSpaces').removeClass('hidden');
@@ -218,18 +317,29 @@
                 //$('#toDistrictId').val(li.val())
             );
         });
+    $('#Route-To')
+        .editableSelect()
+        .on('select.editable-select', function (e, li) {
+            $('#last-selected').html(
+                //$('#toDistrictId').val(li.val())
+            );
+        });
 
     $('.waypoints').focusout(function(){
         var from = $('#FromTown').val();
         var to = $('#ToTown').val();
         var route = $('#Route').val();
+        var routeto = $('#Route-To').val();
 
         if (from != '' && to != '' && route != '') {
-
             console.log('Calculating Route... From: ' + from + ', To: ' + to + ', Route: ' + route);
-            calculateAndDisplayRoute(from, to, route);
-        }else{
-            console.log('Did not calculate route, missing data. From: ' + from + ', To: ' + to + ', Route: ' + route)
+            calculateAndDisplayRoute(from, to, route, directionsService, directionsDisplay, 'aprox-time-div');
+        }
+
+        if (from != '' && to != '' && routeto != '') {
+            //calculating the way back
+            console.log('Calculating Route Back... From: ' + to + ', To: ' + from + ', Route: ' + routeto);
+            calculateAndDisplayRoute(to, from, routeto, directionsServiceTo, directionsDisplayTo, 'aprox-time-div-to');
         }
     });
 
@@ -238,6 +348,22 @@
     $('#fade').editableSelect({ effects: 'fade' });
 
     $('#DateTimeDisplay').datetimepicker({
+        mask: false,
+        format: 'd/m/Y g:i a',
+        formatTime: 'g:i a',
+        monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+        monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+        dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+        dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'],
+        minDate: Date.now(),
+        maxDate: addDays(Date.now(), 31),
+        step: 15,
+        onChangeDateTime: function (current_time, $input) {
+            $('#TotalSpaces').focus();
+        }
+    });
+
+    $('#DateTimeDisplay-To').datetimepicker({
         mask: false,
         format: 'd/m/Y g:i a',
         formatTime: 'g:i a',
@@ -265,8 +391,23 @@
 
     function SetDateTimeFormats() {
         var formattedValue = document.getElementById('DateTimeDisplay').value;
+        var formattedValueTo = document.getElementById('DateTimeDisplay-To').value;
 
         $('#DateTime').val(formattedValue);
+        $('#DateTime-To').val(formattedValueTo);
+
+        $('#createtripform').submit();
+    }
+
+    function ChangeTripRound(isRoundTrip) {
+        if (isRoundTrip) {
+            $('#to-route-container').slideDown();
+            //$('#rbOneWay').prop('checked', false);
+            $('#rbRound').prop('checked', true);
+        } else {
+            $('#to-route-container').slideUp();
+            $('#rbOneWay').prop('checked', true);
+        }
     }
 
     //function LoadRouteOptions() {
@@ -323,13 +464,15 @@
 
         return true;
     });
-</script>
 
-<script>
     var directionsDisplay;
     var directionsService;
 
+    var directionsDisplayTo;
+    var directionsServiceTo;
+
     var map;
+    var mapto;
 
     //function initMap() {
     //    map = new google.maps.Map(document.getElementById('map'), {
@@ -341,12 +484,22 @@
         var infoWindow = new google.maps.InfoWindow;
         directionsService = new google.maps.DirectionsService;
         directionsDisplay = new google.maps.DirectionsRenderer;
+
+        directionsServiceTo = new google.maps.DirectionsService;
+        directionsDisplayTo = new google.maps.DirectionsRenderer;
         map = new google.maps.Map(document.getElementById('map'), {
             zoom: 10,
             center: { lat: 41.85, lng: -87.65 },
             disableDefaultUI: true
         });
+        mapto = new google.maps.Map(document.getElementById('map-to'), {
+            zoom: 10,
+            center: { lat: 41.85, lng: -87.65 },
+            disableDefaultUI: true
+        });
+
         directionsDisplay.setMap(map);
+        directionsDisplayTo.setMap(mapto);
 
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function (position) {
@@ -359,6 +512,7 @@
                 infoWindow.setContent('¡Estás Aquí!');
                 infoWindow.open(map);*/
                 map.setCenter(pos);
+                mapto.setCenter(pos);
             }, function () {
                 handleLocationError(true, infoWindow, map.getCenter());
             });
@@ -368,7 +522,7 @@
         }
     }
 
-    function calculateAndDisplayRoute(from, to, route) {
+    function calculateAndDisplayRoute(from, to, route, directionsService, directionsDisplay, displayControl) {
         var waypts = [];
 
         var countryName = '@Model.CountryName'
@@ -379,28 +533,28 @@
         route = countryName + ', ' + route;
 
         waypts.push({
-            location: route, //document.getElementById('Route').value,
+            location: route,
             stopover: true
         });
 
         directionsService.route({
-            origin: from,//document.getElementById('FromTown').value,
-            destination: to,//document.getElementById('ToTown').value,
+            origin: from,
+            destination: to,
             waypoints: waypts,
             optimizeWaypoints: true,
             travelMode: 'DRIVING'
         }, function (response, status) {
             if (status === 'OK') {
                 directionsDisplay.setDirections(response);
-                computeTotalDistance(directionsDisplay.directions);
+                computeTotalDistance(directionsDisplay.directions, displayControl);
                 console.log(response)
             } else {
-                window.alert('Directions request failed due to ' + status);
+                console.log('Directions request failed due to ' + status);
             }
         });
     }
 
-    function computeTotalDistance(result) {
+    function computeTotalDistance(result, displayControl) {
         var total = 0;
         var time = 0;
         var from = 0;
@@ -415,9 +569,11 @@
         }
 
         time = time / 60 / 60;
+        total = total / 1000;
 
-        var html = `<small><b>Tiempo Aproximado: </b>` + convertToHHMM(time) + `</small>`
-        $('#aprox-time-div').html(html);
+        var html = `<small><b>Distancia Aproximada: </b>` + Math.round(total) + ` kms.</small>` + `<small><b> Tiempo Aproximado: </b>` + convertToHHMM(time) + `</small>`
+        $('#' + displayControl).html(html);
+        $('#' + displayControl).slideDown();
     }
 
     function convertToHHMM(info) {

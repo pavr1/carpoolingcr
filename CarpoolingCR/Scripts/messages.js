@@ -125,8 +125,8 @@
         return "¡Información del vehículo requerida!";
     } else if (code === "100062") {
         return "¡Procesando de envío a todos los usuarios!";
-    } else if (code === "xxxxxxxxx") {
-        return "zzzzzzzzzzzzzzzzzzzzzz";
+    } else if (code === "100063") {
+        return "¡Ruta no válida!";
     } else if (code === "xxxxxxxxx") {
         return "zzzzzzzzzzzzzzzzzzzzzz";
     } else if (code === "xxxxxxxxx") {

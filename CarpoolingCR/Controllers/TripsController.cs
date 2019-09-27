@@ -398,8 +398,11 @@ namespace CarpoolingCR.Controllers
                 fields += "FromTown: " + Request["FromTown"];
                 fields += "ToTown: " + Request["ToTown"] + ", ";
                 fields += "Route: " + Request["Route"] + ", ";
+                fields += "One Way: " + Request["rbOneWay"];
+                fields += "Route Back: " + Request["Route-To"];
                 fields += "AvailableSpaces: " + Request["AvailableSpaces"];
                 fields += "DateTime: " + Request["DateTime"];
+                fields += "DateTime Back: " + Request["DateTime-To"] + ", ";
                 fields += "Trip.Details: " + Request["Trip.Details"];
                 fields += "Trip.Price: " + Request["Trip.Price"];
                 fields += "TotalSpaces: " + Request["TotalSpaces"];
@@ -412,6 +415,7 @@ namespace CarpoolingCR.Controllers
                     var routeDistrict = new District();
 
                     var tripDate = DateTime.SpecifyKind(Convert.ToDateTime(Request["DateTime"]), DateTimeKind.Local);
+                    
                     fromDistrict = Common.ValidateDistrictString(Request["FromTown"]);
 
                     if (fromDistrict == null)
@@ -439,7 +443,7 @@ namespace CarpoolingCR.Controllers
 
                         var response = new TripCreateResponse
                         {
-                            DistrictControlOptions = districtsSelectHtml.Replace("[control-id]", "FromTown"),
+                            DistrictControlOptions = districtsSelectHtml.Replace("[control-id]", "ToTown"),
                             Trip = trip,
                             Vehicle = user.Vehicle,
                             CountryName = user.Country.Name
@@ -457,7 +461,7 @@ namespace CarpoolingCR.Controllers
 
                         var response = new TripCreateResponse
                         {
-                            DistrictControlOptions = districtsSelectHtml.Replace("[control-id]", "FromTown"),
+                            DistrictControlOptions = districtsSelectHtml.Replace("[control-id]", "Route"),
                             Trip = trip,
                             Vehicle = user.Vehicle,
                             CountryName = user.Country.Name
@@ -505,6 +509,68 @@ namespace CarpoolingCR.Controllers
 
                     var sendNotificationRequests = new Thread(() => ProcessNotificationRequests(callbackUrl));
                     sendNotificationRequests.Start();
+
+                    if (Request["rbOneWay"] == "on")
+                    {
+                        var routeBack = Common.ValidateDistrictString(Request["Route-To"]);
+
+                        if (routeBack == null)
+                        {
+                            //¡Ruta no válida!
+                            ViewBag.Warning = "100063";
+
+                            var response = new TripCreateResponse
+                            {
+                                DistrictControlOptions = districtsSelectHtml.Replace("[control-id]", "Route-To"),
+                                Trip = trip,
+                                Vehicle = user.Vehicle,
+                                CountryName = user.Country.Name
+                            };
+
+                            return View(response);
+                        }
+
+                        int routeBackId = routeBack.DistrictId;
+                        var tripDateTo = DateTime.SpecifyKind(Convert.ToDateTime(Request["DateTime-To"]), DateTimeKind.Local);
+
+                        trip = new Trip
+                        {
+                            ApplicationUserId = user.Id,
+                            AvailableSpaces = Convert.ToInt32(Request["AvailableSpaces"]),
+                            CreatedTime = TimeZoneInfo.ConvertTimeToUtc(DateTime.Now, TimeZoneInfo.Local),
+                            DateTime = TimeZoneInfo.ConvertTimeToUtc(tripDateTo, TimeZoneInfo.Local),
+                            Details = Request["Trip.Details"],
+                            FromTownId = toDistrict.DistrictId,
+                            Price = Convert.ToDecimal(Request["Trip.Price"]),
+                            Status = Enums.Status.Activo,
+                            TotalSpaces = Convert.ToInt32(Request["TotalSpaces"]),
+                            ToTownId = fromDistrict.DistrictId,
+                            RouteId = routeBackId
+                        };
+
+                        db.Trips.Add(trip);
+                        db.SaveChanges();
+
+                        trip.FromTown = toDistrict;
+                        trip.ToTown = fromDistrict;
+                        trip.Route = routeBack;
+
+                        callbackUrl = Url.Action("Transportation", "Reservations", new { from = trip.FromTown.FullName, to = trip.ToTown.FullName }, protocol: Request.Url.Scheme);
+
+                        send = Convert.ToBoolean(WebConfigurationManager.AppSettings["SendNotificationsToAdmin"]);
+
+                        if (send)
+                        {
+                            FacebookHandler.PublishFacebookPost(trip.FromTown.FullName, trip.ToTown.FullName, trip.Route.Name, trip.DateTime, user.Country.CurrencyChar, trip.Price, trip.AvailableSpaces, callbackUrl);
+                        }
+
+                        new SignalHandler().SendMessage(Enums.EventTriggered.TripCreated.ToString(), "");
+
+                        callbackUrl = Url.Action("DayTrips", "Trips", new { date = "[date]", from = "[from]", to = "[to]" }, protocol: Request.Url.Scheme);
+
+                        sendNotificationRequests = new Thread(() => ProcessNotificationRequests(callbackUrl));
+                        sendNotificationRequests.Start();
+                    }
 
                     //¡Viaje Creado!
                     return RedirectToAction("Index", new { message = "10007", type = "info" });

@@ -398,14 +398,16 @@ namespace CarpoolingCR.Controllers
                 fields += "FromTown: " + Request["FromTown"];
                 fields += "ToTown: " + Request["ToTown"] + ", ";
                 fields += "Route: " + Request["Route"] + ", ";
-                fields += "One Way: " + Request["rbOneWay"];
-                fields += "Route Back: " + Request["Route-To"];
-                fields += "AvailableSpaces: " + Request["AvailableSpaces"];
-                fields += "DateTime: " + Request["DateTime"];
+                fields += "One Way: " + Request["rbOneWay"] + ", ";
+                fields += "AvailableSpaces: " + Request["AvailableSpaces"] + ", ";
+                fields += "Trip.Details: " + Request["Trip.Details"] + ", ";
+                fields += "DateTime: " + Request["DateTime"] + ", ";
+
+                fields += "Route Back: " + Request["Route-To"] + ", ";
+                fields += "AvailableSpaces-To: " + Request["AvailableSpaces-To"] + ", ";
+                fields += "Trip.Details Back: " + Request["Trip.Details.To"] + ", ";
                 fields += "DateTime Back: " + Request["DateTime-To"] + ", ";
-                fields += "Trip.Details: " + Request["Trip.Details"];
-                fields += "Trip.Price: " + Request["Trip.Price"];
-                fields += "TotalSpaces: " + Request["TotalSpaces"];
+                fields += "Trip.Price: " + Request["Trip.Price"] + ", ";
                 #endregion
 
                 if (ModelState.IsValid)
@@ -415,7 +417,60 @@ namespace CarpoolingCR.Controllers
                     var routeDistrict = new District();
 
                     var tripDate = DateTime.SpecifyKind(Convert.ToDateTime(Request["DateTime"]), DateTimeKind.Local);
-                    
+
+                    //if (tripDate < DateTime.Now)
+                    //{
+                    //    //¡Fecha de ida expirada!
+                    //    ViewBag.Warning = "100064";
+
+                    //    var response = new TripCreateResponse
+                    //    {
+                    //        DistrictControlOptions = districtsSelectHtml.Replace("[control-id]", "FromTown"),
+                    //        Trip = trip,
+                    //        Vehicle = user.Vehicle,
+                    //        CountryName = user.Country.Name
+                    //    };
+
+                    //    return View(response);
+                    //}
+
+                    //if (Request["rbOneWay"] == "on")
+                    //{
+                    //    var tripDateTo = DateTime.SpecifyKind(Convert.ToDateTime(Request["DateTime-To"]), DateTimeKind.Local);
+
+                    //    if (tripDateTo < DateTime.Now)
+                    //    {
+                    //        //¡Fecha de vuelta expirada!
+                    //        ViewBag.Warning = "100065";
+
+                    //        var response = new TripCreateResponse
+                    //        {
+                    //            DistrictControlOptions = districtsSelectHtml.Replace("[control-id]", "FromTown"),
+                    //            Trip = trip,
+                    //            Vehicle = user.Vehicle,
+                    //            CountryName = user.Country.Name
+                    //        };
+
+                    //        return View(response);
+                    //    }
+
+                    //    if (tripDateTo < tripDate)
+                    //    {
+                    //        //¡Fecha de vuelta no puede ser antes que la fecha de ida!
+                    //        ViewBag.Warning = "100066";
+
+                    //        var response = new TripCreateResponse
+                    //        {
+                    //            DistrictControlOptions = districtsSelectHtml.Replace("[control-id]", "FromTown"),
+                    //            Trip = trip,
+                    //            Vehicle = user.Vehicle,
+                    //            CountryName = user.Country.Name
+                    //        };
+
+                    //        return View(response);
+                    //    }
+                    //}
+
                     fromDistrict = Common.ValidateDistrictString(Request["FromTown"]);
 
                     if (fromDistrict == null)
@@ -487,14 +542,14 @@ namespace CarpoolingCR.Controllers
                         RouteId = routeId
                     };
 
-                    db.Trips.Add(trip);
+                    db.Entry(trip).State = EntityState.Added;
                     db.SaveChanges();
 
                     trip.FromTown = fromDistrict;
                     trip.ToTown = toDistrict;
                     trip.Route = routeDistrict;
 
-                    var callbackUrl = Url.Action("Transportation", "Reservations", new { from = trip.FromTown.FullName, to = trip.ToTown.FullName }, protocol: Request.Url.Scheme);
+                    var callbackUrl = Url.Action("CreateReservation", "Reservations", new { from = trip.FromTown.FullName, to = trip.ToTown.FullName }, protocol: Request.Url.Scheme);
 
                     var send = Convert.ToBoolean(WebConfigurationManager.AppSettings["SendNotificationsToAdmin"]);
 
@@ -510,7 +565,7 @@ namespace CarpoolingCR.Controllers
                     var sendNotificationRequests = new Thread(() => ProcessNotificationRequests(callbackUrl));
                     sendNotificationRequests.Start();
 
-                    if (Request["rbOneWay"] == "on")
+                    if (Request["rbRound"] == "on")
                     {
                         var routeBack = Common.ValidateDistrictString(Request["Route-To"]);
 
@@ -533,13 +588,13 @@ namespace CarpoolingCR.Controllers
                         int routeBackId = routeBack.DistrictId;
                         var tripDateTo = DateTime.SpecifyKind(Convert.ToDateTime(Request["DateTime-To"]), DateTimeKind.Local);
 
-                        trip = new Trip
+                        var tripBack = new Trip
                         {
                             ApplicationUserId = user.Id,
-                            AvailableSpaces = Convert.ToInt32(Request["AvailableSpaces"]),
+                            AvailableSpaces = Convert.ToInt32(Request["AvailableSpaces-To"]),
                             CreatedTime = TimeZoneInfo.ConvertTimeToUtc(DateTime.Now, TimeZoneInfo.Local),
                             DateTime = TimeZoneInfo.ConvertTimeToUtc(tripDateTo, TimeZoneInfo.Local),
-                            Details = Request["Trip.Details"],
+                            Details = Request["Trip.Details.To"],
                             FromTownId = toDistrict.DistrictId,
                             Price = Convert.ToDecimal(Request["Trip.Price"]),
                             Status = Enums.Status.Activo,
@@ -548,20 +603,20 @@ namespace CarpoolingCR.Controllers
                             RouteId = routeBackId
                         };
 
-                        db.Trips.Add(trip);
+                        db.Entry(tripBack).State = EntityState.Added;
                         db.SaveChanges();
 
-                        trip.FromTown = toDistrict;
-                        trip.ToTown = fromDistrict;
-                        trip.Route = routeBack;
+                        tripBack.FromTown = toDistrict;
+                        tripBack.ToTown = fromDistrict;
+                        tripBack.Route = routeBack;
 
-                        callbackUrl = Url.Action("Transportation", "Reservations", new { from = trip.FromTown.FullName, to = trip.ToTown.FullName }, protocol: Request.Url.Scheme);
+                        callbackUrl = Url.Action("CreateReservation", "Reservations", new { from = tripBack.FromTown.FullName, to = tripBack.ToTown.FullName }, protocol: Request.Url.Scheme);
 
                         send = Convert.ToBoolean(WebConfigurationManager.AppSettings["SendNotificationsToAdmin"]);
 
                         if (send)
                         {
-                            FacebookHandler.PublishFacebookPost(trip.FromTown.FullName, trip.ToTown.FullName, trip.Route.Name, trip.DateTime, user.Country.CurrencyChar, trip.Price, trip.AvailableSpaces, callbackUrl);
+                            FacebookHandler.PublishFacebookPost(tripBack.FromTown.FullName, tripBack.ToTown.FullName, tripBack.Route.Name, tripBack.DateTime, user.Country.CurrencyChar, tripBack.Price, tripBack.AvailableSpaces, callbackUrl);
                         }
 
                         new SignalHandler().SendMessage(Enums.EventTriggered.TripCreated.ToString(), "");

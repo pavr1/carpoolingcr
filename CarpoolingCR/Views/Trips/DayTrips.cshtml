@@ -5,6 +5,87 @@
 }
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" type="text/javascript"></script>
+
+<style type="text/css">
+    .seat {
+        display: flex;
+        padding: 5px;
+        position: relative;
+        height: 80px;
+        width: 60px;
+    }
+
+        .seat:nth-child(3) {
+            /*margin-right: 14.28571428571429%;*/
+        }
+
+        .seat input[type=checkbox] {
+            position: absolute;
+            opacity: 0;
+        }
+
+            .seat input[type=checkbox]:checked + label {
+                background: #bada55;
+                -webkit-animation-name: rubberBand;
+                animation-name: rubberBand;
+                animation-duration: 300ms;
+                animation-fill-mode: both;
+            }
+
+            .seat input[type=checkbox]:disabled + label {
+                background: #dddddd;
+                text-indent: -9999px;
+                overflow: hidden;
+            }
+
+                .seat input[type=checkbox]:disabled + label:after {
+                    content: "X";
+                    text-indent: 0;
+                    position: absolute;
+                    top: 18px;
+                    left: 50%;
+                    transform: translate(-50%, 0%);
+                }
+
+                .seat input[type=checkbox]:disabled + label:hover {
+                    box-shadow: none;
+                    cursor: not-allowed;
+                }
+
+        .seat label {
+            display: block;
+            position: relative;
+            width: 100%;
+            text-align: center;
+            font-size: 14px;
+            font-weight: bold;
+            line-height: 1.5rem;
+            padding: 4px 0;
+            background: #ffb66c;
+            border-radius: 5px;
+            animation-duration: 300ms;
+            animation-fill-mode: both;
+        }
+
+            .seat label:before {
+                content: "";
+                position: absolute;
+                width: 75%;
+                height: 75%;
+                top: 1px;
+                left: 50%;
+                transform: translate(-50%, 0%);
+                background: rgba(255, 255, 255, 0.4);
+                border-radius: 3px;
+            }
+
+            .seat label:hover {
+                cursor: pointer;
+                box-shadow: 0 0 0px 2px #5C6AFF;
+            }
+</style>
+
 <div class="form-group">
     <h3>Viajes Disponibles</h3>
 
@@ -27,6 +108,9 @@
 <!-- Modal -->
 <div class="modal fade" id="dayTripModal" tabindex="-1" role="dialog" aria-labelledby="dayTripModalLabel" aria-hidden="true">
     <form action="~/Reservations/Create" method="post">
+        <input id="RequestedSpaces" name="RequestedSpaces" type="text" class="hidden" style="width:40px;" onfocus="blur();">
+        <input id="SpacesSelected" name="SpacesSelected" type="text" class="hidden" style="width:40px;" onfocus="blur();">
+        <input type="text" id="TripId" name="TripId" class="hidden" />
         @Html.AntiForgeryToken()
         <div class="vertical-alignment-helper">
             <div class="modal-dialog vertical-align-center">
@@ -39,78 +123,142 @@
                     </div>
                     <div class="modal-body">
                         <div class="row form-group">
-                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                                <b>Origen: </b>
+                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
+                                <div class="row form-group">
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                        <b>Origen: </b>
+                                    </div>
+                                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                                        <small id="modelFrom"></small>
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                        <b>Destino: </b>
+                                    </div>
+                                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                                        <small id="modelTo"></small>
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                        <b>Ruta: </b>
+                                    </div>
+                                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                                        <small id="modelRoute"></small>
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                        <b>Conductor</b>
+                                    </div>
+                                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                                        <small id="modelDriver"></small>
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                        <b>Fecha</b>
+                                    </div>
+                                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                                        <small id="modelDate"></small>
+                                        <input type="text" id="ReservationDate" name="ReservationDate" class="hidden" />
+                                    </div>
+                                </div>
+                                @*<div class="row form-group">
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                        <b>Espacios</b>
+                                    </div>
+                                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                                        <input id="RequestedSpaces" name="RequestedSpaces" class="" style="width:40px;" onfocus="blur();">
+                                        <input type="text" id="DriverId" name="DriverId" class="hidden" />
+                                    </div>
+                                </div>*@
+                                @*<div class="row form-group">
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                        <b>Precio</b>
+                                    </div>
+                                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                                        ₡<small id="modelPrice"></small>
+                                    </div>
+                                </div>*@
+                                <div class="row form-group">
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                        <b>Total</b>
+                                    </div>
+                                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                                        ₡<small id="modelTotal"></small>
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div id="already-reserved-message">
+
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
-                                <small id="modelFrom"></small>
-                            </div>
-                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                                <b>Destino: </b>
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
-                                <small id="modelTo"></small>
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 align-items-center" style="text-align:center; height:320px">
+                                <table border="0" style="padding:0px;margin:0px;position:relative; top:-70px; left:0px">
+                                    <tr style="height:50px">
+                                        <td colspan="3" style="height:50px">
+                                            <div style="height: 15px;width: 40px;background-color: yellow;border-radius: 50%;position:relative; top:75px; left:20px; z-index:10; -ms-transform: rotate(-20deg); -webkit-transform: rotate(-20deg); transform: rotate(-20deg);"></div>
+                                            <div style="height: 15px;width: 40px;background-color: yellow;border-radius: 50%;position:relative; top:60px; left:123px; z-index:10; -ms-transform: rotate(20deg); -webkit-transform: rotate(20deg); transform: rotate(20deg);"></div>
+                                            <div style="border-radius:50px 50px 0px 0px; background-color:#004a93; width:100%; height:100px;position:relative;top:37px; left:0px;"></div>
+                                            <div class="center-block" style="border-radius:50px 50px 0px 0px; background-color:gainsboro; width:100%; height:35px;position:relative; width:90%"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="background-color:#004a93">
+                                            <div class="seat" style="padding-left:10px; padding-right:0px">
+                                                <input type="checkbox" disabled id="driver-seat" />
+                                                <label for="driver-seat">Conductor</label>
+                                            </div>
+                                        </td>
+                                        <td style="background-color:#004a93"></td>
+                                        <td style="background-color:#004a93">
+                                            <div class="seat" style="padding-left:0px; padding-right:10px">
+                                                <input type="checkbox" id="copilot-seat" class="seats" />
+                                                <label for="copilot-seat" style="color:darkblue"><small>₡</small><small id="modelPriceCopilot"></small></label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="background-color:#004a93">
+                                            <div class="seat" style="padding-left:10px; padding-right:0px">
+                                                <input type="checkbox" id="back-left-seat" class="seats" />
+                                                <label for="back-left-seat" style="color:darkblue"><small>₡</small><small id="modelPriceLeft"></small></label>
+                                            </div>
+                                        </td>
+                                        <td style="background-color:#004a93">
+                                            <div class="seat" style="padding-left:0px; padding-right:0px">
+                                                <input type="checkbox" id="back-middle-seat" class="seats" />
+                                                <label for="back-middle-seat" style="color:darkblue"><small>₡</small><small id="modelPriceMiddle"></small></label>
+                                            </div>
+                                        </td>
+                                        <td style="background-color:#004a93">
+                                            <div class="seat" style="padding-left:0px; padding-right:10px">
+                                                <input type="checkbox" id="back-right-seat" class="seats" />
+                                                <label for="back-right-seat" style="color:darkblue"><small>₡</small><small id="modelPriceRight"></small></label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3">
+                                            <div class="center-block" style="border-radius:0px 0px 25px 25px; background-color:#004a93; width:100%; height:60px;"></div>
+                                            <div class="center-block" style="border-radius:0px 0px 50px 50px; background-color:gainsboro; width:90%; height:20px;position:relative;top:-60px; left:0px;"></div>
+                                        </td>
+                                    </tr>
+                                </table>
                             </div>
                         </div>
                         <div class="row form-group">
-                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                                <b>Ruta: </b>
-                            </div>
-                            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
-                                <small id="modelRoute"></small>
-                            </div>
-                        </div>
-                        <div class="row form-group">
-                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6">
-                                <b>Conductor</b>
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
-                                <small id="modelDriver"></small>
-                            </div>
-                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6">
-                                <b>Fecha</b>
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
-                                <small id="modelDate"></small>
-                                <input type="text" id="ReservationDate" name="ReservationDate" class="hidden" />
+                            <div id="btnsContainer" class="modal-footer">
+                                <input type="button" onclick="OpenMessageModel()" class="btn btn-default pull-left" value="&#9993;" />
+                                <input type="button" class="btn btn-default btn-sm" data-dismiss="modal" value="Cancelar" />
+                                <input id="btnSubmitReservations" type="submit" style="width:150px" class="btn btn-info btn-sm" value="Solicitar Reserva" />
                             </div>
                         </div>
-                        <div class="row form-group">
-                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6">
-                                <b>Espacios</b>
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
-                                <input id="RequestedSpaces" name="RequestedSpaces" class="" style="width:40px;" onfocus="blur();">
-                                <input type="text" id="DriverId" name="DriverId" class="hidden" />
-                                <input type="text" id="TripId" name="TripId" class="hidden" />
-                            </div>
-                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6">
-                                <b>Precio</b>
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
-                                ₡<small id="modelPrice"></small>
-                            </div>
-                        </div>
-                        <div class="row form-group">
-                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6">
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
-                            </div>
-                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6">
-                                <b>Total</b>
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
-                                ₡<small id="modelTotal"></small>
-                            </div>
-                        </div>
-                        <div id="already-reserved-message">
-                            
-                        </div>
-                    </div>
-                    <div id="btnsContainer"class="modal-footer">
-                        <input type="button" onclick="OpenMessageModel()" class="btn btn-default pull-left" value="&#9993;" />
-                        <input type="button" class="btn btn-default btn-sm" data-dismiss="modal" value="Cancelar" />
-                        <input id="btnSubmitReservations" type="submit" style="width:150px" class="btn btn-info btn-sm" value="Solicitar Reserva" />
                     </div>
                 </div>
             </div>
@@ -154,6 +302,75 @@
 <script src="~/fonts/fullcalendar-3.10.0/moment.min.js"></script>
 <script src="~/fonts/fullcalendar-3.10.0/fullcalendar.min.js"></script>
 <script>
+    var totalSelectedSeats = Number(0);
+
+    $(".seats").change(function () {
+        var controlId = this.id;
+        var valueControlId = "";
+
+        switch (controlId) {
+            case "copilot-seat":
+                valueControlId = "modelPriceCopilot";
+                break;
+            case "back-left-seat":
+                valueControlId = "modelPriceLeft";
+                break;
+            case "back-middle-seat":
+                valueControlId = "modelPriceMiddle";
+                break;
+            case "back-right-seat":
+                valueControlId = "modelPriceRight";
+                break;
+        }
+
+        var value = Number($('#' + valueControlId).html());
+
+
+        if (this.checked) {
+            totalSelectedSeats = Number(totalSelectedSeats) + value;
+        } else {
+            totalSelectedSeats = Number(totalSelectedSeats) - value;
+        }
+
+        var requestedSpaces = 0;
+        var requestedSpacesControlIds = "";
+
+        if($("#copilot-seat").prop('checked')){
+            requestedSpaces++;
+            requestedSpacesControlIds += "modelPriceCopilot;";
+        }
+        if ($("#back-left-seat").prop('checked')) {
+            requestedSpaces++;
+            requestedSpacesControlIds += "modelPriceLeft;";
+        }
+        if ($("#back-middle-seat").prop('checked')) {
+            requestedSpaces++;
+            requestedSpacesControlIds += "modelPriceMiddle;";
+        }
+        if ($("#back-right-seat").prop('checked')) {
+            requestedSpaces++;
+            requestedSpacesControlIds += "modelPriceRight;";
+        }
+        //valueControlId = "modelPriceCopilot";
+        //break;
+        //    case "back-left-seat":
+        //valueControlId = "modelPriceLeft";
+        //break;
+        //    case "back-middle-seat":
+        //valueControlId = "modelPriceMiddle";
+        //break;
+        //    case "back-right-seat":
+        //valueControlId = "modelPriceRight";
+        //break;
+
+        //<input id="RequestedSpaces" name="RequestedSpaces" class="hidden" style="width:40px;" onfocus="blur();">
+        //    <input id="SpacesSelected" name="SpacesSelected" class="hidden" style="width:40px;" onfocus="blur();">
+
+        $('#modelTotal').html(totalSelectedSeats.toFixed(2));
+        $('#RequestedSpaces').val(requestedSpaces);
+        $('#SpacesSelected').val(requestedSpacesControlIds);
+    });
+
     $(document).ready(function () {
         var currentDate = new Date('@Model.CurrentDate');
 
@@ -255,17 +472,30 @@
                 $('#modelDriver').html(calEvent.driver);
                 $('#AvailableSpaces').val(calEvent.availableSpaces);
 
-                $('#RequestedSpaces').spinner('option', 'min', 1);
-                $('#RequestedSpaces').spinner('option', 'max', calEvent.availableSpaces);
+                //todo:validar aca cantidad de espacios
+                //$('#RequestedSpaces').spinner('option', 'min', 1);
+                //$('#RequestedSpaces').spinner('option', 'max', calEvent.availableSpaces);
 
                 $('#modelPrice').html(calEvent.price);
-                $('#modelTotal').html(calEvent.price);
+                $('#modelPriceCopilot').html((Number(calEvent.price) + 500));
+                $('#modelPriceLeft').html((Number(calEvent.price)));
+                $('#modelPriceMiddle').html((Number(calEvent.price) - 500));
+                $('#modelPriceRight').html((Number(calEvent.price)));
+
+
+                var defaultValue = Number(0).toFixed(2);
+
+                $('#modelTotal').html(defaultValue);
                 $('#TripId').val(calEvent.id);
 
                 var reservationAlreadyExistent = ExistReservationToTrip(calEvent.id)
 
                 if (reservationAlreadyExistent) {
                     $('#already-reserved-message').html('<small class="pull-left text-warning">¡Ya tiene una reservación activa para este viaje!</small>');
+                    $('#back-right-seat').attr('disabled', true);
+                    $('#back-left-seat').attr('disabled', true);
+                    $('#back-middle-seat').attr('disabled', true);
+                    $('#copilot-seat').attr('disabled', true);
                     $('#btnsContainer').html('<input type="button" class="btn btn-default btn-sm" data-dismiss="modal" value="Cancelar" style="width:150px"/><input id="btnSubmitReservations" type="button" class="btn btn-info btn-sm" style="width:150px" value="Solicitar Reserva" disabled />');
                 } else {
                     $('#msgTextModal').val('')
@@ -334,18 +564,18 @@
         $('#dayCalendar').fullCalendar('gotoDate', startDate)
     });
 
-    $('#RequestedSpaces').spinner({
-        stop: function (e, ui) {
-            var price = parseFloat($('#modelPrice').html());
-            var requestedSpaces = parseInt($('#RequestedSpaces').val());
+    //$('#RequestedSpaces').spinner({
+    //    stop: function (e, ui) {
+    //        var price = parseFloat($('#modelPrice').html());
+    //        var requestedSpaces = parseInt($('#RequestedSpaces').val());
 
-            var total = price * requestedSpaces;
+    //        var total = price * requestedSpaces;
 
-            $('#modelTotal').html(total.toFixed(2));
+    //        $('#modelTotal').html(total.toFixed(2));
 
-            return false;
-        }
-    }).val(1);
+    //        return false;
+    //    }
+    //}).val(1);
 
     function ExistReservationToTrip(currentTripId) {
         var passengerReservations = JSON.parse('@Html.Raw(Json.Encode(Model.ExistentReservations))');

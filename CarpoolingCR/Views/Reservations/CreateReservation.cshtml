@@ -1,0 +1,174 @@
+﻿@model CarpoolingCR.Objects.Responses.ReservationTransportationResponse
+
+@{
+    ViewBag.Title = "Transportation";
+}
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<br />
+<div class="row form-group" style="text-align:center">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <h5 class="panel-title pull-left">Solicitud de Viajes</h5>
+    </div>
+</div>
+<div id="loading-content" class="row form-group" style="text-align:center; height:500px;">
+    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+        <img src="~/Content/Icons/processing.gif" style="vertical-align:middle" /><br />
+        <small>Procesando...</small>
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+
+    </div>
+</div>
+
+<div id="main-content" class="row form-group hidden panel panel-default" style="border-radius:10px; padding:15px">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="row form-group">
+            <div class="col-lg-1 col-md-1 col-sm-6 col-xs-12">
+                <label class="control-label panel-title visible-xs visible-sm">Origen</label>
+                <label class="control-label panel-title pull-right visible-md visible-lg">Origen</label>
+            </div>
+            <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12">
+                <select id="FromTown" name="FromTown" class="form-control" onfocus="this.select()">
+                    @Html.Raw(Model.DistrictControlOptions)
+                </select>
+                @*<input type="button" class="form-control btn btn-info btn-sm visible-xs pull-right" onclick="EraseValue('#FromTown')" style="width:42px" value="&#9003;" />
+                    <input type="button" class="form-control btn btn-info btn-sm hidden-xs" onclick="EraseValue('#FromTown')" style="width:42px" value="&#9003;" />*@
+            </div>
+            <div class="col-lg-1 col-md-1 col-sm-6 col-xs-12">
+                <label class="control-label visible-xs visible-sm">Destino</label>
+                <label class="control-label pull-right visible-md visible-lg">Destino</label>
+            </div>
+            <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12">
+                <select id="ToTown" name="ToTown" class="form-control" onfocus="this.select()">
+                    @Html.Raw(Model.DistrictControlOptions)
+                </select>
+                @*<input type="button" class="form-control btn btn-info btn-sm visible-xs pull-right" onclick="EraseValue('#ToTown')" style="width:42px" value="&#9003;" />
+                    <input type="button" class="form-control btn btn-info btn-sm hidden-xs" onclick="EraseValue('#ToTown')" style="width:42px" value="&#9003;" />*@
+            </div>
+        </div>
+        <div class="row form-group hidden-xs">
+            <div class="col-lg-1 col-md-1 col-sm-0">
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6">
+                <div class="input-group btn-block">
+                    <input onclick="window.location='@Url.Action("Create","NotificationRequests")'" type="button" class="btn btn-info btn-sm" style="border-radius: 10px 0px 0px 10px" value="Notificaciones Automáticas" />
+                    <button onclick="return false" class="btn btn-info btn-sm" style="border-radius: 0px 10px 10px 0px" aria-label="Help"><span class="glyphicon glyphicon-alert" data-toggle="tooltip" title="¡Crea una notificación automática y te avisaremos cuando el viaje que necesites esté disponible!"></span></button>
+                </div>
+            </div>
+            <div class="col-lg-5 col-md-5 col-sm-6">
+                <button onclick="RetrieveTrips()" type="button" class="btn btn-info btn-sm" style="width:260px;border-radius:10px" data-loading-text="<i class='fa fa-circle-o-notch fa-spin pull-right'></i> Consultar Viajes">Consultar Viajes</button>
+            </div>
+        </div>
+        <div class="row form-group visible-xs">
+            <div class="col-xs-7">
+                <div class="input-group btn-block">
+                    <input onclick="window.location='@Url.Action("Create","NotificationRequests")'" type="button" class="btn btn-info btn-sm" style="border-radius: 10px 0px 0px 10px" value="Notificaciones" />
+                    <button onclick="return false" class="btn btn-info btn-sm" style="border-radius: 0px 10px 10px 0px" aria-label="Help"><span class="glyphicon glyphicon-alert" data-toggle="tooltip" title="¡Crea una notificación automática y te avisaremos cuando el viaje que necesites esté disponible!"></span></button>
+                </div>
+            </div>
+            <div class="col-xs-5">
+                <button onclick="RetrieveTrips()" type="button" class="btn btn-info btn-sm" style="width:120px;border-radius:10px" data-loading-text="<i class='fa fa-circle-o-notch fa-spin pull-right'></i> Consultar">Consultar</button>
+            </div>
+        </div>
+        @Html.Partial("~/Views/Reservations/Partials/_RequestJourney.cshtml", Model)
+    </div>
+</div>
+
+<script>
+    $('#tabs').tabs();
+    $('#tabPending').removeClass('ui-state-active');
+    $('#FromTown').editableSelect();
+    $('#ToTown').editableSelect();
+    //$('#tooltipRetrieveTrips').tooltip();
+
+    //$('#main-content').removeClass('hidden');
+    //$('#loading-content').addClass('hidden');
+    $('#main-content').slideUp(1);
+    $('#loading-content').slideDown(1);
+
+
+    $(document).ready(function () {
+        var tabIndex = @Model.TabIndex;
+
+        $('#tabs').tabs("option", "active", tabIndex);
+
+        $('#main-content').removeClass('hidden');
+        //$('#loading-content').addClass('hidden');
+
+        $('#main-content').slideDown();
+        $('#loading-content').slideUp();
+
+        $('#calendar').fullCalendar('gotoDate', Date.now());
+    });
+
+    function EraseValue(controlId) {
+        $(controlId).val(null).trigger('change');
+    }
+
+    function RetrieveTrips() {
+        $('#btnRetrieveTrips').addClass('hidden');
+        $('#imgProcessing').removeClass('hidden');
+
+        var from = $("#FromTown").val();
+        var to = $("#ToTown").val();
+
+        if (from == '') {
+            displayMessages('¡Seleccione el origen!', 'warning')
+
+            return;
+        } else if (to == '') {
+            displayMessages('¡Seleccione el destino!', 'warning')
+
+            return;
+        } else if (from == to) {
+            displayMessages('¡Origen y destino iguales!', 'warning')
+
+            return;
+        }
+
+        $('#btn-retrieve-trips').button('loading');
+
+        $.post('@Url.Action("CreateReservation", "Reservations")', { from: from, to: to },
+            function (data) {
+                $('#btn-retrieve-trips').button('reset');
+
+                var json = JSON.parse(data);
+
+                $('#RequestJourneyContainer').html(json.Html);
+
+                $('#btnRetrieveTrips').removeClass('hidden');
+                $('#imgProcessing').addClass('hidden');
+
+                //var tripsCount = $('#TripsCount').html();
+                //if (json.CouldNotFindExactTrip) {
+                //    $('#warningLabel').removeClass('hidden');
+                //} else {
+                //    $('#warningLabel').addClass('hidden');
+                //}
+
+                if (json.Message != null && json.Message != '') {
+                    displayMessages(json.Message, 'warning')
+                }
+            });
+    }
+</script>
+
+<script src="~/Scripts/jquery.signalR-2.4.0.min.js"></script>
+<script src="~/signalr/hubs"></script>
+<script type="text/javascript">
+    $(function () {
+        $.connection.hub.start();
+        $.connection.hub.qs = "myInfo=12345";
+        var chat = $.connection.SignalHandlerHub;
+        chat.client.broadcastMessage = function (name, message) {
+            if (name == "TripCreated" || name == "TripDeleted") {
+                RetrieveTrips()
+            }
+        };
+        $.connection.hub.start().done(function () {
+        });
+    });
+</script>

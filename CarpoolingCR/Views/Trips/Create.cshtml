@@ -77,17 +77,17 @@
                             <div id="radioset" role="toolbar" class="ui-controlgroup ui-controlgroup-horizontal ui-helper-clearfix">
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                        <div class="input-group" onclick="ChangeTripRound(false)">
+                                        <div class="input-group" onclick="ChangeTripRound(false)" style="cursor:pointer">
                                             <span class="input-group-addon" style="border-radius: 10px 0px 0px 10px">
-                                                <input type="radio" id="rbOneWay" onclick="ChangeTripRound(false)" name="rbOneWay" aria-label="..." checked>
+                                                <input type="radio" id="rbOneWay" onclick="ChangeTripRound(false)" name="rbOneWay" tabindex="-1" aria-label="..." checked>
                                             </span>
                                             <small class="form-control" style="width:160px; border-radius: 0px 10px 10px 0px"><span class="glyphicon glyphicon-arrow-up"></span> Sólo Ida</small>
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                        <div class="input-group" onclick="ChangeTripRound(true)">
+                                        <div class="input-group" onclick="ChangeTripRound(true)" style="cursor:pointer">
                                             <span class="input-group-addon" style="border-radius: 10px 0px 0px 10px">
-                                                <input type="radio" id="rbRound" onclick="ChangeTripRound(true)" name="rbRound" aria-label="...">
+                                                <input type="radio" id="rbRound" onclick="ChangeTripRound(true)" name="rbRound" tabindex="-1" aria-label="...">
                                             </span>
                                             <small class="form-control" style="width:160px;border-radius: 0px 10px 10px 0px"><span class="glyphicon glyphicon-arrow-up"></span><span class="glyphicon glyphicon-arrow-down"></span> Ida y Vuelta</small>
                                         </div>
@@ -96,7 +96,14 @@
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 pull-right">
-
+                            <div class="row form-group">
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    <label class="control-label" style="text-align:left">Cuota</label>
+                                </div>
+                                <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+                                    @Html.EditorFor(model => model.Trip.Price, new { htmlAttributes = new { @class = "form-control money" } })
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="row">
@@ -149,18 +156,10 @@
                                 </div>
                                 <div class="col-lg-2 col-md-5 col-sm-5 col-xs-6">
                                     @*<input id="TotalSpaces" class="hidden" style="width:40px;" name="TotalSpaces" disabled onfocus="blur();">*@
-                                    <input id="AvailableSpaces" class="hidden" style="width:40px;" name="AvailableSpaces" onfocus="blur();">
+                                    <input id="AvailableSpaces" style="width:40px;" name="AvailableSpaces" onfocus="blur();">
                                 </div>
                                 <div class="col-lg-2 col-md-5 col-sm-5 col-xs-6">
 
-                                </div>
-                            </div>
-                            <div class="row form-group">
-                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                                    <label class="control-label" style="text-align:left">Cuota</label>
-                                </div>
-                                <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
-                                    @Html.EditorFor(model => model.Trip.Price, new { htmlAttributes = new { @class = "form-control" } })
                                 </div>
                             </div>
                             <div class="form-group hidden">
@@ -226,6 +225,26 @@
                                         <input type="text" id="DateTime-To" name="DateTime-To" class="hidden" />
                                     </div>
                                 </div>
+                                <div class="row form-group">
+                                    <div class="col-lg-2 col-md-2 col-sm-2">
+                                        <label class="control-label" style="text-align:left">Campos</label>
+                                    </div>
+                                    <div class="col-lg-2 col-md-5 col-sm-5 col-xs-6">
+                                        @*<input id="TotalSpaces" class="hidden" style="width:40px;" name="TotalSpaces" disabled onfocus="blur();">*@
+                                        <input id="AvailableSpaces-To" style="width:40px;" name="AvailableSpaces-To" onfocus="blur();">
+                                    </div>
+                                    <div class="col-lg-2 col-md-5 col-sm-5 col-xs-6">
+
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                        <label class="control-label" style="text-align:left">Encuentro</label>
+                                    </div>
+                                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12 pull-left">
+                                        <input type="text" id="Trip_Details_To" name="Trip_Details_To" class="form-control" />
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                 <div class="row">
@@ -267,6 +286,8 @@
     $('#aprox-time-div').slideUp(1);
     $('#aprox-time-div-to').slideUp(1);
 
+    $('#Trip_Price').mask('000000');
+
     $(document).ready(function () {
         //$('#spinning-gif').addClass("hidden");
         $('#main-content').removeClass('hidden');
@@ -275,7 +296,6 @@
         $('#main-content').slideDown();
         $('#loading-content').slideUp();
         $('#TotalSpaces').removeClass('hidden');
-        $('#AvailableSpaces').removeClass('hidden');
     });
 
     $('#TotalSpaces').spinner({
@@ -292,6 +312,16 @@
         stop: function (e, ui) {
             if ($('#AvailableSpaces').val() > $('#TotalSpaces').val()) {
                 $('#AvailableSpaces').val($('#TotalSpaces').val());
+            }
+        }
+    }).val(@Model.Vehicle.Spaces - 1);
+
+    $('#AvailableSpaces-To').spinner({
+        min: 1,
+        max: @Model.Vehicle.Spaces - 1,
+        stop: function (e, ui) {
+            if ($('#AvailableSpaces-To').val() > $('#TotalSpaces').val()) {
+                $('#AvailableSpaces-To').val($('#TotalSpaces').val());
             }
         }
     }).val(@Model.Vehicle.Spaces - 1);
@@ -358,9 +388,30 @@
         minDate: Date.now(),
         maxDate: addDays(Date.now(), 31),
         step: 15,
-        onChangeDateTime: function (current_time, $input) {
-            $('#TotalSpaces').focus();
-        }
+        //onSelect: function (selectedDate) {
+        //    var option = this.id == "from" ? "minDate" : "maxDate",
+        //        instance = $(this).data("datepicker"),
+        //        date = $.datepicker.parseDate(instance.settings.dateFormat || $.datepicker._defaults.dateFormat, selectedDate, instance.settings);
+        //    dates.not(this).datepicker("option", option, date);
+        //}
+        //onChangeDateTime: function (current_time, $input) {
+        //    $('#TotalSpaces').focus();
+
+        //    if (current_time == null) {
+        //        $("#DateTimeDisplay").datetimepicker({
+        //            minTime: new Date()
+        //        });
+        //    } else if (current_time.toLocaleDateString() == new Date().toLocaleDateString()) {
+        //        $("#DateTimeDisplay").datetimepicker({
+        //            minTime: new Date()
+        //        });
+        //    } else {
+        //        $("#DateTimeDisplay").datetimepicker({
+        //            minTime: '00:00'
+        //        });
+        //    }
+
+        //}
     });
 
     $('#DateTimeDisplay-To').datetimepicker({
@@ -392,9 +443,68 @@
     function SetDateTimeFormats() {
         var formattedValue = document.getElementById('DateTimeDisplay').value;
         var formattedValueTo = document.getElementById('DateTimeDisplay-To').value;
-
+        
         $('#DateTime').val(formattedValue);
         $('#DateTime-To').val(formattedValueTo);
+
+        if ($('#fromDistrictId').val() == '') {
+            //¡Origen Inválido!
+            DisplayGrowlMessage('100012', 'warn');
+            return false;
+        }
+
+        if ($('#toDistrictId').val() == '') {
+            //¡Destino Inválido!
+            DisplayGrowlMessage('100036', 'warn');
+            return false;
+        }
+
+        if ($('#Trip_Price').val() == '') {
+            //¡Cuota Requerida!
+            DisplayGrowlMessage('100038', 'warn');
+            return false;
+        }
+
+        if ($('#Route').val() == '') {
+            //¡Ruta Requerida!
+            DisplayGrowlMessage('100039', 'warn');
+            return false;
+        }
+
+        if ($('#DateTime').val() == '') {
+            //¡Fecha inválida!
+            DisplayGrowlMessage('100037', 'warn');
+            return false;
+        }
+
+        if ($('#Trip_Details').val() == '') {
+            //¡Encuentro Requerido!
+            DisplayGrowlMessage('100072', 'warn');
+            return false;
+        }
+
+        if ($('#rbRound').prop("checked")) {
+            if ($('#Route-To').val() == '') {
+                //¡Ruta de vuelta inválida!
+                DisplayGrowlMessage('100069', 'warn');
+                $('#btn-create-trip').button('reset');
+
+                return false;
+            } else if ($('#DateTimeDisplay-To').val() == '') {
+                //¡Fecha de vuelta requerida!
+                DisplayGrowlMessage('100070', 'warn');
+                $('#btn-create-trip').button('reset');
+
+                return false;
+            } else if ($('#Trip_Details_To').val() == '') {
+                //¡Encuentro de vuelta requerido!
+                DisplayGrowlMessage('100071', 'warn');
+                $('#btn-create-trip').button('reset');
+
+                return false;
+            }
+        }
+
 
         $('#createtripform').submit();
     }
@@ -404,9 +514,11 @@
             $('#to-route-container').slideDown();
             //$('#rbOneWay').prop('checked', false);
             $('#rbRound').prop('checked', true);
+            $('#rbOneWay').prop('checked', false);
         } else {
             $('#to-route-container').slideUp();
             $('#rbOneWay').prop('checked', true);
+            $('#rbRound').prop('checked', false);
         }
     }
 
@@ -429,37 +541,6 @@
     }
 
     $('#createtripform').submit(function () {
-        var exists = false;
-
-        if ($('#fromDistrictId').val() == '') {
-            //¡Origen Inválido!
-            DisplayGrowlMessage('10005', 'warn');
-            return false;
-        }
-
-        if ($('#toDistrictId').val() == '') {
-            //¡Destino Inválido!
-            DisplayGrowlMessage('10006', 'warn');
-            return false;
-        }
-
-        if ($('#Route').val() == '') {
-            //¡Origen Inválido!
-            DisplayGrowlMessage('100039', 'warn');
-            return false;
-        }
-
-        if ($('#DateTime').val() == '') {
-            //¡Fecha inválida!
-            DisplayGrowlMessage('100037', 'warn');
-            return false;
-        }
-        if ($('#Trip.Price').val() == '') {
-            //¡Cuota Requerida!
-            DisplayGrowlMessage('100038', 'warn');
-            return false;
-        }
-
         $('#btn-create-trip').button('loading');
 
         return true;

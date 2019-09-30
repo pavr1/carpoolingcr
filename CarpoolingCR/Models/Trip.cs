@@ -57,12 +57,16 @@ namespace CarpoolingCR.Models
 
 
         public virtual int FromTownId { get; set; }
+
+        [NotMapped]
         public virtual District FromTown { get; set; }
 
         public virtual int ToTownId { get; set; }
+        [NotMapped]
         public virtual District ToTown { get; set; }
 
         public virtual int RouteId { get; set; }
+        [NotMapped]
         public virtual  District Route { get; set; }
 
         [NotMapped]

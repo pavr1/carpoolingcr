@@ -168,24 +168,14 @@ namespace CarpoolingCR.Utils
                         .Select(x => x.DistrictId)
                         .ToList();
 
-                    startDate = Common.ConvertToUTCTime(startDate);
-                    endDate = Common.ConvertToUTCTime(endDate);
-
                     var currentTime = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime());
 
-                    if (user.UserType == Enums.UserType.Administrador)
-                    {
-
-                    }
-                    else
-                    {
-                        trips = db.Trips.Where(x => x.Status == Enums.Status.Activo)
-                        .Where(x => x.DateTime >= startDate && x.DateTime <= endDate)
-                        .Where(x => fromCountyDistricts.Contains(x.FromTownId) && toCountyDistricts.Contains(x.ToTownId))
-                        .Include(x => x.ApplicationUser)
-                        .Where(x => x.DateTime > currentTime)
-                        .ToList();
-                    }
+                    trips = db.Trips.Where(x => x.Status == Enums.Status.Activo)
+                    .Where(x => x.DateTime >= startDate && x.DateTime <= endDate)
+                    .Where(x => fromCountyDistricts.Contains(x.FromTownId) && toCountyDistricts.Contains(x.ToTownId))
+                    .Include(x => x.ApplicationUser)
+                    .Where(x => x.DateTime > currentTime)
+                    .ToList();
                 }
 
                 couldNotFindExactTrip = (trips.Count > 0);
@@ -394,7 +384,8 @@ namespace CarpoolingCR.Utils
             {
                 var currentUTCTime = Common.ConvertToUTCTime(DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Local));
                 var expiredReservations = db.Reservations.Where(x => x.ApplicationUserId == userId && (x.Status == ReservationStatus.Accepted || x.Status == ReservationStatus.Pending))
-                    .Where(x => x.Date < currentUTCTime)
+                    .Include(x => x.Trip)
+                    .Where(x => x.Trip.DateTime < currentUTCTime)
                     .ToList();
 
                 //finalizing expired reservations

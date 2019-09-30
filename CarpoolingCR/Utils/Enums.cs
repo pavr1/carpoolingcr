@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
-using System.Web;
 
 namespace CarpoolingCR.Utils
 {
@@ -12,118 +10,120 @@ namespace CarpoolingCR.Utils
     {
         public enum Status
         {
-            Activo,
-            Inactivo,
-            Pendiente,
-            Cancelado,
-            Bloqueado,
-            Lleno,
-            Finalizado
+            Activo = 1,
+            Inactivo = 2,
+            Pendiente = 3,
+            Cancelado = 4,
+            Bloqueado = 5,
+            Lleno = 6,
+            Finalizado = 7
         }
 
         public enum ReservationStatus
         {
             [Description("Aceptado")]
-            Accepted,
+            Accepted = 1,
             [Description("Rechazado")]
-            Rejected,
+            Rejected = 2,
             [Description("Pendiente")]
-            Pending,
+            Pending = 3,
             [Description("Cancelado")]
-            Cancelled,
+            Cancelled = 4,
             [Description("Finalizado")]
-            Finalized
+            Finalized = 5
         }
 
         public enum ProfileStatus
         {
             [Description("Activo")]
-            Active,
+            Active = 1,
             [Description("Inactivo")]
-            Inactive
+            Inactive = 2
         }
 
         public enum TownStatus
         {
             [Description("Activo")]
-            Active,
+            Active = 1,
             [Description("Inactivo")]
-            Inactive,
+            Inactive = 2,
             [Description("Pendiente")]
-            Pending
+            Pending = 3
         }
 
         public enum UserType
         {
-            Conductor,
-            Pasajero,
-            Administrador
+            Conductor = 0,
+            Pasajero = 1,
+            Administrador = 2
         }
 
-        public enum DayPart {
-            Mañana,
-            Tarde,
-            Noche,
-            Hora
+        public enum DayPart
+        {
+            Mañana = 1,
+            Tarde = 2,
+            Noche = 3,
+            Hora = 4
         }
 
         public enum EventTriggered
         {
-            TripCreated,
-            TripDeleted,
+            TripCreated = 1,
+            TripDeleted = 2,
 
         }
 
         public enum CreditTypes
         {
             [Description("Reservación")]
-            Reservation,
+            Reservation = 1,
             [Description("Depósito")]
-            Deposit
+            Deposit = 2
         }
 
         public enum DebitTypes
         {
             [Description("Impuestos y Comisión")]
-            Taxes,
+            Taxes = 1,
             [Description("Reservación")]
-            Reservation,
+            Reservation = 2,
             [Description("Retiro")]
-            Withdraw
+            Withdraw = 3
         }
 
         public enum LogLocation
         {
-            Server,
-            Client
+            Server = 1,
+            Client = 2
         }
 
         public enum LogType
         {
-            Info,
-            Error,
-            Warning,
-            SMS,
-            UserIdVerification,
-            VehicleCreation
+            Info = 1,
+            Error = 2,
+            Warning = 3,
+            SMS = 4,
+            UserIdVerification = 5,
+            VehicleCreation = 6
         }
 
         public enum RequestNotificationStatus
         {
             [Description("Activo")]
-            Active,
+            Active = 1,
             [Description("Cancelado")]
-            Cancelled,
+            Cancelled = 2,
             [Description("Finalizado por reserva")]
-            Finished,
+            Finished = 3,
             [Description("Expirado")]
-            Expired
+            Expired = 4
         }
 
-        public enum EmailType {
-            Notifications,
-            Updates,
-            Errors
+        public enum EmailType
+        {
+            Notifications = 1,
+            Updates = 2,
+            Errors = 3
         }
     }
 
@@ -182,7 +182,7 @@ namespace CarpoolingCR.Utils
             {
                 //could not find the enum description, display enum value instead. No exception to throw
             }
-            
+
             return result;
         }
     }

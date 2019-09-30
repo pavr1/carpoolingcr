@@ -18,13 +18,10 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
-    <IISExpressSSLPort>44346</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication>
-    </IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>
-    </IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>
-    </IISExpressUseClassicPipelineMode>
+    <IISExpressSSLPort>443</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -274,6 +271,14 @@
     <Compile Include="Migrations\201909190150128_Added IsUserIdentificationInvalidated to ApplicationUser.cs" />
     <Compile Include="Migrations\201909190150128_Added IsUserIdentificationInvalidated to ApplicationUser.Designer.cs">
       <DependentUpon>201909190150128_Added IsUserIdentificationInvalidated to ApplicationUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201909281403037_Districts set not mapped.cs" />
+    <Compile Include="Migrations\201909281403037_Districts set not mapped.Designer.cs">
+      <DependentUpon>201909281403037_Districts set not mapped.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201909292021518_Added SpacesSelected.cs" />
+    <Compile Include="Migrations\201909292021518_Added SpacesSelected.Designer.cs">
+      <DependentUpon>201909292021518_Added SpacesSelected.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -867,6 +872,8 @@
     <Content Include="Views\Account\Partials\p_PendingUserIdentifications.cshtml" />
     <Content Include="Views\Reservations\CarSeats\CarSeats.cshtml" />
     <Content Include="Views\Email\Index.cshtml" />
+    <Content Include="Views\Reservations\ReservationIndex.cshtml" />
+    <Content Include="Views\Reservations\CreateReservation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -914,6 +921,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201909190150128_Added IsUserIdentificationInvalidated to ApplicationUser.resx">
       <DependentUpon>201909190150128_Added IsUserIdentificationInvalidated to ApplicationUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201909281403037_Districts set not mapped.resx">
+      <DependentUpon>201909281403037_Districts set not mapped.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201909292021518_Added SpacesSelected.resx">
+      <DependentUpon>201909292021518_Added SpacesSelected.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

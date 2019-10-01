@@ -86,22 +86,22 @@
                                     </div>
                                 </div>
                                 @*<div class="row form-group">
-                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                        <b>Espacios</b>
-                                    </div>
-                                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                                        <input id="RequestedSpaces" name="RequestedSpaces" class="" style="width:40px;" onfocus="blur();">
-                                        <input type="text" id="DriverId" name="DriverId" class="hidden" />
-                                    </div>
-                                </div>*@
+                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                            <b>Espacios</b>
+                                        </div>
+                                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                                            <input id="RequestedSpaces" name="RequestedSpaces" class="" style="width:40px;" onfocus="blur();">
+                                            <input type="text" id="DriverId" name="DriverId" class="hidden" />
+                                        </div>
+                                    </div>*@
                                 @*<div class="row form-group">
-                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                        <b>Precio</b>
-                                    </div>
-                                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                                        ₡<small id="modelPrice"></small>
-                                    </div>
-                                </div>*@
+                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                            <b>Precio</b>
+                                        </div>
+                                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                                            ₡<small id="modelPrice"></small>
+                                        </div>
+                                    </div>*@
                                 <div class="row form-group">
                                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                         <b>Total</b>
@@ -225,34 +225,34 @@
     var totalSelectedSeats = Number(0);
 
     $(".seats").change(function () {
-        var controlId = this.id;
-        var valueControlId = "";
+    var controlId = this.id;
+    var valueControlId = "";
 
-        switch (controlId) {
-            case "copilot-seat":
-                valueControlId = "modelPriceCopilot";
-                break;
-            case "back-left-seat":
-                valueControlId = "modelPriceLeft";
-                break;
-            case "back-middle-seat":
-                valueControlId = "modelPriceMiddle";
-                break;
-            case "back-right-seat":
-                valueControlId = "modelPriceRight";
-                break;
-        }
+    switch (controlId) {
+        case "copilot-seat":
+            valueControlId = "modelPriceCopilot";
+            break;
+        case "back-left-seat":
+            valueControlId = "modelPriceLeft";
+            break;
+        case "back-middle-seat":
+            valueControlId = "modelPriceMiddle";
+            break;
+        case "back-right-seat":
+            valueControlId = "modelPriceRight";
+            break;
+    }
 
-        var value = Number($('#' + valueControlId).html());
+    var value = Number($('#' + valueControlId).html());
 
 
-        if (this.checked) {
+    if (this.checked) {
             totalSelectedSeats = Number(totalSelectedSeats) + value;
         } else {
             totalSelectedSeats = Number(totalSelectedSeats) - value;
         }
 
-        var requestedSpaces = 0; 
+        var requestedSpaces = 0;
         var requestedSpacesControlIds = "";
 
         if($("#copilot-seat").prop('checked')){
@@ -290,14 +290,14 @@
         $('#RequestedSpaces').val(requestedSpaces);
         $('#SpacesSelected').val(requestedSpacesControlIds);
         $('#SelectedSeatsTotalPrice').val(totalSelectedSeats);
-    });
+                                                    });
 
     $(document).ready(function () {
         var currentDate = new Date('@Model.CurrentDate');
 
         // page is now ready, initialize the calendar...
         $('#dayCalendar').fullCalendar({
-            weekends: true,
+                                                        weekends: true,
             monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
             monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
             dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
@@ -305,18 +305,18 @@
             defaultView: 'listWeek',
             eventLimit: true, // for all non-agenda views
             header: {
-                left: '',
+                                                            left: '',
                 center: '',
                 right: ''
             },
             eventRender: function (event, element, view) {
-                // return $(`<tr class="fc-list-item ">
-                //            <td class="fc-list-item-title fc-widget-content"><a><i class="fas fa-car"></i>  ` + new Date(event.start).toLocaleTimeString() + ` <br/> Origen: ` + event.from + ` <br/> Destino: ` + event.to+ `</a></td></tr>`);
-                //},
+                                                // return $(`<tr class="fc-list-item ">
+                                                //            <td class="fc-list-item-title fc-widget-content"><a><i class="fas fa-car"></i>  ` + new Date(event.start).toLocaleTimeString() + ` <br/> Origen: ` + event.from + ` <br/> Destino: ` + event.to+ `</a></td></tr>`);
+                                                //},
 
-                var starsStr = '';
+                                                var starsStr = '';
 
-                switch (event.stars) {
+                                                switch (event.stars) {
                     case 1:
                         starsStr = `<a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star1" class="fa fa-star checked" data-toggle="Muy Malo"></span></a>
                             <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star2" class="fa fa-star" data-toggle="Muy Malo"></span></a>
@@ -378,9 +378,9 @@
             events: [],
             contentHeight:500,
             eventClick: function (calEvent, jsEvent, view) {
-                var date = new Date(calEvent.formatteddate);
-                var crStr = date.toLocaleString('es-CR', { year: "numeric", month: "2-digit", day: "numeric", hour: "2-digit", minute: "2-digit", hour12: true });
-                var usStr = date.toLocaleString('en-US', { year: "numeric", month: "2-digit", day: "numeric", hour: "2-digit", minute: "2-digit", hour12: true });
+                                        var date = new Date(calEvent.formatteddate);
+                                        var crStr = date.toLocaleString('es-CR', { year: "numeric", month: "2-digit", day: "numeric", hour: "2-digit", minute: "2-digit", hour12: true });
+                                        var usStr = date.toLocaleString('en-US', { year: "numeric", month: "2-digit", day: "numeric", hour: "2-digit", minute: "2-digit", hour12: true });
 
                 $("#dialog").dialog("open");
                 $('#ui-id-1').html("Reserva tu viaje");
@@ -402,14 +402,25 @@
                 $('#modelPriceLeft').html((Number(calEvent.price)));
                 $('#modelPriceMiddle').html((Number(calEvent.price) - 500));
                 $('#modelPriceRight').html((Number(calEvent.price)));
-
+                
+                if (calEvent.copilotSeatTaken) {
+                    $('#copilot-seat').prop('disabled', true);
+                }
+                if (calEvent.backLeftSeatTaken) {
+                    $('#back-left-seat').prop('disabled', true);
+                }
+                if (calEvent.backMiddleSeatTaken) {
+                    $('#back-middle-seat').prop('disabled', true);
+                }
+                if (calEvent.backRightSeatTaken) {
+                    $('#back-right-seat').prop('disabled', true);
+                }
 
                 var defaultValue = Number(0).toFixed(2);
-
                 $('#modelTotal').html(defaultValue);
                 $('#TripId').val(calEvent.id);
 
-                var reservationAlreadyExistent = ExistReservationToTrip(calEvent.id)
+                                        var reservationAlreadyExistent = ExistReservationToTrip(calEvent.id)
 
                 if (reservationAlreadyExistent) {
                     $('#already-reserved-message').html('<small class="pull-left text-warning">¡Ya tiene una reservación activa para este viaje!</small>');
@@ -418,15 +429,15 @@
                     $('#back-middle-seat').attr('disabled', true);
                     $('#copilot-seat').attr('disabled', true);
                     $('#btnsContainer').html('<input type="button" class="btn btn-default btn-sm" data-dismiss="modal" value="Cancelar" style="width:150px"/><input id="btnSubmitReservations" type="button" class="btn btn-info btn-sm" style="width:150px" value="Solicitar Reserva" disabled />');
-                } else {
+                                        } else {
                     $('#msgTextModal').val('')
-                        //< input type = "button" onclick = "OpenMessageModel()" class="btn btn-default pull-left" value = "&#128386;" />
+                                                //< input type = "button" onclick = "OpenMessageModel()" class="btn btn-default pull-left" value = "&#128386;" />
                     $('#btnsContainer').html('<input type="button" class="btn btn-default btn-sm" data-dismiss="modal" value="Cancelar" style="width:150px"/><input id="btnSubmitReservations" type="submit" class="btn btn-info btn-sm" style="width:150px" value="Solicitar Reserva" />');
-                }
+                                        }
 
                 $("#dayTripModal").modal();
-                //window.location.href = '/Reservations/Create?tripId=' + calEvent.id;
-            }
+                                        //window.location.href = '/Reservations/Create?tripId=' + calEvent.id;
+                                    }
         });
 
         var arrayOfTrips = JSON.parse('@Html.Raw(Json.Encode(Model.Trips))');
@@ -443,25 +454,52 @@
             var picture = arrayOfTrips[i].ApplicationUser.Picture.replace('|', '/').replace('|', '/').replace('|', '/').replace('|', '/').replace('~', '');
             var stars = arrayOfTrips[i].ApplicationUser.Stars;
             var route = 'No especificada'
+            var copilotSeatTaken = false;
+            var backLeftSeatTaken = false;
+            var backMiddleSeatTaken = false;
+            var backRightSeatTaken = false;
+
+            for (var i2 = 0; i2 < arrayOfTrips[i].Reservations.length; i2++) {
+                var spacesSelected = arrayOfTrips[i].Reservations[i2].SpacesSelected.split(';');
+                
+                for (var i3 = 0; i3 < spacesSelected.length; i3++) {
+                    var space = spacesSelected[i3];
+                    
+                    switch (space) {
+                        case "modelPriceCopilot":
+                            copilotSeatTaken = true;
+                            break;
+                        case "modelPriceLeft":
+                            backLeftSeatTaken = true;
+                            break;
+                        case "modelPriceMiddle":
+                            backMiddleSeatTaken = true;
+                            break;
+                        case "modelPriceRight":
+                            backRightSeatTaken = true;
+                            break;
+                    }
+                }
+            }
 
             if (arrayOfTrips[i].Route != null) {
                 route = arrayOfTrips[i].Route.Name;
             }
 
             var startDate = new Date(dateTime);
-            //enddate is 30 mins more than startdate, getTime is in milliseconds so 30 mins will be 30*60*100 = 1,800,000 millisecods
-            //var endDate = new Date(startDate.getTime() + 1800000);
+                                    //enddate is 30 mins more than startdate, getTime is in milliseconds so 30 mins will be 30*60*100 = 1,800,000 millisecods
+                                    //var endDate = new Date(startDate.getTime() + 1800000);
 
-            spacesMsg = "";
+                                    spacesMsg = "";
 
             if (availableSpaces == 1) {
                 spacesMsg = "1 espacio";
             } else {
                 spacesMsg = availableSpaces + "espacios";
             }
-
+            
             var event = {
-                id: tripId,
+                                        id: tripId,
                 start: startDate,// end: endDate,
                 color: '#2792F2',
                 from: from,
@@ -474,13 +512,17 @@
                 stars: stars,
                 availableSpaces: availableSpaces,
                 formatteddate: startDate,
-                price: price.toFixed(2)
+                price: price.toFixed(2),
+                copilotSeatTaken: copilotSeatTaken,
+                backLeftSeatTaken: backLeftSeatTaken,
+                backMiddleSeatTaken: backMiddleSeatTaken,
+                backRightSeatTaken: backRightSeatTaken
             };
 
-            console.log('Trip Info => From: ' + event.from + ', To: ' + event.to + ', Route: ' + event.route + ', Driver: ' + event.driver + ', Picture: ' + event.picture + ', Stars: ' + stars, ', Spaces: ' + event.availableSpaces + ', Price: ' + event.price);
+                                    console.log('Trip Info => From: ' + event.from + ', To: ' + event.to + ', Route: ' + event.route + ', Driver: ' + event.driver + ', Picture: ' + event.picture + ', Stars: ' + stars, ', Spaces: ' + event.availableSpaces + ', Price: ' + event.price);
 
             $('#dayCalendar').fullCalendar('renderEvent', event, true);
-        }
+                                    }
 
         $('#dayCalendar').fullCalendar('gotoDate', startDate)
     });
@@ -499,47 +541,47 @@
     //}).val(1);
 
     function ExistReservationToTrip(currentTripId) {
-        var passengerReservations = JSON.parse('@Html.Raw(Json.Encode(Model.ExistentReservations))');
+                                        var passengerReservations = JSON.parse('@Html.Raw(Json.Encode(Model.ExistentReservations))');
 
-        for (var i = 0; i < passengerReservations.length; i++) {
-            var existentReservationTripId = passengerReservations[i].TripId;
+                                        for (var i = 0; i < passengerReservations.length; i++) {
+                                            var existentReservationTripId = passengerReservations[i].TripId;
 
-            if (existentReservationTripId == currentTripId) {
-                return true;
-            }
-        }
+                                            if (existentReservationTripId == currentTripId) {
+                                                return true;
+                                            }
+                                        }
 
-        return false;
-    }
+                                        return false;
+                                    }
 
-    function OpenMessageModel() {
-        var driverId = $('#DriverId').val();
+                                    function OpenMessageModel() {
+                                        var driverId = $('#DriverId').val();
 
         $('#MsgDriverId').val(driverId);
         $('#tripQuestionsModal').modal();
         $('#Message').focus();
-    }
+                                    }
 
-    function SendMessage() {
-        var driverId = $('#MsgDriverId').val();
-        var passengerId = $('#MsgPassengerId').val();
-        var message = $('#Message').val();
+                                    function SendMessage() {
+                                        var driverId = $('#MsgDriverId').val();
+                                        var passengerId = $('#MsgPassengerId').val();
+                                        var message = $('#Message').val();
 
-        if (message == '') {
-            displayMessages('100025', 'warning');
+                                        if (message == '') {
+                                            displayMessages('100025', 'warning');
             $('#Message').focus();
 
-            return;
-        }
+                                            return;
+                                        }
 
         $.post('/TripQuestions/SendQuestion', { driverId: driverId, passengerId: passengerId, tripQuestionInfoId: null, message: message },
             function (data) {
-                if (data != '') {
-                    //¡Mensaje Enviado!
-                    displayMessages(data, 'info');
+                                            if (data != '') {
+                                                //¡Mensaje Enviado!
+                                                displayMessages(data, 'info');
                     $('#Message').val('');
                     $('#Message').focus();
-                }
-            });
-    }
+                                            }
+                                        });
+                                    }
 </script>

@@ -40,8 +40,8 @@
                 dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'],
                 timezone: "local",
                 eventClick: function (calEvent, jsEvent, view) {
-                    if (moment().diff(calEvent.date, 'days') <= 0) {
-                        var date = new Date(calEvent.date);
+                    if (moment().diff(calEvent.start, 'days') <= 0) {
+                        var date = new Date(calEvent.start);
                         var utc = date.getTime() + (date.getTimezoneOffset() * 60000);
                         RedirectToDayTrips(/*calEvent.start*/utc);
                     }
@@ -54,7 +54,7 @@
                     }
                 },
                 eventRender: function (event, element, view) {
-                    var date = new Date(event.date);
+                    var date = new Date(event.start);
                     var utc = date.getTime() + (date.getTimezoneOffset() * 60000);
                     return $('<p onclick="RedirectToDayTrips(' + /*event.start*/utc + ')">&nbsp;&nbsp;' + event.count + ' <i class="fas fa-car"></i></p>');
                 },
@@ -110,7 +110,7 @@
                 var unixTime = arrayOfTrips[i].DateTime.match(/\d+/)[0] * 1;
                 var from = arrayOfTrips[i].FromTown.County.Name + ', ' + arrayOfTrips[i].FromTown.Name;
                 var to = arrayOfTrips[i].ToTown.County.Name + ', ' + arrayOfTrips[i].ToTown.Name;
-
+                
                 document.getElementById('lblFromTo').innerHTML = from + ' - ' + to;
 
                 var actualDate = new Date(unixTime);
@@ -148,8 +148,8 @@
                  var event = {
                     id: obj.tripId,
                     title: availableSpaces + ' espacios',
-                     start: obj.key,
-                     end: obj.key,
+                     start: unixTime,//obj.key,
+                     end: unixTime,//obj.key,
                      //color: '#378006',
                      count: obj.count,
                 };

@@ -211,6 +211,17 @@ namespace CarpoolingCR.Controllers
                     trips[i].FromTown.County = null;
                     trips[i].ToTown.County = null;
                     trips[i].Route.County = null;
+
+                    var tripId = trips[i].TripId;
+                    trips[i].Reservations = db.Reservations.Where(x => x.TripId == tripId && (x.Status == ReservationStatus.Accepted || x.Status == ReservationStatus.Pending)).ToList();
+
+                    foreach (var trip in trips)
+                    {
+                        foreach (var reservation in trip.Reservations)
+                        {
+                            reservation.Trip = null;
+                        }
+                    }
                 }
 
                 var existentReservation = db.Reservations.Where(x => x.ApplicationUserId == user.Id)

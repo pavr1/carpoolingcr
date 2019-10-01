@@ -37,7 +37,7 @@
 
     <script type="text/javascript" src="~/Scripts/jQuery-Mask-Plugin-master/src/jquery.mask.js"></script>
     <script src="~/Scripts/List.js"></script>
-    <script src="~/Scripts/messages.js"></script>
+    @*<script src="~/Scripts/messages.js"></script>*@
     <script src="~/Scripts/notify.js"></script>
     <script src="~/Scripts/WaitingDialog.js"></script>
     @*<link rel="stylesheet" href="~/Content/processingmodal.css">*@
@@ -118,6 +118,85 @@
                 }
 
                 .seat label:hover {
+                    cursor: pointer;
+                    box-shadow: 0 0 0px 2px #5C6AFF;
+                }
+
+
+                /*small car*/
+        .smallseat {
+            display: flex;
+            padding: 5px;
+            position: relative;
+            height: 40px;
+            width: 30px;
+        }
+
+            .smallseat:nth-child(3) {
+                /*margin-right: 14.28571428571429%;*/
+            }
+
+            .smallseat input[type=checkbox] {
+                position: absolute;
+                opacity: 0;
+            }
+
+                .smallseat input[type=checkbox]:checked + label {
+                    background: #bada55;
+                    -webkit-animation-name: rubberBand;
+                    animation-name: rubberBand;
+                    animation-duration: 300ms;
+                    animation-fill-mode: both;
+                }
+
+                .smallseat input[type=checkbox]:disabled + label {
+                    background: #dddddd;
+                    text-indent: -9999px;
+                    overflow: hidden;
+                }
+
+                    .smallseat input[type=checkbox]:disabled + label:after {
+                        content: "X";
+                        text-indent: 0;
+                        position: absolute;
+                        top: 5px;
+                        left: 50%;
+                        transform: translate(-50%, 0%);
+                    }
+
+                    .smallseat input[type=checkbox]:disabled + label:hover {
+                        box-shadow: none;
+                        cursor: not-allowed;
+                    }
+
+            .smallseat label {
+                display: block;
+                position: relative;
+                width: 100%;
+                text-align: center;
+                font-size: 14px;
+                font-weight: bold;
+                line-height: 1.5rem;
+                padding: 4px 0;
+                background: #ffb66c;
+                border-radius: 5px;
+                animation-duration: 300ms;
+                animation-fill-mode: both;
+            }
+
+                .smallseat label:before {
+                    content: "";
+                    position: absolute;
+                    width: 75%;
+                    height: 75%;
+                    top: 1px;
+                    left: 50%;
+                    transform: translate(-50%, 0%);
+                    background: rgba(255, 255, 255, 0.4);
+                    border-radius: 3px;
+                }
+
+                .smallseat label:hover {
                     cursor: pointer;
                     box-shadow: 0 0 0px 2px #5C6AFF;
                 }
@@ -381,14 +460,14 @@
 
         $('.money').change(function () {
             $(this).select();
-            //var moneyValue = $(this).val();
+            var moneyValue = $(this).val();
 
-            //var formatter = new Intl.NumberFormat('es-CR', {
-            //    style: 'currency',
-            //    currency: 'CRC',
-            //});
+            var formatter = new Intl.NumberFormat('es-CR', {
+                style: 'currency',
+                currency: 'CRC',
+            });
 
-            //$(this).val(formatter.format(moneyValue));
+            $(this).val(formatter.format(moneyValue));
         });
 
         function PopUpQualifyModal(reservationId, tripId, userName, url) {
@@ -580,10 +659,6 @@
     </script>
 
     <script>
-        //$(function () {
-        //    waitingDialog.show('Procesando...', {dialogSize: 'sm', progressType: 'info'});
-        //});
-
         $(document).ready(function () {
             $('[data-toggle="tooltip"]').tooltip();
             //waitingDialog.hide();
@@ -740,8 +815,8 @@
                 return "¡Encuentro de vuelta requerido!";
             } else if (code === "100072") {
                 return "¡Encuentro Requerido!";
-            } else if (code === "xxxxxxxxx") {
-                return "zzzzzzzzzzzzzzzzzzzzzz";
+            } else if (code === "100073") {
+                return "¡Por favor seleccione al menos un campo!";
             } else if (code === "xxxxxxxxx") {
                 return "zzzzzzzzzzzzzzzzzzzzzz";
             } else {
@@ -787,6 +862,6 @@
     </div>*@
 
 @*Para ver las propiedades de objetos en javascript
-                    for (const prop in event) {
-                        console.log(`obj.${prop} = ${event[prop]}`);
-                    }*@
+    for (const prop in event) {
+        console.log(`obj.${prop} = ${event[prop]}`);
+    }*@

@@ -90,7 +90,7 @@
                                 </div>
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                     <small class="price"><b>Cuota :</b> ₡ @trip.Price</small><br />
-                                    <small class="spaces"><b>Espacios:</b> @trip.AvailableSpaces</small><br /><br />
+                                    <small class="spaces"><b>Espacios:</b> @trip.AvailableSpaces</small><br />
                                 </div>
                                 <div class="col-lg-2 col-md-2 col-sm-2" style="text-align:center">
                                     @{
@@ -107,18 +107,18 @@
 
                                 foreach (var reservation in trip.Reservations)
                                 {
-                                    <div class="row form-group">
+                                    <div class="row form-group" style="padding:0px">
                                         <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
 
                                         </div>
                                         <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11">
                                             @*<hr />*@
-                                            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+                                            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6" style="padding:0px">
                                                 <div id="profile-container-small" class="" data-toggle="tooltip" title="@reservation.PassengerName">
                                                     <img id="profileImage" src="@Url.Content(reservation.ApplicationUser.Picture)" /><br />
                                                 </div>
                                             </div>
-                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6" style="padding:0px">
                                                 @{
                                                     var stars = reservation.ApplicationUser.Stars;
 
@@ -191,7 +191,7 @@
                                                     <small class="spaces"><b>&nbsp;&nbsp;Espacios: </b> @reservation.RequestedSpaces</small>
                                                 }
                                             </div>
-                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6" style="padding:0px">
                                                 @{
                                                     var description = CarpoolingCR.Utils.EnumHelper<CarpoolingCR.Utils.Enums.ReservationStatus>.GetDisplayValue(reservation.Status);
                                                     <small class="status"><b>&nbsp;&nbsp;Estado: </b>@description</small><br />
@@ -204,9 +204,35 @@
                                                     {
                                                         <small class="total"><b>&nbsp;&nbsp;Total: </b> ₡ @reservation.SelectedSeatsTotalPrice.ToString("N2")<br /></small>
                                                     }
+
+                                                    var spacesSelected = reservation.SpacesSelected.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
+                                                    var displaySpaces = string.Empty;
+
+                                                    <ul style="padding:0px 0px 0px 24px">
+                                                        @{
+                                                            foreach (var space in spacesSelected)
+                                                            {
+                                                                switch (space)
+                                                                {
+                                                                    case "modelPriceCopilot":
+                                                                        <li><small>Delantero Derecho</small></li>
+                                                                        break;
+                                                                    case "modelPriceLeft":
+                                                                        <li><small>Trasero Izquierdo</small></li>
+                                                                        break;
+                                                                    case "modelPriceMiddle":
+                                                                        <li><small>Trasero Central</small></li>
+                                                                        break;
+                                                                    case "modelPriceRight":
+                                                                        <li><small>Trasero Derecho</small></li>
+                                                                        break;
+                                                                }
+                                                            }
+                                                        }
+                                                    </ul>
                                                 }
                                             </div>
-                                            <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
+                                            <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6" style="padding:0px">
                                                 @{
                                                     if (reservation.Status == CarpoolingCR.Utils.Enums.ReservationStatus.Pending)
                                                     {

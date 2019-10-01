@@ -88,7 +88,7 @@ namespace CarpoolingCR.Controllers
                     Common.FinalizeExpiredTrips(user.Id);
                 }
 
-                passengerReservations = db.Reservations.Where(x => x.ApplicationUser.Email == User.Identity.Name && (x.Status == ReservationStatus.Accepted || x.Status == ReservationStatus.Pending))
+                passengerReservations = db.Reservations.Where(x => x.ApplicationUser.Email == User.Identity.Name && (x.Status == ReservationStatus.Accepted || x.Status == ReservationStatus.Pending || x.Status == ReservationStatus.Rejected))
                     .Include(x => x.ApplicationUser)
                     .ToList();
 

@@ -93,7 +93,7 @@ namespace CarpoolingCR.Controllers
                     Destination = user.Email,
                     Subject = "¡Correo Informativo buscoridecr.com!",
                     Body = string.Empty
-                }, EmailType.Notifications, logo);
+                }, EmailType.Notifications, false, logo);
             }
         }
     }

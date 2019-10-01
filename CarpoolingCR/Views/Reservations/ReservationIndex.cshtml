@@ -62,6 +62,14 @@
                                     <div class="row">
                                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                             @{
+                                                if (reservation.Status == CarpoolingCR.Utils.Enums.ReservationStatus.Rejected)
+                                                {
+                                                    <small class="text-danger">
+                                                        ¡Lo sentimos, tu reservación ha sido rechazada por el conductor! <br /> Podés proceder a cancelar esta reserva.
+                                                    </small>
+                                                    <br />
+                                                }
+
                                                 if (reservation.Status != CarpoolingCR.Utils.Enums.ReservationStatus.Cancelled)
                                                 {
                                                     <input type="button" class="btn btn-danger btn-sm pull-right" value="Cancelar Reservación" onclick="ConfirmAction(@reservation.ReservationId, '@CarpoolingCR.Utils.Enums.ReservationStatus.Cancelled','cancelar esta reservación','Reservaciones', 'Cancelar', 'btn-danger', 'passenger')" />
@@ -157,17 +165,29 @@
                                             <small class="control-label from"><b>Origen: </b></small><small>@from</small><br />
                                             <small class="control-label to"><b>Destino: </b></small><small>@to</small><br />
                                             <small class="control-label route"><b>Ruta: </b></small><small>@route</small><br />
-                                        </div>
-                                    </div>
-                                    <div class="row form-group">
-                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                             @{
                                                 var description = CarpoolingCR.Utils.EnumHelper<CarpoolingCR.Utils.Enums.ReservationStatus>.GetDisplayValue(reservation.Status);
-                                                <small class="status"><b>Estado: </b>@description</small>
+
+                                                if (reservation.Status == CarpoolingCR.Utils.Enums.ReservationStatus.Rejected)
+                                                {
+                                                    <small class="status text-danger"><b>Estado: </b>@description</small>
+                                                }
+                                                else
+                                                {
+                                                    <small class="status"><b>Estado: </b>@description</small>
+                                                }
                                             }
-                                            <small><b>Total: </b> ₡ @selectedSeatsTotalPrice</small><br />
-                                            <hr />
-                                            <small class="spaces"><b>Espacios Solicitados: </b> @reservation.RequestedSpaces<br /></small>
+                                            <br />
+                                            @{
+                                                if (reservation.Status == CarpoolingCR.Utils.Enums.ReservationStatus.Rejected)
+                                                {
+                                                    <small><b>Total: </b> ₡ @Convert.ToDecimal(0).ToString("N2")</small><br />
+                                                }
+                                                else
+                                                {
+                                                    <small><b>Total: </b> ₡ @selectedSeatsTotalPrice</small><br />
+                                                }
+                                            }
                                         </div>
                                     </div>
                                 </div>
@@ -177,7 +197,7 @@
 
                                         </div>
                                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
-                                            <table border="0" style="padding:0px;margin:0px;position:relative; top:-80px; left:0px;">
+                                            <table border="0" style="padding:0px;margin:0px;position:relative; top:-70px; left:-10px;">
                                                 <tr style="height:50px">
                                                     <td colspan="3" style="height:50px">
                                                         <div style="height: 15px;width: 40px;background-color: yellow;border-radius: 50%;position:relative; top:75px; left:20px; z-index:10; -ms-transform: rotate(-20deg); -webkit-transform: rotate(-20deg); transform: rotate(-20deg);"></div>
@@ -340,7 +360,7 @@
         $('#modalButton').removeClass('btn-danger');
         $('#modalButton').removeClass('btn-info');
 
-        $('#modalButton').html(btnVal);
+        $('#modalButton').val(btnVal);
         $('#modalButton').addClass(btnClass);
         $('#cancelledFrom').val(cancelledFrom);
 

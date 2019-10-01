@@ -88,7 +88,7 @@ namespace CarpoolingCR
             return Task.FromResult(0);
         }
 
-        public Task SendInformativeAsync(string email, string subject, string description, string contentId, Stream picture, string contentType, int? picWidth, int? picHeight, string providerEmail, string providerPwd, string logo)
+        public Task SendInformativeAsync(string email, string subject, string description, string contentId, Stream picture, string contentType, int? picWidth, int? picHeight, string providerEmail, string providerPwd, bool bcc, string logo)
         {
             //string htmlBody = "<html><body><h1>Picture</h1><br><img src=\"cid:logo\"></body></html>";
             //AlternateView avHtml = AlternateView.CreateAlternateViewFromString(htmlBody, null, MediaTypeNames.Text.Html);
@@ -174,7 +174,12 @@ namespace CarpoolingCR
             mail.IsBodyHtml = true;
             mail.From = new MailAddress(providerEmail);
             mail.To.Add(email);
-            mail.Bcc.Add(WebConfigurationManager.AppSettings["AdminEmails"]);
+
+            if (bcc)
+            {
+                mail.Bcc.Add(WebConfigurationManager.AppSettings["AdminEmails"]);
+            }
+
             mail.Subject = subject;
 
             //MailMessage mail = new MailMessage();

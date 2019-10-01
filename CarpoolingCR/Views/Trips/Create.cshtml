@@ -85,26 +85,21 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                        <div class="input-group" onclick="ChangeTripRound(true)" style="cursor:pointer">
-                                            <span class="input-group-addon" style="border-radius: 10px 0px 0px 10px">
-                                                <input type="radio" id="rbRound" onclick="ChangeTripRound(true)" name="rbRound" tabindex="-1" aria-label="...">
-                                            </span>
-                                            <small class="form-control" style="width:160px;border-radius: 0px 10px 10px 0px"><span class="glyphicon glyphicon-arrow-up"></span><span class="glyphicon glyphicon-arrow-down"></span> Ida y Vuelta</small>
+                                        <div class="row form-group">
+                                            <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
+                                                <br class="visible-xs" />
+                                                <label class="control-label" style="text-align:left">Cuota</label>
+                                            </div>
+                                            <div class="col-lg-10 col-md-9 col-sm-9 col-xs-12">
+                                                @Html.EditorFor(model => model.Trip.Price, new { htmlAttributes = new { @class = "form-control", @style = "width:100px" } })
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-4 col-sm-4 col-xs-12">
-                            <div class="row form-group">
-                                <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
-                                    <br class="visible-xs" />
-                                    <label class="control-label" style="text-align:left">Cuota</label>
-                                </div>
-                                <div class="col-lg-10 col-md-9 col-sm-9 col-xs-12">
-                                    @Html.EditorFor(model => model.Trip.Price, new { htmlAttributes = new { @class = "form-control money", @style="width:100px"} })
-                                </div>
-                            </div>
+                            
                         </div>
                     </div>
                     <div class="row">
@@ -189,6 +184,17 @@
                                     <div id="aprox-time-div" class="text-info pull-left">
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <hr />
+                            <div class="input-group" onclick="ChangeTripRound(true)" style="cursor:pointer">
+                                <span class="input-group-addon" style="border-radius: 10px 0px 0px 10px">
+                                    <input type="radio" id="rbRound" onclick="ChangeTripRound(true)" name="rbRound" tabindex="-1" aria-label="...">
+                                </span>
+                                <small class="form-control" style="width:160px;border-radius: 0px 10px 10px 0px"><span class="glyphicon glyphicon-arrow-up"></span><span class="glyphicon glyphicon-arrow-down"></span> Ida y Regreso</small>
                             </div>
                         </div>
                     </div>
@@ -389,30 +395,7 @@
         minDate: Date.now(),
         maxDate: addDays(Date.now(), 31),
         step: 15,
-        //onSelect: function (selectedDate) {
-        //    var option = this.id == "from" ? "minDate" : "maxDate",
-        //        instance = $(this).data("datepicker"),
-        //        date = $.datepicker.parseDate(instance.settings.dateFormat || $.datepicker._defaults.dateFormat, selectedDate, instance.settings);
-        //    dates.not(this).datepicker("option", option, date);
-        //}
-        //onChangeDateTime: function (current_time, $input) {
-        //    $('#TotalSpaces').focus();
-
-        //    if (current_time == null) {
-        //        $("#DateTimeDisplay").datetimepicker({
-        //            minTime: new Date()
-        //        });
-        //    } else if (current_time.toLocaleDateString() == new Date().toLocaleDateString()) {
-        //        $("#DateTimeDisplay").datetimepicker({
-        //            minTime: new Date()
-        //        });
-        //    } else {
-        //        $("#DateTimeDisplay").datetimepicker({
-        //            minTime: '00:00'
-        //        });
-        //    }
-
-        //}
+        hoursDisabled: '0,1,2,3,4,5,6,7,18,19,20,21,22,23'
     });
 
     $('#DateTimeDisplay-To').datetimepicker({

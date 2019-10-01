@@ -416,7 +416,7 @@ namespace CarpoolingCR.Controllers
 
                 fields += "Route Back: " + Request["Route-To"] + ", ";
                 fields += "AvailableSpaces-To: " + Request["AvailableSpaces-To"] + ", ";
-                fields += "Trip.Details Back: " + Request["Trip.Details.To"] + ", ";
+                fields += "Trip.Details Back: " + Request["Trip_Details_To"] + ", ";
                 fields += "DateTime Back: " + Request["DateTime-To"] + ", ";
                 fields += "Trip.Price: " + Request["Trip.Price"] + ", ";
                 #endregion
@@ -537,6 +537,7 @@ namespace CarpoolingCR.Controllers
                     }
 
                     int routeId = routeDistrict.DistrictId;
+                    decimal price = Convert.ToDecimal(Request["Trip.Price"].Replace("₡", string.Empty).Replace(",00", string.Empty));
 
                     trip = new Trip
                     {
@@ -546,7 +547,7 @@ namespace CarpoolingCR.Controllers
                         DateTime = TimeZoneInfo.ConvertTimeToUtc(tripDate, TimeZoneInfo.Local),
                         Details = Request["Trip.Details"],
                         FromTownId = fromDistrict.DistrictId,
-                        Price = Convert.ToDecimal(Request["Trip.Price"]),
+                        Price = price,
                         Status = Enums.Status.Activo,
                         TotalSpaces = Convert.ToInt32(Request["TotalSpaces"]),
                         ToTownId = toDistrict.DistrictId,
@@ -605,9 +606,9 @@ namespace CarpoolingCR.Controllers
                             AvailableSpaces = Convert.ToInt32(Request["AvailableSpaces-To"]),
                             CreatedTime = TimeZoneInfo.ConvertTimeToUtc(DateTime.Now, TimeZoneInfo.Local),
                             DateTime = TimeZoneInfo.ConvertTimeToUtc(tripDateTo, TimeZoneInfo.Local),
-                            Details = Request["Trip.Details.To"],
+                            Details = Request["Trip_Details_To"],
                             FromTownId = toDistrict.DistrictId,
-                            Price = Convert.ToDecimal(Request["Trip.Price"]),
+                            Price = price,
                             Status = Enums.Status.Activo,
                             TotalSpaces = Convert.ToInt32(Request["TotalSpaces"]),
                             ToTownId = fromDistrict.DistrictId,

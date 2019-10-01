@@ -26,7 +26,7 @@
 
 <!-- Modal -->
 <div class="modal fade" id="dayTripModal" tabindex="-1" role="dialog" aria-labelledby="dayTripModalLabel" aria-hidden="true">
-    <form action="~/Reservations/Create" method="post">
+    <form id="frmCreateReservation" action="~/Reservations/Create" method="post">
         <input id="RequestedSpaces" name="RequestedSpaces" type="text" class="hidden" style="width:40px;" onfocus="blur();">
         <input id="SpacesSelected" name="SpacesSelected" type="text" class="hidden" style="width:40px;" onfocus="blur();">
         <input id="SelectedSeatsTotalPrice" name="SelectedSeatsTotalPrice" type="text" class="hidden" style="width:40px;" onfocus="blur();">
@@ -85,23 +85,6 @@
                                         <input type="text" id="ReservationDate" name="ReservationDate" class="hidden" />
                                     </div>
                                 </div>
-                                @*<div class="row form-group">
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                            <b>Espacios</b>
-                                        </div>
-                                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                                            <input id="RequestedSpaces" name="RequestedSpaces" class="" style="width:40px;" onfocus="blur();">
-                                            <input type="text" id="DriverId" name="DriverId" class="hidden" />
-                                        </div>
-                                    </div>*@
-                                @*<div class="row form-group">
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                            <b>Precio</b>
-                                        </div>
-                                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                                            ₡<small id="modelPrice"></small>
-                                        </div>
-                                    </div>*@
                                 <div class="row form-group">
                                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                         <b>Total</b>
@@ -119,64 +102,74 @@
                                 </div>
                             </div>
                             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 align-items-center" style="text-align:center; height:320px">
-                                <table border="0" style="padding:0px;margin:0px;position:relative; top:-70px; left:0px">
-                                    <tr style="height:50px">
-                                        <td colspan="3" style="height:50px">
-                                            <div style="height: 15px;width: 40px;background-color: yellow;border-radius: 50%;position:relative; top:75px; left:20px; z-index:10; -ms-transform: rotate(-20deg); -webkit-transform: rotate(-20deg); transform: rotate(-20deg);"></div>
-                                            <div style="height: 15px;width: 40px;background-color: yellow;border-radius: 50%;position:relative; top:60px; left:123px; z-index:10; -ms-transform: rotate(20deg); -webkit-transform: rotate(20deg); transform: rotate(20deg);"></div>
-                                            <div style="border-radius:50px 50px 0px 0px; background-color:#004a93; width:100%; height:100px;position:relative;top:37px; left:0px;"></div>
-                                            <div class="center-block" style="border-radius:50px 50px 0px 0px; background-color:gainsboro; width:100%; height:35px;position:relative; width:90%"></div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="background-color:#004a93">
-                                            <div class="seat" style="padding-left:10px; padding-right:0px">
-                                                <input type="checkbox" disabled id="driver-seat" />
-                                                <label for="driver-seat">Conductor</label>
-                                            </div>
-                                        </td>
-                                        <td style="background-color:#004a93"></td>
-                                        <td style="background-color:#004a93">
-                                            <div class="seat" style="padding-left:0px; padding-right:10px">
-                                                <input type="checkbox" id="copilot-seat" class="seats" />
-                                                <label for="copilot-seat" style="color:darkblue"><small>₡</small><small id="modelPriceCopilot"></small></label>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="background-color:#004a93">
-                                            <div class="seat" style="padding-left:10px; padding-right:0px">
-                                                <input type="checkbox" id="back-left-seat" class="seats" />
-                                                <label for="back-left-seat" style="color:darkblue"><small>₡</small><small id="modelPriceLeft"></small></label>
-                                            </div>
-                                        </td>
-                                        <td style="background-color:#004a93">
-                                            <div class="seat" style="padding-left:0px; padding-right:0px">
-                                                <input type="checkbox" id="back-middle-seat" class="seats" />
-                                                <label for="back-middle-seat" style="color:darkblue"><small>₡</small><small id="modelPriceMiddle"></small></label>
-                                            </div>
-                                        </td>
-                                        <td style="background-color:#004a93">
-                                            <div class="seat" style="padding-left:0px; padding-right:10px">
-                                                <input type="checkbox" id="back-right-seat" class="seats" />
-                                                <label for="back-right-seat" style="color:darkblue"><small>₡</small><small id="modelPriceRight"></small></label>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="3">
-                                            <div class="center-block" style="border-radius:0px 0px 25px 25px; background-color:#004a93; width:100%; height:60px;"></div>
-                                            <div class="center-block" style="border-radius:0px 0px 50px 50px; background-color:gainsboro; width:90%; height:20px;position:relative;top:-60px; left:0px;"></div>
-                                        </td>
-                                    </tr>
-                                </table>
+                                <div class="row" style="height:320px">
+                                    <div class="visible-xs col-xs-3">
+
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-5" style="height:320px">
+                                        <table border="0" style="padding:0px;margin:0px;position:relative; top:-70px; left:0px">
+                                            <tr style="height:50px">
+                                                <td colspan="3" style="height:50px">
+                                                    <div style="height: 15px;width: 40px;background-color: yellow;border-radius: 50%;position:relative; top:75px; left:20px; z-index:10; -ms-transform: rotate(-20deg); -webkit-transform: rotate(-20deg); transform: rotate(-20deg);"></div>
+                                                    <div style="height: 15px;width: 40px;background-color: yellow;border-radius: 50%;position:relative; top:60px; left:123px; z-index:10; -ms-transform: rotate(20deg); -webkit-transform: rotate(20deg); transform: rotate(20deg);"></div>
+                                                    <div style="border-radius:50px 50px 0px 0px; background-color:#004a93; width:100%; height:100px;position:relative;top:37px; left:0px;"></div>
+                                                    <div class="center-block" style="border-radius:50px 50px 0px 0px; background-color:gainsboro; width:100%; height:35px;position:relative; width:90%"></div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="background-color:#004a93">
+                                                    <div class="seat" style="padding-left:10px; padding-right:0px">
+                                                        <input type="checkbox" disabled id="driver-seat" />
+                                                        <label for="driver-seat">Conductor</label>
+                                                    </div>
+                                                </td>
+                                                <td style="background-color:#004a93"></td>
+                                                <td style="background-color:#004a93">
+                                                    <div class="seat" style="padding-left:0px; padding-right:10px">
+                                                        <input type="checkbox" id="copilot-seat" class="seats" />
+                                                        <label for="copilot-seat" style="color:darkblue"><small>₡</small><small id="modelPriceCopilot"></small></label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="background-color:#004a93">
+                                                    <div class="seat" style="padding-left:10px; padding-right:0px">
+                                                        <input type="checkbox" id="back-left-seat" class="seats" />
+                                                        <label for="back-left-seat" style="color:darkblue"><small>₡</small><small id="modelPriceLeft"></small></label>
+                                                    </div>
+                                                </td>
+                                                <td style="background-color:#004a93">
+                                                    <div class="seat" style="padding-left:0px; padding-right:0px">
+                                                        <input type="checkbox" id="back-middle-seat" class="seats" />
+                                                        <label for="back-middle-seat" style="color:darkblue"><small>₡</small><small id="modelPriceMiddle"></small></label>
+                                                    </div>
+                                                </td>
+                                                <td style="background-color:#004a93">
+                                                    <div class="seat" style="padding-left:0px; padding-right:10px">
+                                                        <input type="checkbox" id="back-right-seat" class="seats" />
+                                                        <label for="back-right-seat" style="color:darkblue"><small>₡</small><small id="modelPriceRight"></small></label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="3">
+                                                    <div class="center-block" style="border-radius:0px 0px 25px 25px; background-color:#004a93; width:100%; height:60px;"></div>
+                                                    <div class="center-block" style="border-radius:0px 0px 50px 50px; background-color:gainsboro; width:90%; height:20px;position:relative;top:-60px; left:0px;"></div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div class="visible-xs col-xs-4">
+
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="row form-group">
                             <div id="btnsContainer" class="modal-footer">
                                 <input type="button" onclick="OpenMessageModel()" class="btn btn-default pull-left" value="&#9993;" />
                                 <input type="button" class="btn btn-default btn-sm" data-dismiss="modal" value="Cancelar" />
-                                <input id="btnSubmitReservations" type="submit" style="width:150px" class="btn btn-info btn-sm" value="Solicitar Reserva" />
+                                <input id="btnSubmitReservations" type="button" onclick="SubmitForm();" style="width:150px" class="btn btn-info btn-sm" value="Solicitar Reserva" />
                             </div>
                         </div>
                     </div>
@@ -222,6 +215,16 @@
 <script src="~/fonts/fullcalendar-3.10.0/moment.min.js"></script>
 <script src="~/fonts/fullcalendar-3.10.0/fullcalendar.min.js"></script>
 <script>
+    function SubmitForm() {
+        if ($('#SpacesSelected').val() == '') {
+            //¡Por favor seleccione al menos un campo!
+            DisplayGrowlMessage('100073', 'warn');
+
+            return;
+        }
+
+        $('#frmCreateReservation').submit();
+    }
     var totalSelectedSeats = Number(0);
 
     $(".seats").change(function () {
@@ -363,9 +366,9 @@
 
                 return $(`<tr class="fc-list-item "><td class="fc-list-item-title fc-widget-content"><div class="panel panel-default" style="border-radius:10px">&emsp;<i class="fas fa-car"></i>  ` + formatAMPM(new Date(event.start)) +
                     `<div class="pull-right pr-1" id="profile-container-small" data-toggle="tooltip" title="` + event.driver + `"><img id="profileImage" src="` + event.picture.replace("|", "/") + `" /><br /></div>` +
-                    `<br/> <a>&emsp;&emsp;<span class="fc-event-dot" style="background-color:#2792F2"></span> <b>Origen: </b> ` + event.from + ` <br/> &emsp;&emsp;<span class="fc-event-dot" style="background-color:#2792F2"></span> <b>Destino: </b>` + event.to +
-                    `<br/>&emsp;&emsp;&emsp;<b>Ruta: </b>` + event.route + `<br/>` +
-                    `<br/> &emsp;&emsp;&emsp;Espacios: ` + event.availableSpaces + ` <br/>&emsp;&emsp;&emsp;Monto: ` + event.price + `</a><div class="pull-right">` + starsStr + `&nbsp;&nbsp;&nbsp;</div><div></td></tr>`);
+                    `<br/> <a>&emsp;&emsp;<span class="fc-event-dot" style="background-color:#2792F2"></span> <small><b>Origen: </b></small> ` + event.from + ` <br/> &emsp;&emsp;<span class="fc-event-dot" style="background-color:#2792F2"></span> <b><small>Destino: </small></b>` + event.to +
+                    `<br/>&emsp;&emsp;&emsp;<b><small>Ruta: </small></b>` + event.route + `<br/>` +
+                    `<br/> &emsp;&emsp;&emsp;<b><small>Espacios: </small></b>` + event.availableSpaces + ` <br/>&emsp;&emsp;&emsp;<small><b>Monto: </b>` + event.price + `</small></a><div class="pull-right">` + starsStr + `&nbsp;&nbsp;&nbsp;</div><div></td></tr>`);
             },
             allDaySlot: false,
             contentHeight: "auto",
@@ -432,7 +435,7 @@
                                         } else {
                     $('#msgTextModal').val('')
                                                 //< input type = "button" onclick = "OpenMessageModel()" class="btn btn-default pull-left" value = "&#128386;" />
-                    $('#btnsContainer').html('<input type="button" class="btn btn-default btn-sm" data-dismiss="modal" value="Cancelar" style="width:150px"/><input id="btnSubmitReservations" type="submit" class="btn btn-info btn-sm" style="width:150px" value="Solicitar Reserva" />');
+                    $('#btnsContainer').html('<input type="button" class="btn btn-default btn-sm" data-dismiss="modal" value="Cancelar" style="width:150px"/><input id="btnSubmitReservations" type="button" onclick="SubmitForm();" class="btn btn-info btn-sm" style="width:150px" value="Solicitar Reserva" />');
                                         }
 
                 $("#dayTripModal").modal();

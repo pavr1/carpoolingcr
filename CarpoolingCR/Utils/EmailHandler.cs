@@ -22,7 +22,7 @@ namespace CarpoolingCR.Utils
                 Destination = email,
                 Subject = "Confirmación de correo electrónico",
                 Body = html
-            }, EmailType.Notifications, appLogo);
+            }, EmailType.Notifications, false, appLogo);
         }
 
         public static void SendEmailNewUserRegistered(ApplicationUser user, string callbackUrl, string appLogo)
@@ -39,7 +39,7 @@ namespace CarpoolingCR.Utils
                 Destination = WebConfigurationManager.AppSettings["AdminEmails"],
                 Subject = "¡Nuevo usuario registrado!",
                 Body = html
-            }, EmailType.Notifications, appLogo);
+            }, EmailType.Notifications, false, appLogo);
         }
 
         public static void SendEmailForgotPassword(string callbackUrl, string email, string appLogo)
@@ -53,7 +53,7 @@ namespace CarpoolingCR.Utils
                 Destination = email,
                 Subject = "Reinicio de contraseña",
                 Body = html
-            }, EmailType.Notifications, appLogo);
+            }, EmailType.Notifications,false, appLogo);
         }
 
         //public static void SendEmailNewTown(string callbackUrl)
@@ -79,19 +79,19 @@ namespace CarpoolingCR.Utils
                 Destination = WebConfigurationManager.AppSettings["AdminEmails"],
                 Subject = "El sitio ha sido accesado",
                 Body = html
-            }, EmailType.Notifications, appLogo);
+            }, EmailType.Notifications, false, appLogo);
         }
 
         public static void SendUserLogin(string userName, UserType userType, string userEmail, string appLogo)
         {
             var html = "¡El " + userType.ToString() + " " + userName + " se ha logueado en el sistema!";
-            
+
             SendEmail(new IdentityMessage
             {
                 Destination = WebConfigurationManager.AppSettings["AdminEmails"],
                 Subject = "¡Usuario Logueado!",
                 Body = html
-            }, EmailType.Notifications, appLogo);
+            }, EmailType.Notifications, false, appLogo);
         }
 
         public static void SendReservationStatusChangeByDriver(string email, string trip, string date, string status, string callbackUrl, string appLogo)
@@ -102,10 +102,10 @@ namespace CarpoolingCR.Utils
 
             SendEmail(new IdentityMessage
             {
-                Destination = WebConfigurationManager.AppSettings["AdminEmails"],
+                Destination = email,
                 Subject = "¡Reservación " + status + "!",
                 Body = html
-            }, EmailType.Notifications, appLogo);
+            }, EmailType.Notifications, true, appLogo);
         }
 
         public static void SendReservationStatusCancelledByPassenger(string email, string trip, string date, int spaces, string callbackUrl, string appLogo)
@@ -119,7 +119,7 @@ namespace CarpoolingCR.Utils
                 Destination = email,
                 Subject = "¡Reservación Cancelada!",
                 Body = html
-            }, EmailType.Notifications, appLogo);
+            }, EmailType.Notifications, true, appLogo);
         }
 
         public static void SendTripsCancelledByDriver(string email, string trip, string date, string callbackUrl, string appLogo)
@@ -133,7 +133,7 @@ namespace CarpoolingCR.Utils
                 Destination = email,
                 Subject = "¡Viaje Cancelado!",
                 Body = html
-            }, EmailType.Notifications, appLogo);
+            }, EmailType.Notifications, true, appLogo);
         }
 
         public static void SendEmailTripReservation(string adminEmail, string email, string passengerName, int spaces, string tripInfo, string callbackUrl, string appLogo)
@@ -147,16 +147,7 @@ namespace CarpoolingCR.Utils
                 Destination = email,
                 Subject = "¡Han solicitado ride para tu viaje!",
                 Body = html
-            }, EmailType.Notifications, appLogo);
-
-            html = passengerName + " ha solicitado " + spaces + " espacios en un viaje de " + tripInfo;
-
-            SendEmail(new IdentityMessage
-            {
-                Destination = adminEmail,
-                Subject = "¡Han creado una reservación!",
-                Body = html
-            }, EmailType.Notifications, appLogo);
+            }, EmailType.Notifications, true, appLogo);
         }
 
         //[Obsolete]
@@ -196,11 +187,6 @@ namespace CarpoolingCR.Utils
         //        }
         //    }
         //}
-
-        public static void SentdInformativeEmailsToAllUsers()
-        {
-
-        }
 
         public static void SendEmail(int line, Enums.LogLocation location, Enums.LogType logType, string message, string method, DateTime time, string user, string fields, string appLogo)
         {
@@ -264,10 +250,10 @@ namespace CarpoolingCR.Utils
                 Destination = WebConfigurationManager.AppSettings["AdminEmails"],
                 Subject = title,
                 Body = html
-            }, emailType, appLogo);
+            }, emailType, false, appLogo);
         }
 
-        public static void SendEmail(IdentityMessage msg, EmailType EmailType, string logo)
+        public static void SendEmail(IdentityMessage msg, EmailType EmailType, bool bccToAdmin, string logo)
         {
             using (FileStream stream = System.IO.File.Open(logo, FileMode.Open, FileAccess.Read))
             {
@@ -293,22 +279,22 @@ namespace CarpoolingCR.Utils
                         break;
                 }
 
-                new EmailService().SendInformativeAsync(msg.Destination, msg.Subject, msg.Body, "logo", stream, "image/jpg", null, null, providerEmail, providerPwd, logo);
+                new EmailService().SendInformativeAsync(msg.Destination, msg.Subject, msg.Body, "logo", stream, "image/jpg", null, null, providerEmail, providerPwd, bccToAdmin, logo);
             }
         }
 
-        public static void SendTripNotification(string email, string date,  string tripInfo, string callbackUrl, string appLogo)
+        public static void SendTripNotification(string email, string date, string tripInfo, string callbackUrl, string appLogo)
         {
             callbackUrl = callbackUrl.Replace("http://", "https://");
 
-            var html = "¡Hemos encontrado al menos un viaje que te puede servir el " + date  + " de " + tripInfo + "!<br/><br/> Para ver la información y poder reservar da click <b><a href='" + callbackUrl + "'>aquí</a></b>";
+            var html = "¡Hemos encontrado al menos un viaje que te puede servir el " + date + " de " + tripInfo + "!<br/><br/> Para ver la información y poder reservar da click <b><a href='" + callbackUrl + "'>aquí</a></b>";
 
             SendEmail(new IdentityMessage
             {
                 Destination = email,
                 Subject = "¡Notificación automática de viajes!",
                 Body = html
-            }, EmailType.Notifications, appLogo);
+            }, EmailType.Notifications, true, appLogo);
         }
 
         public static void SendEmailVerification(string email, bool isUseridentificationVerified, string appLogo)
@@ -334,7 +320,7 @@ namespace CarpoolingCR.Utils
                 Destination = email,
                 Subject = "Verificación de Cédula",
                 Body = html
-            }, EmailType.Notifications, appLogo);
+            }, EmailType.Notifications, true, appLogo);
         }
     }
 }

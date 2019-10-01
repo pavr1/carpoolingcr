@@ -286,6 +286,8 @@ namespace CarpoolingCR.Controllers
                             .Include(x => x.ApplicationUser)
                             .SingleOrDefault();
 
+                        reservation.Trip.DateTime = Common.ConvertToLocalTime(reservation.Trip.DateTime);
+
                         reservation.Trip.FromTown = db.Districts.Where(x => x.DistrictId == reservation.Trip.FromTownId).Single();
                         reservation.Trip.ToTown = db.Districts.Where(x => x.DistrictId == reservation.Trip.ToTownId).Single();
                         reservation.Trip.Route = db.Districts.Where(x => x.DistrictId == reservation.Trip.RouteId).Single();
@@ -308,6 +310,7 @@ namespace CarpoolingCR.Controllers
                             reservation.Trip = null;
                         }
 
+                        trip.DateTime = Common.ConvertToLocalTime(trip.DateTime);
                         trip.FromTown = db.Districts.Where(x => x.DistrictId == trip.FromTownId).Single();
                         trip.ToTown = db.Districts.Where(x => x.DistrictId == trip.ToTownId).Single();
                         trip.Route = db.Districts.Where(x => x.DistrictId == trip.RouteId).Single();
@@ -323,6 +326,8 @@ namespace CarpoolingCR.Controllers
 
                     foreach (var trip in adminTrips)
                     {
+                        trip.DateTime = Common.ConvertToLocalTime(trip.DateTime);
+
                         var tripReservations = db.Reservations.Where(x => x.TripId == trip.TripId)
                             .Include(x => x.ApplicationUser)
                             .ToList();
@@ -405,7 +410,6 @@ namespace CarpoolingCR.Controllers
                 {
                     trip.FromTown = fromDistrict;
                     trip.ToTown = toDistrict;
-                    trip.DateTime = Common.ConvertToLocalTime(trip.DateTime);
                 }
 
                 response = new ReservationTransportationResponse

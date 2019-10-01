@@ -38,10 +38,12 @@
                 monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
                 dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
                 dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'],
+                timezone: "local",
                 eventClick: function (calEvent, jsEvent, view) {
                     if (moment().diff(calEvent.date, 'days') <= 0) {
-                        alert('1 ' + calEvent.start)
-                        RedirectToDayTrips(calEvent.start);
+                        var date = new Date(calEvent.date);
+                        var utc = date.getTime() + (date.getTimezoneOffset() * 60000);
+                        RedirectToDayTrips(/*calEvent.start*/utc);
                     }
                 },
                 eventLimit: true,
@@ -52,8 +54,9 @@
                     }
                 },
                 eventRender: function (event, element, view) {
-                    alert('2 ' + event.start)
-                    return $('<p onclick="RedirectToDayTrips(' + event.start + ')">&nbsp;&nbsp;' + event.count + ' <i class="fas fa-car"></i></p>');
+                    var date = new Date(event.date);
+                    var utc = date.getTime() + (date.getTimezoneOffset() * 60000);
+                    return $('<p onclick="RedirectToDayTrips(' + /*event.start*/utc + ')">&nbsp;&nbsp;' + event.count + ' <i class="fas fa-car"></i></p>');
                 },
                 //events: [
 
@@ -63,8 +66,9 @@
                 navLinks: false,
                 dayClick: function (date, jsEvent, view) {
                     if (moment().diff(date, 'days') <= 0) {
-                        alert('3 ' + date)
-                        RedirectToDayTrips(date);
+                        var date = new Date(date);
+                        var utc = date.getTime() + (date.getTimezoneOffset() * 60000);
+                        RedirectToDayTrips(/*date*/utc);
                     }
                 },
                 dayRender: function (date, cell) {
@@ -140,7 +144,7 @@
 
             for (var index in events) {
                 var obj = events[index];
-               
+                
                  var event = {
                     id: obj.tripId,
                     title: availableSpaces + ' espacios',

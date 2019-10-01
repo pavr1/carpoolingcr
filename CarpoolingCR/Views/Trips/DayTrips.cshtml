@@ -361,7 +361,7 @@
                                                         break;
                 }
 
-                return $(`<tr class="fc-list-item "><td class="fc-list-item-title fc-widget-content"><div class="panel panel-default" style="border-radius:10px">&emsp;<i class="fas fa-car"></i>  ` + new Date(event.start).toLocaleTimeString() +
+                return $(`<tr class="fc-list-item "><td class="fc-list-item-title fc-widget-content"><div class="panel panel-default" style="border-radius:10px">&emsp;<i class="fas fa-car"></i>  ` + formatAMPM(new Date(event.start)) +
                     `<div class="pull-right pr-1" id="profile-container-small" data-toggle="tooltip" title="` + event.driver + `"><img id="profileImage" src="` + event.picture.replace("|", "/") + `" /><br /></div>` +
                     `<br/> <a>&emsp;&emsp;<span class="fc-event-dot" style="background-color:#2792F2"></span> <b>Origen: </b> ` + event.from + ` <br/> &emsp;&emsp;<span class="fc-event-dot" style="background-color:#2792F2"></span> <b>Destino: </b>` + event.to +
                     `<br/>&emsp;&emsp;&emsp;<b>Ruta: </b>` + event.route + `<br/>` +

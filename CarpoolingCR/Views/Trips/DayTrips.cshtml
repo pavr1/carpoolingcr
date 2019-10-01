@@ -29,6 +29,7 @@
     <form action="~/Reservations/Create" method="post">
         <input id="RequestedSpaces" name="RequestedSpaces" type="text" class="hidden" style="width:40px;" onfocus="blur();">
         <input id="SpacesSelected" name="SpacesSelected" type="text" class="hidden" style="width:40px;" onfocus="blur();">
+        <input id="SelectedSeatsTotalPrice" name="SelectedSeatsTotalPrice" type="text" class="hidden" style="width:40px;" onfocus="blur();">
         <input type="text" id="TripId" name="TripId" class="hidden" />
         @Html.AntiForgeryToken()
         <div class="vertical-alignment-helper">
@@ -251,7 +252,7 @@
             totalSelectedSeats = Number(totalSelectedSeats) - value;
         }
 
-        var requestedSpaces = 0;
+        var requestedSpaces = 0; 
         var requestedSpacesControlIds = "";
 
         if($("#copilot-seat").prop('checked')){
@@ -288,6 +289,7 @@
         $('#modelTotal').html(totalSelectedSeats.toFixed(2));
         $('#RequestedSpaces').val(requestedSpaces);
         $('#SpacesSelected').val(requestedSpacesControlIds);
+        $('#SelectedSeatsTotalPrice').val(totalSelectedSeats);
     });
 
     $(document).ready(function () {

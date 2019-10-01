@@ -25,6 +25,7 @@ namespace CarpoolingCR.Models
         public int RequestedSpaces { get; set; }
         //SpacesSelected: seatControl1;seatControl2...
         public string SpacesSelected { get; set; }
+        public decimal SelectedSeatsTotalPrice { get; set; }
         [Required]
         [Display(Name = "Fecha")]
         public DateTime Date { get; set; }

@@ -198,11 +198,11 @@
 
                                                     if (reservation.Status == CarpoolingCR.Utils.Enums.ReservationStatus.Accepted)
                                                     {
-                                                        <small class="total"><b>&nbsp;&nbsp;Total: ₡ @Convert.ToDecimal(reservation.RequestedSpaces * trip.Price).ToString("N2")</b><br /></small>
+                                                        <small class="total"><b>&nbsp;&nbsp;Total: ₡ @reservation.SelectedSeatsTotalPrice.ToString("N2")</b><br /></small>
                                                     }
                                                     else
                                                     {
-                                                        <small class="total"><b>&nbsp;&nbsp;Total: </b> ₡ @Convert.ToDecimal(reservation.RequestedSpaces * trip.Price).ToString("N2")<br /></small>
+                                                        <small class="total"><b>&nbsp;&nbsp;Total: </b> ₡ @reservation.SelectedSeatsTotalPrice.ToString("N2")<br /></small>
                                                     }
                                                 }
                                             </div>

@@ -1003,6 +1003,7 @@ namespace CarpoolingCR.Controllers
                 fields += "ReservationDate: " + Request["ReservationDate"] + ", ";
                 fields += "RequestedSpaces: " + Request["RequestedSpaces"] + ", ";
                 fields += "SpacesSelected: " + Request["SpacesSelected"] + ", ";
+                fields += "SelectedSeatsTotalPrice: " + Request["SelectedSeatsTotalPrice"] + ", ";
                 fields += "TripId: " + Request["TripId"];
                 #endregion
 
@@ -1017,6 +1018,7 @@ namespace CarpoolingCR.Controllers
                     PassengerName = passenger.Name + " " + passenger.LastName + " " + passenger.SecondLastName,
                     RequestedSpaces = Convert.ToInt32(Request["RequestedSpaces"]),
                     SpacesSelected = Request["SpacesSelected"],
+                    SelectedSeatsTotalPrice = Convert.ToDecimal(Request["SelectedSeatsTotalPrice"]),
                     Status = ReservationStatus.Pending,
                     TripId = tripId
                 };

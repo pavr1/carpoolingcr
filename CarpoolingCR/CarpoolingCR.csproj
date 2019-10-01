@@ -18,10 +18,13 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
-    <IISExpressSSLPort>443</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
+    <IISExpressSSLPort>44346</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication>
+    </IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>
+    </IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>
+    </IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -279,6 +282,10 @@
     <Compile Include="Migrations\201909292021518_Added SpacesSelected.cs" />
     <Compile Include="Migrations\201909292021518_Added SpacesSelected.Designer.cs">
       <DependentUpon>201909292021518_Added SpacesSelected.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201909302356448_Added SelectedSeatsTotalPrice to Reservations.cs" />
+    <Compile Include="Migrations\201909302356448_Added SelectedSeatsTotalPrice to Reservations.Designer.cs">
+      <DependentUpon>201909302356448_Added SelectedSeatsTotalPrice to Reservations.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -927,6 +934,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201909292021518_Added SpacesSelected.resx">
       <DependentUpon>201909292021518_Added SpacesSelected.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201909302356448_Added SelectedSeatsTotalPrice to Reservations.resx">
+      <DependentUpon>201909302356448_Added SelectedSeatsTotalPrice to Reservations.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -35,7 +35,11 @@
 else
 {
     <ul class="nav navbar-nav navbar-right">
-        <li>@Html.ActionLink("Regístrate", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "nav-link" })</li>
-        <li>@Html.ActionLink("Inicia Sesión", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink", @class = "nav-link" })</li>
+        <li>
+            <a class="nav-link" href="~/carpoolingcr/Account/Register" id="registerLink"><i class="fas fa-user-plus">&nbsp;</i>Regístrate</a>
+        </li>
+        <li>
+            <a class="nav-link" href="/carpoolingcr/Account/Login" id="loginLink"><i class="fas fa-sign-in-alt">&nbsp;</i>Inicia Sesión</a>
+        </li>
     </ul>
 }

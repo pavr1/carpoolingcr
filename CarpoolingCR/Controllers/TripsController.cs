@@ -976,12 +976,13 @@ namespace CarpoolingCR.Controllers
                 foreach (var reservation in reservations)
                 {
                     reservation.Trip = db.Trips.Where(x => x.TripId == reservation.TripId)
-                        .Include(x => x.FromTown)
-                        .Include(x => x.ToTown)
                         .Include(x => x.ApplicationUser)
                         .Single();
 
+                    reservation.Trip.FromTown = db.Districts.Where(x => x.DistrictId == reservation.Trip.FromTownId).Single();
+                    reservation.Trip.ToTown = db.Districts.Where(x => x.DistrictId == reservation.Trip.ToTownId).Single();
                     reservation.Trip.Route = db.Districts.Where(x => x.DistrictId == reservation.Trip.RouteId).Single();
+
                     reservation.Trip.Qualifications = db.Qualifications.Where(x => x.TripId == reservation.TripId && x.QualifierId != user.Id)
                         .Include(x => x.Qualifier)
                         .ToList();

@@ -459,6 +459,198 @@ BEGIN
 	
 END
 
+SET @brandName = 'BMW'
+INSERT INTO [dbo].[Brands] ([Name]) VALUES (@brandName)
+
+SELECT @brandId = BrandId from brands where Name = @brandName
+
+IF @brandId IS NOT NULL
+BEGIN
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('i3' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('i8' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('M3' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('M4' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('M5' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('M6' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Rad 1' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Rad 1 Cabrio' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Rad 1 Coupe' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Rad 2' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Rad 2 Active Tourer' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Rad 2 Coupe' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Rad 2 Gran Tourer' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Rad 3' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Rad 3 Cabrio' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Rad 3 Compact' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Rad 3 Coupe' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Rad 3 GT' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Rad 3 Touring' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Rad 4' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Rad 4 Cabrio' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Rad 4 Gran Coupe' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Rad 5' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Rad 5 GT' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Rad 5 Touring' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Rad 6' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Rad 6 Cabrio' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Rad 6 Coupe' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Rad 6 Gran Coupe' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Rad 7' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Rad 8 Coupe' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('X1' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('X3' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('X4' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('X5' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('X6' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Z3' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Z3 Coupe' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Z3 Roadster' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Z4' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Z4 Roadster' ,@brandId)
+END
+
+SET @brandName = 'Jeep'
+INSERT INTO [dbo].[Brands] ([Name]) VALUES (@brandName)
+
+SELECT @brandId = BrandId from brands where Name = @brandName
+
+IF @brandId IS NOT NULL
+BEGIN
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Cherokee' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Commander' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Compass' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Grand Cherokee' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Patriot' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Renegade' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Wrangler' ,@brandId)
+END
+
+SET @brandName = 'Subaru'
+INSERT INTO [dbo].[Brands] ([Name]) VALUES (@brandName)
+
+SELECT @brandId = BrandId from brands where Name = @brandName
+
+IF @brandId IS NOT NULL
+BEGIN
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('BRZ' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Forester' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Impreza' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Impreza Wagon' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Justy' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Legacy' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Legacy Wagon' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Legacy Outback' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Levorg' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Outback' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('SVX' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Tribeca' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Tribeca B9' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('XV' ,@brandId)
+END
+
+SET @brandName = 'Honda'
+INSERT INTO [dbo].[Brands] ([Name]) VALUES (@brandName)
+
+SELECT @brandId = BrandId from brands where Name = @brandName
+
+IF @brandId IS NOT NULL
+BEGIN
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Accord' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Accord Coupe' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Accord Tourer' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('City' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Civic' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Civic Aerodeck' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Civic Coupe' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Civic Tourer' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Civic Type R' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('CR-V' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('CR-X' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('CR-Z' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('FR-V' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('HR-V' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Insight' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Integra' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Jazz' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Legend' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Prelude' ,@brandId)
+END
+
+SET @brandName = 'Land Rover'
+INSERT INTO [dbo].[Brands] ([Name]) VALUES (@brandName)
+
+SELECT @brandId = BrandId from brands where Name = @brandName
+
+IF @brandId IS NOT NULL
+BEGIN
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('109' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Defender' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Discovery' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Discovery Sport' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Freelander' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Range Rover' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Range Rover Evoque' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Range Rover Sport' ,@brandId)
+END
+
+SET @brandName = 'Volkswagen'
+INSERT INTO [dbo].[Brands] ([Name]) VALUES (@brandName)
+
+SELECT @brandId = BrandId from brands where Name = @brandName
+
+IF @brandId IS NOT NULL
+BEGIN
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Amarok' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Beetle' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Bora' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Bora Variant' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Caddy' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Caddy Van' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Life' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('California' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Caravelle' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('CC' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Crafter' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Crafter Van' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Crafter Kombi' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('CrossTouran' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Eos' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Fox' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Golf' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Golf Cabrio' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Golf Plus' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Golf Sportvan' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Golf Variant' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Jetta' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('LT' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Lupo' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Multivan' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('New Beetle' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('New Beetle Cabrio' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Passat' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Passat Alltrack' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Passat CC' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Passat Variant' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Passat Variant Van' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Phaeton' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Polo' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Polo Van' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Polo Variant' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Scirocco' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Sharan' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('T4' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('T4 Caravelle' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('T4 Multivan' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('T5' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('T5 Caravelle' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('T5 Multivan' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('T5 Transporter Shuttle' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Tiguan' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Touareg' ,@brandId)
+	INSERT INTO [dbo].[Models]([Description],[BrandId]) VALUES ('Touran' ,@brandId)
+END
+
+
 
 --{"brand": "Dacia", "models": ["Dokker", "Duster", "Lodgy", "Logan", "Logan MCV", "Logan Van", "Sandero", "Solenza"]},
 
@@ -467,25 +659,23 @@ END
 --{"brand": "Škoda", "models": ["Favorit", "Felicia", "Citigo", "Fabia", "Fabia Combi", "Fabia Sedan", "Felicia Combi", "Octavia", "Octavia Combi", "Roomster", "Yeti", "Rapid", "Rapid Spaceback", "Superb", "Superb Combi"]},
 
 --{"brand": "Porsche", "models": ["911 Carrera", "911 Carrera Cabrio", "911 Targa", "911 Turbo", "924", "944", "997", "Boxster", "Cayenne", "Cayman", "Macan", "Panamera"]},
---{"brand": "Honda", "models": ["Accord", "Accord Coupé", "Accord Tourer", "City", "Civic", "Civic Aerodeck", "Civic Coupé", "Civic Tourer", "Civic Type R", "CR-V", "CR-X", "CR-Z", "FR-V", "HR-V", "Insight", "Integra", "Jazz", "Legend", "Prelude"]},
---{"brand": "Subaru", "models": ["BRZ", "Forester", "Impreza", "Impreza Wagon", "Justy", "Legacy", "Legacy Wagon", "Legacy Outback", "Levorg", "Outback", "SVX", "Tribeca", "Tribeca B9", "XV"]},
+
+
 
 
 --{"brand": "Lexus", "models": ["CT", "GS", "GS 300", "GX", "IS", "IS 200", "IS 250 C", "IS-F", "LS", "LX", "NX", "RC F", "RX", "RX 300", "RX 400h", "RX 450h", "SC 430"]},
---{"brand": "BMW", "models": ["i3", "i8", "M3", "M4", "M5", "M6", "Rad 1", "Rad 1 Cabrio", "Rad 1 Coupé", "Rad 2", "Rad 2 Active Tourer", "Rad 2 Coupé", "Rad 2 Gran Tourer", "Rad 3", "Rad 3 Cabrio", "Rad 3 Compact", "Rad 3 Coupé", "Rad 3 GT", "Rad 3 Touring", "Rad 4", "Rad 4 Cabrio", "Rad 4 Gran Coupé", "Rad 5", "Rad 5 GT", "Rad 5 Touring", "Rad 6", "Rad 6 Cabrio", "Rad 6 Coupé", "Rad 6 Gran Coupé", "Rad 7", "Rad 8 Coupé", "X1", "X3", "X4", "X5", "X6", "Z3", "Z3 Coupé", "Z3 Roadster", "Z4", "Z4 Roadster"]},
---{"brand": "Volkswagen", "models": ["Amarok", "Beetle", "Bora", "Bora Variant", "Caddy", "Caddy Van", "Life", "California", "Caravelle", "CC", "Crafter", "Crafter Van", "Crafter Kombi", "CrossTouran", "Eos", "Fox", "Golf", "Golf Cabrio", "Golf Plus", "Golf Sportvan", "Golf Variant", "Jetta", "LT", "Lupo", "Multivan", "New Beetle", "New Beetle Cabrio", "Passat", "Passat Alltrack", "Passat CC", "Passat Variant", "Passat Variant Van", "Phaeton", "Polo", "Polo Van", "Polo Variant", "Scirocco", "Sharan", "T4", "T4 Caravelle", "T4 Multivan", "T5", "T5 Caravelle", "T5 Multivan", "T5 Transporter Shuttle", "Tiguan", "Touareg", "Touran"]},
+
 --{"brand": "Mercedes-Benz", "models": ["100 D", "115", "124", "126", "190", "190 D", "190 E", "200 - 300", "200 D", "200 E", "210 Van", "210 kombi", "310 Van", "310 kombi", "230 - 300 CE Coupé", "260 - 560 SE", "260 - 560 SEL", "500 - 600 SEC Coupé", "Trieda A", "A", "A L", "AMG GT", "Trieda B", "Trieda C", "C", "C Sportcoupé", "C T", "Citan", "CL", "CL", "CLA", "CLC", "CLK Cabrio", "CLK Coupé", "CLS", "Trieda E", "E", "E Cabrio", "E Coupé", "E T", "Trieda G", "G Cabrio", "GL", "GLA", "GLC", "GLE", "GLK", "Trieda M", "MB 100", "Trieda R", "Trieda S", "S", "S Coupé", "SL", "SLC", "SLK", "SLR", "Sprinter"]},
 --{"brand": "Saab", "models": ["9-3", "9-3 Cabriolet", "9-3 Coupé", "9-3 SportCombi", "9-5", "9-5 SportCombi", "900", "900 C", "900 C Turbo", "9000"]},
 --{"brand": "Audi", "models": ["100", "100 Avant", "80", "80 Avant", "80 Cabrio", "90", "A1", "A2", "A3", "A3 Cabriolet", "A3 Limuzina", "A3 Sportback", "A4", "A4 Allroad", "A4 Avant", "A4 Cabriolet", "A5", "A5 Cabriolet", "A5 Sportback", "A6", "A6 Allroad", "A6 Avant", "A7", "A8", "A8 Long", "Q3", "Q5", "Q7", "R8", "RS4 Cabriolet", "RS4/RS4 Avant", "RS5", "RS6 Avant", "RS7", "S3/S3 Sportback", "S4 Cabriolet", "S4/S4 Avant", "S5/S5 Cabriolet", "S6/RS6", "S7", "S8", "SQ5", "TT Coupé", "TT Roadster", "TTS"]},
---{"brand": "Kia", "models": ["Avella", "Besta", "Carens", "Carnival", "Cee`d", "Cee`d SW", "Cerato", "K 2500", "Magentis", "Opirus", "Optima", "Picanto", "Pregio", "Pride", "Pro Cee`d", "Rio", "Rio Combi", "Rio sedan", "Sephia", "Shuma", "Sorento", "Soul", "Sportage", "Venga"]},
---{"brand": "Land Rover", "models": ["109", "Defender", "Discovery", "Discovery Sport", "Freelander", "Range Rover", "Range Rover Evoque", "Range Rover Sport"]},
+
 --{"brand": "Dodge", "models": ["Avenger", "Caliber", "Challenger", "Charger", "Grand Caravan", "Journey", "Magnum", "Nitro", "RAM", "Stealth", "Viper"]},
 --{"brand": "Chrysler", "models": ["300 C", "300 C Touring", "300 M", "Crossfire", "Grand Voyager", "LHS", "Neon", "Pacifica", "Plymouth", "PT Cruiser", "Sebring", "Sebring Convertible", "Stratus", "Stratus Cabrio", "Town & Country", "Voyager"]},
 --{"brand": "Ford", "models": ["Aerostar", "B-Max", "C-Max", "Cortina", "Cougar", "Edge", "Escort", "Escort Cabrio", "Escort kombi", "Explorer", "F-150", "F-250", "Fiesta", "Focus", "Focus C-Max", "Focus CC", "Focus kombi", "Fusion", "Galaxy", "Grand C-Max", "Ka", "Kuga", "Maverick", "Mondeo", "Mondeo Combi", "Mustang", "Orion", "Puma", "Ranger", "S-Max", "Sierra", "Street Ka", "Tourneo Connect", "Tourneo Custom", "Transit", "Transit", "Transit Bus", "Transit Connect LWB", "Transit Courier", "Transit Custom", "Transit kombi", "Transit Tourneo", "Transit Valnik", "Transit Van", "Transit Van 350", "Windstar"]},
 --{"brand": "Hummer", "models": ["H2", "H3"]},
 --{"brand": "Infiniti", "models": ["EX", "FX", "G", "G Coupé", "M", "Q", "QX"]},
 --{"brand": "Jaguar", "models": ["Daimler", "F-Pace", "F-Type", "S-Type", "Sovereign", "X-Type", "X-type Estate", "XE", "XF", "XJ", "XJ12", "XJ6", "XJ8", "XJ8", "XJR", "XK", "XK8 Convertible", "XKR", "XKR Convertible"]},
---{"brand": "Jeep", "models": ["Cherokee", "Commander", "Compass", "Grand Cherokee", "Patriot", "Renegade", "Wrangler"]},
+
 
 --{"brand": "Volvo", "models": ["240", "340", "360", "460", "850", "850 kombi", "C30", "C70", "C70 Cabrio", "C70 Coupé", "S40", "S60", "S70", "S80", "S90", "V40", "V50", "V60", "V70", "V90", "XC60", "XC70", "XC90"]},
 --{"brand": "Daewoo", "models": ["Espero", "Kalos", "Lacetti", "Lanos", "Leganza", "Lublin", "Matiz", "Nexia", "Nubira", "Nubira kombi", "Racer", "Tacuma", "Tico"]},
@@ -493,3 +683,4 @@ END
 --{"brand": "MINI", "models": ["Cooper", "Cooper Cabrio", "Cooper Clubman", "Cooper D", "Cooper D Clubman", "Cooper S", "Cooper S Cabrio", "Cooper S Clubman", "Countryman", "Mini One", "One D"]},
 --{"brand": "Rover", "models": ["200", "214", "218", "25", "400", "414", "416", "620", "75"]},
 --{"brand": "Smart", "models": ["Cabrio", "City-Coupé", "Compact Pulse", "Forfour", "Fortwo cabrio", "Fortwo coupé", "Roadster"]}]
+

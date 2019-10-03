@@ -6,11 +6,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <br />
 <div class="row form-group" style="text-align:center">
-    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-        <h5 class="panel-title pull-left">Notificaciones Automáticas</h5>
-    </div>
-    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-        <a class="btn btn-info btn-sm btn-block custom-spin-button pull-right" href="~/NotificationRequests/Create" data-loading-text="<i class='fa fa-circle-o-notch fa-spin pull-right'></i> Crear Notificación" style="width:150px">Crear Notificación</a>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <h5 class="panel-title pull-left">Notificaciones</h5>
     </div>
 </div>
 <div class="row" style="text-align:center">
@@ -18,12 +15,26 @@
         <hr />
     </div>
 </div>
+<div class="row form-group">
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+        <input type="text" class="search form-control small" placeholder="Búsqueda">
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+        <a class="btn btn-info btn-sm btn-block custom-spin-button pull-right" href="~/NotificationRequests/Create" data-loading-text="<i class='fa fa-circle-o-notch fa-spin pull-right'></i> Crear Notificación" style="width:150px">Crear Notificación</a>
+    </div>
+</div>
+<div class="row form-group">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <b class="pull-right">Notificaciones: @Model.Notifications.Count</b>
+    </div>
+</div>
+<hr />
 @{
-    if (Model.Notifications.ToList().Count == 0)
+    if (Model.Notifications.Count == 0)
     {
         <div class="row" style="text-align:center">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <small>¡No se encontraron notificaciones automáticas!</small>
+                <small>¡No hay notificaciones registradas!</small>
             </div>
         </div>
     }

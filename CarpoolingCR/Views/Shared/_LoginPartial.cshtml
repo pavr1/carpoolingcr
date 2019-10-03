@@ -5,25 +5,31 @@
     {
         @Html.AntiForgeryToken()
 
-        <ul class="nav navbar-nav navbar-right">
-            <li>
-                @{
+        <div style="padding-right:20px">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    @{
 
-                    var claims = (System.Security.Claims.ClaimsIdentity)User.Identity;
-                    var profilePic = claims.FindFirst("Picture");
-                    var picPath = string.Empty;
+                        var claims = (System.Security.Claims.ClaimsIdentity)User.Identity;
+                        var profilePic = claims.FindFirst("Picture");
+                        var picPath = string.Empty;
 
-                    if (profilePic != null)
-                    {
-                        picPath = Url.Content(profilePic.Value);
+                        if (profilePic != null)
+                        {
+                            picPath = Url.Content(profilePic.Value);
+                        }
                     }
-                }
-                <a href="~/Manage/ProfileInfo" title="Perfíl" style="padding:2px;margin:2px">
-                    <div class="" id="profile-container-small" data-toggle="tooltip" style="width:45px; height:45px" data-placement="bottom" title="Perfíl"><img src="@picPath" /></div>
-                </a>
-            </li>
-            <li><a href="javascript:document.getElementById('logoutForm').submit()" class="nav-link">Cierra Sesión</a></li>
-        </ul>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="padding:2px;margin:2px; cursor:pointer">
+                        <div class="" id="profile-container-small" data-toggle="tooltip" style="width:45px; height:45px" data-placement="bottom"><img src="@picPath" /></div>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="~/Manage/ProfileInfo" class="nav-link"><i class="fas fa-user">&nbsp;</i>Perfíl</a></li>
+                        <li><a href="javascript:document.getElementById('logoutForm').submit()" class="nav-link"><i class="fas fa-sign-out-alt">&nbsp;</i>Cierra Sesión</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
     }
 }
 else

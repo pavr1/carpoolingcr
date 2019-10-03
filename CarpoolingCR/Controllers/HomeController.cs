@@ -22,6 +22,11 @@ namespace CarpoolingCR.Controllers
 
                 var user = Common.GetUserByEmail(User.Identity.Name);
 
+                if (user != null)
+                {
+                    Common.UpdateUserTripsReservationsAndNotifications(user.Id);
+                }
+
                 if (!Common.IsAuthorized(User))
                 {
                     var send = Convert.ToBoolean(WebConfigurationManager.AppSettings["SendNotificationsToAdmin"]);

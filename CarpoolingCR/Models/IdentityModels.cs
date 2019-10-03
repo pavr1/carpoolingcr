@@ -3,6 +3,7 @@ using CarpoolingCR.Models.Vehicle;
 using CarpoolingCR.Utils;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -70,7 +71,7 @@ namespace CarpoolingCR.Models
         [NotMapped]
         public string MessageType { get; set; }
         public string Picture { get; set; }
-        
+
         public int? VehicleId { get; set; }
 
         [NotMapped]
@@ -97,16 +98,36 @@ namespace CarpoolingCR.Models
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
+            var trips = 0;
+            var reservations = 0;
+            var notifications = 0;
 
             using (var db = new ApplicationDbContext())
             {
                 this.Country = db.Countries.Where(x => x.CountryId == this.CountryId).Single();
+
+                if(this.UserType == Enums.UserType.Administrador)
+                {
+                    trips = db.Trips.Where(x => (x.Status == Enums.Status.Activo || x.Status == Enums.Status.Lleno || x.Status == Enums.Status.Pendiente)).Count();
+                    reservations = db.Reservations.Where(x => (x.Status == Enums.ReservationStatus.Accepted || x.Status == Enums.ReservationStatus.Pending || x.Status == Enums.ReservationStatus.Rejected)).Count();
+                    notifications = db.NotificationRequests.Where(x => (x.Status == CarpoolingCR.Utils.Enums.RequestNotificationStatus.Active)).Count();
+                }
+                else
+                {
+                    trips = db.Trips.Where(x => x.ApplicationUserId == this.Id && (x.Status == Enums.Status.Activo || x.Status == Enums.Status.Lleno || x.Status == Enums.Status.Pendiente)).Count();
+                    reservations = db.Reservations.Where(x => x.ApplicationUserId == this.Id && (x.Status == Enums.ReservationStatus.Accepted || x.Status == Enums.ReservationStatus.Pending || x.Status == Enums.ReservationStatus.Rejected)).Count();
+                    notifications = db.NotificationRequests.Where(x => x.UserId == this.Id && (x.Status == CarpoolingCR.Utils.Enums.RequestNotificationStatus.Active)).Count();
+                }
             }
 
             userIdentity.AddClaim(new Claim("Name", this.Name.ToString()));
             userIdentity.AddClaim(new Claim("CountryCode", this.Country.CountryCode));
             userIdentity.AddClaim(new Claim("CurrencyChar", this.Country.CurrencyChar));
             userIdentity.AddClaim(new Claim("Picture", this.Picture));
+            userIdentity.AddClaim(new Claim("UserType", Convert.ToInt32(this.UserType).ToString()));
+            userIdentity.AddClaim(new Claim("Trips", trips.ToString()));
+            userIdentity.AddClaim(new Claim("Reservations", reservations.ToString()));
+            userIdentity.AddClaim(new Claim("Notifications", notifications.ToString()));
 
             // Add custom user claims here
             return userIdentity;

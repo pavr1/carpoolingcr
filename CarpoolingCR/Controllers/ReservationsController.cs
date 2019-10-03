@@ -31,6 +31,7 @@ namespace CarpoolingCR.Controllers
                 }
 
                 var user = Common.GetUserByEmail(User.Identity.Name);
+                Common.UpdateUserTripsReservationsAndNotifications(user.Id);
 
                 var districtsSelectHtml = Common.GetLocationsStrings(user.CountryId);
 
@@ -81,6 +82,7 @@ namespace CarpoolingCR.Controllers
                 var driverTrips = new List<Trip>();
                 var user = Common.GetUserByEmail(User.Identity.Name);
 
+                Common.UpdateUserTripsReservationsAndNotifications(user.Id);
                 Common.FinalizeExpiredReservations(user.Id);
 
                 if (user.UserType != UserType.Pasajero)
@@ -88,9 +90,18 @@ namespace CarpoolingCR.Controllers
                     Common.FinalizeExpiredTrips(user.Id);
                 }
 
-                passengerReservations = db.Reservations.Where(x => x.ApplicationUser.Email == User.Identity.Name && (x.Status == ReservationStatus.Accepted || x.Status == ReservationStatus.Pending || x.Status == ReservationStatus.Rejected))
-                    .Include(x => x.ApplicationUser)
-                    .ToList();
+                if (user.UserType == UserType.Administrador)
+                {
+                    passengerReservations = db.Reservations.Where(x => (x.Status == ReservationStatus.Accepted || x.Status == ReservationStatus.Pending || x.Status == ReservationStatus.Rejected))
+                        .Include(x => x.ApplicationUser)
+                        .ToList();
+                }
+                else
+                {
+                    passengerReservations = db.Reservations.Where(x => x.ApplicationUser.Email == User.Identity.Name && (x.Status == ReservationStatus.Accepted || x.Status == ReservationStatus.Pending || x.Status == ReservationStatus.Rejected))
+                        .Include(x => x.ApplicationUser)
+                        .ToList();
+                }
 
                 foreach (var reservation in passengerReservations)
                 {
@@ -877,6 +888,8 @@ namespace CarpoolingCR.Controllers
 
                 tran.Commit();
 
+                Common.UpdateUserTripsReservationsAndNotifications(reservation.ApplicationUserId);
+
                 if (cancelledFrom == "passenger")
                 {
                     return RedirectToAction("ReservationIndex", "Reservations", new
@@ -1051,6 +1064,8 @@ namespace CarpoolingCR.Controllers
 
                     EmailHandler.SendEmailTripReservation(WebConfigurationManager.AppSettings["AdminEmails"], trip.ApplicationUser.Email, reservation.PassengerName, spaces, tripInfo, callbackUrl, logo);
                 }
+
+                Common.UpdateUserTripsReservationsAndNotifications(passenger.Id);
 
                 return RedirectToAction("ReservationIndex", "Reservations", new
                 {

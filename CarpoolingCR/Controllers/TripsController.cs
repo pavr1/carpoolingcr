@@ -32,6 +32,7 @@ namespace CarpoolingCR.Controllers
                 }
 
                 var user = Common.GetUserByEmail(User.Identity.Name);
+                Common.UpdateUserTripsReservationsAndNotifications(user.Id);
 
                 if (user == null)
                 {
@@ -215,12 +216,9 @@ namespace CarpoolingCR.Controllers
                     var tripId = trips[i].TripId;
                     trips[i].Reservations = db.Reservations.Where(x => x.TripId == tripId && (x.Status == ReservationStatus.Accepted || x.Status == ReservationStatus.Pending)).ToList();
 
-                    foreach (var trip in trips)
+                    foreach (var reservation in trips[i].Reservations)
                     {
-                        foreach (var reservation in trip.Reservations)
-                        {
-                            reservation.Trip = null;
-                        }
+                        reservation.Trip = null;
                     }
                 }
 
@@ -428,60 +426,6 @@ namespace CarpoolingCR.Controllers
                     var routeDistrict = new District();
 
                     var tripDate = DateTime.SpecifyKind(Convert.ToDateTime(Request["DateTime"]), DateTimeKind.Local);
-
-                    //if (tripDate < DateTime.Now)
-                    //{
-                    //    //¡Fecha de ida expirada!
-                    //    ViewBag.Warning = "100064";
-
-                    //    var response = new TripCreateResponse
-                    //    {
-                    //        DistrictControlOptions = districtsSelectHtml.Replace("[control-id]", "FromTown"),
-                    //        Trip = trip,
-                    //        Vehicle = user.Vehicle,
-                    //        CountryName = user.Country.Name
-                    //    };
-
-                    //    return View(response);
-                    //}
-
-                    //if (Request["rbOneWay"] == "on")
-                    //{
-                    //    var tripDateTo = DateTime.SpecifyKind(Convert.ToDateTime(Request["DateTime-To"]), DateTimeKind.Local);
-
-                    //    if (tripDateTo < DateTime.Now)
-                    //    {
-                    //        //¡Fecha de vuelta expirada!
-                    //        ViewBag.Warning = "100065";
-
-                    //        var response = new TripCreateResponse
-                    //        {
-                    //            DistrictControlOptions = districtsSelectHtml.Replace("[control-id]", "FromTown"),
-                    //            Trip = trip,
-                    //            Vehicle = user.Vehicle,
-                    //            CountryName = user.Country.Name
-                    //        };
-
-                    //        return View(response);
-                    //    }
-
-                    //    if (tripDateTo < tripDate)
-                    //    {
-                    //        //¡Fecha de vuelta no puede ser antes que la fecha de ida!
-                    //        ViewBag.Warning = "100066";
-
-                    //        var response = new TripCreateResponse
-                    //        {
-                    //            DistrictControlOptions = districtsSelectHtml.Replace("[control-id]", "FromTown"),
-                    //            Trip = trip,
-                    //            Vehicle = user.Vehicle,
-                    //            CountryName = user.Country.Name
-                    //        };
-
-                    //        return View(response);
-                    //    }
-                    //}
-
                     fromDistrict = Common.ValidateDistrictString(Request["FromTown"]);
 
                     if (fromDistrict == null)
@@ -639,6 +583,7 @@ namespace CarpoolingCR.Controllers
                         sendNotificationRequests.Start();
                     }
 
+                    Common.UpdateUserTripsReservationsAndNotifications(user.Id);
                     //¡Viaje Creado!
                     return RedirectToAction("Index", new { message = "10007", type = "info" });
                 }
@@ -933,7 +878,7 @@ namespace CarpoolingCR.Controllers
                 db.Entry(trip).State = EntityState.Modified;
                 db.SaveChanges();
 
-                //new SignalHandler().SendMessage(Enums.EventTriggered.TripDeleted.ToString(), "");
+                Common.UpdateUserTripsReservationsAndNotifications(trip.ApplicationUserId);
 
                 if (passengersToNoticeEmail.Length > 0)
                 {
@@ -941,6 +886,7 @@ namespace CarpoolingCR.Controllers
 
                     if (send)
                     {
+                        //todo: send emails separately
                         EmailHandler.SendTripsCancelledByDriver(passengersToNoticeEmail, trip.FromTown + " -> " + trip.ToTown, Common.ConvertToLocalTime(trip.DateTime).ToString(WebConfigurationManager.AppSettings["DateTimeFormat"]), string.Empty, logo);
                     }
                 }

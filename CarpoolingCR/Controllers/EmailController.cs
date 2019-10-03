@@ -62,6 +62,20 @@ namespace CarpoolingCR.Controllers
                         sendEmails.Start();
                     }
                 }
+                else
+                {
+                    Common.LogData(new Log
+                    {
+                        Line = Common.GetCurrentLine(),
+                        Location = Enums.LogLocation.Server,
+                        LogType = Enums.LogType.Error,
+                        Message = "Attaching file not found!",
+                        Method = Common.GetCurrentMethod(),
+                        Timestamp = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
+                        UserEmail = User.Identity.Name,
+                        Fields = string.Empty
+                    }, logo);
+                }
 
                 //¡Procesando de envío a todos los usuarios!
                 return RedirectToAction("Index", new { message = "100062" });

@@ -37,10 +37,12 @@
 
     <script type="text/javascript" src="~/Scripts/jQuery-Mask-Plugin-master/src/jquery.mask.js"></script>
     <script src="~/Scripts/List.js"></script>
-    @*<script src="~/Scripts/messages.js"></script>*@
+    @*
+    <script src="~/Scripts/messages.js"></script>*@
     <script src="~/Scripts/notify.js"></script>
     <script src="~/Scripts/WaitingDialog.js"></script>
-    @*<link rel="stylesheet" href="~/Content/processingmodal.css">*@
+    @*
+    <link rel="stylesheet" href="~/Content/processingmodal.css">*@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" type="text/javascript"></script>
     <script src="https://kit.fontawesome.com/2e609cde0b.js" crossorigin="anonymous"></script>
@@ -346,434 +348,459 @@
             background-repeat: no-repeat;
             background-size: cover;
         }
+
+        -webkit-keyframes spin {
+            from { -webkit-transform: rotateZ(0deg);}
+
+            to {-webkit-transform: rotateZ(360deg);}
+        }
+
+        keyframes spin {
+            from {
+                transform: rotateZ(0deg);
+            }
+
+            to {
+                transform: rotateZ(360deg);
+            }
+        }
+
+        header span {
+            display: inline-block;
+            /* All the rest of header span {} code goes here. I didn't copy it all. */
+        }
     </style>
 </head>
 
 <body class="bg">
-    @*<input type="button" class="btn btn-dark" id="btnAdd" value="Instalar"/>*@
+    @*<input type="button" class="btn btn-dark" id="btnAdd" value="Instalar" />*@
     @{if (User != null && User.Identity != null && User.Identity.IsAuthenticated)
-        {
-            <div class="navbar navbar-inverse navbar-fixed-top">
-                <div class="container">
-                    <div class="navbar-header">
-                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".toggle-button">
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
+    {
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".toggle-button">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @{
+                var claims = (System.Security.Claims.ClaimsIdentity)User.Identity;
+                var name = string.Empty;
+                var userType = string.Empty;
+                var trips = 0;
+                var reservations = 0;
+                var notifications = 0;
+
+                var fullName = claims.FindFirst("Name");
+                var userTypeObj = claims.FindFirst("UserType");
+                var tripsObj = claims.FindFirst("Trips");
+                var reservationsObj = claims.FindFirst("Reservations");
+                var notificationsObj = claims.FindFirst("Notifications");
+
+                if (fullName != null)
+                {
+                name = fullName.Value;
+                }
+
+                if (userTypeObj != null)
+                {
+                userType = userTypeObj.Value;
+                }
+
+                if (tripsObj != null)
+                {
+                trips = Convert.ToInt32(tripsObj.Value);
+                }
+
+                if (reservationsObj != null)
+                {
+                reservations = Convert.ToInt32(reservationsObj.Value);
+                }
+
+                if (notificationsObj != null)
+                {
+                notifications = Convert.ToInt32(notificationsObj.Value);
+                }
+                }
+                <a class="navbar-brand" href="/carpoolingcr/">Hola @name &nbsp;<i class="fas fa-thumbs-up"></i></a>
+            </div>
+            @{
+            //admin
+            if (userType == "2")
+            {
+            <div class="visible-lg">
+                <div class="toggle-button navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            @{
+                            if (trips > 0)
+                            {
+                            <a href="~/Trips/Index"><i class="fas fa-car">&nbsp;</i>Viajes <span class="badge">@trips</span></a>
+                            }
+                            else
+                            {
+                            <a href="~/Trips/Index"><i class="fas fa-car">&nbsp;</i>Viajes</a>
+                            }
+                            }
+                        </li>
+                        <li>
+                            @{
+                            if (reservations > 0)
+                            {
+                            <a href="~/Reservations/ReservationIndex"><i class="fas fa-book-open">&nbsp;</i>Reservaciones <span class="badge">@reservations</span></a>
+                            }
+                            else
+                            {
+                            <a href="~/Reservations/ReservationIndex"><i class="fas fa-book-open">&nbsp;</i>Reservaciones</a>
+                            }
+                            }
+                        </li>
+                        <li>
+                            @{
+                            if (notifications > 0)
+                            {
+                            <a href="~/NotificationRequests/Index"><i class="fas fa-bell">&nbsp;</i>Notificaciones <span class="badge">@notifications</span></a>
+                            }
+                            else
+                            {
+                            <a href="~/NotificationRequests/Index"><i class="fas fa-bell">&nbsp;</i>Notificaciones</a>
+                            }
+                            }
+                        </li>
+                        <li><a href="~/Trips/LoadDriverTripHistorial"><i class="fas fa-book">&nbsp;</i>Historial</a></li>
+                        <li><a href="~/Account/ManageUsers"><i class="fas fa-users">&nbsp;</i>Usuarios</a></li>
+                        <li><a href="~/Logs/Index"><i class="fas fa-clipboard">&nbsp;</i>Logs</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-chevron-circle-down"></i></a>
+                            <ul class="dropdown-menu">
+                                @*
+                                <li role="separator" class="divider"></li>*@
+                                <li><a href="~/Account/GetPendingUserIdentifications"><i class="fas fa-id-card">&nbsp;</i>Cédulas</a></li>
+                                <li><a href="~/Email/Index"><i class="fas fa-envelope">&nbsp;</i>Correos</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    @Html.Partial("_LoginPartial")
+                </div>
+            </div>
+            <div class="visible-md">
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            @{
+                            if (trips > 0)
+                            {
+                            <a href="~/Trips/Index"><i class="fas fa-car">&nbsp;</i>Viajes <span class="badge">@trips</span></a>
+                            }
+                            else
+                            {
+                            <a href="~/Trips/Index"><i class="fas fa-car">&nbsp;</i>Viajes</a>
+                            }
+                            }
+                        </li>
+                        <li>
+                            @{
+                            if (reservations > 0)
+                            {
+                            <a href="~/Reservations/ReservationIndex"><i class="fas fa-book-open">&nbsp;</i>Reservaciones <span class="badge">@reservations</span></a>
+                            }
+                            else
+                            {
+                            <a href="~/Reservations/ReservationIndex"><i class="fas fa-book-open">&nbsp;</i>Reservaciones</a>
+                            }
+                            }
+                        </li>
+                        <li>
+                            @{
+                            if (notifications > 0)
+                            {
+                            <a href="~/NotificationRequests/Index"><i class="fas fa-bell">&nbsp;</i>Notificaciones <span class="badge">@notifications</span></a>
+                            }
+                            else
+                            {
+                            <a href="~/NotificationRequests/Index"><i class="fas fa-bell">&nbsp;</i>Notificaciones</a>
+                            }
+                            }
+                        </li>
+                        <li><a href="~/Trips/LoadDriverTripHistorial"><i class="fas fa-book">&nbsp;</i>Historial</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-chevron-circle-down"></i></a>
+                            <ul class="dropdown-menu">
+                                @*
+                                <li role="separator" class="divider"></li>*@
+                                <li><a href="~/Account/ManageUsers"><i class="fas fa-users">&nbsp;</i>Usuarios</a></li>
+                                <li><a href="~/Logs/Index"><i class="fas fa-clipboard">&nbsp;</i>Logs</a></li>
+                                <li><a href="~/Account/GetPendingUserIdentifications"><i class="fas fa-id-card">&nbsp;</i>Cédulas</a></li>
+                                <li><a href="~/Email/Index"><i class="fas fa-envelope">&nbsp;</i>Correos</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    @Html.Partial("_LoginPartial")
+                </div>
+            </div>
+            <div class="visible-sm">
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            @{
+                            if (trips > 0)
+                            {
+                            <a href="~/Trips/Index"><i class="fas fa-car">&nbsp;</i>Viajes <span class="badge">@trips</span></a>
+                            }
+                            else
+                            {
+                            <a href="~/Trips/Index"><i class="fas fa-car">&nbsp;</i>Viajes</a>
+                            }
+                            }
+                        </li>
+                        <li>
+                            @{
+                            if (reservations > 0)
+                            {
+                            <a href="~/Reservations/ReservationIndex"><i class="fas fa-book-open">&nbsp;</i>Reservaciones <span class="badge">@reservations</span></a>
+                            }
+                            else
+                            {
+                            <a href="~/Reservations/ReservationIndex"><i class="fas fa-book-open">&nbsp;</i>Reservaciones</a>
+                            }
+                            }
+                        </li>
+                        <li><a href="~/Trips/LoadDriverTripHistorial"><i class="fas fa-book">&nbsp;</i>Historial</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-chevron-circle-down"></i></a>
+                            <ul class="dropdown-menu">
+                                @*
+                                <li role="separator" class="divider"></li>*@
+                                <li>
+                                    @{
+                                    if (notifications > 0)
+                                    {
+                                    <a href="~/NotificationRequests/Index"><i class="fas fa-bell">&nbsp;</i>Notificaciones <span class="badge">@notifications</span></a>
+                                    }
+                                    else
+                                    {
+                                    <a href="~/NotificationRequests/Index"><i class="fas fa-bell">&nbsp;</i>Notificaciones</a>
+                                    }
+                                    }
+                                </li>
+                                <li><a href="~/Account/ManageUsers"><i class="fas fa-users">&nbsp;</i>Usuarios</a></li>
+                                <li><a href="~/Logs/Index"><i class="fas fa-clipboard">&nbsp;</i>Logs</a></li>
+                                <li><a href="~/Account/GetPendingUserIdentifications"><i class="fas fa-id-card">&nbsp;</i>Cédulas</a></li>
+                                <li><a href="~/Email/Index"><i class="fas fa-envelope">&nbsp;</i>Correos</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    @Html.Partial("_LoginPartial")
+                </div>
+            </div>
+            <div class="visible-xs">
+                <div class="toggle-button navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            @{
+                            if (trips > 0)
+                            {
+                            <a href="~/Trips/Index"><i class="fas fa-car">&nbsp;</i>Viajes <span class="badge">@trips</span></a>
+                            }
+                            else
+                            {
+                            <a href="~/Trips/Index"><i class="fas fa-car">&nbsp;</i>Viajes</a>
+                            }
+                            }
+                        </li>
+                        <li>
+                            @{
+                            if (reservations > 0)
+                            {
+                            <a href="~/Reservations/ReservationIndex"><i class="fas fa-book-open">&nbsp;</i>Reservaciones <span class="badge">@reservations</span></a>
+                            }
+                            else
+                            {
+                            <a href="~/Reservations/ReservationIndex"><i class="fas fa-book-open">&nbsp;</i>Reservaciones</a>
+                            }
+                            }
+                        </li>
+                        <li>
+                            @{
+                            if (notifications > 0)
+                            {
+                            <a href="~/NotificationRequests/Index"><i class="fas fa-bell">&nbsp;</i>Notificaciones <span class="badge">@notifications</span></a>
+                            }
+                            else
+                            {
+                            <a href="~/NotificationRequests/Index"><i class="fas fa-bell">&nbsp;</i>Notificaciones</a>
+                            }
+                            }
+                        </li>
+                        <li><a href="~/Trips/LoadDriverTripHistorial"><i class="fas fa-book">&nbsp;</i>Historial</a></li>
+                        <li><a href="~/Account/ManageUsers"><i class="fas fa-users">&nbsp;</i>Usuarios</a></li>
+                        <li><a href="~/Logs/Index"><i class="fas fa-clipboard">&nbsp;</i>Logs</a></li>
+                        <li><a href="~/Account/GetPendingUserIdentifications"><i class="fas fa-id-card">&nbsp;</i>Cédulas</a></li>
+                        <li><a href="~/Email/Index"><i class="fas fa-envelope">&nbsp;</i>Correos</a></li>
+                    </ul>
+                    @Html.Partial("_LoginPartial")
+                </div>
+            </div>
+            //driver
+            }
+            else if (userType == "0")
+            {
+            <div class="visible-xs visible-md visible-lg">
+                <div class="toggle-button navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            @{
+                            if (trips > 0)
+                            {
+                            <a href="~/Trips/Index"><i class="fas fa-car">&nbsp;</i>Viajes <span class="badge">@trips</span></a>
+                            }
+                            else
+                            {
+                            <a href="~/Trips/Index"><i class="fas fa-car">&nbsp;</i>Viajes</a>
+                            }
+                            }
+                        </li>
+                        <li>
+                            @{
+                            if (reservations > 0)
+                            {
+                            <a href="~/Reservations/ReservationIndex"><i class="fas fa-book-open">&nbsp;</i>Reservaciones <span class="badge">@reservations</span></a>
+                            }
+                            else
+                            {
+                            <a href="~/Reservations/ReservationIndex"><i class="fas fa-book-open">&nbsp;</i>Reservaciones</a>
+                            }
+                            }
+                        </li>
+                        <li>
+                            @{
+                            if (notifications > 0)
+                            {
+                            <a href="~/NotificationRequests/Index"><i class="fas fa-bell">&nbsp;</i>Notificaciones <span class="badge">@notifications</span></a>
+                            }
+                            else
+                            {
+                            <a href="~/NotificationRequests/Index"><i class="fas fa-bell">&nbsp;</i>Notificaciones</a>
+                            }
+                            }
+                        </li>
+                        <li><a href="~/Trips/LoadDriverTripHistorial"><i class="fas fa-book">&nbsp;</i>Historial</a></li>
+                        <li><a href="~/Account/ContactUs"><i class="fas fa-envelope">&nbsp;</i>Contáctenos</a></li>
+                    </ul>
+                    @Html.Partial("_LoginPartial")
+                </div>
+            </div>
+            <div class="visible-sm">
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            @{
+                            if (trips > 0)
+                            {
+                            <a href="~/Trips/Index"><i class="fas fa-car">&nbsp;</i>Viajes <span class="badge">@trips</span></a>
+                            }
+                            else
+                            {
+                            <a href="~/Trips/Index"><i class="fas fa-car">&nbsp;</i>Viajes</a>
+                            }
+                            }
+                        </li>
+                        <li>
+                            @{
+                            if (reservations > 0)
+                            {
+                            <a href="~/Reservations/ReservationIndex"><i class="fas fa-book-open">&nbsp;</i>Reservaciones <span class="badge">@reservations</span></a>
+                            }
+                            else
+                            {
+                            <a href="~/Reservations/ReservationIndex"><i class="fas fa-book-open">&nbsp;</i>Reservaciones</a>
+                            }
+                            }
+                        </li>
+                        <li>
+                            @{
+                            if (notifications > 0)
+                            {
+                            <a href="~/NotificationRequests/Index"><i class="fas fa-bell">&nbsp;</i>Notificaciones <span class="badge">@notifications</span></a>
+                            }
+                            else
+                            {
+                            <a href="~/NotificationRequests/Index"><i class="fas fa-bell">&nbsp;</i>Notificaciones</a>
+                            }
+                            }
+                        </li>
+                        <li><a href="~/Trips/LoadDriverTripHistorial"><i class="fas fa-book">&nbsp;</i>Historial</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-chevron-circle-down"></i></a>
+                            <ul class="dropdown-menu">
+                                @*
+                                <li role="separator" class="divider"></li>*@
+                                <li><a href="~/Account/ContactUs"><i class="fas fa-envelope">&nbsp;</i>Contáctenos</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    @Html.Partial("_LoginPartial")
+                </div>
+            </div>
+            //passenger
+            }
+            else if (userType == "1")
+            {
+            <div class="toggle-button navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>
                         @{
-                            var claims = (System.Security.Claims.ClaimsIdentity)User.Identity;
-                            var name = string.Empty;
-                            var userType = string.Empty;
-                            var trips = 0;
-                            var reservations = 0;
-                            var notifications = 0;
-
-                            var fullName = claims.FindFirst("Name");
-                            var userTypeObj = claims.FindFirst("UserType");
-                            var tripsObj = claims.FindFirst("Trips");
-                            var reservationsObj = claims.FindFirst("Reservations");
-                            var notificationsObj = claims.FindFirst("Notifications");
-
-                            if (fullName != null)
-                            {
-                                name = fullName.Value;
-                            }
-
-                            if (userTypeObj != null)
-                            {
-                                userType = userTypeObj.Value;
-                            }
-
-                            if (tripsObj != null)
-                            {
-                                trips = Convert.ToInt32(tripsObj.Value);
-                            }
-
-                            if (reservationsObj != null)
-                            {
-                                reservations = Convert.ToInt32(reservationsObj.Value);
-                            }
-
-                            if (notificationsObj != null)
-                            {
-                                notifications = Convert.ToInt32(notificationsObj.Value);
-                            }
-                        }
-                        <a class="navbar-brand" href="/carpoolingcr/">Hola @name &nbsp;<i class="fas fa-thumbs-up"></i></a>
-                    </div>
-                    @{
-                        //admin
-                        if (userType == "2")
+                        if (reservations > 0)
                         {
-                            <div class="visible-lg">
-                                <div class="toggle-button navbar-collapse collapse">
-                                    <ul class="nav navbar-nav">
-                                        <li>
-                                            @{
-                                                if (trips > 0)
-                                                {
-                                                    <a href="~/Trips/Index"><i class="fas fa-car">&nbsp;</i>Viajes <span class="badge">@trips</span></a>
-                                                }
-                                                else
-                                                {
-                                                    <a href="~/Trips/Index"><i class="fas fa-car">&nbsp;</i>Viajes</a>
-                                                }
-                                            }
-                                        </li>
-                                        <li>
-                                            @{
-                                                if (reservations > 0)
-                                                {
-                                                    <a href="~/Reservations/ReservationIndex"><i class="fas fa-book-open">&nbsp;</i>Reservaciones <span class="badge">@reservations</span></a>
-                                                }
-                                                else
-                                                {
-                                                    <a href="~/Reservations/ReservationIndex"><i class="fas fa-book-open">&nbsp;</i>Reservaciones</a>
-                                                }
-                                            }
-                                        </li>
-                                        <li>
-                                            @{
-                                                if (notifications > 0)
-                                                {
-                                                    <a href="~/NotificationRequests/Index"><i class="fas fa-bell">&nbsp;</i>Notificaciones <span class="badge">@notifications</span></a>
-                                                }
-                                                else
-                                                {
-                                                    <a href="~/NotificationRequests/Index"><i class="fas fa-bell">&nbsp;</i>Notificaciones</a>
-                                                }
-                                            }
-                                        </li>
-                                        <li><a href="~/Trips/LoadDriverTripHistorial"><i class="fas fa-book">&nbsp;</i>Historial</a></li>
-                                        <li><a href="~/Account/ManageUsers"><i class="fas fa-users">&nbsp;</i>Usuarios</a></li>
-                                        <li><a href="~/Logs/Index"><i class="fas fa-clipboard">&nbsp;</i>Logs</a></li>
-                                        <li class="dropdown">
-                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-chevron-circle-down"></i></a>
-                                            <ul class="dropdown-menu">
-                                                @*<li role="separator" class="divider"></li>*@
-                                                <li><a href="~/Account/GetPendingUserIdentifications"><i class="fas fa-id-card">&nbsp;</i>Cédulas</a></li>
-                                                <li><a href="~/Email/Index"><i class="fas fa-envelope">&nbsp;</i>Correos</a></li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                    @Html.Partial("_LoginPartial")
-                                </div>
-                            </div>
-                            <div class="visible-md">
-                                <div class="navbar-collapse collapse">
-                                    <ul class="nav navbar-nav">
-                                        <li>
-                                            @{
-                                                if (trips > 0)
-                                                {
-                                                    <a href="~/Trips/Index"><i class="fas fa-car">&nbsp;</i>Viajes <span class="badge">@trips</span></a>
-                                                }
-                                                else
-                                                {
-                                                    <a href="~/Trips/Index"><i class="fas fa-car">&nbsp;</i>Viajes</a>
-                                                }
-                                            }
-                                        </li>
-                                        <li>
-                                            @{
-                                                if (reservations > 0)
-                                                {
-                                                    <a href="~/Reservations/ReservationIndex"><i class="fas fa-book-open">&nbsp;</i>Reservaciones <span class="badge">@reservations</span></a>
-                                                }
-                                                else
-                                                {
-                                                    <a href="~/Reservations/ReservationIndex"><i class="fas fa-book-open">&nbsp;</i>Reservaciones</a>
-                                                }
-                                            }
-                                        </li>
-                                        <li>
-                                            @{
-                                                if (notifications > 0)
-                                                {
-                                                    <a href="~/NotificationRequests/Index"><i class="fas fa-bell">&nbsp;</i>Notificaciones <span class="badge">@notifications</span></a>
-                                                }
-                                                else
-                                                {
-                                                    <a href="~/NotificationRequests/Index"><i class="fas fa-bell">&nbsp;</i>Notificaciones</a>
-                                                }
-                                            }
-                                        </li>
-                                        <li><a href="~/Trips/LoadDriverTripHistorial"><i class="fas fa-book">&nbsp;</i>Historial</a></li>
-                                        <li class="dropdown">
-                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-chevron-circle-down"></i></a>
-                                            <ul class="dropdown-menu">
-                                                @*<li role="separator" class="divider"></li>*@
-                                                <li><a href="~/Account/ManageUsers"><i class="fas fa-users">&nbsp;</i>Usuarios</a></li>
-                                                <li><a href="~/Logs/Index"><i class="fas fa-clipboard">&nbsp;</i>Logs</a></li>
-                                                <li><a href="~/Account/GetPendingUserIdentifications"><i class="fas fa-id-card">&nbsp;</i>Cédulas</a></li>
-                                                <li><a href="~/Email/Index"><i class="fas fa-envelope">&nbsp;</i>Correos</a></li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                    @Html.Partial("_LoginPartial")
-                                </div>
-                            </div>
-                            <div class="visible-sm">
-                                <div class="navbar-collapse collapse">
-                                    <ul class="nav navbar-nav">
-                                        <li>
-                                            @{
-                                                if (trips > 0)
-                                                {
-                                                    <a href="~/Trips/Index"><i class="fas fa-car">&nbsp;</i>Viajes <span class="badge">@trips</span></a>
-                                                }
-                                                else
-                                                {
-                                                    <a href="~/Trips/Index"><i class="fas fa-car">&nbsp;</i>Viajes</a>
-                                                }
-                                            }
-                                        </li>
-                                        <li>
-                                            @{
-                                                if (reservations > 0)
-                                                {
-                                                    <a href="~/Reservations/ReservationIndex"><i class="fas fa-book-open">&nbsp;</i>Reservaciones <span class="badge">@reservations</span></a>
-                                                }
-                                                else
-                                                {
-                                                    <a href="~/Reservations/ReservationIndex"><i class="fas fa-book-open">&nbsp;</i>Reservaciones</a>
-                                                }
-                                            }
-                                        </li>
-                                        <li><a href="~/Trips/LoadDriverTripHistorial"><i class="fas fa-book">&nbsp;</i>Historial</a></li>
-                                        <li class="dropdown">
-                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-chevron-circle-down"></i></a>
-                                            <ul class="dropdown-menu">
-                                                @*<li role="separator" class="divider"></li>*@
-                                                <li>
-                                                    @{
-                                                        if (notifications > 0)
-                                                        {
-                                                            <a href="~/NotificationRequests/Index"><i class="fas fa-bell">&nbsp;</i>Notificaciones <span class="badge">@notifications</span></a>
-                                                        }
-                                                        else
-                                                        {
-                                                            <a href="~/NotificationRequests/Index"><i class="fas fa-bell">&nbsp;</i>Notificaciones</a>
-                                                        }
-                                                    }
-                                                </li>
-                                                <li><a href="~/Account/ManageUsers"><i class="fas fa-users">&nbsp;</i>Usuarios</a></li>
-                                                <li><a href="~/Logs/Index"><i class="fas fa-clipboard">&nbsp;</i>Logs</a></li>
-                                                <li><a href="~/Account/GetPendingUserIdentifications"><i class="fas fa-id-card">&nbsp;</i>Cédulas</a></li>
-                                                <li><a href="~/Email/Index"><i class="fas fa-envelope">&nbsp;</i>Correos</a></li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                    @Html.Partial("_LoginPartial")
-                                </div>
-                            </div>
-                            <div class="visible-xs">
-                                <div class="toggle-button navbar-collapse collapse">
-                                    <ul class="nav navbar-nav">
-                                        <li>
-                                            @{
-                                                if (trips > 0)
-                                                {
-                                                    <a href="~/Trips/Index"><i class="fas fa-car">&nbsp;</i>Viajes <span class="badge">@trips</span></a>
-                                                }
-                                                else
-                                                {
-                                                    <a href="~/Trips/Index"><i class="fas fa-car">&nbsp;</i>Viajes</a>
-                                                }
-                                            }
-                                        </li>
-                                        <li>
-                                            @{
-                                                if (reservations > 0)
-                                                {
-                                                    <a href="~/Reservations/ReservationIndex"><i class="fas fa-book-open">&nbsp;</i>Reservaciones <span class="badge">@reservations</span></a>
-                                                }
-                                                else
-                                                {
-                                                    <a href="~/Reservations/ReservationIndex"><i class="fas fa-book-open">&nbsp;</i>Reservaciones</a>
-                                                }
-                                            }
-                                        </li>
-                                        <li>
-                                            @{
-                                                if (notifications > 0)
-                                                {
-                                                    <a href="~/NotificationRequests/Index"><i class="fas fa-bell">&nbsp;</i>Notificaciones <span class="badge">@notifications</span></a>
-                                                }
-                                                else
-                                                {
-                                                    <a href="~/NotificationRequests/Index"><i class="fas fa-bell">&nbsp;</i>Notificaciones</a>
-                                                }
-                                            }
-                                        </li>
-                                        <li><a href="~/Trips/LoadDriverTripHistorial"><i class="fas fa-book">&nbsp;</i>Historial</a></li>
-                                        <li><a href="~/Account/ManageUsers"><i class="fas fa-users">&nbsp;</i>Usuarios</a></li>
-                                        <li><a href="~/Logs/Index"><i class="fas fa-clipboard">&nbsp;</i>Logs</a></li>
-                                        <li><a href="~/Account/GetPendingUserIdentifications"><i class="fas fa-id-card">&nbsp;</i>Cédulas</a></li>
-                                        <li><a href="~/Email/Index"><i class="fas fa-envelope">&nbsp;</i>Correos</a></li>
-                                    </ul>
-                                    @Html.Partial("_LoginPartial")
-                                </div>
-                            </div>
-                            //driver
+                        <a href="~/Reservations/ReservationIndex"><i class="fas fa-book-open">&nbsp;</i>Reservaciones <span class="badge">@reservations</span></a>
                         }
-                        else if (userType == "0")
+                        else
                         {
-                            <div class="visible-xs visible-md visible-lg">
-                                <div class="toggle-button navbar-collapse collapse">
-                                    <ul class="nav navbar-nav">
-                                        <li>
-                                            @{
-                                                if (trips > 0)
-                                                {
-                                                    <a href="~/Trips/Index"><i class="fas fa-car">&nbsp;</i>Viajes <span class="badge">@trips</span></a>
-                                                }
-                                                else
-                                                {
-                                                    <a href="~/Trips/Index"><i class="fas fa-car">&nbsp;</i>Viajes</a>
-                                                }
-                                            }
-                                        </li>
-                                        <li>
-                                            @{
-                                                if (reservations > 0)
-                                                {
-                                                    <a href="~/Reservations/ReservationIndex"><i class="fas fa-book-open">&nbsp;</i>Reservaciones <span class="badge">@reservations</span></a>
-                                                }
-                                                else
-                                                {
-                                                    <a href="~/Reservations/ReservationIndex"><i class="fas fa-book-open">&nbsp;</i>Reservaciones</a>
-                                                }
-                                            }
-                                        </li>
-                                        <li>
-                                            @{
-                                                if (notifications > 0)
-                                                {
-                                                    <a href="~/NotificationRequests/Index"><i class="fas fa-bell">&nbsp;</i>Notificaciones <span class="badge">@notifications</span></a>
-                                                }
-                                                else
-                                                {
-                                                    <a href="~/NotificationRequests/Index"><i class="fas fa-bell">&nbsp;</i>Notificaciones</a>
-                                                }
-                                            }
-                                        </li>
-                                        <li><a href="~/Trips/LoadDriverTripHistorial"><i class="fas fa-book">&nbsp;</i>Historial</a></li>
-                                        <li><a href="~/Account/ContactUs"><i class="fas fa-envelope">&nbsp;</i>Contáctenos</a></li>
-                                    </ul>
-                                    @Html.Partial("_LoginPartial")
-                                </div>
-                            </div>
-                            <div class="visible-sm">
-                                <div class="navbar-collapse collapse">
-                                    <ul class="nav navbar-nav">
-                                        <li>
-                                            @{
-                                                if (trips > 0)
-                                                {
-                                                    <a href="~/Trips/Index"><i class="fas fa-car">&nbsp;</i>Viajes <span class="badge">@trips</span></a>
-                                                }
-                                                else
-                                                {
-                                                    <a href="~/Trips/Index"><i class="fas fa-car">&nbsp;</i>Viajes</a>
-                                                }
-                                            }
-                                        </li>
-                                        <li>
-                                            @{
-                                                if (reservations > 0)
-                                                {
-                                                    <a href="~/Reservations/ReservationIndex"><i class="fas fa-book-open">&nbsp;</i>Reservaciones <span class="badge">@reservations</span></a>
-                                                }
-                                                else
-                                                {
-                                                    <a href="~/Reservations/ReservationIndex"><i class="fas fa-book-open">&nbsp;</i>Reservaciones</a>
-                                                }
-                                            }
-                                        </li>
-                                        <li>
-                                            @{
-                                                if (notifications > 0)
-                                                {
-                                                    <a href="~/NotificationRequests/Index"><i class="fas fa-bell">&nbsp;</i>Notificaciones <span class="badge">@notifications</span></a>
-                                                }
-                                                else
-                                                {
-                                                    <a href="~/NotificationRequests/Index"><i class="fas fa-bell">&nbsp;</i>Notificaciones</a>
-                                                }
-                                            }
-                                        </li>
-                                        <li><a href="~/Trips/LoadDriverTripHistorial"><i class="fas fa-book">&nbsp;</i>Historial</a></li>
-                                        <li class="dropdown">
-                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-chevron-circle-down"></i></a>
-                                            <ul class="dropdown-menu">
-                                                @*<li role="separator" class="divider"></li>*@
-                                                <li><a href="~/Account/ContactUs"><i class="fas fa-envelope">&nbsp;</i>Contáctenos</a></li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                    @Html.Partial("_LoginPartial")
-                                </div>
-                            </div>
-                            //passenger
+                        <a href="~/Reservations/ReservationIndex"><i class="fas fa-book-open">&nbsp;</i>Reservaciones</a>
                         }
-                        else if (userType == "1")
+                        }
+                    </li>
+                    <li>
+                        @{
+                        if (notifications > 0)
                         {
-                            <div class="toggle-button navbar-collapse collapse">
-                                <ul class="nav navbar-nav">
-                                    <li>
-                                        @{
-                                            if (reservations > 0)
-                                            {
-                                                <a href="~/Reservations/ReservationIndex"><i class="fas fa-book-open">&nbsp;</i>Reservaciones <span class="badge">@reservations</span></a>
-                                            }
-                                            else
-                                            {
-                                                <a href="~/Reservations/ReservationIndex"><i class="fas fa-book-open">&nbsp;</i>Reservaciones</a>
-                                            }
-                                        }
-                                    </li>
-                                    <li>
-                                        @{
-                                            if (notifications > 0)
-                                            {
-                                                <a href="~/NotificationRequests/Index"><i class="fas fa-bell">&nbsp;</i>Notificaciones <span class="badge">@notifications</span></a>
-                                            }
-                                            else
-                                            {
-                                                <a href="~/NotificationRequests/Index"><i class="fas fa-bell">&nbsp;</i>Notificaciones</a>
-                                            }
-                                        }
-                                    </li>
-                                    <li><a href="~/Reservations/LoadPassengerReservationHistorial"><i class="fas fa-book">&nbsp;</i>Historial</a></li>
-                                    <li><a href="~/Account/ContactUs"><i class="fas fa-envelope">&nbsp;</i>Contáctenos</a></li>
-                                </ul>
-                                @Html.Partial("_LoginPartial")
-                            </div>
+                        <a href="~/NotificationRequests/Index"><i class="fas fa-bell">&nbsp;</i>Notificaciones <span class="badge">@notifications</span></a>
                         }
-                    }
-                </div>
+                        else
+                        {
+                        <a href="~/NotificationRequests/Index"><i class="fas fa-bell">&nbsp;</i>Notificaciones</a>
+                        }
+                        }
+                    </li>
+                    <li><a href="~/Reservations/LoadPassengerReservationHistorial"><i class="fas fa-book">&nbsp;</i>Historial</a></li>
+                    <li><a href="~/Account/ContactUs"><i class="fas fa-envelope">&nbsp;</i>Contáctenos</a></li>
+                </ul>
+                @Html.Partial("_LoginPartial")
             </div>
-        }
-        else
-        {
-            <div class="navbar navbar-inverse navbar-fixed-top" style="border-radius: 0px 0px 15px 15px">
-                <div class="container">
-                    <div class="navbar-header">
-                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                        @Html.ActionLink("¡Bienvenido!", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-                    </div>
-                    <div class="navbar-collapse collapse">
-                        @Html.Partial("_LoginPartial")
-                    </div>
-                </div>
+            }
+            }
+        </div>
+    </div>
+    }
+    else
+    {
+    <div class="navbar navbar-inverse navbar-fixed-top" style="border-radius: 0px 0px 15px 15px">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("¡Bienvenido!", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
-        }
+            <div class="navbar-collapse collapse">
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    }
     }
     <div class="container body-content">
         @RenderBody()
@@ -825,15 +852,15 @@
             </div>
         </div>
         @*<div class="modal hide" id="pleaseWaitDialog" data-backdrop="static" data-keyboard="false">
-                <div class="modal-header">
-                    <h1>Processing...</h1>
+            <div class="modal-header">
+                <h1>Processing...</h1>
+            </div>
+            <div class="modal-body">
+                <div class="progress progress-striped active">
+                    <div class="bar" style="width: 100%;"></div>
                 </div>
-                <div class="modal-body">
-                    <div class="progress progress-striped active">
-                        <div class="bar" style="width: 100%;"></div>
-                    </div>
-                </div>
-            </div>*@
+            </div>
+        </div>*@
     </div>
 
     @Scripts.Render("~/bundles/bootstrap")
@@ -1233,25 +1260,30 @@
     //https://fontawesome.com/icons?d=gallery&q=hand&m=free
 
     //cod para poner botones de tooltips
-    <div class="input-group btn-block">
-        @Html.TextBoxFor(m => m.Phone1, new { @class = "form-control", @placeholder = "####-####" })
-        @{
-            if (!Model.IsPhoneVerified)
-            {
-                <div id="information-type-tooltip-button">
-                    <button type="button" onclick="return false" class="btn btn-danger pull-left" aria-label="Help"><span class="glyphicon glyphicon-alert" data-toggle="tooltip" title="¡Número telefónico no verificado!"></span></button>
-                </div>
-            }
-            else
-            {
-                <div id="information-type-tooltip-button">
-                    <button type="button" class="btn btn-info pull-left" aria-label="Help"><span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" title="¡Número telefónico verificado!"></span></button>
-                </div>
-            }
-        }
-    </div>*@
+<div class="input-group btn-block">
+    @Html.TextBoxFor(m => m.Phone1, new { @class = "form-control", @placeholder = "####-####" })
+    @{
+    if (!Model.IsPhoneVerified)
+    {
+    <div id="information-type-tooltip-button">
+        <button type="button" onclick="return false" class="btn btn-danger pull-left" aria-label="Help"><span class="glyphicon glyphicon-alert" data-toggle="tooltip" title="¡Número telefónico no verificado!"></span></button>
+    </div>
+    }
+    else
+    {
+    <div id="information-type-tooltip-button">
+        <button type="button" class="btn btn-info pull-left" aria-label="Help"><span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" title="¡Número telefónico verificado!"></span></button>
+    </div>
+    }
+    }
+</div>*@
 
 @*Para ver las propiedades de objetos en javascript
     for (const prop in event) {
         console.log(`obj.${prop} = ${event[prop]}`);
     }*@
+
+@*
+Espacios: car-side
+Cuota: money-bill-alt
+*@

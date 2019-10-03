@@ -26,39 +26,37 @@
 <div id="main-content" class="row form-group hidden panel panel-default" style="border-radius:10px; padding:15px">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="row form-group">
-            <div class="col-lg-1 col-md-1 col-sm-6 col-xs-12">
-                <label class="control-label panel-title visible-xs visible-sm">Origen</label>
-                <label class="control-label panel-title pull-right visible-md visible-lg">Origen</label>
+            <div class="col-lg-1 col-md-2 col-sm-6 col-xs-12">
+                <label class="control-label visible-xs visible-sm"><i class="fas fa-map-marker-alt">&nbsp;</i>Origen</label>
+                <label class="control-label pull-right visible-md visible-lg"><i class="fas fa-map-marker-alt">&nbsp;</i>Origen</label>
             </div>
-            <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12">
+            <div class="col-lg-5 col-md-4 col-sm-6 col-xs-12">
                 <select id="FromTown" name="FromTown" class="form-control" onfocus="this.select()">
                     @Html.Raw(Model.DistrictControlOptions)
                 </select>
-                @*<input type="button" class="form-control btn btn-info btn-sm visible-xs pull-right" onclick="EraseValue('#FromTown')" style="width:42px" value="&#9003;" />
-                    <input type="button" class="form-control btn btn-info btn-sm hidden-xs" onclick="EraseValue('#FromTown')" style="width:42px" value="&#9003;" />*@
             </div>
-            <div class="col-lg-1 col-md-1 col-sm-6 col-xs-12">
-                <label class="control-label visible-xs visible-sm">Destino</label>
-                <label class="control-label pull-right visible-md visible-lg">Destino</label>
+            <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+                <label class="control-label visible-xs visible-sm"><i class="fas fa-map-marker-alt">&nbsp;</i>Destino</label>
+                <label class="control-label pull-right visible-md visible-lg"><i class="fas fa-map-marker-alt">&nbsp;</i>Destino</label>
             </div>
-            <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12">
-                <select id="ToTown" name="ToTown" class="form-control" onfocus="this.select()">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                <select id="ToTown" name="ToTown" class="form-control" style="width:100%" onfocus="this.select()">
                     @Html.Raw(Model.DistrictControlOptions)
                 </select>
-                @*<input type="button" class="form-control btn btn-info btn-sm visible-xs pull-right" onclick="EraseValue('#ToTown')" style="width:42px" value="&#9003;" />
-                    <input type="button" class="form-control btn btn-info btn-sm hidden-xs" onclick="EraseValue('#ToTown')" style="width:42px" value="&#9003;" />*@
             </div>
         </div>
         <div class="row form-group hidden-xs">
-            <div class="col-lg-1 col-md-1 col-sm-0">
+            <div class="col-lg-1 col-md-2 col-sm-0">
             </div>
-            <div class="col-lg-6 col-md-6 col-sm-6">
+            <div class="col-lg-5 col-md-4 col-sm-6">
                 <div class="input-group btn-block">
-                    <input onclick="window.location='@Url.Action("Create","NotificationRequests")'" type="button" class="btn btn-info btn-sm" style="border-radius: 10px 0px 0px 10px" value="Notificaciones" />
+                    <input onclick="window.location='@Url.Action("Create","NotificationRequests")'" type="button" class="btn btn-info btn-sm" style="border-radius: 10px 0px 0px 10px; width:240px" value="Notificaciones" />
                     <button onclick="return false" class="btn btn-info btn-sm" style="border-radius: 0px 10px 10px 0px" aria-label="Help"><span class="glyphicon glyphicon-alert" data-toggle="tooltip" title="¡Crea una notificación automática y te avisaremos cuando el viaje que necesites esté disponible!"></span></button>
                 </div>
             </div>
-            <div class="col-lg-5 col-md-5 col-sm-6">
+            <div class="col-lg-2 col-md-2 col-sm-0">
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6">
                 <button onclick="RetrieveTrips()" type="button" class="btn btn-info btn-sm" style="width:260px;border-radius:10px" data-loading-text="<i class='fa fa-circle-o-notch fa-spin pull-right'></i> Consultar Viajes">Consultar Viajes</button>
             </div>
         </div>
@@ -70,7 +68,7 @@
                 </div>
             </div>
             <div class="col-xs-5">
-                <button onclick="RetrieveTrips()" type="button" class="btn btn-info btn-sm" style="width:120px;border-radius:10px" data-loading-text="<i class='fa fa-circle-o-notch fa-spin pull-right'></i> Consultar">Consultar</button>
+                <button onclick="RetrieveTrips()" type="button" class="btn btn-info btn-sm pull-right" style="width:110px;border-radius:10px" data-loading-text="<i class='fa fa-circle-o-notch fa-spin pull-right'></i> Consultar">Consultar</button>
             </div>
         </div>
         @Html.Partial("~/Views/Reservations/Partials/_RequestJourney.cshtml", Model)

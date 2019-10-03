@@ -80,32 +80,28 @@
                     <li>
                         <div class="panel panel-default" style="border-radius:10px">
                             <div class="row form-group">
-                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                    <input type="button" class="btn btn-danger btn-sm pull-right" style="width:150px" value="Cancelar Viaje" onclick="ConfirmDelete(@trip.TripId, '@from -> @to')" /><br />
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8" style="padding-right:0px">
+                                    <br />
+                                    <b>&nbsp;<span class="fas fa-map-marker-alt">&nbsp;</span>Origen: </b><small class="from">@from</small><br />
+                                    <b>&nbsp;<span class="fas fa-map-marker-alt">&nbsp;</span>Destino: </b><small class="to">@to</small><br />
+                                    <b>&nbsp;<span class="fas fa-route">&nbsp;</span>Ruta:</b><small class="route">@route.Name</small><br />
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4">
+                                    <input type="button" class="btn btn-danger btn-sm pull-right hidden-xs" style="width:150px" value="Cancelar Viaje" onclick="ConfirmDelete(@trip.TripId, '@from -> @to')" /><br />
+                                    <input type="button" class="btn btn-danger btn-sm pull-right visible-xs" style="width:80px" value="Cancelar" onclick="ConfirmDelete(@trip.TripId, '@from -> @to')" /><br />
                                 </div>
                             </div>
                             <div class="row form-group">
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-7" style="padding-left:20px">
-                                    <br />
-                                    <b>Origen: </b><small class="from">@from</small><br />
-                                    <b>Destino: </b><small class="to">@to</small><br />
-                                    @{
-                                        if (route != null)
-                                        {
-                                            <b>Ruta:</b><small class="route">@route.Name</small><br />
-                                        }
-                                    }
-                                    <b>Salida: </b><small class="date">@trip.DateTime.ToString("dd/MM/yyyy hh:mm tt")</small><br />
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-9" style="padding-left:20px">
+                                    <b><span class="fas fa-clock">&nbsp;</span>Salida: </b><small class="date">@trip.DateTime.ToString("dd/MM/yyyy hh:mm tt")</small><br />
+                                    <small class="price"><b><span class="fas fa-money-bill-alt">&nbsp;</span>Cuota :</b> ₡ @trip.Price</small><br />
+                                    <small class="spaces"><b><span class="fas fa-car-side">&nbsp;</span>Espacios:</b> @trip.AvailableSpaces</small><br />
                                 </div>
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                    <small class="price"><b>Cuota :</b> ₡ @trip.Price</small><br />
-                                    <small class="spaces"><b>Espacios:</b> @trip.AvailableSpaces</small><br />
-                                </div>
-                                <div class="col-lg-2 col-md-2 col-sm-2" style="text-align:center">
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-3" style="padding-right:30px">
                                     @{
                                         if (Model.IsAdmin)
                                         {
-                                            <div class="center-block" id="profile-container-small" data-toggle="tooltip" title="@trip.ApplicationUser.FullName"><img id="profileImage" src="@Url.Content(trip.ApplicationUser.Picture)" /><br /></div>
+                                            <div class="pull-right" id="profile-container-small" data-toggle="tooltip" title="@trip.ApplicationUser.FullName"><img id="profileImage" src="@Url.Content(trip.ApplicationUser.Picture)" /><br /></div>
                                         }
                                     }
                                 </div>

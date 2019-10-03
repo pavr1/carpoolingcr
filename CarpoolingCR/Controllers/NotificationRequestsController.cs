@@ -274,6 +274,8 @@ namespace CarpoolingCR.Controllers
                 db.NotificationRequests.Add(notificationRequest);
                 db.SaveChanges();
 
+                Common.UpdateUserTripsReservationsAndNotifications(user.Id);
+
                 Common.LogData(new Log
                 {
                     Line = Common.GetCurrentLine(),
@@ -350,12 +352,13 @@ namespace CarpoolingCR.Controllers
                     Notifications = notificationRequests,
                 };
 
+                Common.UpdateUserTripsReservationsAndNotifications(userId);
+
                 var html = Serializer.RenderViewToString(this.ControllerContext, "Partials/p_Index", response);
 
                 response.Html = html;
 
                 return Serializer.Serialize(response);
-
             }
             catch (Exception ex)
             {

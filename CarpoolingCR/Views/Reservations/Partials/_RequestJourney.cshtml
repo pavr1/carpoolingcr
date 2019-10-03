@@ -42,8 +42,7 @@
                 eventClick: function (calEvent, jsEvent, view) {
                     if (moment().diff(calEvent.start, 'days') <= 0) {
                         var date = new Date(calEvent.start);
-                        var utc = date.getTime() + (date.getTimezoneOffset() * 60000);
-                        RedirectToDayTrips(/*calEvent.start*/utc);
+                        RedirectToDayTrips(date);
                     }
                 },
                 eventLimit: true,
@@ -55,20 +54,15 @@
                 },
                 eventRender: function (event, element, view) {
                     var date = new Date(event.start);
-                    var utc = date.getTime() + (date.getTimezoneOffset() * 60000);
-                    return $('<p onclick="RedirectToDayTrips(' + /*event.start*/utc + ')">&nbsp;&nbsp;' + event.count + ' <i class="fas fa-car"></i></p>');
+                    return $('<p onclick="RedirectToDayTrips(' + date + ')">&nbsp;&nbsp;' + event.count + ' <i class="fas fa-car"></i></p>');
                 },
-                //events: [
-
-                //],
                 contentHeight: "auto",
                 selectable: true,
                 navLinks: false,
                 dayClick: function (date, jsEvent, view) {
                     if (moment().diff(date, 'days') <= 0) {
                         var date = new Date(date);
-                        var utc = date.getTime() + (date.getTimezoneOffset() * 60000);
-                        RedirectToDayTrips(/*date*/utc);
+                        RedirectToDayTrips(date);
                     }
                 },
                 dayRender: function (date, cell) {
@@ -87,9 +81,6 @@
                     right: 'prev,today,next'
                 }
             });
-
-            //$('#calendar').removeClass('hidden');
-            //$('#requestJourneyProcessing').addClass('hidden');
 
             ReloadTrips();
         });
@@ -110,7 +101,7 @@
                 var unixTime = arrayOfTrips[i].DateTime.match(/\d+/)[0] * 1;
                 var from = arrayOfTrips[i].FromTown.County.Name + ', ' + arrayOfTrips[i].FromTown.Name;
                 var to = arrayOfTrips[i].ToTown.County.Name + ', ' + arrayOfTrips[i].ToTown.Name;
-                
+
                 document.getElementById('lblFromTo').innerHTML = from + ' - ' + to;
 
                 var actualDate = new Date(unixTime);
@@ -144,7 +135,7 @@
 
             for (var index in events) {
                 var obj = events[index];
-                
+
                  var event = {
                     id: obj.tripId,
                     title: availableSpaces + ' espacios',
@@ -178,9 +169,11 @@
         }
 
         function RedirectToDayTrips(date) {
+            console.log('Starting date redirection. Unix: ' + date);
+
             var fromto = document.getElementById('lblFromTo').innerHTML.split(' - ');
             var dateObj = new Date(date);
-            
+
             var month = String(dateObj.getMonth() + 1);
             var day = String(dateObj.getDate());
             var year = String(dateObj.getFullYear());
@@ -189,9 +182,9 @@
             if (day.length < 2) day = '0' + day;
 
             var dateStr = year + '-' + month + '-' + day;
+            console.log('Date: ' + dateStr);
 
             if (fromto != '') {
-                //var url = '@Url.Action("DayTrips", "Trips")' + '?date=' + dateObj.getFullYear() + '-' + dateObj.getMonth() + '-' + dateObj.getDay() + '&from=' + fromto[0] + '&to=' + fromto[1];
                 var url = '@Url.Action("DayTrips", "Trips")' + '?date=' + dateStr + '&from=' + fromto[0] + '&to=' + fromto[1];
 
                 console.log('Redirecting to DayTrips. Url: ' + url);

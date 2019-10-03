@@ -146,7 +146,7 @@
                                     @{
                                         if (Model.IsUserIdentificationVerified)
                                         {
-                                            @Html.TextBoxFor(m => m.UserIdentification, new { @class = "form-control", @placeholder = "Cédula", @readonly = "readonly" })
+                                            @Html.TextBoxFor(m => m.UserIdentification, new { @class = "form-control", @placeholder = "Cédula", @readonly = "readonly", @style = "width:80%" })
                                             <div id="user-identification-tooltip-button">
                                                 <button onclick="return false" class="btn btn-info pull-left" style="border-radius:0px 10px 10px 0px" aria-label="Help"><span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" title="¡Número de cédula verificado!"></span></button>
                                             </div>
@@ -155,14 +155,14 @@
                                         {
                                             if (string.IsNullOrEmpty(Model.UserIdentification))
                                             {
-                                                @Html.TextBoxFor(m => m.UserIdentification, new { @class = "form-control", @placeholder = "Cédula" })
+                                                @Html.TextBoxFor(m => m.UserIdentification, new { @class = "form-control", @placeholder = "Cédula", @style = "width:80%" })
                                                 <div id="user-identification-tooltip-button" class="form-group">
                                                     <button onclick="return false" class="btn btn-danger pull-left" style="border-radius:0px 10px 10px 0px" aria-label="Help"><span class="glyphicon glyphicon-alert" data-toggle="tooltip" title="¡El número de cédula debe ser provisto!"></span></button>
                                                 </div>
                                             }
                                             else
                                             {
-                                                @Html.TextBoxFor(m => m.UserIdentification, new { @class = "form-control", @placeholder = "Cédula" })
+                                                @Html.TextBoxFor(m => m.UserIdentification, new { @class = "form-control", @placeholder = "Cédula", @style = "width:80%" })
                                                 <div id="user-identification-tooltip-button">
                                                     <button onclick="return false" class="btn btn-warning pull-left" style="border-radius:0px 10px 10px 0px" aria-label="Help"><span class="glyphicon glyphicon-exclamation-sign" data-toggle="tooltip" title="¡El número de cédula se encuentra en período de verificación!"></span></button>
                                                 </div>
@@ -204,7 +204,7 @@
                                 @{
                                     if (Model.IsUserIdentificationVerified)
                                     {
-                                        @Html.TextBoxFor(m => m.UserIdentification, new { @class = "form-control", @placeholder = "Cédula", @readonly = "readonly" })
+                                        @Html.TextBoxFor(m => m.UserIdentification, new { @class = "form-control", @placeholder = "Cédula", @readonly = "readonly", @style = "width:80%" })
                                         <div id="user-identification-tooltip-button">
                                             <button onclick="return false" class="btn btn-info pull-left" style="border-radius:0px 10px 10px 0px" aria-label="Help"><span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" title="¡Número de cédula verificado!"></span></button>
                                         </div>
@@ -213,14 +213,14 @@
                                     {
                                         if (string.IsNullOrEmpty(Model.UserIdentification))
                                         {
-                                            @Html.TextBoxFor(m => m.UserIdentification, new { @class = "form-control", @placeholder = "Cédula" })
+                                            @Html.TextBoxFor(m => m.UserIdentification, new { @class = "form-control", @placeholder = "Cédula", @style = "width:80%" })
                                             <div id="user-identification-tooltip-button" class="form-group">
                                                 <button onclick="return false" class="btn btn-danger pull-left" style="border-radius:0px 10px 10px 0px" aria-label="Help"><span class="glyphicon glyphicon-alert" data-toggle="tooltip" title="¡El número de cédula debe ser provisto!"></span></button>
                                             </div>
                                         }
                                         else
                                         {
-                                            @Html.TextBoxFor(m => m.UserIdentification, new { @class = "form-control", @placeholder = "Cédula" })
+                                            @Html.TextBoxFor(m => m.UserIdentification, new { @class = "form-control", @placeholder = "Cédula", @style = "width:80%" })
                                             <div id="user-identification-tooltip-button">
                                                 <button onclick="return false" class="btn btn-warning pull-left" style="border-radius:0px 10px 10px 0px" aria-label="Help"><span class="glyphicon glyphicon-exclamation-sign" data-toggle="tooltip" title="¡El número de cédula se encuentra en período de verificación!"></span></button>
                                             </div>
@@ -289,7 +289,7 @@
                                 </div>
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                     <div class="input-group btn-block has-error">
-                                        @Html.TextBoxFor(m => m.Phone1, new { @class = "form-control", @placeholder = "####-####" })
+                                        @Html.TextBoxFor(m => m.Phone1, new { @class = "form-control", @placeholder = "####-####", @style = "width:80%" })
                                         <div id="information-type-tooltip-button">
                                             <button onclick="return false" class="btn btn-danger pull-left" style="border-radius:0px 10px 10px 0px" aria-label="Help"><span class="glyphicon glyphicon-alert" data-toggle="tooltip" title="¡El número de celular debe ser verificado!"></span></button>
                                         </div>
@@ -329,7 +329,7 @@
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                 <div class="input-group btn-block">
-                                    @Html.TextBoxFor(m => m.Phone1, new { @class = "form-control", @placeholder = "####-####" })
+                                    @Html.TextBoxFor(m => m.Phone1, new { @class = "form-control", @placeholder = "####-####", @style = "width:80%" })
                                     <div id="information-type-tooltip-button">
                                         <button onclick="return false" class="btn btn-info pull-left" style="border-radius:0px 10px 10px 0px" aria-label="Help"><span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" title="¡Número de celular verificado!"></span></button>
                                     </div>
@@ -648,7 +648,7 @@
 
     $('#Capacity').spinner({
         min: 1,
-        max: 7
+        max: 5
     }).val(@spacesValue);
 
     $('#BrandId')
@@ -732,7 +732,7 @@
                     mobileHtml += "</div>";
                     mobileHtml += "<div class=\"col-lg-4 col-md-4 col-sm-4 col-xs-12\">";
                     mobileHtml += "<div class=\"input-group btn-block\">";
-                    mobileHtml += "<input class=\"form-control\" id=\"UserIdentification\" name=\"UserIdentification\" placeholder=\"Cédula\" type=\"text\" value=\"@Model.UserIdentification\">";
+                    mobileHtml += "<input class=\"form-control\" id=\"UserIdentification\" name=\"UserIdentification\" placeholder=\"Cédula\" type=\"text\" style=\"width:80%\" value=\"@Model.UserIdentification\">";
                     mobileHtml += "<div id=\"information-type-tooltip-button\">";
                     mobileHtml += "<button onclick=\"return false\" class=\"btn btn-info pull-left\" style=\"border-radius: 0px 10px 10px 0px\" aria-label=\"Help\"><span class=\"glyphicon glyphicon-info-sign\" data-toggle=\"tooltip\" title=\"¡Número de celular verificado!\"></span></button>";
                     mobileHtml += "</div>";

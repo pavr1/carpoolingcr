@@ -7,9 +7,19 @@
 }
 <br />
 <div id="trips">
+    <div class="row form-group" style="text-align:center">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <h5 class="panel-title pull-left">Viajes</h5>
+        </div>
+    </div>
+    <div class="row" style="text-align:center">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <hr />
+        </div>
+    </div>
     <div class="row form-group">
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-            <input type="text" class="search form-control small" placeholder="Viajes creados" />
+            <input type="text" class="search form-control small" placeholder="Búsqueda" />
         </div>
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
             @{
@@ -32,7 +42,6 @@
             }
         </div>
     </div>
-    <br />
     <div class="row form-group">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <b class="pull-right">Viajes: @Model.Trips.Count</b>
@@ -251,7 +260,7 @@
 
                                     if (reservation.Status == CarpoolingCR.Utils.Enums.ReservationStatus.Accepted)
                                     {
-                                        totalAmount += Convert.ToDecimal(reservation.RequestedSpaces * trip.Price);
+                                        totalAmount += reservation.SelectedSeatsTotalPrice;
                                     }
                                     <hr />
                                 }

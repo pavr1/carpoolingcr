@@ -287,6 +287,14 @@
     <Compile Include="Migrations\201909302356448_Added SelectedSeatsTotalPrice to Reservations.Designer.cs">
       <DependentUpon>201909302356448_Added SelectedSeatsTotalPrice to Reservations.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201910022218527_Added Trips, Reservations and Notifications count to user.cs" />
+    <Compile Include="Migrations\201910022218527_Added Trips, Reservations and Notifications count to user.Designer.cs">
+      <DependentUpon>201910022218527_Added Trips, Reservations and Notifications count to user.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201910022317227_Deleted trip, reservation and notification counts from user since they are not really necessary.cs" />
+    <Compile Include="Migrations\201910022317227_Deleted trip, reservation and notification counts from user since they are not really necessary.Designer.cs">
+      <DependentUpon>201910022317227_Deleted trip, reservation and notification counts from user since they are not really necessary.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Bank.cs" />
@@ -334,6 +342,7 @@
     <Compile Include="Objects\Responses\TripIndexResponse.cs" />
     <Compile Include="Objects\Responses\UserManageResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="Content\Icons\background.jpg" />
     <Content Include="Content\Icons\ride .png" />
     <Content Include="Content\Icons\ride.jpg" />
     <Content Include="Content\Icons\ride.png" />
@@ -666,6 +675,7 @@
     <Content Include="Content\bootswatch\yeti\_bootswatch.scss" />
     <Content Include="Content\bootswatch\yeti\_variables.scss" />
     <None Include="Properties\PublishProfiles\buscoridecr.com %28smarteraspnet%29.pubxml" />
+    <None Include="Properties\PublishProfiles\Buscoridecr_Test.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\gifttreecr.com %28smarteraspnet%29.pubxml" />
     <Content Include="Content\ChatStyle.css" />
@@ -937,6 +947,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201909302356448_Added SelectedSeatsTotalPrice to Reservations.resx">
       <DependentUpon>201909302356448_Added SelectedSeatsTotalPrice to Reservations.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910022218527_Added Trips, Reservations and Notifications count to user.resx">
+      <DependentUpon>201910022218527_Added Trips, Reservations and Notifications count to user.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910022317227_Deleted trip, reservation and notification counts from user since they are not really necessary.resx">
+      <DependentUpon>201910022317227_Deleted trip, reservation and notification counts from user since they are not really necessary.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

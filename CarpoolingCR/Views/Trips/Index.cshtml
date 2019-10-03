@@ -184,30 +184,32 @@
                                                             value = obj.Value;
                                                         }
 
-                                                        <small class="driver inline-block ">
-                                                            <a href="tel: @value @reservation.ApplicationUser.Phone1" style="color:blue"> @value @reservation.ApplicationUser.Phone1 </a>
+                                                    <small class="driver inline-block ">
+                                                        <span class="fas fa-phone-alt">&nbsp;</span><a href="tel: @value @reservation.ApplicationUser.Phone1" style="color:blue"> @value @reservation.ApplicationUser.Phone1 </a>
 
-                                                            @if (!string.IsNullOrEmpty(reservation.ApplicationUser.Phone2))
-                                                            {
-                                                                <a href="tel: @value @reservation.ApplicationUser.Phone2" style="color:blue"> @value @reservation.ApplicationUser.Phone2 </a>
-                                                            }
-                                                        </small><br />
+                                                        @if (!string.IsNullOrEmpty(reservation.ApplicationUser.Phone2))
+                                                        {
+                                                            <br />
+                                                            <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                                            <a href="tel: @value @reservation.ApplicationUser.Phone2" style="color:blue"> @value @reservation.ApplicationUser.Phone2 </a>
+                                                        }
+                                                    </small><br />
                                                     }
-                                                    <small class="spaces"><b>&nbsp;&nbsp;Espacios: </b> @reservation.RequestedSpaces</small>
+                                                    <small class="spaces"><b><span class="fas fa-car-side">&nbsp;</span>Espacios: </b> @reservation.RequestedSpaces</small>
                                                 }
                                             </div>
                                             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6" style="padding:0px">
                                                 @{
                                                     var description = CarpoolingCR.Utils.EnumHelper<CarpoolingCR.Utils.Enums.ReservationStatus>.GetDisplayValue(reservation.Status);
-                                                    <small class="status"><b>&nbsp;&nbsp;Estado: </b>@description</small><br />
+                                                    <small class="status"><b><span class="fas fa-shield-alt">&nbsp;</span>Estado: </b>@description</small><br />
 
                                                     if (reservation.Status == CarpoolingCR.Utils.Enums.ReservationStatus.Accepted)
                                                     {
-                                                        <small class="total"><b>&nbsp;&nbsp;Total: ₡ @reservation.SelectedSeatsTotalPrice.ToString("N2")</b><br /></small>
+                                                        <small class="total"><b><span class="fas fa-money-bill-alt">&nbsp;</span>Total: ₡ @reservation.SelectedSeatsTotalPrice.ToString("N2")</b><br /></small>
                                                     }
                                                     else
                                                     {
-                                                        <small class="total"><b>&nbsp;&nbsp;Total: </b> ₡ @reservation.SelectedSeatsTotalPrice.ToString("N2")<br /></small>
+                                                        <small class="total"><b><span class="fas fa-money-bill-alt">&nbsp;</span>Total: </b> ₡ @reservation.SelectedSeatsTotalPrice.ToString("N2")<br /></small>
                                                     }
 
                                                     var spacesSelected = reservation.SpacesSelected.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);

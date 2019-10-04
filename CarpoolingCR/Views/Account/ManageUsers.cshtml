@@ -20,44 +20,39 @@
             <b class="pull-right">Usuarios: @Model.Count</b>
         </div>
     </div>
-    <ul class="list" style="list-style:none">
+    <ul class="list" style="list-style:none;padding:0px">
         @{
             foreach (var item in Model)
             {
                 <li>
                     <div class="row">
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
-                            <label class="control-label passenger">@item.Name @item.LastName</label>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            <label class="control-label passenger"><span class="fas fa-user">&nbsp;</span>@item.Name @item.LastName</label>
                         </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                             <small class="status">
                                 @{
                                     var description = CarpoolingCR.Utils.EnumHelper<CarpoolingCR.Utils.Enums.ProfileStatus>.GetDisplayValue(item.Status);
-                                    <b>Estado:</b> @description
+                                    <b><span class="fas fa-shield-alt">&nbsp;</span>Estado:</b> @description
                                 }
                             </small>
                         </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-0">
+                        <div class="col-lg-4 col-md-4 col-sm-4 hidden-xs">
+                            <small class="email"><b><span class="fas fa-check-circle">&nbsp;</span>Confirmación: </b></small><br />
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 country">
-                            <small>@item.Country.Name</small>
+                            <small><span class="fas fa-globe-americas">&nbsp;</span>@item.Country.Name</small>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            <small class="email"><b>Correo:</b> @item.Email</small>
+                            <small class="email"><b><span class="fas fa-envelope">&nbsp;</span>Correo:</b> @item.Email</small>
                         </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            <small class="email"><b>Confirmación (Cédula/Celular/Correo):</b><input type="checkbox" checked="@item.IsUserIdentificationVerified" disabled /><input type="checkbox" checked="@item.IsPhoneVerified" disabled /><input type="checkbox" checked="@item.EmailConfirmed" disabled /></small>
+                        <div class="col-lg-4 col-md-4 col-sm-4 hidden-xs">
+                            <span class="fas fa-id-card">&nbsp;</span><input type="checkbox" checked="@item.IsUserIdentificationVerified" disabled />
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            <small class="usertype"><b>Tipo de Usuario:</b> @item.UserType</small>
-                        </div>
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                             @{
                                 var claims = (System.Security.Claims.ClaimsIdentity)User.Identity;
@@ -70,15 +65,33 @@
                                 }
 
                                 <small class="phones">
-                                    <b>Contacto: </b><br /><a href="tel: @value @item.Phone1" style="color:blue"> @value @item.Phone1 </a>
+                                    <b><span class="fas fa-phone-square-alt">&nbsp;</span>Contacto: </b><a href="tel: @value @item.Phone1" style="color:blue"> @value @item.Phone1 </a>
 
+                                    <br />
                                     @if (!string.IsNullOrEmpty(item.Phone2))
                                     {
                                         <br />
+                                        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
                                         <a href="tel: @value @item.Phone2" style="color:blue"> @value @item.Phone2 </a>
                                     }
                                 </small>
                             }
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            <small class="usertype"><b><span class="fas fa-user-shield">&nbsp;</span>Tipo de Usuario:</b> @item.UserType</small>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 hidden-xs">
+                            <span class="fas fa-mobile-alt">&nbsp;</span><input type="checkbox" checked="@item.IsPhoneVerified" disabled /><br />
+                            <span class="fas fa-envelope">&nbsp;</span><input type="checkbox" checked="@item.EmailConfirmed" disabled />
+
+                            @Html.ActionLink("Eliminar", "EditUser", new { id = item.Id }, new { @class = "btn btn-danger btn-sm pull-right", @disabled = "disabled" })
+                            @Html.ActionLink("Editar", "DeleteUser", new { id = item.Id }, new { @class = "btn btn-info btn-sm pull-right" })
+                        </div>
+                        <div class="visible-xs col-xs-12">
+                            <small class="email"><b><span class="fas fa-check-circle">&nbsp;</span>Confirmación: </b></small><br />
+                            &nbsp;&nbsp;&nbsp;<span class="fas fa-id-card">&nbsp;</span><input type="checkbox" checked="@item.IsUserIdentificationVerified" disabled /><br />
+                            &nbsp;&nbsp;&nbsp;<span class="fas fa-mobile-alt">&nbsp;</span><input type="checkbox" checked="@item.IsPhoneVerified" disabled /><br />
+                            &nbsp;&nbsp;&nbsp;<span class="fas fa-envelope">&nbsp;</span><input type="checkbox" checked="@item.EmailConfirmed" disabled />
 
                             @Html.ActionLink("Eliminar", "EditUser", new { id = item.Id }, new { @class = "btn btn-danger btn-sm pull-right", @disabled = "disabled" })
                             @Html.ActionLink("Editar", "DeleteUser", new { id = item.Id }, new { @class = "btn btn-info btn-sm pull-right" })
@@ -93,7 +106,7 @@
 
 <script language="javascript">
     var options = {
-        valueNames: ['passenger', 'status', 'country', 'email', 'usertype', 'phones', ]
+        valueNames: ['passenger', 'status', 'country', 'email', 'usertype', 'phones',]
     };
 
     var userList = new List('manage-users-search', options);

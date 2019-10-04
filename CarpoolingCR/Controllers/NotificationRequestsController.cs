@@ -72,12 +72,14 @@ namespace CarpoolingCR.Controllers
             }
             catch (Exception ex)
             {
+                var inner = (ex.InnerException != null) ? ex.InnerException.Message : "None";
+
                 Common.LogData(new Log
                 {
                     Line = Common.GetCurrentLine(),
                     Location = Enums.LogLocation.Server,
                     LogType = Enums.LogType.Error,
-                    Message = ex.Message + " / " + ex.StackTrace,
+                    Message = ex.Message + " / Inner: " + inner + " / " + ex.StackTrace,
                     Method = Common.GetCurrentMethod(),
                     Timestamp = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
                     UserEmail = User.Identity.Name
@@ -130,12 +132,14 @@ namespace CarpoolingCR.Controllers
             }
             catch (Exception ex)
             {
+                var inner = (ex.InnerException != null) ? ex.InnerException.Message : "None";
+
                 Common.LogData(new Log
                 {
                     Line = Common.GetCurrentLine(),
                     Location = Enums.LogLocation.Server,
                     LogType = Enums.LogType.Error,
-                    Message = ex.Message + " / " + ex.StackTrace,
+                    Message = ex.Message + " / Inner: " + inner + " / " + ex.StackTrace,
                     Method = Common.GetCurrentMethod(),
                     Timestamp = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
                     UserEmail = User.Identity.Name
@@ -305,12 +309,14 @@ namespace CarpoolingCR.Controllers
             }
             catch (Exception ex)
             {
+                var inner = (ex.InnerException != null) ? ex.InnerException.Message : "None";
+
                 Common.LogData(new Log
                 {
                     Line = Common.GetCurrentLine(),
                     Location = Enums.LogLocation.Server,
                     LogType = Enums.LogType.Error,
-                    Message = ex.Message + " / " + ex.StackTrace,
+                    Message = ex.Message + " / Inner: " + inner + " / " + ex.StackTrace,
                     Method = Common.GetCurrentMethod(),
                     Timestamp = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
                     UserEmail = User.Identity.Name
@@ -375,12 +381,14 @@ namespace CarpoolingCR.Controllers
             }
             catch (Exception ex)
             {
+                var inner = (ex.InnerException != null) ? ex.InnerException.Message : "None";
+
                 Common.LogData(new Log
                 {
                     Line = Common.GetCurrentLine(),
                     Location = Enums.LogLocation.Server,
                     LogType = Enums.LogType.Error,
-                    Message = ex.Message + " / " + ex.StackTrace,
+                    Message = ex.Message + " / Inner: " + inner + " / " + ex.StackTrace,
                     Method = Common.GetCurrentMethod(),
                     Timestamp = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
                     UserEmail = User.Identity.Name

@@ -44,10 +44,10 @@
         <div class="row">
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                 <div class="row form-group">
-                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                        <label class="control-label" style="text-align:left">Origen</label>
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                        <span class="fas fa-map-marker-alt">&nbsp;</span><label class="control-label" style="text-align:left">Origen</label>
                     </div>
-                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
                         <select id="FromTown" name="FromTown" class="form-control waypoints">
                             @Html.Raw(Model.DistrictControlOptions)
                         </select>
@@ -57,10 +57,10 @@
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                 <div class="row form-group">
-                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                        <label class="control-label" style="text-align:left">Destino</label>
+                    <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+                        <span class="fas fa-map-marker-alt">&nbsp;</span><label class="control-label" style="text-align:left">Destino</label>
                     </div>
-                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+                    <div class="col-lg-9 col-md-9 col-sm-8 col-xs-12">
                         <select id="ToTown" name="ToTown" class="form-control waypoints">
                             @Html.Raw(Model.DistrictControlOptions)
                         </select>
@@ -81,16 +81,16 @@
                                             <span class="input-group-addon" style="border-radius: 10px 0px 0px 10px">
                                                 <input type="radio" id="rbOneWay" onclick="ChangeTripRound(false)" name="rbOneWay" tabindex="-1" aria-label="..." checked>
                                             </span>
-                                            <small class="form-control" style="width:160px; border-radius: 0px 10px 10px 0px"><span class="glyphicon glyphicon-arrow-up"></span> Sólo Ida</small>
+                                            <small class="form-control" style="width:160px; border-radius: 0px 10px 10px 0px"><span class="fas fa-arrow-right">&nbsp;</span> Ida</small>
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                         <div class="row form-group">
-                                            <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
+                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
                                                 <br class="visible-xs" />
-                                                <label class="control-label" style="text-align:left">Cuota</label>
+                                                <span class="fas fa-money-bill-alt">&nbsp;</span><label class="control-label" style="text-align:left">Cuota</label>
                                             </div>
-                                            <div class="col-lg-10 col-md-9 col-sm-9 col-xs-12">
+                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
                                                 @Html.EditorFor(model => model.Trip.Price, new { htmlAttributes = new { @class = "form-control", @style = "width:100px" } })
                                             </div>
                                         </div>
@@ -110,52 +110,37 @@
                     <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                             <div class="row form-group">
-                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
                                 </div>
-                                <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+                                <div class="col-lg-9 col-md-9 col-sm-8 col-xs-12">
                                     <label class="control-label" style="text-align:left">Ida</label>
                                 </div>
                             </div>
                             <div class="row form-group">
-                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                                    <label class="control-label" style="text-align:left">Ruta</label>
+                                <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+                                    <span class="fas fa-route">&nbsp;</span><label class="control-label" style="text-align:left">Ruta</label>
                                 </div>
-                                <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+                                <div class="col-lg-9 col-md-9 col-sm-8 col-xs-12">
                                     <select id="Route" name="Route" class="form-control waypoints">
                                         @Html.Raw(Model.DistrictControlOptions)
                                     </select>
                                 </div>
                             </div>
                             <div class="row form-group">
-                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                                    <label class="control-label" style="text-align:left">Fecha</label>
+                                <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+                                    <span class="fas fa-calendar-alt">&nbsp;</span><label class="control-label" style="text-align:left">Fecha</label>
                                 </div>
-                                <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+                                <div class="col-lg-9 col-md-9 col-sm-8 col-xs-12">
                                     <input id="DateTimeDisplay" name="DateTimeDisplay" autocomplete="off" class="form-control" type="text" onfocus="blur();">
                                     <input type="text" id="DateTime" name="DateTime" class="hidden" />
                                 </div>
                             </div>
                             <div class="row form-group">
-                                <div class="col-lg-2 col-md-2 col-sm-2">
+                                <div class="col-lg-3 col-md-3 col-sm-4">
+                                    <span class="fas fa-car-side">&nbsp;</span><label class="control-label" style="text-align:left">Campos</label>
                                 </div>
-
-                                <div class="col-lg-2 col-md-5 col-sm-5 col-xs-6">
-                                    @*<label class="control-label" style="text-align:left">Espacios</label>*@
-                                </div>
-                                <div class="col-lg-2 col-md-5 col-sm-5 col-xs-6">
-
-                                </div>
-                            </div>
-                            <div class="row form-group">
-                                <div class="col-lg-2 col-md-2 col-sm-2">
-                                    <label class="control-label" style="text-align:left">Campos</label>
-                                </div>
-                                <div class="col-lg-2 col-md-5 col-sm-5 col-xs-6">
-                                    @*<input id="TotalSpaces" class="hidden" style="width:40px;" name="TotalSpaces" disabled onfocus="blur();">*@
+                                <div class="col-lg-9 col-md-9 col-sm-8 col-xs-6">
                                     <input id="AvailableSpaces" style="width:40px;" name="AvailableSpaces" onfocus="blur();">
-                                </div>
-                                <div class="col-lg-2 col-md-5 col-sm-5 col-xs-6">
-
                                 </div>
                             </div>
                             <div class="form-group hidden">
@@ -165,10 +150,10 @@
                                 </div>
                             </div>
                             <div class="row form-group">
-                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                                    <label class="control-label" style="text-align:left">Encuentro</label>
+                                <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+                                    <span class="fas fa-street-view">&nbsp;</span><label class="control-label" style="text-align:left">Encuentro</label>
                                 </div>
-                                <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12 pull-left">
+                                <div class="col-lg-9 col-md-9 col-sm-8 col-xs-12 pull-left">
                                     @Html.EditorFor(model => model.Trip.Details, new { htmlAttributes = new { @class = "form-control w-100" } })
                                 </div>
                             </div>
@@ -194,7 +179,7 @@
                                 <span class="input-group-addon" style="border-radius: 10px 0px 0px 10px">
                                     <input type="radio" id="rbRound" onclick="ChangeTripRound(true)" name="rbRound" tabindex="-1" aria-label="...">
                                 </span>
-                                <small class="form-control" style="width:160px;border-radius: 0px 10px 10px 0px"><span class="glyphicon glyphicon-arrow-up"></span><span class="glyphicon glyphicon-arrow-down"></span> Ida y Regreso</small>
+                                <small class="form-control" style="width:160px;border-radius: 0px 10px 10px 0px"><span class="fas fa-arrow-left">&nbsp;</span> Regreso</small>
                             </div>
                         </div>
                     </div>
@@ -214,29 +199,29 @@
                                     </div>
                                 </div>
                                 <div class="row form-group">
-                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                                        <label class="control-label" style="text-align:left">Ruta</label>
+                                    <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+                                        <span class="fas fa-route">&nbsp;</span><label class="control-label" style="text-align:left">Ruta</label>
                                     </div>
-                                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+                                    <div class="col-lg-9 col-md-9 col-sm-8 col-xs-12">
                                         <select id="Route-To" name="Route-To" class="form-control waypoints">
                                             @Html.Raw(Model.DistrictControlOptions)
                                         </select>
                                     </div>
                                 </div>
                                 <div class="row form-group">
-                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                                        <label class="control-label" style="text-align:left">Fecha</label>
+                                    <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+                                        <span class="fas fa-calendar-alt">&nbsp;</span><label class="control-label" style="text-align:left">Fecha</label>
                                     </div>
-                                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+                                    <div class="col-lg-9 col-md-9 col-sm-8 col-xs-12">
                                         <input id="DateTimeDisplay-To" name="DateTimeDisplay-To" autocomplete="off" class="form-control" type="text" onfocus="blur();">
                                         <input type="text" id="DateTime-To" name="DateTime-To" class="hidden" />
                                     </div>
                                 </div>
                                 <div class="row form-group">
-                                    <div class="col-lg-2 col-md-2 col-sm-2">
-                                        <label class="control-label" style="text-align:left">Campos</label>
+                                    <div class="col-lg-3 col-md-3 col-sm-4">
+                                        <span class="fas fa-car-side">&nbsp;</span><label class="control-label" style="text-align:left">Campos</label>
                                     </div>
-                                    <div class="col-lg-2 col-md-5 col-sm-5 col-xs-6">
+                                    <div class="col-lg-9 col-md-9 col-sm-8 col-xs-6">
                                         @*<input id="TotalSpaces" class="hidden" style="width:40px;" name="TotalSpaces" disabled onfocus="blur();">*@
                                         <input id="AvailableSpaces-To" style="width:40px;" name="AvailableSpaces-To" onfocus="blur();">
                                     </div>
@@ -245,10 +230,10 @@
                                     </div>
                                 </div>
                                 <div class="row form-group">
-                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                                        <label class="control-label" style="text-align:left">Encuentro</label>
+                                    <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+                                        <span class="fas fa-street-view">&nbsp;</span><label class="control-label" style="text-align:left">Encuentro</label>
                                     </div>
-                                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12 pull-left">
+                                    <div class="col-lg-9 col-md-9 col-sm-8 col-xs-12 pull-left">
                                         <input type="text" id="Trip_Details_To" name="Trip_Details_To" class="form-control" />
                                     </div>
                                 </div>

@@ -27,11 +27,12 @@
                 <li>
                     <div class="row">
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
-                            <label class="control-label passenger">@item.UserIdentification</label>
+                            <label class="control-label passenger"><span class="fas fa-id-card">&nbsp;</span>@item.UserIdentification</label>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
                             <small class="status">
-                                @item.FullName @item.SecondLastName
+                                <span class="fas fa-user">&nbsp;</span> @item.FullName @item.SecondLastName <br />
+                                <span class="fas fa-envelope">&nbsp;</span> @item.Email
                             </small>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4 hidden-xs">

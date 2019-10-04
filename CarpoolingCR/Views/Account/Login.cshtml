@@ -22,39 +22,17 @@
 <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <section id="loginForm">
-            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form", id= "LoginForm" }))
+            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "LoginForm" }))
             {
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="row form-group">
-                    @*<div class="col-lg-2 col-md-2 col-sm-2 col-xs-3">
-                            @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-                        </div>
-                        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-9">
-                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
-                        </div>*@
-
-                    @*<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            @Html.LabelFor(m => m.Email, new { @class = "control-label pull-left" })
-                        </div>*@
                     <div class="col-lg-4 col-md-2 col-sm-1 col-xs-0">
 
                     </div>
                     <div class="col-lg-4 col-md-8 col-sm-10 col-xs-12">
-                        <div class="input-group">
-                            <input type="text" id="UserEmail" name="UserEmail" class="form-control" aria-label="..." style="width:40%" placeholder="Correo">
-                            <input type="text" id="Email" name="Email" style="display:none" />
-                            <label class="form-control input-group-addon" style="width:10%;font-size:medium;text-align:center;">@@</label>
-                            <select class="form-control" id="emailDomain" style="width:45%; border-radius: 0px 10px 10px 0px !important">
-                                @{
-                                    foreach (var item in (SelectList)ViewBag.EmailDomains)
-                                    {
-                                        <option>@item.Text</option>
-                                    }
-                                }
-                            </select>
-                        </div><!-- /input-group -->
+                        <input type="text" id="registeredUserPicture" name="registeredUserPicture" class="hidden" />
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control emailvalidation", placeholder = "Correo Electrónico" })
                     </div>
                     <div class="col-lg-4 col-md-2 col-sm-1 col-xs-0">
 
@@ -119,7 +97,7 @@
 
                     </div>
                 </div>
-                                    }
+            }
         </section>
     </div>
     <div class="row form-group">
@@ -149,20 +127,16 @@
 
 <script>
     function Login() {
-        var email = $('#UserEmail').val();
-        var emailDomain = $('#emailDomain').val();
+        var email = $('#Email').val().trim();
         var Password = $('#Password').val();
 
-        if (email == '') {
-            //¡Correo electrónico requerido!
-            DisplayGrowlMessage('100055', 'warn')
-            $('#btn-login').button(reset);
-
-            return false;
-        }
-
-        email = email.trim() + "@@" + emailDomain;
         $('#Email').val(email);
+
+        if (!validateEmail(email)) {
+            DisplayGrowlMessage("¡Correo Electrónico inválido!", "warn")
+
+            return;
+        }
 
         if (Password == '') {
             //¡Contraseña Requerida!

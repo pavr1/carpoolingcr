@@ -521,7 +521,7 @@ namespace CarpoolingCR.Controllers
 
                     if (send)
                     {
-                        FacebookHandler.PublishFacebookPost(trip.FromTown.FullName, trip.ToTown.FullName, trip.Route.Name, trip.DateTime, user.Country.CurrencyChar, trip.Price, trip.AvailableSpaces, callbackUrl);
+                        FacebookHandler.PublishTripCreation(trip.FromTown.FullName, trip.ToTown.FullName, trip.Route.Name, trip.DateTime, user.Country.CurrencyChar, trip.Price, trip.AvailableSpaces, callbackUrl);
                     }
 
                     new SignalHandler().SendMessage(Enums.EventTriggered.TripCreated.ToString(), "");
@@ -582,7 +582,7 @@ namespace CarpoolingCR.Controllers
 
                         if (send)
                         {
-                            FacebookHandler.PublishFacebookPost(tripBack.FromTown.FullName, tripBack.ToTown.FullName, tripBack.Route.Name, tripBack.DateTime, user.Country.CurrencyChar, tripBack.Price, tripBack.AvailableSpaces, callbackUrl);
+                            FacebookHandler.PublishTripCreation(tripBack.FromTown.FullName, tripBack.ToTown.FullName, tripBack.Route.Name, tripBack.DateTime, user.Country.CurrencyChar, tripBack.Price, tripBack.AvailableSpaces, callbackUrl);
                         }
 
                         new SignalHandler().SendMessage(Enums.EventTriggered.TripCreated.ToString(), "");

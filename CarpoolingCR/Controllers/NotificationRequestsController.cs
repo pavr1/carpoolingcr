@@ -3,6 +3,7 @@ using CarpoolingCR.Models.Locations;
 using CarpoolingCR.Objects.Responses;
 using CarpoolingCR.Utils;
 using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
@@ -34,11 +35,23 @@ namespace CarpoolingCR.Controllers
                     ViewBag.Info = message;
                 }
 
-                var notificationRequests = db.NotificationRequests
+                var notificationRequests = new List<NotificationRequest>();
+
+                if (user.UserType == Enums.UserType.Administrador)
+                {
+                    notificationRequests = db.NotificationRequests
+                    .Where(x => x.Status == Enums.RequestNotificationStatus.Active)
+                    .Include(n => n.Reservation)
+                    .ToList();
+                }
+                else
+                {
+                    notificationRequests = db.NotificationRequests
                     .Where(x => x.UserId == user.Id)
                     .Where(x => x.Status == Enums.RequestNotificationStatus.Active)
                     .Include(n => n.Reservation)
                     .ToList();
+                }
 
                 foreach (var notification in notificationRequests)
                 {
@@ -211,7 +224,7 @@ namespace CarpoolingCR.Controllers
                 var createdDate = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Local);
                 var requestedFromDateTime = DateTime.SpecifyKind(tripDate, DateTimeKind.Local);
                 var requestedToDateTime = DateTime.SpecifyKind(tripDate, DateTimeKind.Local);
-
+                var facebookTimeDetail = string.Empty;
 
                 //get time by hour-type
                 if (timeFlexibleCheck)
@@ -221,30 +234,37 @@ namespace CarpoolingCR.Controllers
                         case "Todo el día (12:00 am-11:59 pm)":
                             requestedFromDateTime = new DateTime(requestedFromDateTime.Year, requestedFromDateTime.Month, requestedFromDateTime.Day, 0, 0, 0);
                             requestedToDateTime = new DateTime(requestedToDateTime.Year, requestedToDateTime.Month, requestedToDateTime.Day, 23, 59, 0);
+                            facebookTimeDetail = "a cualquier hora";
                             break;
                         case "Madrugada (12:00 am-5:59 am)":
                             requestedFromDateTime = new DateTime(requestedFromDateTime.Year, requestedFromDateTime.Month, requestedFromDateTime.Day, 0, 0, 0);
                             requestedToDateTime = new DateTime(requestedToDateTime.Year, requestedToDateTime.Month, requestedToDateTime.Day, 5, 59, 0);
+                            facebookTimeDetail = "en la madrugada";
                             break;
                         case "Mañana (6:00 am-11:59 am)":
                             requestedFromDateTime = new DateTime(requestedFromDateTime.Year, requestedFromDateTime.Month, requestedFromDateTime.Day, 6, 0, 0);
                             requestedToDateTime = new DateTime(requestedToDateTime.Year, requestedToDateTime.Month, requestedToDateTime.Day, 11, 59, 0);
+                            facebookTimeDetail = "en la mañana";
                             break;
                         case "Medio día (12:00 pm-12:59 pm)":
                             requestedFromDateTime = new DateTime(requestedFromDateTime.Year, requestedFromDateTime.Month, requestedFromDateTime.Day, 12, 0, 0);
                             requestedToDateTime = new DateTime(requestedToDateTime.Year, requestedToDateTime.Month, requestedToDateTime.Day, 12, 59, 0);
+                            facebookTimeDetail = "a medio día";
                             break;
                         case "Tarde (1:00 pm-6:59 pm)":
                             requestedFromDateTime = new DateTime(requestedFromDateTime.Year, requestedFromDateTime.Month, requestedFromDateTime.Day, 13, 0, 0);
                             requestedToDateTime = new DateTime(requestedToDateTime.Year, requestedToDateTime.Month, requestedToDateTime.Day, 18, 59, 0);
+                            facebookTimeDetail = "en la tarde";
                             break;
                         case "Noche (7:00 pm-11:59 pm)":
                             requestedFromDateTime = new DateTime(requestedFromDateTime.Year, requestedFromDateTime.Month, requestedFromDateTime.Day, 19, 0, 0);
                             requestedToDateTime = new DateTime(requestedToDateTime.Year, requestedToDateTime.Month, requestedToDateTime.Day, 23, 59, 0);
+                            facebookTimeDetail = "en la noche";
                             break;
                         default:
                             requestedFromDateTime = new DateTime(requestedFromDateTime.Year, requestedFromDateTime.Month, requestedFromDateTime.Day, 0, 0, 0);
                             requestedToDateTime = new DateTime(requestedToDateTime.Year, requestedToDateTime.Month, requestedToDateTime.Day, 23, 59, 0);
+                            facebookTimeDetail = "a cualquier hora";
                             break;
                     }
                 }
@@ -257,11 +277,13 @@ namespace CarpoolingCR.Controllers
 
                     userSelectedTime = new DateTime(tripDate.Year, tripDate.Month, tripDate.Day, userSelectedTime.Hour, userSelectedTime.Minute, 0);
 
-                    var fromUserSelectedTime = userSelectedTime.AddMinutes(-15);
-                    var toUserSelectedTime = userSelectedTime.AddMinutes(15);
+                    var fromUserSelectedTime = userSelectedTime;
+                    var toUserSelectedTime = userSelectedTime;
 
                     requestedFromDateTime = new DateTime(requestedFromDateTime.Year, requestedFromDateTime.Month, requestedFromDateTime.Day, fromUserSelectedTime.Hour, fromUserSelectedTime.Minute, 0);
                     requestedToDateTime = new DateTime(requestedToDateTime.Year, requestedToDateTime.Month, requestedToDateTime.Day, toUserSelectedTime.Hour, toUserSelectedTime.Minute, 0);
+
+                    facebookTimeDetail = "a las " + requestedFromDateTime.ToString("hh:mm tt");
                 }
 
                 notificationRequest = new NotificationRequest
@@ -277,6 +299,13 @@ namespace CarpoolingCR.Controllers
 
                 db.NotificationRequests.Add(notificationRequest);
                 db.SaveChanges();
+
+                var send = Convert.ToBoolean(WebConfigurationManager.AppSettings["SendNotificationsToAdmin"]);
+
+                if (send)
+                {
+                    FacebookHandler.PublishNotification(fromDistrict.FullName, toDistrict.FullName, requestedFromDateTime, facebookTimeDetail);
+                }
 
                 Common.UpdateUserTripsReservationsAndNotifications(user.Id);
 

@@ -80,10 +80,7 @@
     $('#tabPending').removeClass('ui-state-active');
     $('#FromTown').editableSelect();
     $('#ToTown').editableSelect();
-    //$('#tooltipRetrieveTrips').tooltip();
 
-    //$('#main-content').removeClass('hidden');
-    //$('#loading-content').addClass('hidden');
     $('#main-content').slideUp(1);
     $('#loading-content').slideDown(1);
 
@@ -122,7 +119,8 @@
 
             return;
         } else if (from == to) {
-            displayMessages('¡Origen y destino iguales!', 'warning')
+            //¡Origen y destino iguales!
+            displayMessages('100074', 'warning')
 
             return;
         }

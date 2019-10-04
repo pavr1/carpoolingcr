@@ -21,21 +21,9 @@
     @Html.AntiForgeryToken()
     <input type="text" id="registeredUserPicture" name="registeredUserPicture" class="hidden" />
     <div class="form-group">
-        <label class="col-md-2 control-label">Correo</label>
+        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            <div class="input-group">
-                <input type="text" id="UserEmail" name="UserEmail" class="form-control" aria-label="..." style="width:180px">
-                <input type="text" id="Email" name="Email" style="display:none" />
-                <label class="form-control" style="width:40px; background-color:lightgray;font-size:medium">@@</label>
-                <select class="form-control" id="emailDomain" style="width:130px; border-radius: 0px 10px 10px 0px !important">
-                    @{
-                        foreach (var item in (SelectList)ViewBag.EmailDomains)
-                        {
-                            <option>@item.Text</option>
-                        }
-                    }
-                </select>
-            </div><!-- /input-group -->
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control emailvalidation", placeholder = "Correo Electrónico" })
         </div>
     </div>
     <div class="form-group">
@@ -161,17 +149,21 @@
     }
 
     function checkFields() {
-        var email = $('#UserEmail').val().trim();
+        var email = $('#Email').val().trim();
         var pwd = $('#Password').val().trim();
         var country = $('#CountryId').val();
         var pwdConfirmation = $('#ConfirmPassword').val().trim();
         var isDriver = false;
 
-        if (email == '') {
-            DisplayGrowlMessage("¡Correo Electrónico requerido!", "warn")
+        $('#Email').val(email);
 
+        if (!validateEmail(email)) {
+            DisplayGrowlMessage("¡Correo Electrónico inválido!", "warn")
+            
             return;
-        } else if (pwd == '') {
+        } 
+
+        if (pwd == '') {
             DisplayGrowlMessage("¡Contraseña requerida!", "warn")
 
             return;
@@ -192,12 +184,6 @@
 
             return;
         }
-
-        var emailDomain = $('#emailDomain').val();
-
-        email = email + '@@' + emailDomain;
-
-        $('#Email').val(email);
 
         var selectedUser = $('input[name=userTypeGroup]:checked', '#RegisterForm').add('id');
 

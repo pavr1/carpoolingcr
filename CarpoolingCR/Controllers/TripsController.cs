@@ -894,8 +894,6 @@ namespace CarpoolingCR.Controllers
                 db.Entry(trip).State = EntityState.Modified;
                 db.SaveChanges();
 
-                Common.UpdateUserTripsReservationsAndNotifications(trip.ApplicationUserId);
-
                 if (passengersToNoticeEmail.Length > 0)
                 {
                     var send = Convert.ToBoolean(WebConfigurationManager.AppSettings["SendNotificationsToAdmin"]);
@@ -908,6 +906,8 @@ namespace CarpoolingCR.Controllers
                 }
 
                 tran.Commit();
+
+                Common.UpdateUserTripsReservationsAndNotifications(trip.ApplicationUserId);
 
                 return RedirectToAction("Index", new { message = "Viaje Eliminado!", type = "info" });
             }

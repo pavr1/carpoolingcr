@@ -9,11 +9,7 @@ namespace CarpoolingCR.Utils
 {
     public class FacebookHandler
     {
-        //private const string FB_PAGE_ID = "387202725206585";
-        //private const string FB_ACCESS_TOKEN = "EAAI1cyWWu3MBAMCvFFGp0O1iV6ZCryZBxSukyzMZCmhzHjEjRCTOjouVnDZBXcRXibw5bZCEfn96gOtpz2f5pgZA8DdSVlIbXdspEzkIZBQVA2VPMZCYxVRzivNtjvNM7Bdfwe0BetoRoDqvg3UVHXZBXOW8KsD6v8z3818EQ02QZBToyRIBj8cVlB";
-        //private const string FB_BASE_ADDRESS = "https://graph.facebook.com/";
-
-        public static async Task<string> PublishFacebookPost(string from, string to, string route, DateTime date, string currencyChar, decimal price, int availableSpaces, string callback)
+        public static async Task<string> PublishTripCreation(string from, string to, string route, DateTime date, string currencyChar, decimal price, int availableSpaces, string callback)
         {
             using (var httpClient = new HttpClient())
             {
@@ -34,6 +30,35 @@ namespace CarpoolingCR.Utils
                     { "access_token", WebConfigurationManager.AppSettings["FacebookAccessToken"] },
                     { "message", message }
                 };
+                var encodedContent = new FormUrlEncodedContent(parametters);
+
+                var result = await httpClient.PostAsync($"{WebConfigurationManager.AppSettings["FacebookPageId"]}/feed", encodedContent);
+                var msg = result.EnsureSuccessStatusCode();
+                return await msg.Content.ReadAsStringAsync();
+            }
+        }
+
+        public static async Task<string> PublishNotification(string from, string to, DateTime date, string timeDetail)
+        {
+            using (var httpClient = new HttpClient())
+            {
+                httpClient.DefaultRequestHeaders
+                  .Accept
+                  .Add(new MediaTypeWithQualityHeaderValue("application/html"));
+
+                httpClient.BaseAddress = new Uri(WebConfigurationManager.AppSettings["FacebookBaseAddress"]);
+
+                var message = "Hay usuarios que están en búsqueda de rides desde " + from + " hasta " + to + " para el " + Common.ConvertToLocalTime(date).ToString(WebConfigurationManager.AppSettings["DateTime"]) + " " + timeDetail +
+                    ".\n\n¡Aprovecha y crea tu viaje! Nos encargaremos de notificar a los usuarios interesados." +
+                    "\n\n¡Visita www.buscoridecr.com!" +
+                    "\n\n¡Hagamos Ride!";
+
+                var parametters = new Dictionary<string, string>
+                {
+                    { "access_token", WebConfigurationManager.AppSettings["FacebookAccessToken"] },
+                    { "message", message }
+                };
+
                 var encodedContent = new FormUrlEncodedContent(parametters);
 
                 var result = await httpClient.PostAsync($"{WebConfigurationManager.AppSettings["FacebookPageId"]}/feed", encodedContent);

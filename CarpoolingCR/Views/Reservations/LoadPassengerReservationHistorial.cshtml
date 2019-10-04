@@ -8,11 +8,17 @@
         color: orange;
     }
 </style>
-<h3>Historial</h3>
-
-@*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">*@
-
-<hr />
+<br />
+<div class="row form-group" style="text-align:center">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <h5 class="panel-title pull-left">Historial de reservaciones</h5>
+    </div>
+</div>
+<div class="row" style="text-align:center">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <hr />
+    </div>
+</div>
 @{
     if (Model.ToList().Count == 0)
     { <div class="row form-group" style="text-align:center">
@@ -113,13 +119,13 @@
                                 <small class="visible-sm visible-xs"><b>- Pasajero: </b><br /> @reservation.ApplicationUser.FullName</small><br />*@
                         </div>
                         <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
-                            
+
                         </div>
                         <div class="col-sm-6 visible-sm">
 
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style="text-align:justify">
-                           
+
                         </div>
                     </div>
                 </div>

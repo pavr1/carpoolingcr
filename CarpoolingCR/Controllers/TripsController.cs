@@ -955,7 +955,6 @@ namespace CarpoolingCR.Controllers
                 Common.FinalizeExpiredTrips(user.Id);
 
                 List<Trip> trips = new List<Trip>();
-                List<Reservation> reservations = new List<Reservation>();
 
                 if (user.UserType == UserType.Administrador)
                 {
@@ -968,13 +967,6 @@ namespace CarpoolingCR.Controllers
                     .Where(x => x.Status == Status.Finalizado)
                     .ToList();
                 }
-
-                reservations = db.Reservations
-                   .Join(db.Trips, r => r.TripId, t => t.TripId, (r, t) => new { r, t })
-                   .Where(x => x.r.ApplicationUserId == user.Id)
-                   .Where(x => x.t.Status == Status.Finalizado)
-                   .Select(m => m.r)
-                   .ToList();
 
                 foreach (var trip in trips)
                 {
@@ -991,28 +983,9 @@ namespace CarpoolingCR.Controllers
                     trip.Route = db.Districts.Where(x => x.DistrictId == trip.RouteId).Single();
                 }
 
-                foreach (var reservation in reservations)
-                {
-                    reservation.Trip = db.Trips.Where(x => x.TripId == reservation.TripId)
-                        .Include(x => x.ApplicationUser)
-                        .Single();
-
-                    reservation.Trip.FromTown = db.Districts.Where(x => x.DistrictId == reservation.Trip.FromTownId).Single();
-                    reservation.Trip.ToTown = db.Districts.Where(x => x.DistrictId == reservation.Trip.ToTownId).Single();
-                    reservation.Trip.Route = db.Districts.Where(x => x.DistrictId == reservation.Trip.RouteId).Single();
-
-                    reservation.Trip.Qualifications = db.Qualifications.Where(x => x.TripId == reservation.TripId && x.QualifierId != user.Id)
-                        .Include(x => x.Qualifier)
-                        .ToList();
-                    reservation.Qualifications = db.Qualifications.Where(x => x.ReservationId == reservation.ReservationId && x.QualifierId != user.Id)
-                        .Include(x => x.Qualifier)
-                        .ToList();
-                }
-
                 var response = new DriverTripHistorialResponse
                 {
-                    Trips = trips,
-                    Reservations = reservations
+                    Trips = trips
                 };
 
                 return View(response);

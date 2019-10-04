@@ -11,6 +11,5 @@ namespace CarpoolingCR.Objects.Responses
         //public bool IsPassenger { get; set; }
         //for admin and drivers
         public List<Trip> Trips { get; set; }
-        public List<Reservation> Reservations { get; set; }
     }
 }

@@ -3,6 +3,7 @@ using CarpoolingCR.Models.Locations;
 using CarpoolingCR.Objects.Responses;
 using CarpoolingCR.Utils;
 using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
@@ -34,11 +35,23 @@ namespace CarpoolingCR.Controllers
                     ViewBag.Info = message;
                 }
 
-                var notificationRequests = db.NotificationRequests
+                var notificationRequests = new List<NotificationRequest>();
+
+                if (user.UserType == Enums.UserType.Administrador)
+                {
+                    notificationRequests = db.NotificationRequests
+                    .Where(x => x.Status == Enums.RequestNotificationStatus.Active)
+                    .Include(n => n.Reservation)
+                    .ToList();
+                }
+                else
+                {
+                    notificationRequests = db.NotificationRequests
                     .Where(x => x.UserId == user.Id)
                     .Where(x => x.Status == Enums.RequestNotificationStatus.Active)
                     .Include(n => n.Reservation)
                     .ToList();
+                }
 
                 foreach (var notification in notificationRequests)
                 {

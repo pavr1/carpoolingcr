@@ -540,13 +540,23 @@ namespace CarpoolingCR.Controllers
                                 UserEmail = User.Identity.Name,
                                 Fields = fields
                             }, logo);
+
+                            db.SaveChanges();
+
+                            if (user.VehicleId == null)
+                            {
+                                user.VehicleId = (int)newVehicle.VehicleId;
+
+                                db.Entry(user).State = System.Data.Entity.EntityState.Modified;
+                                db.SaveChanges();
+                            }
                         }
                         else
                         {
                             db.Entry(user.Vehicle).State = System.Data.Entity.EntityState.Modified;
-                        }
 
-                        db.SaveChanges();
+                            db.SaveChanges();
+                        }
                     }
 
                     //¡Perfíl Actualizado!

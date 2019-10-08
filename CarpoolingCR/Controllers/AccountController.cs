@@ -383,7 +383,7 @@ namespace CarpoolingCR.Controllers
                         ViewBag.success = "100051";
                     }
 
-                    EmailHandler.SendEmailVerification(user.Email, isUserVerified, logo);
+                    EmailHandler.SendEmailVerification(user.Name, user.Email, isUserVerified, logo);
 
                     db.Entry(user).State = EntityState.Modified;
                     db.SaveChanges();

@@ -445,7 +445,7 @@ namespace CarpoolingCR.Utils
                     reservations = db.Reservations.Where(x => x.ApplicationUserId == userId && (x.Status == Enums.ReservationStatus.Accepted || x.Status == Enums.ReservationStatus.Pending || x.Status == Enums.ReservationStatus.Rejected)).Count();
                     notifications = db.NotificationRequests.Where(x => x.UserId == userId && (x.Status == CarpoolingCR.Utils.Enums.RequestNotificationStatus.Active)).Count();
                 }
-
+                
                 var Identity = HttpContext.Current.User.Identity as ClaimsIdentity;
                 Identity.RemoveClaim(Identity.FindFirst("Name"));
                 Identity.AddClaim(new Claim("Name", user.Name));

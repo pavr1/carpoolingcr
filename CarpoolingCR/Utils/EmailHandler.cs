@@ -297,7 +297,7 @@ namespace CarpoolingCR.Utils
             }, EmailType.Notifications, true, appLogo);
         }
 
-        public static void SendEmailVerification(string email, bool isUseridentificationVerified, string appLogo)
+        public static void SendEmailVerification(string userName, string email, bool isUseridentificationVerified, string appLogo)
         {
             var html = string.Empty;
             var title = string.Empty;
@@ -305,7 +305,7 @@ namespace CarpoolingCR.Utils
             if (isUseridentificationVerified)
             {
                 title = "¡Número de cédula verificada!";
-                html = "¡Felicidades! Tu número de cédula fue verificado por buscoridecr.com. Con esto generas más confianza entre los usuarios del sitio";
+                html = "¡Hola " + userName + "! Tu número de cédula fue verificado por buscoridecr.com. Con esto generas más confianza entre los usuarios del sitio";
             }
             else
             {

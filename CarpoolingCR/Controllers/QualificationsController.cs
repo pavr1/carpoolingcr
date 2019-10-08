@@ -21,7 +21,7 @@ namespace CarpoolingCR.Controllers
 
         [HttpPost]
         //if trip is not null then it means it's the driver qualifying passenger
-        public string QualifyUser(int? reservationId, int? tripId, int stars, string comment)
+        public ActionResult QualifyUser(int? reservationId, int? tripId, int stars, string comment)
         {
             var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg");;
 
@@ -64,7 +64,14 @@ namespace CarpoolingCR.Controllers
 
                 tran.Commit();
 
-                return string.Empty;
+                if (reservation.IsDriverQualified)
+                {
+                    return RedirectToAction("LoadPassengerReservationHistorial", "Reservation");
+                }
+                else
+                {
+                    return RedirectToAction("LoadDriverTripHistorial", "Trips");
+                }
             }
             catch (Exception ex)
             {
@@ -85,7 +92,7 @@ namespace CarpoolingCR.Controllers
 
                 ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
-                return string.Empty;
+                return View();
             }
         }
 

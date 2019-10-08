@@ -1,0 +1,119 @@
+﻿@model IEnumerable<CarpoolingCR.Models.Reservation>
+@{
+    ViewBag.Title = "LoadDriverTripHistorial";
+}
+
+@{
+    if (Model.ToList().Count == 0)
+    { <div class="row form-group" style="text-align:center">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                ¡No se encontraron reservaciones!
+            </div>
+        </div>
+    }
+    else
+    {
+        foreach (var reservation in Model)
+        {
+            var from = reservation.Trip.FromTown.FullName;
+            var to = reservation.Trip.ToTown.FullName;
+            var route = reservation.Trip.Route.Name;
+
+            <div class="row container">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 panel panel-default" style="border-radius:10px">
+                    <div class="row form-group">
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+                            <div class="" id="profile-container-small" data-toggle="tooltip" title="@reservation.Trip.ApplicationUser.FullName"><img id="profileImage" src="@Url.Content(reservation.Trip.ApplicationUser.Picture)" /></div><br />
+                            <label class="control-label from">Origen: </label><small>@from</small><br />
+                            <label class="control-label to">Destino: </label><small>@to</small><br />
+                            <label class="control-label route">Ruta: </label><small>@route</small><br />
+                            <label class="control-label route">Fecha: </label><small>@reservation.Trip.DateTime.ToString("dd/MM/yyyy hh:mm tt")</small>
+                        </div>
+                        <div class="visible-xs col-xs-6">
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6 pull-right">
+                            @{
+                                var qualification = reservation.Qualifications.Where(x => x.ReservationId == reservation.ReservationId).SingleOrDefault();
+
+                                if (qualification != null)
+                                {
+                                    switch (qualification.Starts)
+                                    {
+                                        case 1:
+                                            <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star1" class="fa fa-star checked" data-toggle="Muy Malo"></span></a>
+                                            <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star2" class="fa fa-star" data-toggle="Muy Malo"></span></a>
+                                            <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star3" class="fa fa-star" data-toggle="Muy Malo"></span></a>
+                                            <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star4" class="fa fa-star" data-toggle="Muy Malo"></span></a>
+                                            <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star5" class="fa fa-star" data-toggle="Muy Malo"></span></a>
+                                            break;
+                                        case 2:
+                                            <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star1" class="fa fa-star checked" data-toggle="Malo"></span></a>
+                                            <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star2" class="fa fa-star checked" data-toggle="Malo"></span></a>
+                                            <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star3" class="fa fa-star" data-toggle="Malo"></span></a>
+                                            <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star4" class="fa fa-star" data-toggle="Malo"></span></a>
+                                            <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star5" class="fa fa-star" data-toggle="Malo"></span></a>
+                                            break;
+                                        case 3:
+                                            <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star1" class="fa fa-star checked" data-toggle="Bueno"></span></a>
+                                            <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star2" class="fa fa-star checked" data-toggle="Bueno"></span></a>
+                                            <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star3" class="fa fa-star checked" data-toggle="Bueno"></span></a>
+                                            <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star4" class="fa fa-star" data-toggle="Bueno"></span></a>
+                                            <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star5" class="fa fa-star" data-toggle="Bueno"></span></a>
+                                            break;
+                                        case 4:
+                                            <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star1" class="fa fa-star checked" data-toggle="Muy Bueno"></span></a>
+                                            <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star2" class="fa fa-star checked" data-toggle="Muy Bueno"></span></a>
+                                            <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star3" class="fa fa-star checked" data-toggle="Muy Bueno"></span></a>
+                                            <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star4" class="fa fa-star checked" data-toggle="Muy Bueno"></span></a>
+                                            <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star5" class="fa fa-star" data-toggle="Muy Bueno"></span></a>
+                                            break;
+                                        case 5:
+                                            <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star1" class="fa fa-star checked" data-toggle="Excelente"></span></a>
+                                            <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star2" class="fa fa-star checked" data-toggle="Excelente"></span></a>
+                                            <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star3" class="fa fa-star checked" data-toggle="Excelente"></span></a>
+                                            <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star4" class="fa fa-star checked" data-toggle="Excelente"></span></a>
+                                            <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star5" class="fa fa-star checked" data-toggle="Excelente"></span></a>
+                                            break;
+                                    }
+                                }
+                            }
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" style="text-align:justify">
+                            <b class="hidden-sm hidden-xs">Comentarios</b><br />
+                            @{
+                                if (qualification == null)
+                                {
+                                    <small class="text-warning">¡@reservation.Trip.ApplicationUser.FullName no te ha calificado!</small>
+                                }
+                                else
+                                {
+                                    <small>@qualification.Comments</small>
+                                }
+
+                                if (!reservation.IsDriverQualified)
+                                {
+                                    <input type="button" class="btn btn-info pull-right" value="Calificar" onclick="PopUpQualifyModal(@reservation.ReservationId, @reservation.TripId, '@reservation.Trip.ApplicationUser.FullName','@Url.Action("LoadPassengerReservationHistorial","Reservations")?message=100027')" />
+                                }
+                            }
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+                            @*<small class="pull-right hidden-sm hidden-xs"><b>- Pasajero: </b> @reservation.ApplicationUser.FullName</small>
+                                <small class="visible-sm visible-xs"><b>- Pasajero: </b><br /> @reservation.ApplicationUser.FullName</small><br />*@
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
+
+                        </div>
+                        <div class="col-sm-6 visible-sm">
+
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style="text-align:justify">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+}

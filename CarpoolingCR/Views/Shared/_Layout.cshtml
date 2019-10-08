@@ -433,7 +433,7 @@
                                 notifications = Convert.ToInt32(notificationsObj.Value);
                             }
                         }
-                        <a class="navbar-brand" href="/carpoolingcr/">Hola @name &nbsp;<i class="fas fa-thumbs-up"></i></a>
+                        <a class="navbar-brand" href="/Home/Index">Hola @name &nbsp;<i class="fas fa-thumbs-up"></i></a>
                     </div>
                     @{
                         //admin
@@ -478,7 +478,13 @@
                                                 }
                                             }
                                         </li>
-                                        <li><a href="~/Trips/LoadDriverTripHistorial"><i class="fas fa-book">&nbsp;</i>Historial</a></li>
+                                        <li class="dropdown">
+                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-book">&nbsp;</i>Historial&nbsp;<i class="fas fa-caret-square-down"></i></a>
+                                            <ul class="dropdown-menu">
+                                                <li><a href="~/Trips/LoadDriverTripHistorial"><i class="fas fa-car">&nbsp;</i>Viajes</a></li>
+                                                <li><a href="~/Reservations/LoadPassengerReservationHistorial"><i class="fas fa-book-open">&nbsp;</i>Reservaciones</a></li>
+                                            </ul>
+                                        </li>
                                         <li><a href="~/Account/ManageUsers"><i class="fas fa-users">&nbsp;</i>Usuarios</a></li>
                                         <li><a href="~/Logs/Index"><i class="fas fa-clipboard">&nbsp;</i>Logs</a></li>
                                         <li class="dropdown">
@@ -533,9 +539,15 @@
                                                 }
                                             }
                                         </li>
-                                        <li><a href="~/Trips/LoadDriverTripHistorial"><i class="fas fa-book">&nbsp;</i>Historial</a></li>
                                         <li class="dropdown">
-                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-chevron-circle-down"></i></a>
+                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-book">&nbsp;</i>Historial&nbsp;<i class="fas fa-caret-square-down"></i></a>
+                                            <ul class="dropdown-menu">
+                                                <li><a href="~/Trips/LoadDriverTripHistorial"><i class="fas fa-car">&nbsp;</i>Viajes</a></li>
+                                                <li><a href="~/Reservations/LoadPassengerReservationHistorial"><i class="fas fa-book-open">&nbsp;</i>Reservaciones</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="dropdown">
+                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-caret-square-down"></i></a>
                                             <ul class="dropdown-menu">
                                                 @*
                                                     <li role="separator" class="divider"></li>*@
@@ -576,7 +588,13 @@
                                                 }
                                             }
                                         </li>
-                                        <li><a href="~/Trips/LoadDriverTripHistorial"><i class="fas fa-book">&nbsp;</i>Historial</a></li>
+                                        <li class="dropdown">
+                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-book">&nbsp;</i>Historial&nbsp;<i class="fas fa-caret-square-down"></i></a>
+                                            <ul class="dropdown-menu">
+                                                <li><a href="~/Trips/LoadDriverTripHistorial"><i class="fas fa-car">&nbsp;</i>Viajes</a></li>
+                                                <li><a href="~/Reservations/LoadPassengerReservationHistorial"><i class="fas fa-book-open">&nbsp;</i>Reservaciones</a></li>
+                                            </ul>
+                                        </li>
                                         <li class="dropdown">
                                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-chevron-circle-down"></i></a>
                                             <ul class="dropdown-menu">
@@ -643,7 +661,13 @@
                                                 }
                                             }
                                         </li>
-                                        <li><a href="~/Trips/LoadDriverTripHistorial"><i class="fas fa-book">&nbsp;</i>Historial</a></li>
+                                        <li class="dropdown">
+                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-book">&nbsp;</i>Historial&nbsp;<i class="fas fa-caret-square-down"></i></a>
+                                            <ul class="dropdown-menu">
+                                                <li><a href="~/Trips/LoadDriverTripHistorial"><i class="fas fa-car">&nbsp;</i>Viajes</a></li>
+                                                <li><a href="~/Reservations/LoadPassengerReservationHistorial"><i class="fas fa-book-open">&nbsp;</i>Reservaciones</a></li>
+                                            </ul>
+                                        </li>
                                         <li><a href="~/Account/ManageUsers"><i class="fas fa-users">&nbsp;</i>Usuarios</a></li>
                                         <li><a href="~/Logs/Index"><i class="fas fa-clipboard">&nbsp;</i>Logs</a></li>
                                         <li><a href="~/Account/GetPendingUserIdentifications"><i class="fas fa-id-card">&nbsp;</i>Cédulas</a></li>
@@ -695,7 +719,13 @@
                                                 }
                                             }
                                         </li>
-                                        <li><a href="~/Trips/LoadDriverTripHistorial"><i class="fas fa-book">&nbsp;</i>Historial</a></li>
+                                        <li class="dropdown">
+                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-book">&nbsp;</i>Historial&nbsp;<i class="fas fa-caret-square-down"></i></a>
+                                            <ul class="dropdown-menu">
+                                                <li><a href="~/Trips/LoadDriverTripHistorial"><i class="fas fa-car">&nbsp;</i>Viajes</a></li>
+                                                <li><a href="~/Reservations/LoadPassengerReservationHistorial"><i class="fas fa-book-open">&nbsp;</i>Reservaciones</a></li>
+                                            </ul>
+                                        </li>
                                         <li><a href="~/Account/ContactUs"><i class="fas fa-envelope">&nbsp;</i>Contáctenos</a></li>
                                     </ul>
                                     @Html.Partial("_LoginPartial")
@@ -740,7 +770,13 @@
                                                 }
                                             }
                                         </li>
-                                        <li><a href="~/Trips/LoadDriverTripHistorial"><i class="fas fa-book">&nbsp;</i>Historial</a></li>
+                                        <li class="dropdown">
+                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-book">&nbsp;</i>Historial&nbsp;<i class="fas fa-caret-square-down"></i></a>
+                                            <ul class="dropdown-menu">
+                                                <li><a href="~/Trips/LoadDriverTripHistorial"><i class="fas fa-car">&nbsp;</i>Viajes</a></li>
+                                                <li><a href="~/Reservations/LoadPassengerReservationHistorial"><i class="fas fa-book-open">&nbsp;</i>Reservaciones</a></li>
+                                            </ul>
+                                        </li>
                                         <li class="dropdown">
                                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-chevron-circle-down"></i></a>
                                             <ul class="dropdown-menu">
@@ -783,7 +819,13 @@
                                             }
                                         }
                                     </li>
-                                    <li><a href="~/Reservations/LoadPassengerReservationHistorial"><i class="fas fa-book">&nbsp;</i>Historial</a></li>
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-book">&nbsp;</i>Historial&nbsp;<i class="fas fa-caret-square-down"></i></a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="~/Trips/LoadDriverTripHistorial"><i class="fas fa-car">&nbsp;</i>Viajes</a></li>
+                                            <li><a href="~/Reservations/LoadPassengerReservationHistorial"><i class="fas fa-book-open">&nbsp;</i>Reservaciones</a></li>
+                                        </ul>
+                                    </li>
                                     <li><a href="~/Account/ContactUs"><i class="fas fa-envelope">&nbsp;</i>Contáctenos</a></li>
                                 </ul>
                                 @Html.Partial("_LoginPartial")

@@ -563,6 +563,8 @@ namespace CarpoolingCR.Controllers
                     ViewBag.Info = "100011";
                 }
 
+                Common.UpdateUserTripsReservationsAndNotifications(user.Id);
+
                 //return Serializer.RenderViewToString(this.ControllerContext, "Partials/_ProfileInfo", user);
                 return View(user);
             }

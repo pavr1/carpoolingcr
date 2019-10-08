@@ -303,8 +303,6 @@ namespace CarpoolingCR.Controllers
                             .Include(x => x.ApplicationUser)
                             .SingleOrDefault();
 
-                        reservation.Trip.DateTime = Common.ConvertToLocalTime(reservation.Trip.DateTime);
-
                         reservation.Trip.FromTown = db.Districts.Where(x => x.DistrictId == reservation.Trip.FromTownId).Single();
                         reservation.Trip.ToTown = db.Districts.Where(x => x.DistrictId == reservation.Trip.ToTownId).Single();
                         reservation.Trip.Route = db.Districts.Where(x => x.DistrictId == reservation.Trip.RouteId).Single();
@@ -326,8 +324,7 @@ namespace CarpoolingCR.Controllers
                         {
                             reservation.Trip = null;
                         }
-
-                        trip.DateTime = Common.ConvertToLocalTime(trip.DateTime);
+                        
                         trip.FromTown = db.Districts.Where(x => x.DistrictId == trip.FromTownId).Single();
                         trip.ToTown = db.Districts.Where(x => x.DistrictId == trip.ToTownId).Single();
                         trip.Route = db.Districts.Where(x => x.DistrictId == trip.RouteId).Single();
@@ -343,8 +340,6 @@ namespace CarpoolingCR.Controllers
 
                     foreach (var trip in adminTrips)
                     {
-                        trip.DateTime = Common.ConvertToLocalTime(trip.DateTime);
-
                         var tripReservations = db.Reservations.Where(x => x.TripId == trip.TripId)
                             .Include(x => x.ApplicationUser)
                             .ToList();
@@ -534,11 +529,6 @@ namespace CarpoolingCR.Controllers
                         toStr = toDistrict.FullName;
 
                         trips = db.Trips.Where(x => x.FromTownId == fromDistrict.DistrictId && x.ToTownId == toDistrict.DistrictId && x.Status == Status.Activo).ToList();
-
-                        foreach (var trip in trips)
-                        {
-                            trip.DateTime = Common.ConvertToUTCTime(trip.DateTime);
-                        }
                     }
                 }
 
@@ -732,7 +722,6 @@ namespace CarpoolingCR.Controllers
                 {
                     trip.FromTown = fromDistrict;
                     trip.ToTown = toDistrict;
-                    trip.DateTime = Common.ConvertToLocalTime(trip.DateTime);
                 }
 
                 response = new ReservationTransportationResponse
@@ -856,7 +845,7 @@ namespace CarpoolingCR.Controllers
 
                     if (send)
                     {
-                        EmailHandler.SendReservationStatusChangeByDriver(reservation.ApplicationUser.Email, tripInfo, Common.ConvertToLocalTime(trip.DateTime).ToString(WebConfigurationManager.AppSettings["DateTimeFormat"]), "aceptada", callbackUrl, logo);
+                        EmailHandler.SendReservationStatusChangeByDriver(reservation.ApplicationUser.Email, tripInfo, trip.LocalDateTime.ToString(WebConfigurationManager.AppSettings["DateTimeFormat"]), "aceptada", callbackUrl, logo);
                     }
                 }
                 else if (stat == ReservationStatus.Cancelled)
@@ -872,11 +861,11 @@ namespace CarpoolingCR.Controllers
                         {
                             if (cancelledFrom == "passenger")
                             {
-                                EmailHandler.SendReservationStatusCancelledByPassenger(trip.ApplicationUser.Email, tripInfo, Common.ConvertToLocalTime(trip.DateTime).ToString(WebConfigurationManager.AppSettings["DateTimeFormat"]), reservation.RequestedSpaces, callbackUrl, logo);
+                                EmailHandler.SendReservationStatusCancelledByPassenger(trip.ApplicationUser.Email, tripInfo, trip.LocalDateTime.ToString(WebConfigurationManager.AppSettings["DateTimeFormat"]), reservation.RequestedSpaces, callbackUrl, logo);
                             }
                             else if (cancelledFrom == "driver")
                             {
-                                EmailHandler.SendReservationStatusCancelledByPassenger(reservation.ApplicationUser.Email, tripInfo, Common.ConvertToLocalTime(trip.DateTime).ToString(WebConfigurationManager.AppSettings["DateTimeFormat"]), reservation.RequestedSpaces, callbackUrl, logo);
+                                EmailHandler.SendReservationStatusCancelledByPassenger(reservation.ApplicationUser.Email, tripInfo, trip.LocalDateTime.ToString(WebConfigurationManager.AppSettings["DateTimeFormat"]), reservation.RequestedSpaces, callbackUrl, logo);
                             }
                         }
 
@@ -894,7 +883,7 @@ namespace CarpoolingCR.Controllers
 
                     if (send)
                     {
-                        EmailHandler.SendReservationStatusChangeByDriver(reservation.ApplicationUser.Email, tripInfo, Common.ConvertToLocalTime(trip.DateTime).ToString(WebConfigurationManager.AppSettings["DateTimeFormat"]), "rechazada", callbackUrl, logo);
+                        EmailHandler.SendReservationStatusChangeByDriver(reservation.ApplicationUser.Email, tripInfo, trip.LocalDateTime.ToString(WebConfigurationManager.AppSettings["DateTimeFormat"]), "rechazada", callbackUrl, logo);
                     }
                 }
 
@@ -1069,7 +1058,7 @@ namespace CarpoolingCR.Controllers
                 db.Reservations.Add(reservation);
                 db.SaveChanges();
 
-                var tripInfo = trip.FromTown.FullName + " a " + trip.ToTown.FullName + " el " + Common.ConvertToLocalTime(trip.DateTime).ToString(WebConfigurationManager.AppSettings["DateTimeFormat"]);
+                var tripInfo = trip.FromTown.FullName + " a " + trip.ToTown.FullName + " el " + trip.LocalDateTime.ToString(WebConfigurationManager.AppSettings["DateTimeFormat"]);
                 var spaces = reservation.RequestedSpaces;
 
                 var send = Convert.ToBoolean(WebConfigurationManager.AppSettings["SendNotificationsToAdmin"]);

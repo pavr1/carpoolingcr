@@ -55,9 +55,6 @@ namespace CarpoolingCR.Controllers
 
                 foreach (var notification in notificationRequests)
                 {
-                    notification.RequestedFromDateTime = Common.ConvertToLocalTime(notification.RequestedFromDateTime);
-                    notification.RequestedToDateTime = Common.ConvertToLocalTime(notification.RequestedToDateTime);
-
                     notification.FromTown = db.Districts.Where(x => x.DistrictId == notification.FromTownId).Single();
                     notification.ToTown = db.Districts.Where(x => x.DistrictId == notification.ToTownId).Single();
                 }
@@ -372,9 +369,6 @@ namespace CarpoolingCR.Controllers
 
                 foreach (var not in notificationRequests)
                 {
-                    not.RequestedFromDateTime = Common.ConvertToLocalTime(not.RequestedFromDateTime);
-                    not.RequestedToDateTime = Common.ConvertToLocalTime(not.RequestedToDateTime);
-
                     not.FromTown = db.Districts.Where(x => x.DistrictId == not.FromTownId).Single();
                     not.ToTown = db.Districts.Where(x => x.DistrictId == not.ToTownId).Single();
                 }
@@ -419,9 +413,6 @@ namespace CarpoolingCR.Controllers
 
                 foreach (var not in notificationRequests)
                 {
-                    not.RequestedFromDateTime = Common.ConvertToLocalTime(not.RequestedFromDateTime);
-                    not.RequestedToDateTime = Common.ConvertToLocalTime(not.RequestedToDateTime);
-
                     not.FromTown = db.Districts.Where(x => x.DistrictId == not.FromTownId).Single();
                     not.ToTown = db.Districts.Where(x => x.DistrictId == not.ToTownId).Single();
                 }

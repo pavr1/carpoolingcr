@@ -48,7 +48,7 @@
         </div>
     </div>
     <hr />
-    <ul class="list" style="list-style:none; margin:0; padding:0">
+    <ul class="list" style="list-style:none; margin:0; padding:0px;">
         @{
             if (Model.Trips.Count == 0)
             {
@@ -79,7 +79,7 @@
                     index++;
                     <li>
                         <div class="panel panel-default" style="border-radius:10px">
-                            <div class="row form-group">
+                            <div class="row form-group" style="padding-left:20px">
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8" style="padding-right:0px">
                                     <br />
                                     <b>&nbsp;<span class="fas fa-map-marker-alt">&nbsp;</span>Origen: </b><small class="from">@from</small><br />
@@ -91,7 +91,7 @@
                                     <input type="button" class="btn btn-danger btn-sm pull-right visible-xs" style="width:80px" value="Cancelar" onclick="ConfirmDelete(@trip.TripId, '@from -> @to')" /><br />
                                 </div>
                             </div>
-                            <div class="row form-group">
+                            <div class="row form-group" style="padding-left:20px">
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-9" style="padding-left:20px">
                                     <b><span class="fas fa-clock">&nbsp;</span>Salida: </b><small class="date">@trip.DateTime.ToString("dd/MM/yyyy hh:mm tt")</small><br />
                                     <small class="price"><b><span class="fas fa-money-bill-alt">&nbsp;</span>Cuota :</b> ₡ @trip.Price</small><br />

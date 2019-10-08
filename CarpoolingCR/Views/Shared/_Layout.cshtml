@@ -491,7 +491,7 @@
                                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-caret-square-down"></i></a>
                                             <ul class="dropdown-menu">
                                                 @*
-                                                    <li role="separator" class="divider"></li>*@
+                                    <li role="separator" class="divider"></li>*@
                                                 <li><a href="~/Account/GetPendingUserIdentifications"><i class="fas fa-id-card">&nbsp;</i>Cédulas</a></li>
                                                 <li><a href="~/Email/Index"><i class="fas fa-envelope">&nbsp;</i>Correos</a></li>
                                             </ul>
@@ -550,7 +550,7 @@
                                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-caret-square-down"></i></a>
                                             <ul class="dropdown-menu">
                                                 @*
-                                                    <li role="separator" class="divider"></li>*@
+                                    <li role="separator" class="divider"></li>*@
                                                 <li><a href="~/Account/ManageUsers"><i class="fas fa-users">&nbsp;</i>Usuarios</a></li>
                                                 <li><a href="~/Logs/Index"><i class="fas fa-clipboard">&nbsp;</i>Logs</a></li>
                                                 <li><a href="~/Account/GetPendingUserIdentifications"><i class="fas fa-id-card">&nbsp;</i>Cédulas</a></li>
@@ -599,7 +599,7 @@
                                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-caret-square-down"></i></a>
                                             <ul class="dropdown-menu">
                                                 @*
-                                                    <li role="separator" class="divider"></li>*@
+                                    <li role="separator" class="divider"></li>*@
                                                 <li>
                                                     @{
                                                         if (notifications > 0)
@@ -781,7 +781,7 @@
                                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-caret-square-down"></i></a>
                                             <ul class="dropdown-menu">
                                                 @*
-                                                    <li role="separator" class="divider"></li>*@
+                                    <li role="separator" class="divider"></li>*@
                                                 <li><a href="~/Account/ContactUs"><i class="fas fa-envelope">&nbsp;</i>Contáctenos</a></li>
                                             </ul>
                                         </li>
@@ -793,42 +793,76 @@
                         }
                         else if (userType == "1")
                         {
-                            <div class="toggle-button navbar-collapse collapse">
-                                <ul class="nav navbar-nav">
-                                    <li>
-                                        @{
-                                            if (reservations > 0)
-                                            {
-                                                <a href="~/Reservations/ReservationIndex"><i class="fas fa-book-open">&nbsp;</i>Reservaciones <span class="badge">@reservations</span></a>
+                            <div class="visible-lg visible-md visible-xs">
+                                <div class="toggle-button navbar-collapse collapse">
+                                    <ul class="nav navbar-nav">
+                                        <li>
+                                            @{
+                                                if (reservations > 0)
+                                                {
+                                                    <a href="~/Reservations/ReservationIndex"><i class="fas fa-book-open">&nbsp;</i>Reservaciones <span class="badge">@reservations</span></a>
+                                                }
+                                                else
+                                                {
+                                                    <a href="~/Reservations/ReservationIndex"><i class="fas fa-book-open">&nbsp;</i>Reservaciones</a>
+                                                }
                                             }
-                                            else
-                                            {
-                                                <a href="~/Reservations/ReservationIndex"><i class="fas fa-book-open">&nbsp;</i>Reservaciones</a>
+                                        </li>
+                                        <li>
+                                            @{
+                                                if (notifications > 0)
+                                                {
+                                                    <a href="~/NotificationRequests/Index"><i class="fas fa-bell">&nbsp;</i>Notificaciones <span class="badge">@notifications</span></a>
+                                                }
+                                                else
+                                                {
+                                                    <a href="~/NotificationRequests/Index"><i class="fas fa-bell">&nbsp;</i>Notificaciones</a>
+                                                }
                                             }
-                                        }
-                                    </li>
-                                    <li>
-                                        @{
-                                            if (notifications > 0)
-                                            {
-                                                <a href="~/NotificationRequests/Index"><i class="fas fa-bell">&nbsp;</i>Notificaciones <span class="badge">@notifications</span></a>
+                                        </li>
+                                        <li><a href="~/Reservations/LoadPassengerReservationHistorial"><i class="fas fa-book">&nbsp;</i>Historial</a></li>
+                                        <li><a href="~/Account/ContactUs"><i class="fas fa-envelope">&nbsp;</i>Contáctenos</a></li>
+                                    </ul>
+                                    @Html.Partial("_LoginPartial")
+                                </div>
+                            </div>
+                            <div class="visible-sm">
+                                <div class="toggle-button navbar-collapse collapse">
+                                    <ul class="nav navbar-nav">
+                                        <li>
+                                            @{
+                                                if (reservations > 0)
+                                                {
+                                                    <a href="~/Reservations/ReservationIndex"><i class="fas fa-book-open">&nbsp;</i>Reservaciones <span class="badge">@reservations</span></a>
+                                                }
+                                                else
+                                                {
+                                                    <a href="~/Reservations/ReservationIndex"><i class="fas fa-book-open">&nbsp;</i>Reservaciones</a>
+                                                }
                                             }
-                                            else
-                                            {
-                                                <a href="~/NotificationRequests/Index"><i class="fas fa-bell">&nbsp;</i>Notificaciones</a>
+                                        </li>
+                                        <li>
+                                            @{
+                                                if (notifications > 0)
+                                                {
+                                                    <a href="~/NotificationRequests/Index"><i class="fas fa-bell">&nbsp;</i>Notificaciones <span class="badge">@notifications</span></a>
+                                                }
+                                                else
+                                                {
+                                                    <a href="~/NotificationRequests/Index"><i class="fas fa-bell">&nbsp;</i>Notificaciones</a>
+                                                }
                                             }
-                                        }
-                                    </li>
-                                    <li class="dropdown">
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-book">&nbsp;</i>Historial&nbsp;<i class="fas fa-caret-square-down"></i></a>
-                                        <ul class="dropdown-menu">
-                                            <li><a href="~/Trips/LoadDriverTripHistorial"><i class="fas fa-car">&nbsp;</i>Viajes</a></li>
-                                            <li><a href="~/Reservations/LoadPassengerReservationHistorial"><i class="fas fa-book-open">&nbsp;</i>Reservaciones</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="~/Account/ContactUs"><i class="fas fa-envelope">&nbsp;</i>Contáctenos</a></li>
-                                </ul>
-                                @Html.Partial("_LoginPartial")
+                                        </li>
+                                        <li><a href="~/Reservations/LoadPassengerReservationHistorial"><i class="fas fa-book">&nbsp;</i>Historial</a></li>
+                                        <li class="dropdown">
+                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-caret-square-down"></i></a>
+                                            <ul class="dropdown-menu">
+                                                <li><a href="~/Account/ContactUs"><i class="fas fa-envelope">&nbsp;</i>Contáctenos</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                    @Html.Partial("_LoginPartial")
+                                </div>
                             </div>
                         }
                     }
@@ -954,6 +988,9 @@
             $('#q-trip-id').val(tripId);
             $('#p-User-Name').html(userName);
             $('#q-url').val(url);
+            $('#q-comment').val('');
+            $('#q-star4').removeClass('checked');
+            $('#q-star5').removeClass('checked');
 
             $('#qualifyUserModal').modal();
         }

@@ -363,7 +363,7 @@ namespace CarpoolingCR.Utils
         {
             using (var db = new ApplicationDbContext())
             {
-                var currentUTCTime = ConvertToUTCTime(DateTime.Now);
+                var currentUTCTime = ConvertToUTCTime(DateTime.Now.ToLocalTime());
                 var currentExpiredTrips = db.Trips
                     .Where(x => x.ApplicationUserId == userId)
                     .Where(x => x.DateTime < currentUTCTime)

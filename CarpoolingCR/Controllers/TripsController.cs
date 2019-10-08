@@ -92,8 +92,6 @@ namespace CarpoolingCR.Controllers
                         trip.Route = db.Districts.Where(x => x.DistrictId == trip.RouteId)
                             .Include(x => x.County)
                             .SingleOrDefault();
-
-                        trip.DateTime = Common.ConvertToLocalTime(trip.DateTime);
                     }
                 }
                 else
@@ -121,8 +119,6 @@ namespace CarpoolingCR.Controllers
                             trip.Route = db.Districts.Where(x => x.DistrictId == trip.RouteId)
                             .Include(x => x.County)
                             .SingleOrDefault();
-
-                            trip.DateTime = Common.ConvertToLocalTime(trip.DateTime);
                         }
 
                         reachedMaxCount = (currentTrips.Count == maxTripsPerUser);
@@ -208,7 +204,6 @@ namespace CarpoolingCR.Controllers
                     trips[i].FromTown = db.Districts.Where(x => x.DistrictId == fromId).Single();
                     trips[i].ToTown = db.Districts.Where(x => x.DistrictId == toId).Single();
                     trips[i].Route = db.Districts.Where(x => x.DistrictId == routeId).Single();
-                    trips[i].DateTime = Common.ConvertToLocalTime(trips[i].DateTime);
                     // \\ chars giving errors when parsing to Json, so replace them to parse correctly and change back in javascript
                     trips[i].ApplicationUser.Picture = trips[i].ApplicationUser.Picture.Replace("/", "|");
                     trips[i].FromTown.County = null;
@@ -274,9 +269,7 @@ namespace CarpoolingCR.Controllers
                 var trip = db.Trips.Where(x => x.TripId == id)
                     .Include(x => x.ApplicationUser)
                     .Single();
-
-                trip.DateTime = Common.ConvertToLocalTime(trip.DateTime);
-
+                
                 return View(trip);
             }
             catch (Exception ex)
@@ -321,9 +314,7 @@ namespace CarpoolingCR.Controllers
                 {
                     return HttpNotFound();
                 }
-
-                trip.DateTime = Common.ConvertToLocalTime(trip.DateTime);
-
+                
                 return View(trip);
             }
             catch (Exception ex)
@@ -521,7 +512,7 @@ namespace CarpoolingCR.Controllers
 
                     if (send)
                     {
-                        FacebookHandler.PublishTripCreation(trip.FromTown.FullName, trip.ToTown.FullName, trip.Route.Name, trip.DateTime, user.Country.CurrencyChar, trip.Price, trip.AvailableSpaces, callbackUrl);
+                        FacebookHandler.PublishTripCreation(trip.FromTown.FullName, trip.ToTown.FullName, trip.Route.Name, trip.LocalDateTime, user.Country.CurrencyChar, trip.Price, trip.AvailableSpaces, callbackUrl);
                     }
 
                     new SignalHandler().SendMessage(Enums.EventTriggered.TripCreated.ToString(), "");
@@ -582,7 +573,7 @@ namespace CarpoolingCR.Controllers
 
                         if (send)
                         {
-                            FacebookHandler.PublishTripCreation(tripBack.FromTown.FullName, tripBack.ToTown.FullName, tripBack.Route.Name, tripBack.DateTime, user.Country.CurrencyChar, tripBack.Price, tripBack.AvailableSpaces, callbackUrl);
+                            FacebookHandler.PublishTripCreation(tripBack.FromTown.FullName, tripBack.ToTown.FullName, tripBack.Route.Name, tripBack.LocalDateTime, user.Country.CurrencyChar, tripBack.Price, tripBack.AvailableSpaces, callbackUrl);
                         }
 
                         new SignalHandler().SendMessage(Enums.EventTriggered.TripCreated.ToString(), "");
@@ -901,7 +892,7 @@ namespace CarpoolingCR.Controllers
                     if (send)
                     {
                         //todo: send emails separately
-                        EmailHandler.SendTripsCancelledByDriver(passengersToNoticeEmail, trip.FromTown + " -> " + trip.ToTown, Common.ConvertToLocalTime(trip.DateTime).ToString(WebConfigurationManager.AppSettings["DateTimeFormat"]), string.Empty, logo);
+                        EmailHandler.SendTripsCancelledByDriver(passengersToNoticeEmail, trip.FromTown + " -> " + trip.ToTown, trip.LocalDateTime.ToString(WebConfigurationManager.AppSettings["DateTimeFormat"]), string.Empty, logo);
                     }
                 }
 
@@ -978,6 +969,7 @@ namespace CarpoolingCR.Controllers
                         .Include(x => x.Qualifier)
                         .ToList();
 
+                    trip.ApplicationUser = db.Users.Where(x => x.Id == trip.ApplicationUserId).Single();
                     trip.FromTown = db.Districts.Where(x => x.DistrictId == trip.FromTownId).Single();
                     trip.ToTown = db.Districts.Where(x => x.DistrictId == trip.ToTownId).Single();
                     trip.Route = db.Districts.Where(x => x.DistrictId == trip.RouteId).Single();

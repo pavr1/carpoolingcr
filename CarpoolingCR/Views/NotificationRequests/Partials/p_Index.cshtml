@@ -59,17 +59,17 @@
                     </div>
                     <div class="row form-group">
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                            <label class="control-label route"><span class="fas fa-calendar-alt">&nbsp;</span>Fecha: </label><small>@notification.RequestedFromDateTime.ToShortDateString()</small>
+                            <label class="control-label route"><span class="fas fa-calendar-alt">&nbsp;</span>Fecha: </label><small>@notification.LocalFromDateTime.ToShortDateString()</small>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                             @{
                                 if (notification.RequestedFromDateTime == notification.RequestedToDateTime)
                                 {
-                                    <label class="control-label route"><span class="fas fa-clock">&nbsp;</span>A las </label><small> @notification.RequestedFromDateTime.ToString("hh:mm tt")</small>
+                                    <label class="control-label route"><span class="fas fa-clock">&nbsp;</span>A las </label><small> @notification.LocalFromDateTime.ToString("hh:mm tt")</small>
                                 }
                                 else
                                 {
-                                    <label class="control-label route"><span class="fas fa-clock">&nbsp;</span>Entre: </label><small> @notification.RequestedFromDateTime.ToString("hh:mm tt")</small> <label class="control-label route">y </label> <small>@notification.RequestedToDateTime.ToString("hh:mm tt")</small>
+                                    <label class="control-label route"><span class="fas fa-clock">&nbsp;</span>Entre: </label><small> @notification.LocalFromDateTime.ToString("hh:mm tt")</small> <label class="control-label route">y </label> <small>@notification.RequestedToDateTime.ToString("hh:mm tt")</small>
                                 }
                             }
                         </div>

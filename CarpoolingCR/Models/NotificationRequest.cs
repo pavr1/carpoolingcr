@@ -1,7 +1,9 @@
 ﻿using CarpoolingCR.Models.Locations;
+using CarpoolingCR.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using static CarpoolingCR.Utils.Enums;
 
@@ -35,5 +37,21 @@ namespace CarpoolingCR.Models
         [Required]
         [Display(Name = "Estado")]
         public RequestNotificationStatus Status { get; set; }
+        [NotMapped]
+        public DateTime LocalFromDateTime
+        {
+            get
+            {
+                return Common.ConvertToLocalTime(RequestedFromDateTime);
+            }
+        }
+        [NotMapped]
+        public DateTime LocalToDateTime
+        {
+            get
+            {
+                return Common.ConvertToLocalTime(RequestedToDateTime);
+            }
+        }
     }
 }

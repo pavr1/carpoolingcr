@@ -76,7 +76,15 @@ namespace CarpoolingCR.Models
         {
             get
             {
-                return _DateTime.ToString("MM/dd/yyyy HH:mm:ss");
+                return LocalDateTime.ToString("MM/dd/yyyy HH:mm:ss");
+            }
+        }
+        [NotMapped]
+        public DateTime LocalDateTime
+        {
+            get
+            {
+                return Common.ConvertToLocalTime(_DateTime);
             }
         }
 

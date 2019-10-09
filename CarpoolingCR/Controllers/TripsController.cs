@@ -975,7 +975,7 @@ namespace CarpoolingCR.Controllers
                     trip.Route = db.Districts.Where(x => x.DistrictId == trip.RouteId).Single();
                 }
 
-                var response = new DriverTripHistorialResponse
+                var response = new HistorialResponse
                 {
                     Trips = trips
                 };

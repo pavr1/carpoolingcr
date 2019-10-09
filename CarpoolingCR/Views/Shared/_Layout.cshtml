@@ -903,7 +903,6 @@
                             <input type="text" id="q-reservation-id" name="q-reservation-id" class="hidden" />
                             <input type="text" id="q-trip-id" name="q-trip-id" class="hidden" />
                             <input type="text" id="q-stars" name="q-stars" class="hidden" />
-                            <input type="text" id="q-url" name="q-url" class="hidden" />
                             <button type="button" class="close" data-dismiss="modal">
                                 <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
                             </button>
@@ -987,7 +986,6 @@
             $('#q-reservation-id').val(reservationId);
             $('#q-trip-id').val(tripId);
             $('#p-User-Name').html(userName);
-            $('#q-url').val(url);
             $('#q-comment').val('');
             $('#q-star4').removeClass('checked');
             $('#q-star5').removeClass('checked');
@@ -1000,7 +998,6 @@
             var tripId = $('#q-trip-id').val();
             var stars = $('#q-stars').val();
             var comment = $('#q-comment').val();
-            var url = $('#q-url').val();
 
             if (tripId == '') {
                 tripId = null;
@@ -1012,9 +1009,19 @@
                 function (data) {
                     $('#qualifyUserModal').modal('toggle');
 
-                    sleep(400);
+                    if (data != '') {
+                        var json = JSON.parse(data);
 
-                    window.location.href = url;
+                        sleep(400);
+
+                        if (json.Message != '') {
+                            DisplayGrowlMessage(json.Message, json.MessageType);
+                        }
+
+                        $('#container-id').html(json.Html);
+                    } else {
+                        DisplayGrowlMessage('¡Error inesperado, intente de nuevo!', 'error');
+                    }
                 });
         }
 
@@ -1333,6 +1340,40 @@
                 return "¡Encuentro Requerido!";
             } else if (code === "100073") {
                 return "¡Por favor seleccione al menos un campo!";
+            } else if (code === "100074") {
+                return "¡Usuario Calificado!";
+            } else if (code === "xxxxxxxxx") {
+                return "zzzzzzzzzzzzzzzzzzzzzz";
+            } else if (code === "xxxxxxxxx") {
+                return "zzzzzzzzzzzzzzzzzzzzzz";
+            } else if (code === "xxxxxxxxx") {
+                return "zzzzzzzzzzzzzzzzzzzzzz";
+            } else if (code === "xxxxxxxxx") {
+                return "zzzzzzzzzzzzzzzzzzzzzz";
+            } else if (code === "xxxxxxxxx") {
+                return "zzzzzzzzzzzzzzzzzzzzzz";
+            } else if (code === "xxxxxxxxx") {
+                return "zzzzzzzzzzzzzzzzzzzzzz";
+            } else if (code === "xxxxxxxxx") {
+                return "zzzzzzzzzzzzzzzzzzzzzz";
+            } else if (code === "xxxxxxxxx") {
+                return "zzzzzzzzzzzzzzzzzzzzzz";
+            } else if (code === "xxxxxxxxx") {
+                return "zzzzzzzzzzzzzzzzzzzzzz";
+            } else if (code === "xxxxxxxxx") {
+                return "zzzzzzzzzzzzzzzzzzzzzz";
+            } else if (code === "xxxxxxxxx") {
+                return "zzzzzzzzzzzzzzzzzzzzzz";
+            } else if (code === "xxxxxxxxx") {
+                return "zzzzzzzzzzzzzzzzzzzzzz";
+            } else if (code === "xxxxxxxxx") {
+                return "zzzzzzzzzzzzzzzzzzzzzz";
+            } else if (code === "xxxxxxxxx") {
+                return "zzzzzzzzzzzzzzzzzzzzzz";
+            } else if (code === "xxxxxxxxx") {
+                return "zzzzzzzzzzzzzzzzzzzzzz";
+            } else if (code === "xxxxxxxxx") {
+                return "zzzzzzzzzzzzzzzzzzzzzz";
             } else if (code === "xxxxxxxxx") {
                 return "zzzzzzzzzzzzzzzzzzzzzz";
             } else {

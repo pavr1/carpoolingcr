@@ -1277,7 +1277,7 @@ namespace CarpoolingCR.Controllers
         public ActionResult LoadPassengerReservationHistorial(string message)
         {
             var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg"); ;
-
+            
             try
             {
                 if (!Common.IsAuthorized(User))
@@ -1318,7 +1318,12 @@ namespace CarpoolingCR.Controllers
                         .ToList();
                 }
 
-                return View(reservations);
+                var response = new HistorialResponse
+                {
+                    Reservations = reservations
+                };
+
+                return View(response);
             }
             catch (Exception ex)
             {

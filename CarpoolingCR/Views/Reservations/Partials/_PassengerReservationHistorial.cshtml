@@ -1,10 +1,10 @@
-﻿@model IEnumerable<CarpoolingCR.Models.Reservation>
+﻿@model CarpoolingCR.Objects.Responses.HistorialResponse
 @{
     ViewBag.Title = "LoadDriverTripHistorial";
 }
 
 @{
-    if (Model.ToList().Count == 0)
+    if (Model.Reservations.Count == 0)
     { <div class="row form-group" style="text-align:center">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 ¡No se encontraron reservaciones!
@@ -13,14 +13,14 @@
     }
     else
     {
-        foreach (var reservation in Model)
+        foreach (var reservation in Model.Reservations)
         {
             var from = reservation.Trip.FromTown.FullName;
             var to = reservation.Trip.ToTown.FullName;
             var route = reservation.Trip.Route.Name;
 
             <div class="row container">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 panel panel-default" style="border-radius:10px">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 panel panel-default" style="border-radius:10px; padding-left:15px">
                     <div class="row form-group">
                         <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
                             <div class="" id="profile-container-small" data-toggle="tooltip" title="@reservation.Trip.ApplicationUser.FullName"><img id="profileImage" src="@Url.Content(reservation.Trip.ApplicationUser.Picture)" /></div><br />

@@ -1,8 +1,7 @@
-﻿@model IEnumerable<CarpoolingCR.Models.Reservation>
+﻿@model CarpoolingCR.Objects.Responses.HistorialResponse
 @{
     ViewBag.Title = "LoadDriverTripHistorial";
 }
-
 
 <style>
     .checked {
@@ -21,6 +20,6 @@
     </div>
 </div>
 
-<div id="container-id" class="row form-group">
+<div id="container-id" class="row form-group" style="padding-left:15px">
     @Html.Partial("~/Views/Reservations/Partials/_PassengerReservationHistorial.cshtml", Model)
 </div>

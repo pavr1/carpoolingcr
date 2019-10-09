@@ -7,6 +7,8 @@ namespace CarpoolingCR.Objects.Responses.Base
 {
     public class BaseResponse
     {
+        public string Message { get; set; }
+        public string MessageType { get; set; }
         public string Html { get; set; }
     }
 }

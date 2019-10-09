@@ -54,10 +54,19 @@ namespace CarpoolingCR.Controllers
                             throw new Exception("Error saving image. Relative Path: " + relativePath + ". Absolute Path: " + absolutePath + ". Error: " + ex.Message);
                         }
 
-                        //string path = relativePath;
+                        var sendToAdminOnly = Request["send-to-admin-only"] == "on";
 
-                        var users = db.Users.Where(x => x.Status == Enums.ProfileStatus.Active).ToList();
-                        
+                        List<ApplicationUser> users = new List<ApplicationUser>();
+
+                        if (sendToAdminOnly)
+                        {
+                            users = db.Users.Where(x => x.UserType == UserType.Administrador).ToList();
+                        }
+                        else
+                        {
+                            users = db.Users.Where(x => x.Status == Enums.ProfileStatus.Active).ToList(); 
+                        }
+
                         var sendEmails = new Thread(() => SendToAll(users, absolutePath));
                         sendEmails.Start();
                     }

@@ -7,40 +7,41 @@
 <hr />
 <form action="~/Email/SendEmailToAll" method="post" enctype="multipart/form-data">
     <div class="row">
-        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-1">
+        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
 
         </div>
-        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-10">
-            Envío de correo automático a todos los usuarios
+        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+            Envío de correo automático a todos los usuarios <br /><input type="checkbox" id="send-to-admin-only" name="send-to-admin-only" /> ¿Enviar sólo al administrador?
         </div>
-        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-1">
+        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
 
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-1">
+        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
 
         </div>
-        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-10">
+        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
             <label id="SelectedPicture" name="SelectedPicture" class="hidden"></label>
             @*<div id="profile-container" style="width:300px; height:300px" class="center-block" data-toggle="tooltip" title="¡Sube la imágen para enviar a los usuarios!">
 
                 </div>*@
-            <img id="emailImage" style="width:100%; height:200px" src="" />
+            <img id="emailImage" style="width:100%; height:400px" src="" />
             <input id="imageUpload" type="file" name="profile_photo" placeholder="Photo" accept="image/*">
         </div>
-        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-1">
+        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
 
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-1">
+        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
 
         </div>
-        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-10">
+        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+            <br />
             <input type="submit" value="Enviar" class="btn btn-info btn-sm" style="width:150px" />
         </div>
-        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-1">
+        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
 
         </div>
     </div>

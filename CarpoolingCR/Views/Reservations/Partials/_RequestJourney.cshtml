@@ -41,38 +41,39 @@
                 timezone: "local",
                 eventClick: function (calEvent, jsEvent, view) {
                     if (moment().diff(calEvent.start, 'days') <= 0) {
-                        var date = new Date(calEvent.start);
-                        RedirectToDayTrips(date);
+                        console.log('Calling RedirectToDayTrips (1): ' + calEvent.start);
+                        RedirectToDayTrips(calEvent.start);
                     }
                 },
-                eventLimit: true,
-                eventTextColor: '#378006',
-                views: {
-                    agenda: {
-                        eventLimit: 6
-                    }
-                },
+                //eventLimit: true,
+                //eventTextColor: '#172A18',
+                //views: {
+                //    agenda: {
+                //        eventLimit: 1
+                //    }
+                //},
                 eventRender: function (event, element, view) {
-                    var date = new Date(event.start);
-                    return $('<p onclick="RedirectToDayTrips(' + date + ')">&nbsp;&nbsp;' + event.count + ' <i class="fas fa-car"></i></p>');
+                    console.log('Calling RedirectToDayTrips (2): ' + event.start)
+                    return $('<p onclick="RedirectToDayTrips(' + event.start + ')">&nbsp;&nbsp;' + event.count + ' <i class="fas fa-car"></i></p>');
                 },
                 contentHeight: "auto",
                 selectable: true,
                 navLinks: false,
                 dayClick: function (date, jsEvent, view) {
                     if (moment().diff(date, 'days') <= 0) {
-                        var date = new Date(date);
+                        console.log('Calling RedirectToDayTrips (3): ' + date)
                         RedirectToDayTrips(date);
                     }
                 },
                 dayRender: function (date, cell) {
                     if (moment().diff(date, 'days') > 0) {
                         //disabled
-                        cell.css("background-color", "#8DABCB");
+                        cell.css("background-color", "#B8CEE6");
                         $(cell).addClass('disabled');
                     } else {
                         //enabled
-                        cell.css("background-color", "#638CB8");
+                        cell.css("background-color", "#99B5D5");
+                        cell.css("color", "#172A18");
                     }
                 },
                 header: {
@@ -97,7 +98,7 @@
 
             for (var i = 0; i < arrayOfTrips.length; i++) {
                 var tripId = arrayOfTrips[i].TripId;
-                var availableSpaces = arrayOfTrips[i].AvailableSpaces;
+                //var availableSpaces = arrayOfTrips[i].AvailableSpaces;
                 var unixTime = arrayOfTrips[i].LocalDateTime.match(/\d+/)[0] * 1;
                 var from = arrayOfTrips[i].FromTown.County.Name + ', ' + arrayOfTrips[i].FromTown.Name;
                 var to = arrayOfTrips[i].ToTown.County.Name + ', ' + arrayOfTrips[i].ToTown.Name;
@@ -122,13 +123,17 @@
                 }
 
                 var key = actualDate.getFullYear() + '-' + monthStr + '-' + dayStr;
+                console.log('Events Length ' + events.length);
+                console.log('Looking for ' + key);
                 var obj = GetKeyValueObj(key, events);
 
                 if (obj == null) {
-                    obj = { key: key, count: 1, id: tripId, title: ''};
+                    console.log('Not found, adding it');
+                    obj = { key: key, count: 1, id: tripId, title: '', time: unixTime};
 
                     events.push(obj);
                 } else {
+                    console.log('Found, adding 1');
                     obj.count = parseInt(obj.count + 1);
                 }
             }
@@ -138,11 +143,11 @@
 
                  var event = {
                     id: obj.tripId,
-                    title: availableSpaces + ' espacios',
-                     start: unixTime,//obj.key,
-                     end: unixTime,//obj.key,
-                     //color: '#378006',
-                     count: obj.count,
+                     title: obj.key,
+                     start: obj.time,
+                     end: obj.time,
+                    color: '#17202A',
+                    count: obj.count,
                 };
 
                 $('#calendar').fullCalendar('renderEvent', event, true);

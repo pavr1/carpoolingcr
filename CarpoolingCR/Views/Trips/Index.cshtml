@@ -93,7 +93,7 @@
                             </div>
                             <div class="row form-group" style="padding-left:20px">
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-9" style="padding-left:20px">
-                                    <b><span class="fas fa-clock">&nbsp;</span>Salida: </b><small class="date">@trip.DateTime.ToString("dd/MM/yyyy hh:mm tt")</small><br />
+                                    <b><span class="fas fa-clock">&nbsp;</span>Salida: </b><small class="date">@trip.LocalDateTime.ToString("dd/MM/yyyy hh:mm tt")</small><br />
                                     <small class="price"><b><span class="fas fa-money-bill-alt">&nbsp;</span>Cuota :</b> ₡ @trip.Price</small><br />
                                     <small class="spaces"><b><span class="fas fa-car-side">&nbsp;</span>Espacios:</b> @trip.AvailableSpaces</small><br />
                                 </div>

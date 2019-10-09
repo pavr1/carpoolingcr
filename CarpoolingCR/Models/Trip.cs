@@ -80,6 +80,18 @@ namespace CarpoolingCR.Models
             }
         }
         [NotMapped]
+        public double Date12AMUnix
+        {
+            get
+            {
+                var auxDate = new DateTime(LocalDateTime.Year, LocalDateTime.Month, LocalDateTime.Day, 12, 0, 0, DateTimeKind.Local);
+                var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+                var unixDateTime = (auxDate.ToUniversalTime() - epoch).TotalSeconds;
+                
+                return unixDateTime;
+            }
+        }
+        [NotMapped]
         public DateTime LocalDateTime
         {
             get

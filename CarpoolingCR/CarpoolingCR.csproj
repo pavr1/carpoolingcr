@@ -343,6 +343,7 @@
     <Compile Include="Objects\Responses\UserManageResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Content\Icons\background.jpg" />
+    <Content Include="Content\Icons\HomeLogo.png" />
     <Content Include="Content\Icons\ride .png" />
     <Content Include="Content\Icons\ride.jpg" />
     <Content Include="Content\Icons\ride.png" />

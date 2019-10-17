@@ -1,126 +1,172 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿@model CarpoolingCR.Objects.Responses.ReservationTransportationResponse
+
+@{
+    ViewBag.Title = "Transportation";
 }
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<br />
 
-<div class="row form-group">
-    <div class="col-lg-4 col-md-4 hidden-sm hidden-xs">
-
-    </div>
-    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-        @*<img src="~/Content/Icons/Car.png" style="width:400px; height:150px" />*@
-    </div>
-    <div class="col-lg-4 col-md-4 hidden-sm hidden-xs">
-
-    </div>
-</div>
-
-<div class="jumbotron">
-    <div class="row visible-xs">
-        <div class="col-xs-12">
-            <img src="~/Content/Icons/ride_small_darkbg.jpg" class="center-block" />
-            <br /><br />
-        </div>
-    </div>
-    @{
-        //if user not logged, display
-        if (User.Identity == null || !User.Identity.IsAuthenticated)
-        {
+@{
+    if (User.Identity != null && User.Identity.IsAuthenticated)
+    {
+        <div class="jumbotron">
             <div class="row visible-xs">
                 <div class="col-xs-12">
-                    <a href="~/Account/Login" class="btn btn-info center-block" style="width:200px">¡Regístrate e Inicia Sesión!</a><br />
+                    <img src="~/Content/Icons/ride_small_darkbg.jpg" class="center-block" />
+                    <br /><br />
                 </div>
             </div>
-        }
+            @{
+                //if user not logged, display
+                if (User.Identity == null || !User.Identity.IsAuthenticated)
+                {
+                    <div class="row visible-xs">
+                        <div class="col-xs-12">
+                            <a href="~/Account/Login" class="btn btn-info center-block" style="width:200px">¡Regístrate e Inicia Sesión!</a><br />
+                        </div>
+                    </div>
+                }
+            }
+            <div class="row">
+                <div class="col-lg-10 col-md-9 col-sm-8 col-xs-12" style="text-align:justify">
+                    <small>
+                        <b>¡Bienvenidos!</b><br /><br />
+                        ¿Necesitas movilizarte entre ciudades y no tenés vehículo? ¿Pero también querés evitar el sistema de transporte público? (largas filas para comprar
+                        tiquete, unidades sucias y en mal estado, tiempos prolongados de viaje, largas horas de espera...) bueno pues igual que vos, existen conductores que se dirigen hacia tu destino
+                        con espacio disponible para llevarte. ¡Imagínate! un viaje más tranquilo, breve, cómodo y personalizado mientras conoces nuevos amigos!<br /><br />
+                    </small>
+                </div>
+                <div class="col-lg-2 col-md-3 col-sm-4 hidden-xs pull-right" style="width:50px; height:50px">
+                    <img src="~/Content/Icons/ride_small_darkbg.jpg" class="pull-right" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:justify">
+                    <small>
+                        <b>¿Cómo Funciona?</b><br />
+                        ¡Simple! El conductor te ofrece un servicio de transporte hacia donde te dirijas por una cuota simbólica para la gasolina! Esta cuota es puesta por el conductor y al reservar el pasajero acepta pagarla en su totalidad. Todos los pagos
+                        se hacen directamente al conductor así que te aconsejamos acordar con él antes con cuánto vas a pagar, en caso de que se necesite cambio.<br /><br />
+
+                        <b>¿Y la seguridad?</b><br />
+                        En buscoridecr.com nos preocupamos por su seguridad. Antes de utilizar el sitio todo usuario deberá registrarse y proporcionar información referente a su persona como cédula (que será verificada por buscoridecr.com), nombre, correo electrónico y
+                        número celular, además de otro número telefónico opcional. Una vez el registro esté hecho el usuario debe verificar su correo electrónico; además de verificar su número celular, este último consiste en el envío automático de un código de verificación
+                        único de 6 dígitos por medio de mensaje de texto al número celular proporcionado para posteriormente ingresar ese código en el sistema. Con esto verificamos que ese número celular es realmente tuyo. Estas verificaciones se realizan una sola vez,
+                        y ninguno de tus datos personales serán públicos pero si serán una fuerte herramienta de seguridad en caso de que algún usuario presente problemas con alguno de los acompañantes en sus viajes. Otra medida de seguridad es que todos los conductores deben
+                        registrar la información de su vehículo, incluyendo la placa. A su vez, los usuarios pueden calificarse mutuamente y estas publicaciones y comentarios serán públicos para los usuarios a la hora de reservar, lo cual te dará una idea
+                        de quién será tu acompañante y criterio para decidir hacer el viaje o no con esa persona. Por último, el sistema cuenta con un historial de viajes con la información y contactos antes mencionados que pueden ser consultados en "Historial de viajes". <br /><br />
+
+                        Habiendo dicho esto, buscoridecr.com es una página que sirve de puente de comunicación entre conductores y pasajeros; no tiene relación directa con éstos y por ende no se hace responsable de cualquier eventualidad que suceda antes, durante o después de los viajes.<br /><br /><br />
+                    </small>
+                </div>
+            </div>
+            <b>Facebook:</b>
+            <br />
+            <div class="panel panel-default">
+                <h6>&nbsp;&nbsp;<b><a href="https://www.facebook.com/groups/2397752017147040/" target="_blank">Buscoridecr Facebook</a></b></h6>
+            </div>
+            <hr />
+            <b>Grupos Asociados:</b>
+            <br />
+            <div class="panel panel-default">
+                <h6>&nbsp;&nbsp;<b><a href="https://www.facebook.com/groups/2397752017147040/" target="_blank">Ruta Alterna San Carlos</a></b></h6>
+            </div>
+        </div>
     }
-    <div class="row">
-        <div class="col-lg-10 col-md-9 col-sm-8 col-xs-12" style="text-align:justify">
-            <small>
-                <b>¡Bienvenidos!</b><br /><br />
-                ¿Necesitas movilizarte entre ciudades y no tenés vehículo? ¿Pero también querés evitar el sistema de transporte público? (largas filas para comprar
-                tiquete, unidades sucias y en mal estado, tiempos prolongados de viaje, largas horas de espera...) bueno pues igual que vos, existen conductores que se dirigen hacia tu destino
-                con espacio disponible para llevarte. ¡Imagínate! un viaje más tranquilo, breve, cómodo y personalizado mientras conoces nuevos amigos!<br /><br />
-            </small>
+    else
+    {
+        <div class="row form-group" style="text-align:center">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <img src="~/Content/Icons/HomeLogo.png" class="pull-right" />
+            </div>
         </div>
-        <div class="col-lg-2 col-md-3 col-sm-4 hidden-xs pull-right" style="width:50px; height:50px">
-            <img src="~/Content/Icons/ride_small_darkbg.jpg" class="pull-right" />
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:justify">
-            <small>
-                <b>¿Cómo Funciona?</b><br />
-                ¡Simple! El conductor te ofrece un servicio de transporte hacia donde te dirijas por una cuota simbólica para la gasolina! Esta cuota es puesta por el conductor y al reservar el pasajero acepta pagarla en su totalidad. Todos los pagos
-                se hacen directamente al conductor así que te aconsejamos acordar con él antes con cuánto vas a pagar, en caso de que se necesite cambio.<br /><br />
+        <div id="loading-content" class="row form-group" style="text-align:center; height:500px;">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
 
-                <b>¿Y la seguridad?</b><br />
-                En buscoridecr.com nos preocupamos por su seguridad. Antes de utilizar el sitio todo usuario deberá registrarse y proporcionar información referente a su persona como cédula (que será verificada por buscoridecr.com), nombre, correo electrónico y
-                número celular, además de otro número telefónico opcional. Una vez el registro esté hecho el usuario debe verificar su correo electrónico; además de verificar su número celular, este último consiste en el envío automático de un código de verificación
-                único de 6 dígitos por medio de mensaje de texto al número celular proporcionado para posteriormente ingresar ese código en el sistema. Con esto verificamos que ese número celular es realmente tuyo. Estas verificaciones se realizan una sola vez,
-                y ninguno de tus datos personales serán públicos pero si serán una fuerte herramienta de seguridad en caso de que algún usuario presente problemas con alguno de los acompañantes en sus viajes. Otra medida de seguridad es que todos los conductores deben
-                registrar la información de su vehículo, incluyendo la placa. A su vez, los usuarios pueden calificarse mutuamente y estas publicaciones y comentarios serán públicos para los usuarios a la hora de reservar, lo cual te dará una idea
-                de quién será tu acompañante y criterio para decidir hacer el viaje o no con esa persona. Por último, el sistema cuenta con un historial de viajes con la información y contactos antes mencionados que pueden ser consultados en "Historial de viajes". <br /><br />
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                <img src="~/Content/Icons/processing.gif" style="vertical-align:middle" /><br />
+                <small>Procesando...</small>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
 
-                Habiendo dicho esto, buscoridecr.com es una página que sirve de puente de comunicación entre conductores y pasajeros; no tiene relación directa con éstos y por ende no se hace responsable de cualquier eventualidad que suceda antes, durante o después de los viajes.<br /><br /><br />
-            </small>
+            </div>
         </div>
-    </div>
 
-    <b>Facebook:</b>
-    <br />
-    <div class="panel panel-default">
-        <h6>@*&nbsp;&nbsp;<b><a href="https://www.facebook.com/buscoridecr" target="_blank">Página Facebook</a></b>*@&nbsp;&nbsp;<b><a href="https://www.facebook.com/groups/2397752017147040/" target="_blank">Buscoridecr Facebook</a></b></h6>
-    </div>
-    <hr />
-    <b>Grupos Asociados:</b>
-    <br />
-    <div class="panel panel-default">
-        <h6>&nbsp;&nbsp;<b><a href="https://www.facebook.com/groups/2397752017147040/" target="_blank">Ruta Alterna San Carlos</a></b></h6>
-    </div>
+        <div id="main-content" class="row form-group hidden panel panel-default" style="border-radius:10px; margin:1px; padding-top: 10px">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="row form-group">
+                    <div class="col-lg-1 col-md-2 col-sm-6 col-xs-12">
+                        <label class="control-label visible-xs visible-sm"><i class="fas fa-map-marker-alt">&nbsp;</i>Origen</label>
+                        <label class="control-label pull-right visible-md visible-lg"><i class="fas fa-map-marker-alt">&nbsp;</i>Origen</label>
+                    </div>
+                    <div class="col-lg-5 col-md-4 col-sm-6 col-xs-12">
+                        <select id="FromTown" name="FromTown" class="form-control" onfocus="this.select()">
+                            @Html.Raw(Model.DistrictControlOptions)
+                        </select>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+                        <label class="control-label visible-xs visible-sm"><i class="fas fa-map-marker-alt">&nbsp;</i>Destino</label>
+                        <label class="control-label pull-right visible-md visible-lg"><i class="fas fa-map-marker-alt">&nbsp;</i>Destino</label>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                        <select id="ToTown" name="ToTown" class="form-control" style="width:100%" onfocus="this.select()">
+                            @Html.Raw(Model.DistrictControlOptions)
+                        </select>
+                    </div>
+                </div>
+                <div class="row form-group hidden-xs">
+                    <div class="col-lg-1 col-md-2 col-sm-0">
+                    </div>
+                    <div class="col-lg-5 col-md-4 col-sm-6">
 
-    <small>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-0">
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6">
+                        <button onclick="window.location='@Url.Action("Login","Account")'" type="button" class="btn btn-info btn-sm" style="width:260px;border-radius:10px" data-loading-text="<i class='fa fa-circle-o-notch fa-spin pull-right'></i> Consultar Viajes">Consultar Viajes</button>
+                    </div>
+                </div>
+                <div class="row form-group visible-xs">
+                    <div class="col-xs-7">
 
-        @*<b>¿Y la seguridad?</b><br />
-            Todo usuario registra sus datos de contacto como correo electrónico, teléfono, dirección y; de ser conductor, detalles, marca y placa del vehículo.
-            Además todo usuario tienen la opción de calificación de usuarios con comentarios al finalizar un viaje, que será pública en el sitio.
-            Habiendo dicho esto, nuestro sitio se limita exclusivamente a servir como canal de comunicación entre conductores y pasajeros. NO nos hacemos responsables por
-            cualquier eventualidad que pueda ocurrir durante el viaje.*@
-    </small>
-    </p>
-    @*<p><a href="~/UserRols/ValidateUserRol" class="btn btn-primary btn-lg">Vamos a iniciar &raquo;</a></p>*@
-</div>
+                    </div>
+                    <div class="col-xs-5">
+                        <button onclick="window.location='@Url.Action("Login","Account")'" type="button" class="btn btn-info btn-sm pull-right" style="width:110px;border-radius:10px" data-loading-text="<i class='fa fa-circle-o-notch fa-spin pull-right'></i> Consultar">Consultar</button>
+                    </div>
+                </div>
+                @Html.Partial("~/Views/Reservations/Partials/_RequestJourney.cshtml", Model)
+            </div>
+        </div>
 
-@*<div class="row form-group">
-        <div class="col-lg-12">
-            <a href="http://www.SmarterASP.NET/index?r=pvillalobos" style="text-align:center">
-                <img src="http://www.SmarterASP.NET/affiliate/728X90.gif" border="0">
-            </a>
-        </div>
-        <div class="col-xs-12 visible-xs">
-            <a href="http://www.SmarterASP.NET/index?r=pvillalobos">
-                <img src="http://www.SmarterASP.NET/affiliate/234x60.gif" border="0">
-            </a>
-        </div>
-    </div>*@
+        <script>
+    $('#tabs').tabs();
+    $('#tabPending').removeClass('ui-state-active');
+    $('#FromTown').editableSelect();
+    $('#ToTown').editableSelect();
 
-@*<div class="row">
-        <div class="col-md-4">
-            <h3>Getting started</h3>
-            <p>
-                ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-                enables a clean separation of concerns and gives you full control over markup
-                for enjoyable, agile development.
-            </p>
-            <p><a class="btn btn-info" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-        </div>
-        <div class="col-md-4">
-            <h3>Get more libraries</h3>
-            <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-            <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-        </div>
-        <div class="col-md-4">
-            <h3>Web Hosting</h3>
-            <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-            <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-        </div>
-    </div>*@
+    $('#main-content').slideUp(1);
+    $('#loading-content').slideDown(1);
+
+
+    $(document).ready(function () {
+        var tabIndex = @Model.TabIndex;
+
+        $('#tabs').tabs("option", "active", tabIndex);
+
+        $('#main-content').removeClass('hidden');
+        //$('#loading-content').addClass('hidden');
+
+        $('#main-content').slideDown();
+        $('#loading-content').slideUp();
+
+        $('#calendar').fullCalendar('gotoDate', Date.now());
+    });
+        </script>
+    }
+}
+
+
+
+
+
+

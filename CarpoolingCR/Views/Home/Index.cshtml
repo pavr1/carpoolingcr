@@ -91,7 +91,11 @@
 
             </div>
         </div>
-
+        <div id="reserve-now" class="row form-group hidden">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                ¡Reserva Ya!
+            </div>
+        </div>
         <div id="main-content" class="row form-group hidden panel panel-default" style="border-radius:10px; margin:1px; padding-top: 10px">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="row form-group">
@@ -143,8 +147,8 @@
     $('#tabPending').removeClass('ui-state-active');
     $('#FromTown').editableSelect();
     $('#ToTown').editableSelect();
-
-    $('#main-content').slideUp(1);
+            
+    $('#reserve-now').slideUp(1);
     $('#loading-content').slideDown(1);
 
 
@@ -154,7 +158,7 @@
         $('#tabs').tabs("option", "active", tabIndex);
 
         $('#main-content').removeClass('hidden');
-        //$('#loading-content').addClass('hidden');
+        $('#reserve-now').removeClass('hidden');
 
         $('#main-content').slideDown();
         $('#loading-content').slideUp();

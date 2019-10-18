@@ -148,10 +148,11 @@ namespace CarpoolingCR.Controllers
 
                 if (smsServiceEnabled)
                 {
-                    SMSHandler.SendSMS(user, "Código de Verificación: " + user.MobileVerficationNumber + ". ¡Hagamos Ride!", "www.buscoridecr.com", logo);
+                    var t = string.Empty;
 
-                    //¡Código de verificación enviado!
-                    return "100042";
+                    var msg = SMSHandler.SendSMS(user, "Código de Verificación: " + user.MobileVerficationNumber + ". ¡Hagamos Ride!", "https://bit.ly/31q1t6o", logo, out t);
+
+                    return msg;
                 }
                 else
                 {

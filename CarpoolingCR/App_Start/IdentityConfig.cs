@@ -323,7 +323,7 @@ namespace CarpoolingCR
 
     public class SmsService : IIdentityMessageService
     {
-        public Task SendAsync(ApplicationUser user, IdentityMessage message, string logo)
+        public string SendAsync(ApplicationUser user, IdentityMessage message, string logo)
         {
             var api = WebConfigurationManager.AppSettings["SMSApi"];
             var apiFilters = "t=" + message.Destination + "&m=" + message.Body;
@@ -348,10 +348,10 @@ namespace CarpoolingCR
                 UserEmail = user.Name
             }, logo);
 
-            return Task.FromResult(0);
+            return result;
         }
 
-        public Task SendPromotionAsync(IdentityMessage message, string logo)
+        public string SendPromotionAsync(IdentityMessage message, string logo)
         {
             var api = WebConfigurationManager.AppSettings["SMSApi"];
             var apiFilters = "t=" + message.Destination + "&m=" + message.Body;
@@ -376,7 +376,7 @@ namespace CarpoolingCR
                 UserEmail = WebConfigurationManager.AppSettings["ContactUsEmail"]
             }, logo);
 
-            return Task.FromResult(0);
+            return result;
         }
 
         [Obsolete]

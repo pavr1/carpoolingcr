@@ -17,7 +17,7 @@ namespace CarpoolingCR.Controllers
             {
                 if (type == "success")
                 {
-                    ViewBag.Success = message;
+                    ViewBag.Info = message;
                 }
                 else if (type == "warn")
                 {
@@ -25,7 +25,7 @@ namespace CarpoolingCR.Controllers
                 }
                 else if (type == "error")
                 {
-                    ViewBag.error = message;
+                    ViewBag.Error = message;
                 }
             }
 
@@ -51,14 +51,20 @@ namespace CarpoolingCR.Controllers
 
                         if (existendPhone == null)
                         {
-                            SMSHandler.SendSMS(phone, "¿Carpooling?¡Visita www.buscoridecr.com!Creación de viajes, reservas, notificaciones, selección de asientos y mucho más.¡Hagamos Ride!", logo);
+                            var t = string.Empty;
+                            var sms = "Carpooling: Crea viajes, reserva espacios, recibe notificaciones, califica usuarios y mucho mas. Gratis, seguro y confiable.";//"CARPOOLING: Visita www.buscoridecr.com \nCreación de viajes, reservas, notificaciones, selección de asientos y mucho más.\n ¡Hagamos Ride!";
+                            var msg = SMSHandler.SendSMS(phone, sms, "www.buscoridecr.com", logo, out t);
 
-                            var phoneObj = new Phone { PhoneNumber = phone };
+                            //¡Mensaje Enviado!
+                            if (msg == "100075")
+                            {
+                                var phoneObj = new Phone { PhoneNumber = phone };
 
-                            db.Entry(phoneObj).State = EntityState.Added;
-                            db.SaveChanges();
+                                db.Entry(phoneObj).State = EntityState.Added;
+                                db.SaveChanges();
+                            }
 
-                            return RedirectToAction("Index", new { message = "¡Mensaje Enviado!", type = "success" });
+                            return RedirectToAction("Index", new { message = msg, type = t });
                         }
                         else
                         {
@@ -73,7 +79,8 @@ namespace CarpoolingCR.Controllers
                                 UserEmail = User.Identity.Name
                             }, logo);
 
-                            return RedirectToAction("Index", new { message = "¡Número ya notificado!", type = "warn" });
+                            //¡Número anteriormente notificado!
+                            return RedirectToAction("Index", new { message = "100076", type = "warn" });
                         }
                     }
                 }
@@ -90,7 +97,8 @@ namespace CarpoolingCR.Controllers
                         UserEmail = User.Identity.Name
                     }, logo);
 
-                    return RedirectToAction("Index", new { message = "¡Hubo un error!", type = "error" });
+                    //¡Error al mandar SMS!
+                    return RedirectToAction("Index", new { message = "100077", type = "error" });
                 }
             }
             catch (Exception ex)

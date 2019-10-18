@@ -96,6 +96,14 @@ namespace CarpoolingCR.Models
             }
         }
         [NotMapped]
+        public string ArrivalDateTimeStr
+        {
+            get
+            {
+                return LocalArrivalDateTime.ToString("MM/dd/yyyy HH:mm:ss");
+            }
+        }
+        [NotMapped]
         public double Date12AMUnix
         {
             get

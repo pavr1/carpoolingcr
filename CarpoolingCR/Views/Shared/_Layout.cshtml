@@ -494,7 +494,7 @@
         <li role="separator" class="divider"></li>*@
                                                 <li><a href="~/Account/GetPendingUserIdentifications"><i class="fas fa-id-card">&nbsp;</i>Cédulas</a></li>
                                                 <li><a href="~/Email/Index"><i class="fas fa-envelope">&nbsp;</i>Correos</a></li>
-                                                <li><a href="~/Phone/Index"><i class="fas fa-envelope">&nbsp;</i>SMS</a></li>
+                                                <li><a href="~/Phone/Index"><i class="fas fa-sms">&nbsp;</i>SMS</a></li>
                                             </ul>
                                         </li>
                                     </ul>
@@ -551,11 +551,12 @@
                                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-caret-square-down"></i></a>
                                             <ul class="dropdown-menu">
                                                 @*
-                                    <li role="separator" class="divider"></li>*@
+        <li role="separator" class="divider"></li>*@
                                                 <li><a href="~/Account/ManageUsers"><i class="fas fa-users">&nbsp;</i>Usuarios</a></li>
                                                 <li><a href="~/Logs/Index"><i class="fas fa-clipboard">&nbsp;</i>Logs</a></li>
                                                 <li><a href="~/Account/GetPendingUserIdentifications"><i class="fas fa-id-card">&nbsp;</i>Cédulas</a></li>
                                                 <li><a href="~/Email/Index"><i class="fas fa-envelope">&nbsp;</i>Correos</a></li>
+                                                <li><a href="~/Phone/Index"><i class="fas fa-sms">&nbsp;</i>SMS</a></li>
                                             </ul>
                                         </li>
                                     </ul>
@@ -600,7 +601,7 @@
                                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-caret-square-down"></i></a>
                                             <ul class="dropdown-menu">
                                                 @*
-                                    <li role="separator" class="divider"></li>*@
+        <li role="separator" class="divider"></li>*@
                                                 <li>
                                                     @{
                                                         if (notifications > 0)
@@ -617,6 +618,7 @@
                                                 <li><a href="~/Logs/Index"><i class="fas fa-clipboard">&nbsp;</i>Logs</a></li>
                                                 <li><a href="~/Account/GetPendingUserIdentifications"><i class="fas fa-id-card">&nbsp;</i>Cédulas</a></li>
                                                 <li><a href="~/Email/Index"><i class="fas fa-envelope">&nbsp;</i>Correos</a></li>
+                                                <li><a href="~/Phone/Index"><i class="fas fa-sms">&nbsp;</i>SMS</a></li>
                                             </ul>
                                         </li>
                                     </ul>
@@ -673,6 +675,7 @@
                                         <li><a href="~/Logs/Index"><i class="fas fa-clipboard">&nbsp;</i>Logs</a></li>
                                         <li><a href="~/Account/GetPendingUserIdentifications"><i class="fas fa-id-card">&nbsp;</i>Cédulas</a></li>
                                         <li><a href="~/Email/Index"><i class="fas fa-envelope">&nbsp;</i>Correos</a></li>
+                                        <li><a href="~/Phone/Index"><i class="fas fa-sms">&nbsp;</i>SMS</a></li>
                                     </ul>
                                     @Html.Partial("_LoginPartial")
                                 </div>
@@ -1343,36 +1346,36 @@
                 return "¡Por favor seleccione al menos un campo!";
             } else if (code === "100074") {
                 return "¡Usuario Calificado!";
-            } else if (code === "xxxxxxxxx") {
-                return "zzzzzzzzzzzzzzzzzzzzzz";
-            } else if (code === "xxxxxxxxx") {
-                return "zzzzzzzzzzzzzzzzzzzzzz";
-            } else if (code === "xxxxxxxxx") {
-                return "zzzzzzzzzzzzzzzzzzzzzz";
-            } else if (code === "xxxxxxxxx") {
-                return "zzzzzzzzzzzzzzzzzzzzzz";
-            } else if (code === "xxxxxxxxx") {
-                return "zzzzzzzzzzzzzzzzzzzzzz";
-            } else if (code === "xxxxxxxxx") {
-                return "zzzzzzzzzzzzzzzzzzzzzz";
-            } else if (code === "xxxxxxxxx") {
-                return "zzzzzzzzzzzzzzzzzzzzzz";
-            } else if (code === "xxxxxxxxx") {
-                return "zzzzzzzzzzzzzzzzzzzzzz";
-            } else if (code === "xxxxxxxxx") {
-                return "zzzzzzzzzzzzzzzzzzzzzz";
-            } else if (code === "xxxxxxxxx") {
-                return "zzzzzzzzzzzzzzzzzzzzzz";
-            } else if (code === "xxxxxxxxx") {
-                return "zzzzzzzzzzzzzzzzzzzzzz";
-            } else if (code === "xxxxxxxxx") {
-                return "zzzzzzzzzzzzzzzzzzzzzz";
-            } else if (code === "xxxxxxxxx") {
-                return "zzzzzzzzzzzzzzzzzzzzzz";
-            } else if (code === "xxxxxxxxx") {
-                return "zzzzzzzzzzzzzzzzzzzzzz";
-            } else if (code === "xxxxxxxxx") {
-                return "zzzzzzzzzzzzzzzzzzzzzz";
+            } else if (code === "100075") {
+                return "¡Mensaje Enviado!";
+            } else if (code === "100076") {
+                return "¡Número anteriormente notificado!";
+            } else if (code === "100077") {
+                return "¡Error al mandar SMS!";
+            } else if (code === "100078") {
+                return "¡Llave API vacía!";
+            } else if (code === "100079") {
+                return "¡Teléfono Vacío!";
+            } else if (code === "100080") {
+                return "¡Texto Vacío!";
+            } else if (code === "100081") {
+                return "¡Sin Saldo!";
+            } else if (code === "100082") {
+                return "¡Texto muy largo!";
+            } else if (code === "100083") {
+                return "¡Teléfono muy largo!";
+            } else if (code === "100084") {
+                return "¡Telefono Incorrecto!";
+            } else if (code === "100085") {
+                return "¡Texto Incorrecto!";
+            } else if (code === "100086") {
+                return "¡IP no autorizada!";
+            } else if (code === "100087") {
+                return "¡Error en API!";
+            } else if (code === "100088") {
+                return "¡Usuario no autorizado!";
+            } else if (code === "100089") {
+                return "¡Resultado API SMS Desconocido!";
             } else if (code === "xxxxxxxxx") {
                 return "zzzzzzzzzzzzzzzzzzzzzz";
             } else if (code === "xxxxxxxxx") {

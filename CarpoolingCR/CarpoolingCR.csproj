@@ -18,10 +18,13 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
-    <IISExpressSSLPort>443</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
+    <IISExpressSSLPort>44346</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication>
+    </IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>
+    </IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>
+    </IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -301,9 +304,9 @@
     <Compile Include="Migrations\201910172302039_Added AproxDistance to trip.Designer.cs">
       <DependentUpon>201910172302039_Added AproxDistance to trip.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201910180448351_Created Phone functionality.cs" />
-    <Compile Include="Migrations\201910180448351_Created Phone functionality.Designer.cs">
-      <DependentUpon>201910180448351_Created Phone functionality.cs</DependentUpon>
+    <Compile Include="Migrations\201910181339563_Created phone functionality.cs" />
+    <Compile Include="Migrations\201910181339563_Created phone functionality.Designer.cs">
+      <DependentUpon>201910181339563_Created phone functionality.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -975,8 +978,8 @@
     <EmbeddedResource Include="Migrations\201910172302039_Added AproxDistance to trip.resx">
       <DependentUpon>201910172302039_Added AproxDistance to trip.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201910180448351_Created Phone functionality.resx">
-      <DependentUpon>201910180448351_Created Phone functionality.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201910181339563_Created phone functionality.resx">
+      <DependentUpon>201910181339563_Created phone functionality.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

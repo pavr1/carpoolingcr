@@ -45,7 +45,7 @@ namespace CarpoolingCR.Controllers
                 {
                     using (var db = new ApplicationDbContext())
                     {
-                        var phone = Request["phone"];
+                        var phone = Request["phone"].Replace("-", string.Empty).Trim();
 
                         var existendPhone = db.Phones.Where(x => x.PhoneNumber == phone).SingleOrDefault();
 

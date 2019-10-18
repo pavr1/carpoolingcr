@@ -646,7 +646,7 @@ namespace CarpoolingCR.Controllers
                     notification.ToTown = db.Districts.Where(x => x.DistrictId == notification.ToTownId).Single();
 
                     //if notification time has expired
-                    if (notification.RequestedToDateTime < DateTime.Now)
+                    if (notification.RequestedToDateTime < Common.ConvertToUTCTime(DateTime.Now))
                     {
                         notification.Status = RequestNotificationStatus.Expired;
 

@@ -78,29 +78,30 @@
 
                     index++;
                     <li>
-                        <div class="panel panel-default" style="border-radius:10px">
+                        <div class="panel panel-default" style="border-radius:10px; padding-top: 20px">
                             <div class="row form-group" style="padding-left:20px">
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8" style="padding-right:0px">
-                                    <br />
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <span class="fas fa-calendar-alt">&nbsp;@trip.LocalDateTime.ToString("dd/MM/yyyy")</span><br />
 
                                     &nbsp;<span class="fas fa-clock"></span>&nbsp;<small>@trip.LocalDateTime.ToString("hh:mm tt")</small>&nbsp;&nbsp;<span class="fas fa-map-marker-alt">&nbsp;</span><small class="from">@from</small><br />
                                     &nbsp;<span class="fas fa-clock"></span>&nbsp;<small>@trip.LocalArrivalDateTime.ToString("hh:mm tt")</small>&nbsp;&nbsp;<span class="fas fa-map-marker-alt">&nbsp;</span><small class="to">@to</small><br />
-                                    <br />
+                                </div>
+                            </div>
+                            <div class="row form-group" style="padding-left:20px; padding-right:0px">
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                     <b>&nbsp;<span class="fas fa-route">&nbsp;</span>Ruta: </b><small class="route">@route.Name</small><br />
                                     <b>&nbsp;<span class="fas fa-road">&nbsp;</span>Distancia: </b><small class="route">@trip.AproxDistance km</small><br />
                                 </div>
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4">
-                                    <input type="button" class="btn btn-danger btn-sm pull-right hidden-xs" style="width:150px" value="Cancelar Viaje" onclick="ConfirmDelete(@trip.TripId, '@from -> @to')" /><br />
-                                    <input type="button" class="btn btn-danger btn-sm pull-right visible-xs" style="width:80px" value="Cancelar" onclick="ConfirmDelete(@trip.TripId, '@from -> @to')" /><br />
-                                </div>
-                            </div>
-                            <div class="row form-group" style="padding-left:20px">
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-9" style="padding-left:20px">
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                     <small class="price"><b><span class="fas fa-money-bill-alt">&nbsp;</span>Cuota: </b> ₡ @trip.Price</small><br />
                                     <small class="spaces"><b><span class="fas fa-car-side">&nbsp;</span>Espacios: </b> @trip.AvailableSpaces</small><br />
                                 </div>
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-3" style="padding-right:30px">
+                            </div>
+                            <div class="row form-group" style="padding-left:20px">
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <input type="button" class="btn btn-danger btn-sm" style="width:150px" value="Cancelar Viaje" onclick="ConfirmDelete(@trip.TripId, '@from -> @to')" /><br />
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding-right:35px">
                                     @{
                                         if (Model.IsAdmin)
                                         {

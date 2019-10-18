@@ -351,6 +351,34 @@ namespace CarpoolingCR
             return Task.FromResult(0);
         }
 
+        public Task SendPromotionAsync(IdentityMessage message, string logo)
+        {
+            var api = WebConfigurationManager.AppSettings["SMSApi"];
+            var apiFilters = "t=" + message.Destination + "&m=" + message.Body;
+
+            api += apiFilters;
+
+            WebRequest request;
+            request = WebRequest.Create(api);
+            WebResponse response = request.GetResponse();
+            Stream dataStream = response.GetResponseStream();
+            StreamReader reader = new StreamReader(dataStream);
+            var result = reader.ReadToEnd();
+
+            Common.LogData(new Log
+            {
+                Line = Common.GetCurrentLine(),
+                Location = Enums.LogLocation.Server,
+                LogType = Enums.LogType.SMS,
+                Message = "Mensaje promocional enviado a " + message.Destination,
+                Method = Common.GetCurrentMethod(),
+                Timestamp = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
+                UserEmail = WebConfigurationManager.AppSettings["ContactUsEmail"]
+            }, logo);
+
+            return Task.FromResult(0);
+        }
+
         [Obsolete]
         public Task SendAsync(IdentityMessage message)
         {

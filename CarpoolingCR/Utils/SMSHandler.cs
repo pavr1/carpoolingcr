@@ -15,5 +15,16 @@ namespace CarpoolingCR.Utils
 
             new SmsService().SendAsync(user, message, logo);
         }
+
+        public static void SendSMS(string phone, string text, string logo)
+        {
+            var message = new IdentityMessage
+            {
+                Destination = phone.Replace("-", string.Empty),
+                Body = text
+            };
+
+            new SmsService().SendPromotionAsync(message, logo);
+        }
     }
 }

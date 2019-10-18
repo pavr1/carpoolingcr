@@ -18,13 +18,10 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
-    <IISExpressSSLPort>44346</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication>
-    </IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>
-    </IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>
-    </IISExpressUseClassicPipelineMode>
+    <IISExpressSSLPort>443</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -228,6 +225,7 @@
     <Compile Include="Controllers\MonthlyBalancesController.cs" />
     <Compile Include="Controllers\MonthlyTransactionsController.cs" />
     <Compile Include="Controllers\NotificationRequestsController.cs" />
+    <Compile Include="Controllers\PhoneController.cs" />
     <Compile Include="Controllers\ProfileQualificationsController.cs" />
     <Compile Include="Controllers\ProvincesController.cs" />
     <Compile Include="Controllers\QualificationsController.cs" />
@@ -303,6 +301,10 @@
     <Compile Include="Migrations\201910172302039_Added AproxDistance to trip.Designer.cs">
       <DependentUpon>201910172302039_Added AproxDistance to trip.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201910180448351_Created Phone functionality.cs" />
+    <Compile Include="Migrations\201910180448351_Created Phone functionality.Designer.cs">
+      <DependentUpon>201910180448351_Created Phone functionality.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Bank.cs" />
@@ -318,6 +320,7 @@
     <Compile Include="Models\MonthlyBalance.cs" />
     <Compile Include="Models\MonthlyTransactions.cs" />
     <Compile Include="Models\NotificationRequest.cs" />
+    <Compile Include="Models\Phone.cs" />
     <Compile Include="Models\ProfileQualification.cs" />
     <Compile Include="Models\Qualification.cs" />
     <Compile Include="Models\Reservation.cs" />
@@ -902,6 +905,7 @@
     <Content Include="Views\Reservations\CreateReservation.cshtml" />
     <Content Include="Views\Trips\Partials\_DriverTripHistorial.cshtml" />
     <Content Include="Views\Reservations\Partials\_PassengerReservationHistorial.cshtml" />
+    <Content Include="Views\Phone\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -970,6 +974,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201910172302039_Added AproxDistance to trip.resx">
       <DependentUpon>201910172302039_Added AproxDistance to trip.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910180448351_Created Phone functionality.resx">
+      <DependentUpon>201910180448351_Created Phone functionality.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

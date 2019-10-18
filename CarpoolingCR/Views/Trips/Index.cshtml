@@ -82,9 +82,13 @@
                             <div class="row form-group" style="padding-left:20px">
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8" style="padding-right:0px">
                                     <br />
-                                    <b>&nbsp;<span class="fas fa-map-marker-alt">&nbsp;</span>Origen: </b><small class="from">@from</small><br />
-                                    <b>&nbsp;<span class="fas fa-map-marker-alt">&nbsp;</span>Destino: </b><small class="to">@to</small><br />
-                                    <b>&nbsp;<span class="fas fa-route">&nbsp;</span>Ruta:</b><small class="route">@route.Name</small><br />
+                                    <span class="fas fa-calendar-alt">&nbsp;@trip.LocalDateTime.ToString("dd/MM/yyyy")</span><br />
+
+                                    &nbsp;<span class="fas fa-clock"></span>&nbsp;<small>@trip.LocalDateTime.ToString("hh:mm tt")</small>&nbsp;&nbsp;<span class="fas fa-map-marker-alt">&nbsp;</span><small class="from">@from</small><br />
+                                    &nbsp;<span class="fas fa-clock"></span>&nbsp;<small>@trip.LocalArrivalDateTime.ToString("hh:mm tt")</small>&nbsp;&nbsp;<span class="fas fa-map-marker-alt">&nbsp;</span><small class="to">@to</small><br />
+                                    <br />
+                                    <b>&nbsp;<span class="fas fa-route">&nbsp;</span>Ruta: </b><small class="route">@route.Name</small><br />
+                                    <b>&nbsp;<span class="fas fa-road">&nbsp;</span>Distancia: </b><small class="route">@trip.AproxDistance km</small><br />
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4">
                                     <input type="button" class="btn btn-danger btn-sm pull-right hidden-xs" style="width:150px" value="Cancelar Viaje" onclick="ConfirmDelete(@trip.TripId, '@from -> @to')" /><br />
@@ -93,9 +97,8 @@
                             </div>
                             <div class="row form-group" style="padding-left:20px">
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-9" style="padding-left:20px">
-                                    <b><span class="fas fa-clock">&nbsp;</span>Salida: </b><small class="date">@trip.LocalDateTime.ToString("dd/MM/yyyy hh:mm tt")</small><br />
-                                    <small class="price"><b><span class="fas fa-money-bill-alt">&nbsp;</span>Cuota :</b> ₡ @trip.Price</small><br />
-                                    <small class="spaces"><b><span class="fas fa-car-side">&nbsp;</span>Espacios:</b> @trip.AvailableSpaces</small><br />
+                                    <small class="price"><b><span class="fas fa-money-bill-alt">&nbsp;</span>Cuota: </b> ₡ @trip.Price</small><br />
+                                    <small class="spaces"><b><span class="fas fa-car-side">&nbsp;</span>Espacios: </b> @trip.AvailableSpaces</small><br />
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-3" style="padding-right:30px">
                                     @{
@@ -184,16 +187,16 @@
                                                             value = obj.Value;
                                                         }
 
-                                                    <small class="driver inline-block ">
-                                                        <span class="fas fa-phone-alt">&nbsp;</span><a href="tel: @value @reservation.ApplicationUser.Phone1" style="color:blue"> @value @reservation.ApplicationUser.Phone1 </a>
+                                                        <small class="driver inline-block ">
+                                                            <span class="fas fa-phone-alt">&nbsp;</span><a href="tel: @value @reservation.ApplicationUser.Phone1" style="color:blue"> @value @reservation.ApplicationUser.Phone1 </a>
 
-                                                        @if (!string.IsNullOrEmpty(reservation.ApplicationUser.Phone2))
-                                                        {
-                                                            <br />
-                                                            <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                                            <a href="tel: @value @reservation.ApplicationUser.Phone2" style="color:blue"> @value @reservation.ApplicationUser.Phone2 </a>
-                                                        }
-                                                    </small><br />
+                                                            @if (!string.IsNullOrEmpty(reservation.ApplicationUser.Phone2))
+                                                            {
+                                                                <br />
+                                                                <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                                                <a href="tel: @value @reservation.ApplicationUser.Phone2" style="color:blue"> @value @reservation.ApplicationUser.Phone2 </a>
+                                                            }
+                                                        </small><br />
                                                     }
                                                     <small class="spaces"><b><span class="fas fa-car-side">&nbsp;</span>Espacios: </b> @reservation.RequestedSpaces</small>
                                                 }

@@ -269,7 +269,7 @@ namespace CarpoolingCR.Controllers
                 var trip = db.Trips.Where(x => x.TripId == id)
                     .Include(x => x.ApplicationUser)
                     .Single();
-                
+
                 return View(trip);
             }
             catch (Exception ex)
@@ -314,7 +314,7 @@ namespace CarpoolingCR.Controllers
                 {
                     return HttpNotFound();
                 }
-                
+
                 return View(trip);
             }
             catch (Exception ex)
@@ -412,6 +412,8 @@ namespace CarpoolingCR.Controllers
                 fields += "AvailableSpaces: " + Request["AvailableSpaces"] + ", ";
                 fields += "Trip.Details: " + Request["Trip.Details"] + ", ";
                 fields += "DateTime: " + Request["DateTime"] + ", ";
+                fields += "Aprox Distance: " + Request["aprox-distance"] + ", ";
+                fields += "Aprox Time: " + Request["aprox-time"] + ", ";
 
                 fields += "Route Back: " + Request["Route-To"] + ", ";
                 fields += "AvailableSpaces-To: " + Request["AvailableSpaces-To"] + ", ";
@@ -427,6 +429,10 @@ namespace CarpoolingCR.Controllers
                     var routeDistrict = new District();
 
                     var tripDate = DateTime.SpecifyKind(Convert.ToDateTime(Request["DateTime"]), DateTimeKind.Local);
+
+                    var apoxTime = Convert.ToDouble(Request["aprox-time"].Replace(".", ","));
+                    var arrivalTime = tripDate.AddHours(apoxTime);
+
                     fromDistrict = Common.ValidateDistrictString(Request["FromTown"]);
 
                     if (fromDistrict == null)
@@ -436,7 +442,7 @@ namespace CarpoolingCR.Controllers
 
                         var response = new TripCreateResponse
                         {
-                            DistrictControlOptions = districtsSelectHtml.Replace("[control-id]", "FromTown"),
+                            DistrictControlOptions = districtsSelectHtml,
                             Trip = trip,
                             Vehicle = user.Vehicle,
                             CountryName = user.Country.Name
@@ -454,7 +460,7 @@ namespace CarpoolingCR.Controllers
 
                         var response = new TripCreateResponse
                         {
-                            DistrictControlOptions = districtsSelectHtml.Replace("[control-id]", "ToTown"),
+                            DistrictControlOptions = districtsSelectHtml,
                             Trip = trip,
                             Vehicle = user.Vehicle,
                             CountryName = user.Country.Name
@@ -472,7 +478,7 @@ namespace CarpoolingCR.Controllers
 
                         var response = new TripCreateResponse
                         {
-                            DistrictControlOptions = districtsSelectHtml.Replace("[control-id]", "Route"),
+                            DistrictControlOptions = districtsSelectHtml,
                             Trip = trip,
                             Vehicle = user.Vehicle,
                             CountryName = user.Country.Name
@@ -496,7 +502,9 @@ namespace CarpoolingCR.Controllers
                         Status = Enums.Status.Activo,
                         TotalSpaces = Convert.ToInt32(Request["TotalSpaces"]),
                         ToTownId = toDistrict.DistrictId,
-                        RouteId = routeId
+                        RouteId = routeId,
+                        AproxDistance = Request["aprox-distance"],
+                        ArrivalDateTime = TimeZoneInfo.ConvertTimeToUtc(arrivalTime, TimeZoneInfo.Local)
                     };
 
                     db.Entry(trip).State = EntityState.Added;

@@ -19,6 +19,7 @@ namespace CarpoolingCR.Models
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy hh:mm tt}", ApplyFormatInEditMode = true)]
         [Display(Name = "Fecha")]
         private DateTime _DateTime;
+        private DateTime _ArrivalDateTime;
 
         public DateTime DateTime
         {
@@ -31,6 +32,21 @@ namespace CarpoolingCR.Models
                 if (value != DateTime.MinValue)
                 {
                     _DateTime = value;
+                }
+            }
+        }
+
+        public DateTime ArrivalDateTime
+        {
+            get
+            {
+                return _ArrivalDateTime;
+            }
+            set
+            {
+                if (value != DateTime.MinValue)
+                {
+                    _ArrivalDateTime = value;
                 }
             }
         }
@@ -54,7 +70,7 @@ namespace CarpoolingCR.Models
         public DateTime CreatedTime { get; set; }
         [Display(Name = "Detalles")]
         public string Details { get; set; }
-
+        public string AproxDistance { get; set; }
 
         public virtual int FromTownId { get; set; }
 
@@ -97,6 +113,15 @@ namespace CarpoolingCR.Models
             get
             {
                 return Common.ConvertToLocalTime(_DateTime);
+            }
+        }
+
+        [NotMapped]
+        public DateTime LocalArrivalDateTime
+        {
+            get
+            {
+                return Common.ConvertToLocalTime(_ArrivalDateTime);
             }
         }
 

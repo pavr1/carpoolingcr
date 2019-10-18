@@ -295,6 +295,14 @@
     <Compile Include="Migrations\201910022317227_Deleted trip, reservation and notification counts from user since they are not really necessary.Designer.cs">
       <DependentUpon>201910022317227_Deleted trip, reservation and notification counts from user since they are not really necessary.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201910172253430_added ArrivalDateTime in trips.cs" />
+    <Compile Include="Migrations\201910172253430_added ArrivalDateTime in trips.Designer.cs">
+      <DependentUpon>201910172253430_added ArrivalDateTime in trips.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201910172302039_Added AproxDistance to trip.cs" />
+    <Compile Include="Migrations\201910172302039_Added AproxDistance to trip.Designer.cs">
+      <DependentUpon>201910172302039_Added AproxDistance to trip.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Bank.cs" />
@@ -956,6 +964,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201910022317227_Deleted trip, reservation and notification counts from user since they are not really necessary.resx">
       <DependentUpon>201910022317227_Deleted trip, reservation and notification counts from user since they are not really necessary.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910172253430_added ArrivalDateTime in trips.resx">
+      <DependentUpon>201910172253430_added ArrivalDateTime in trips.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910172302039_Added AproxDistance to trip.resx">
+      <DependentUpon>201910172302039_Added AproxDistance to trip.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

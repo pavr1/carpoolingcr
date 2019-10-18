@@ -125,6 +125,8 @@
                                         @Html.Raw(Model.DistrictControlOptions)
                                     </select>
                                 </div>
+                                <input type="text" id="aprox-distance" name="aprox-distance" class="hidden" />
+                                <input type="text" id="aprox-time" name="aprox-time" class="hidden" />
                             </div>
                             <div class="row form-group">
                                 <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
@@ -620,6 +622,12 @@
 
         time = time / 60 / 60;
         total = total / 1000;
+
+        alert(Math.round(total))
+        alert(time)
+
+        $('#aprox-distance').val(Math.round(total));
+        $('#aprox-time').val(time);
 
         var html = `<small><b>Distancia Aproximada: </b>` + Math.round(total) + ` kms.</small>` + `<small><b> Tiempo Aproximado: </b>` + convertToHHMM(time) + `</small>`
         $('#' + displayControl).html(html);

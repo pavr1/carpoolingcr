@@ -18,5 +18,6 @@ namespace CarpoolingCR.Objects.Responses
 
         public List<Reservation> ExistentReservations { get; set; }
         public bool CouldNotFindExactTrip { get; set; }
+        public string Currency { get; set; }
     }
 }

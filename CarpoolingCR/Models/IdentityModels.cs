@@ -12,6 +12,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using System.Web.Configuration;
 using System.Web.Mvc;
 
 namespace CarpoolingCR.Models
@@ -45,6 +46,7 @@ namespace CarpoolingCR.Models
         public string Phone2 { get; set; }
         public int MobileVerficationNumber { get; set; }
         public bool IsPhoneVerified { get; set; }
+        public DateTime? PhoneVerificationTime { get; set; }
 
         [Display(Name = "Cuenta de Facebook")]
         public string FacebookAccount { get; set; }
@@ -86,6 +88,30 @@ namespace CarpoolingCR.Models
             }
         }
 
+        public int WaitingTimeToResendSMS
+        {
+            get
+            {
+                return Convert.ToInt32(WebConfigurationManager.AppSettings["WaitingTimeToResendSMS"]);
+            }
+        }
+
+        [NotMapped]
+        public string LocalPhoneVerificationTimeStr
+        {
+            get
+            {
+                if (PhoneVerificationTime != null)
+                {
+                    return Common.ConvertToLocalTime((DateTime)PhoneVerificationTime).ToString(WebConfigurationManager.AppSettings["DateTimeUniversalFormat"]);
+                }
+                else
+                {
+                    return string.Empty;
+                }
+            }
+        }
+
         public int Stars
         {
             get
@@ -106,7 +132,7 @@ namespace CarpoolingCR.Models
             {
                 this.Country = db.Countries.Where(x => x.CountryId == this.CountryId).Single();
 
-                if(this.UserType == Enums.UserType.Administrador)
+                if (this.UserType == Enums.UserType.Administrador)
                 {
                     trips = db.Trips.Where(x => (x.Status == Enums.Status.Activo || x.Status == Enums.Status.Lleno || x.Status == Enums.Status.Pendiente)).Count();
                     reservations = db.Reservations.Where(x => (x.Status == Enums.ReservationStatus.Accepted || x.Status == Enums.ReservationStatus.Pending || x.Status == Enums.ReservationStatus.Rejected)).Count();

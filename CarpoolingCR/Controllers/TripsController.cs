@@ -231,7 +231,8 @@ namespace CarpoolingCR.Controllers
                     CurrentUserId = user.Id,
                     CurrentDate = d,
                     ExistentReservations = existentReservation,
-                    CouldNotFindExactTrip = couldNotFindExactTrip
+                    CouldNotFindExactTrip = couldNotFindExactTrip,
+                    Currency = user.Country.CurrencyChar
                 });
             }
             catch (Exception ex)

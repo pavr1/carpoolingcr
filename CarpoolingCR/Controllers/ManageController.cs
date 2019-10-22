@@ -150,6 +150,11 @@ namespace CarpoolingCR.Controllers
                 {
                     var t = string.Empty;
 
+                    user.PhoneVerificationTime = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime());
+
+                    db.Entry(user).State = System.Data.Entity.EntityState.Modified;
+                    db.SaveChanges();
+
                     var msg = SMSHandler.SendSMS(user, "Código de Verificación: " + user.MobileVerficationNumber + ". ¡Hagamos Ride!", "https://bit.ly/31q1t6o", logo, out t);
 
                     return msg;

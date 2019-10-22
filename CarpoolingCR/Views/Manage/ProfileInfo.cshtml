@@ -10,181 +10,123 @@
     @Html.AntiForgeryToken()
     <input type="hidden" id="message" value="@Model.Message" />
     <input type="hidden" id="messageType" value="@Model.MessageType" />
+    <input type="hidden" id="last-phone-verification-time" value="@Model.LocalPhoneVerificationTimeStr" />
 
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class="row form-group">
         <div class="row form-group">
-            <div class="row form-group">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:center">
-                    <h3>Perfíl de Usuario</h3>
-                    <div class="row">
-                        <div class="col-md-3 bg">
-                            <div class="loader" id="loader-2">
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:center">
+                <h3>Perfíl de Usuario</h3>
+                <div class="row">
+                    <div class="col-md-3 bg">
+                        <div class="loader" id="loader-2">
+                            <span></span>
+                            <span></span>
+                            <span></span>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 center-block">
-                    <label id="SelectedPicture" name="SelectedPicture" class="hidden"></label>
-                    <div id="profile-container" class="center-block" data-toggle="tooltip" title="¡Actualiza tu foto de perfíl!">
-                        <img id="profileImage" src="@Url.Content(Model.Picture)" />
-                    </div>
-                    <input id="imageUpload" type="file" name="profile_photo" placeholder="Photo" accept="image/*">
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-
-                </div>
             </div>
-            <div class="row form-group">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <h2 style="text-align:center">
-                        @{
-                            var stars = Model.Stars;
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
 
-                            switch (stars)
-                            {
-                                case 1:
-                                    <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star1" class="fa fa-star checked" data-toggle="Muy Malo"></span></a>
-                                    <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star2" class="fa fa-star" data-toggle="Muy Malo"></span></a>
-                                    <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star3" class="fa fa-star" data-toggle="Muy Malo"></span></a>
-                                    <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star4" class="fa fa-star" data-toggle="Muy Malo"></span></a>
-                                    <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star5" class="fa fa-star" data-toggle="Muy Malo"></span></a>
-                                    break;
-                                case 2:
-                                    <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star1" class="fa fa-star checked" data-toggle="Malo"></span></a>
-                                    <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star2" class="fa fa-star checked" data-toggle="Malo"></span></a>
-                                    <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star3" class="fa fa-star" data-toggle="Malo"></span></a>
-                                    <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star4" class="fa fa-star" data-toggle="Malo"></span></a>
-                                    <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star5" class="fa fa-star" data-toggle="Malo"></span></a>
-                                    break;
-                                case 3:
-                                    <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star1" class="fa fa-star checked" data-toggle="Bueno"></span></a>
-                                    <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star2" class="fa fa-star checked" data-toggle="Bueno"></span></a>
-                                    <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star3" class="fa fa-star checked" data-toggle="Bueno"></span></a>
-                                    <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star4" class="fa fa-star" data-toggle="Bueno"></span></a>
-                                    <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star5" class="fa fa-star" data-toggle="Bueno"></span></a>
-                                    break;
-                                case 4:
-                                    <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star1" class="fa fa-star checked" data-toggle="Muy Bueno"></span></a>
-                                    <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star2" class="fa fa-star checked" data-toggle="Muy Bueno"></span></a>
-                                    <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star3" class="fa fa-star checked" data-toggle="Muy Bueno"></span></a>
-                                    <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star4" class="fa fa-star checked" data-toggle="Muy Bueno"></span></a>
-                                    <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star5" class="fa fa-star" data-toggle="Muy Bueno"></span></a>
-                                    break;
-                                case 5:
-                                    <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star1" class="fa fa-star checked" data-toggle="Excelente"></span></a>
-                                    <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star2" class="fa fa-star checked" data-toggle="Excelente"></span></a>
-                                    <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star3" class="fa fa-star checked" data-toggle="Excelente"></span></a>
-                                    <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star4" class="fa fa-star checked" data-toggle="Excelente"></span></a>
-                                    <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star5" class="fa fa-star checked" data-toggle="Excelente"></span></a>
-                                    break;
-                                case -1:
-                                    <a href="#" data-toggle="tooltip" title="¡Usuario no calificado!"><span id="p-star1" class="fa fa-star" data-toggle="¡Usuario no calificado!"></span></a>
-                                    <a href="#" data-toggle="tooltip" title="¡Usuario no calificado!"><span id="p-star2" class="fa fa-star" data-toggle="¡Usuario no calificado!"></span></a>
-                                    <a href="#" data-toggle="tooltip" title="¡Usuario no calificado!"><span id="p-star3" class="fa fa-star" data-toggle="¡Usuario no calificado!"></span></a>
-                                    <a href="#" data-toggle="tooltip" title="¡Usuario no calificado!"><span id="p-star4" class="fa fa-star" data-toggle="¡Usuario no calificado!"></span></a>
-                                    <a href="#" data-toggle="tooltip" title="¡Usuario no calificado!"><span id="p-star5" class="fa fa-star" data-toggle="¡Usuario no calificado!"></span></a>
-                                    break;
-                            }
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 center-block">
+                <label id="SelectedPicture" name="SelectedPicture" class="hidden"></label>
+                <div id="profile-container" class="center-block" data-toggle="tooltip" title="¡Actualiza tu foto de perfíl!">
+                    <img id="profileImage" src="@Url.Content(Model.Picture)" />
+                </div>
+                <input id="imageUpload" type="file" name="profile_photo" placeholder="Photo" accept="image/*">
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <h2 style="text-align:center">
+                    @{
+                        var stars = Model.Stars;
+
+                        switch (stars)
+                        {
+                            case 1:
+                                <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star1" class="fa fa-star checked" data-toggle="Muy Malo"></span></a>
+                                <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star2" class="fa fa-star" data-toggle="Muy Malo"></span></a>
+                                <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star3" class="fa fa-star" data-toggle="Muy Malo"></span></a>
+                                <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star4" class="fa fa-star" data-toggle="Muy Malo"></span></a>
+                                <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star5" class="fa fa-star" data-toggle="Muy Malo"></span></a>
+                                break;
+                            case 2:
+                                <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star1" class="fa fa-star checked" data-toggle="Malo"></span></a>
+                                <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star2" class="fa fa-star checked" data-toggle="Malo"></span></a>
+                                <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star3" class="fa fa-star" data-toggle="Malo"></span></a>
+                                <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star4" class="fa fa-star" data-toggle="Malo"></span></a>
+                                <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star5" class="fa fa-star" data-toggle="Malo"></span></a>
+                                break;
+                            case 3:
+                                <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star1" class="fa fa-star checked" data-toggle="Bueno"></span></a>
+                                <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star2" class="fa fa-star checked" data-toggle="Bueno"></span></a>
+                                <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star3" class="fa fa-star checked" data-toggle="Bueno"></span></a>
+                                <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star4" class="fa fa-star" data-toggle="Bueno"></span></a>
+                                <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star5" class="fa fa-star" data-toggle="Bueno"></span></a>
+                                break;
+                            case 4:
+                                <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star1" class="fa fa-star checked" data-toggle="Muy Bueno"></span></a>
+                                <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star2" class="fa fa-star checked" data-toggle="Muy Bueno"></span></a>
+                                <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star3" class="fa fa-star checked" data-toggle="Muy Bueno"></span></a>
+                                <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star4" class="fa fa-star checked" data-toggle="Muy Bueno"></span></a>
+                                <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star5" class="fa fa-star" data-toggle="Muy Bueno"></span></a>
+                                break;
+                            case 5:
+                                <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star1" class="fa fa-star checked" data-toggle="Excelente"></span></a>
+                                <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star2" class="fa fa-star checked" data-toggle="Excelente"></span></a>
+                                <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star3" class="fa fa-star checked" data-toggle="Excelente"></span></a>
+                                <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star4" class="fa fa-star checked" data-toggle="Excelente"></span></a>
+                                <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star5" class="fa fa-star checked" data-toggle="Excelente"></span></a>
+                                break;
+                            case -1:
+                                <a href="#" data-toggle="tooltip" title="¡Usuario no calificado!"><span id="p-star1" class="fa fa-star" data-toggle="¡Usuario no calificado!"></span></a>
+                                <a href="#" data-toggle="tooltip" title="¡Usuario no calificado!"><span id="p-star2" class="fa fa-star" data-toggle="¡Usuario no calificado!"></span></a>
+                                <a href="#" data-toggle="tooltip" title="¡Usuario no calificado!"><span id="p-star3" class="fa fa-star" data-toggle="¡Usuario no calificado!"></span></a>
+                                <a href="#" data-toggle="tooltip" title="¡Usuario no calificado!"><span id="p-star4" class="fa fa-star" data-toggle="¡Usuario no calificado!"></span></a>
+                                <a href="#" data-toggle="tooltip" title="¡Usuario no calificado!"><span id="p-star5" class="fa fa-star" data-toggle="¡Usuario no calificado!"></span></a>
+                                break;
                         }
-                        </h3>
-                        <hr />
-                </div>
+                    }
+                </h2>
+                <hr />
             </div>
-            <div class="row form-group">
-                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                    <label class="control-label">Correo Electrónico</label>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "Correo Electrónico", @readonly = "readonly" })
-                </div>
-                <div class="col-lg-4 col-md-2 col-sm-2 col-xs-0">
-
-                </div>
+        </div>
+        <div class="row form-group" style="padding-left:10px">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
             </div>
+            <div class="col-lg-4 col-md-4 col-sm-3 col-xs-12">
+                <label class="control-label">Correo Electrónico</label>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-5 col-xs-12">
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "Correo Electrónico", @readonly = "readonly" })
+            </div>
+            <div class="col-lg-4 col-md-2 col-sm-2 col-xs-0">
 
-            @{
-                if (string.IsNullOrEmpty(Model.UserIdentification))
-                {
-                    <div class="panel panel-danger" style="padding:10px; border-radius:10px">
-                        <h5 class="text-danger"><b><u>Verifica tu número de cédula</u></b></h5>
-                        <h6 style="text-align:justify" class="text-danger">
-                            Ingresa tu número de cédula y da click en el botón "Actualizar" abajo. Tu número de cédula será revisado y verificado por buscoridecr.com contra la bases de datos del TSE. De no concordar con el nombre provisto o de no existir el número de cédula, ésta será invalidada
-                            y deberá corregirla nuevamente para su revalidación.
-                        </h6>
+            </div>
+        </div>
 
-                        <div class="row form-group">
-                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                <label class="control-label">Cédula</label>
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                @{
-                                    var classStr = "";
+        @{
+            if (string.IsNullOrEmpty(Model.UserIdentification))
+            {
+                <div class="panel panel-danger" style="padding:10px; border-radius:10px">
+                    <h5 class="text-danger"><b><u>Verifica tu número de cédula</u></b></h5>
+                    <h6 style="text-align:justify" class="text-danger">
+                        Ingresa tu número de cédula y da click en el botón "Actualizar" abajo. Tu número de cédula será revisado y verificado por buscoridecr.com contra la bases de datos del TSE. De no concordar con el nombre provisto o de no existir el número de cédula, ésta será invalidada
+                        y deberá corregirla nuevamente para su revalidación.
+                    </h6>
 
-                                    if (!Model.IsUserIdentificationVerified)
-                                    {
-                                        if (string.IsNullOrEmpty(Model.UserIdentification))
-                                        {
-                                            classStr = "has-error";
-                                        }
-                                        else
-                                        {
-                                            classStr = "has-warning";
-                                        }
-                                    }
-                                }
-                                <div class="input-group btn-block @classStr">
-                                    @{
-                                        if (Model.IsUserIdentificationVerified)
-                                        {
-                                            @Html.TextBoxFor(m => m.UserIdentification, new { @class = "form-control", @placeholder = "Cédula", @readonly = "readonly", @style = "width:80%" })
-                                            <div id="user-identification-tooltip-button">
-                                                <button onclick="return false" class="btn btn-info pull-left" style="border-radius:0px 10px 10px 0px" aria-label="Help"><span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" title="¡Número de cédula verificado!"></span></button>
-                                            </div>
-                                        }
-                                        else
-                                        {
-                                            if (string.IsNullOrEmpty(Model.UserIdentification))
-                                            {
-                                                @Html.TextBoxFor(m => m.UserIdentification, new { @class = "form-control", @placeholder = "Cédula", @style = "width:80%" })
-                                                <div id="user-identification-tooltip-button" class="form-group">
-                                                    <button onclick="return false" class="btn btn-danger pull-left" style="border-radius:0px 10px 10px 0px" aria-label="Help"><span class="glyphicon glyphicon-alert" data-toggle="tooltip" title="¡El número de cédula debe ser provisto!"></span></button>
-                                                </div>
-                                            }
-                                            else
-                                            {
-                                                @Html.TextBoxFor(m => m.UserIdentification, new { @class = "form-control", @placeholder = "Cédula", @style = "width:80%" })
-                                                <div id="user-identification-tooltip-button">
-                                                    <button onclick="return false" class="btn btn-warning pull-left" style="border-radius:0px 10px 10px 0px" aria-label="Help"><span class="glyphicon glyphicon-exclamation-sign" data-toggle="tooltip" title="¡El número de cédula se encuentra en período de verificación!"></span></button>
-                                                </div>
-                                            }
-                                        }
-                                    }
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-2 col-sm-2 col-xs-0">
-                            </div>
-                        </div>
-                    </div>
-                }
-                else
-                {
                     <div class="row form-group">
                         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
                         </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        <div class="col-lg-4 col-md-4 col-sm-3 col-xs-12">
                             <label class="control-label">Cédula</label>
                         </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        <div class="col-lg-4 col-md-4 col-sm-5 col-xs-12">
                             @{
                                 var classStr = "";
 
@@ -232,379 +174,427 @@
                         <div class="col-lg-4 col-md-2 col-sm-2 col-xs-0">
                         </div>
                     </div>
-                }
+                </div>
             }
-            <div class="row form-group">
-                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                    <label class="control-label">Nombre</label>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @placeholder = "Nombre" })
-                </div>
-                <div class="col-lg-4 col-md-2 col-sm-2 col-xs-0">
-                </div>
-            </div>
-            <div class="row form-group">
-                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                    <label class="control-label">Primer Apellido</label>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                    @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", @placeholder = "Primer Apellido" })
-                </div>
-                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-                </div>
-            </div>
-            <div class="row form-group">
-                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                    <label class="control-label">Segundo Apellido</label>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                    @Html.TextBoxFor(m => m.SecondLastName, new { @class = "form-control", @placeholder = "Segundo Apellido" })
-                </div>
-                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-                </div>
-            </div>
-            <div id="mobile-container">
-                @{
-                    if (!Model.IsPhoneVerified)
-                    {
-                        <div class="panel panel-danger" style="padding:10px; border-radius:10px">
-                            <h5 class="text-danger"><b><u>Verifica tu número de celular</u></b></h5>
-                            <h6 style="text-align:justify" class="text-danger">
-                                Da click en el botón "Enviar código de verificación" para enviar un código de 6 dígitos por mensaje de texto a tu número celular provisto. Esto habilitará un campo de texto para ingresar dicho código, ingrésalo
-                                ahí y da click en el botón "Confirmar código de verificación"
-                            </h6>
-
-                            <div class="row form-group">
-                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-                                </div>
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                    <label class="control-label">Celular</label>
-                                </div>
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                    <div class="input-group btn-block has-error">
-                                        @Html.TextBoxFor(m => m.Phone1, new { @class = "form-control", @placeholder = "####-####", @style = "width:80%" })
-                                        <div id="information-type-tooltip-button">
-                                            <button onclick="return false" class="btn btn-danger pull-left" style="border-radius:0px 10px 10px 0px" aria-label="Help"><span class="glyphicon glyphicon-alert" data-toggle="tooltip" title="¡El número de celular debe ser verificado!"></span></button>
-                                        </div>
-                                    </div>
-                                    <div id="send-verification-code-container">
-                                        <br />
-                                        <input type="button" id="send-verification-code-btn" class="btn btn-info btn-sm" value="Enviar código de verificación" />
-                                    </div>
-                                </div>
-                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-                                </div>
-                            </div>
-                            <div id="verification-code-container" class="row form-group">
-                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-                                </div>
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                    <label class="control-label">Ingresa el código de Verificación</label>
-                                </div>
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                    <div class="input-group btn-block">
-                                        <input type="text" class="form-control" placeholder="######" style="border-radius:10px 10px 10px 10px" id="verificationCode" name="verificationCode" />
-                                        <br /><br /><br />
-                                        <input type="button" id="confirm-verification-code-btn" style="border-radius:10px 0px 0px 10px" class="btn btn-info btn-sm" value="Confirmar código de verificación" />
-                                        <button type="button" class="btn btn-info btn-sm" aria-label="Help" style="border-radius:0px 10px 10px 0px"><span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" title="¡Ingresa el código de verificación enviado a tu celular y da clic en 'Confirmar código de verificación'!"></span></button>
-                                        <small class="text-warning">Por favor espera, los mensajes SMS pueden tardar varios minutos en llegar.</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="row form-group">
-                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                <label class="control-label">Celular</label>
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                <div class="input-group btn-block">
-                                    @Html.TextBoxFor(m => m.Phone1, new { @class = "form-control", @placeholder = "####-####", @style = "width:80%" })
-                                    <div id="information-type-tooltip-button">
-                                        <button onclick="return false" class="btn btn-info pull-left" style="border-radius:0px 10px 10px 0px" aria-label="Help"><span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" title="¡Número de celular verificado!"></span></button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-                            </div>
-                        </div>
-                    }
-                }
-            </div>
-            <div class="row form-group">
-                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                    <label class="control-label">Teléfono</label>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                    @Html.TextBoxFor(m => m.Phone2, new { @class = "form-control", @placeholder = "####-####" })
-                </div>
-                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-                </div>
-            </div>
-            <div class="row form-group">
-                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                    <label class="control-label">Tipo de Usuario</label>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                    @Html.TextBoxFor(m => m.UserType, new { @class = "form-control", @placeholder = "Tipo de Usuario", @disabled = "disabled" })
-                </div>
-                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-                </div>
-            </div>
-            <div class="row form-group">
-                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                    <label class="control-label">Estado</label>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                    @Html.TextBoxFor(m => m.Status, new { @class = "form-control", @placeholder = "Estado", @disabled = "disabled" })
-                </div>
-                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-                </div>
-            </div>
-            <div class="row form-group">
-                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                    <label class="control-label">¿Correo Confirmado?</label>
-                    @{
-                        if (Model.EmailConfirmed)
-                        {
-                            <input type="checkbox" class="disabled" onclick="return false;" checked />
-                        }
-                        else
-                        {
-                            <input type="checkbox" class="disabled" onclick="return false;" />
-                        }
-                    }
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-
-                </div>
-                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-                </div>
-            </div>
-            @*@{
-                    if (string.IsNullOrEmpty(Model.UserIdentification))
-                    {
-                        <div class="row form-group" style="text-align:justify">
-                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
-
-                            </div>
-                            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 text-warning">
-                                <small>*** El número de cédula será revisado y verificado contra la bases de datos del TSE. De no concordar con el nombre provisto o de no existir el número de cédula, ésta será invalidada y deberá ingresarla nuevamente para su validación.</small>
-                            </div>
-                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
-
-                            </div>
-                        </div>
-                    }
-                }*@
-            @{
-                if ((Model.UserType == CarpoolingCR.Utils.Enums.UserType.Conductor) || (Model.UserType == CarpoolingCR.Utils.Enums.UserType.Administrador))
-                {
-                    <hr />
-                    <div class="row form-group">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:center">
-                            <h3>Información del Vehículo</h3>
-                        </div>
+            else
+            {
+                <div class="row form-group" style="padding-left:10px">
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
                     </div>
+                    <div class="col-lg-4 col-md-4 col-sm-3 col-xs-12">
+                        <label class="control-label">Cédula</label>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-5 col-xs-12">
+                        @{
+                            var classStr = "";
 
-                    if (Model.Vehicle == null)
-                    {
-                        <div class="row form-group">
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:center">
-                                <small style="color:red">¡Información del vehículo requerida!"</small>
-                            </div>
-                        </div>
-                        <div class="row form-group">
-                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                <label class="control-label">Marca</label>
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                @Html.DropDownList("BrandId", (SelectList)ViewBag.BrandId.Items, htmlAttributes: new { @class = "form-control" })
-                            </div>
-                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-                            </div>
-                        </div>
-                        <div class="row form-group">
-                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                <label class="control-label">Modelo</label>
-                            </div>
-                            <div id="modelContainer" class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                <select id="Model" name="Model" class="form-control" disabled></select>
-                            </div>
-                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-                            </div>
-                        </div>
-                        <div class="row form-group">
-                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                <label class="control-label">Placa</label>
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                <input type="text" class="form-control" id="Plate" name="Plate" placeholder="Placa" />
-                            </div>
-                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-                            </div>
-                        </div>
-                        <div class="row form-group">
-                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                <label class="control-label">Color</label>
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                <input type="text" class="form-control" id="Color" name="Color" placeholder="Color" />
-                            </div>
-                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-                            </div>
-                        </div>
-                        <div class="row form-group">
-                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                <label class="control-label">Capacidad</label> <small>*** Incluido el conductor</small>
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                <input id="Capacity" name="Capacity" class="" style="width:40px;" onfocus="blur();">
-                            </div>
-                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-                            </div>
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="row form-group">
-                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                <label class="control-label">Marca</label>
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                <select class="form-control" id="BrandId" name="BrandId">
-                                    @{
-                                        foreach (var brand in ViewBag.BrandId.Items.Items)
-                                        {
-                                            if (brand.BrandId == Model.Vehicle.BrandId)
-                                            {
-                                                <option value="@brand.BrandId" selected>@brand.Name</option>
-                                            }
-                                            else
-                                            {
-                                                <option value="@brand.BrandId">@brand.Name</option>
-                                            }
-                                        }
-                                    }
-                                </select>
-                            </div>
-                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-                            </div>
-                        </div>
-                        <div class="row form-group">
-                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                <label class="control-label">Modelo</label>
-                            </div>
-                            <div id="modelContainer" class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                @{
-                                    if (ViewBag.ModelId != null)
+                            if (!Model.IsUserIdentificationVerified)
+                            {
+                                if (string.IsNullOrEmpty(Model.UserIdentification))
+                                {
+                                    classStr = "has-error";
+                                }
+                                else
+                                {
+                                    classStr = "has-warning";
+                                }
+                            }
+                        }
+                        <div class="input-group btn-block @classStr">
+                            @{
+                                if (Model.IsUserIdentificationVerified)
+                                {
+                                    @Html.TextBoxFor(m => m.UserIdentification, new { @class = "form-control", @placeholder = "Cédula", @readonly = "readonly", @style = "width:80%" })
+                                    <div id="user-identification-tooltip-button">
+                                        <button onclick="return false" class="btn btn-info pull-left" style="border-radius:0px 10px 10px 0px" aria-label="Help"><span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" title="¡Número de cédula verificado!"></span></button>
+                                    </div>
+                                }
+                                else
+                                {
+                                    if (string.IsNullOrEmpty(Model.UserIdentification))
                                     {
-                                        <select class="form-control" id="Model" name="Model">
-                                            @{ foreach (var mdl in ViewBag.ModelId.Items)
-                                                {
-                                                    if (mdl.ModelId == Model.Vehicle.ModelId)
-                                                    {
-                                                        <option value="@mdl.ModelId" selected>@mdl.Description</option>
-                                                    }
-                                                    else
-                                                    {
-                                                        <option value="@mdl.ModelId">@mdl.Description</option>
-                                                    }
-                                                }
-                                            }
-                                        </select>
+                                        @Html.TextBoxFor(m => m.UserIdentification, new { @class = "form-control", @placeholder = "Cédula", @style = "width:80%" })
+                                        <div id="user-identification-tooltip-button" class="form-group">
+                                            <button onclick="return false" class="btn btn-danger pull-left" style="border-radius:0px 10px 10px 0px" aria-label="Help"><span class="glyphicon glyphicon-alert" data-toggle="tooltip" title="¡El número de cédula debe ser provisto!"></span></button>
+                                        </div>
                                     }
                                     else
                                     {
-                                        <select class="form-control" id="Model" name="Model" disabled></select>
+                                        @Html.TextBoxFor(m => m.UserIdentification, new { @class = "form-control", @placeholder = "Cédula", @style = "width:80%" })
+                                        <div id="user-identification-tooltip-button">
+                                            <button onclick="return false" class="btn btn-warning pull-left" style="border-radius:0px 10px 10px 0px" aria-label="Help"><span class="glyphicon glyphicon-exclamation-sign" data-toggle="tooltip" title="¡El número de cédula se encuentra en período de verificación!"></span></button>
+                                        </div>
                                     }
                                 }
-                            </div>
-                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-                            </div>
+                            }
                         </div>
-                        <div class="row form-group">
-                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                <label class="control-label">Placa</label>
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                <input type="text" class="form-control" id="Plate" name="Plate" placeholder="Placa" value="@Model.Vehicle.Plate" />
-                            </div>
-                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-                            </div>
-                        </div>
-                        <div class="row form-group">
-                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                <label class="control-label">Color</label>
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                <input type="text" class="form-control" id="Color" name="Color" placeholder="Color" value="@Model.Vehicle.Color" />
-                            </div>
-                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-                            </div>
-                        </div>
-                        <div class="row form-group">
-                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                <label class="control-label">Capacidad</label> <small>*** Incluido el conductor</small>
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                <input id="Capacity" name="Capacity" class="" style="width:40px;" onfocus="blur();" value="@Model.Vehicle.Spaces">
-                            </div>
-                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
-                            </div>
-                        </div>
-                    }
-                }
-            }
-
-            <div class="row form-group">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <input type="submit" class="btn btn-info center-block" value="Actualizar" />
+                    </div>
+                    <div class="col-lg-4 col-md-2 col-sm-2 col-xs-0">
+                    </div>
                 </div>
+            }
+        }
+        <div class="row form-group" style="padding-left:10px">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-3 col-xs-12">
+                <label class="control-label">Nombre</label>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-5 col-xs-12">
+                @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @placeholder = "Nombre" })
+            </div>
+            <div class="col-lg-4 col-md-2 col-sm-2 col-xs-0">
             </div>
         </div>
+        <div class="row form-group" style="padding-left:10px">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-3 col-xs-12">
+                <label class="control-label">Primer Apellido</label>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-5 col-xs-12">
+                @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", @placeholder = "Primer Apellido" })
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+            </div>
+        </div>
+        <div class="row form-group" style="padding-left:10px">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-3 col-xs-12">
+                <label class="control-label">Segundo Apellido</label>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-5 col-xs-12">
+                @Html.TextBoxFor(m => m.SecondLastName, new { @class = "form-control", @placeholder = "Segundo Apellido" })
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+            </div>
+        </div>
+        <div id="mobile-container" style="padding-left:10px">
+            @{
+                if (!Model.IsPhoneVerified)
+                {
+                    <div class="panel panel-danger" style="padding:10px; border-radius:10px">
+                        <h5 class="text-danger"><b><u>Verifica tu número de celular</u></b></h5>
+                        <h6 style="text-align:justify" class="text-danger">
+                            Da click en el botón "Enviar código de verificación" para enviar un código de 6 dígitos por mensaje de texto a tu número celular provisto. Esto habilitará un campo de texto para ingresar dicho código, ingrésalo
+                            ahí y da click en el botón "Confirmar código de verificación"
+                        </h6>
+
+                        <div class="row form-group">
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-3 col-xs-12">
+                                <label class="control-label">Celular</label>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-5 col-xs-12">
+                                <div class="input-group btn-block has-error">
+                                    @Html.TextBoxFor(m => m.Phone1, new { @class = "form-control", @placeholder = "####-####", @style = "width:80%" })
+                                    <div id="information-type-tooltip-button">
+                                        <button onclick="return false" class="btn btn-danger pull-left" style="border-radius:0px 10px 10px 0px" aria-label="Help"><span class="glyphicon glyphicon-alert" data-toggle="tooltip" title="¡El número de celular debe ser verificado!"></span></button>
+                                    </div>
+                                </div>
+                                <div id="send-verification-code-container">
+                                    <br />
+                                    <input type="button" id="send-verification-code-btn" class="btn btn-info btn-sm" value="Enviar código de verificación" />
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                            </div>
+                        </div>
+                        <div id="verification-code-container" class="row form-group">
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-3 col-xs-12">
+                                <label class="control-label">Ingresa el código de Verificación</label>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-5 col-xs-12">
+                                <div class="input-group btn-block">
+                                    <input type="text" class="form-control" placeholder="######" style="border-radius:10px 10px 10px 10px" id="verificationCode" name="verificationCode" />
+                                    <br /><br /><br />
+                                    <input type="button" id="confirm-verification-code-btn" style="border-radius:10px 0px 0px 10px" class="btn btn-info btn-sm" value="Confirmar código de verificación" />
+                                    <button type="button" class="btn btn-info btn-sm" aria-label="Help" style="border-radius:0px 10px 10px 0px"><span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" title="¡Ingresa el código de verificación enviado a tu celular y da clic en 'Confirmar código de verificación'!"></span></button>
+                                    <b><span id="count-down" class="text-danger"></span></b><br />
+                                    <small id="count-down-detail" style="text-align:justify" class="text-danger"></small>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-2 col-sm-2 col-xs-0">
+
+                            </div>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="row form-group">
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-3 col-xs-12">
+                            <label class="control-label">Celular</label>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-5 col-xs-12">
+                            <div class="input-group btn-block">
+                                @Html.TextBoxFor(m => m.Phone1, new { @class = "form-control", @placeholder = "####-####", @style = "width:80%" })
+                                <div id="information-type-tooltip-button">
+                                    <button onclick="return false" class="btn btn-info pull-left" style="border-radius:0px 10px 10px 0px" aria-label="Help"><span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" title="¡Número de celular verificado!"></span></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+        <div class="row form-group" style="padding-left:10px">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-3 col-xs-12">
+                <label class="control-label">Teléfono</label>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-5 col-xs-12">
+                @Html.TextBoxFor(m => m.Phone2, new { @class = "form-control", @placeholder = "####-####" })
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+            </div>
+        </div>
+        <div class="row form-group" style="padding-left:10px">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-3 col-xs-12">
+                <label class="control-label">Tipo de Usuario</label>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-5 col-xs-12">
+                @Html.TextBoxFor(m => m.UserType, new { @class = "form-control", @placeholder = "Tipo de Usuario", @disabled = "disabled" })
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+            </div>
+        </div>
+        <div class="row form-group" style="padding-left:10px">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-3 col-xs-12">
+                <label class="control-label">Estado</label>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-5 col-xs-12">
+                @Html.TextBoxFor(m => m.Status, new { @class = "form-control", @placeholder = "Estado", @disabled = "disabled" })
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+            </div>
+        </div>
+        <div class="row form-group" style="padding-left:10px">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-3 col-xs-12">
+                <label class="control-label">¿Correo Confirmado?</label>
+                @{
+                    if (Model.EmailConfirmed)
+                    {
+                        <input type="checkbox" class="disabled" onclick="return false;" checked />
+                    }
+                    else
+                    {
+                        <input type="checkbox" class="disabled" onclick="return false;" />
+                    }
+                }
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-5 col-xs-12">
+
+            </div>
+        </div>
+        @{
+            if ((Model.UserType == CarpoolingCR.Utils.Enums.UserType.Conductor) || (Model.UserType == CarpoolingCR.Utils.Enums.UserType.Administrador))
+            {
+                <hr />
+                <div class="row form-group">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:center">
+                        <h3>Información del Vehículo</h3>
+                    </div>
+                </div>
+
+                if (Model.Vehicle == null)
+                {
+                    <div class="row form-group">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:center">
+                            <small style="color:red">¡Información del vehículo requerida!"</small>
+                        </div>
+                    </div>
+                    <div class="row form-group" style="padding-left:10px">
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-3 col-xs-12">
+                            <label class="control-label">Marca</label>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-5 col-xs-12">
+                            @Html.DropDownList("BrandId", (SelectList)ViewBag.BrandId.Items, htmlAttributes: new { @class = "form-control" })
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                        </div>
+                    </div>
+                    <div class="row form-group" style="padding-left:10px">
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-3 col-xs-12">
+                            <label class="control-label">Modelo</label>
+                        </div>
+                        <div id="modelContainer" class="col-lg-5 col-md-4 col-sm-4 col-xs-12">
+                            <select id="Model" name="Model" class="form-control" disabled></select>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                        </div>
+                    </div>
+                    <div class="row form-group" style="padding-left:10px">
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-3 col-xs-12">
+                            <label class="control-label">Placa</label>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-5 col-xs-12">
+                            <input type="text" class="form-control" id="Plate" name="Plate" placeholder="Placa" />
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                        </div>
+                    </div>
+                    <div class="row form-group" style="padding-left:10px">
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-3 col-xs-12">
+                            <label class="control-label">Color</label>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            <input type="text" class="form-control" id="Color" name="Color" placeholder="Color" />
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                        </div>
+                    </div>
+                    <div class="row form-group" style="padding-left:10px">
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-3 col-xs-12">
+                            <label class="control-label">Capacidad</label> <small>*** Incluido el conductor</small>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-5 col-xs-12">
+                            <input id="Capacity" name="Capacity" class="" style="width:40px;" onfocus="blur();">
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="row form-group" style="padding-left:10px">
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-3 col-xs-12">
+                            <label class="control-label">Marca</label>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-5 col-xs-12">
+                            <select class="form-control" id="BrandId" name="BrandId">
+                                @{
+                                    foreach (var brand in ViewBag.BrandId.Items.Items)
+                                    {
+                                        if (brand.BrandId == Model.Vehicle.BrandId)
+                                        {
+                                            <option value="@brand.BrandId" selected>@brand.Name</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@brand.BrandId">@brand.Name</option>
+                                        }
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                        </div>
+                    </div>
+                    <div class="row form-group" style="padding-left:10px">
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-3 col-xs-12">
+                            <label class="control-label">Modelo</label>
+                        </div>
+                        <div id="modelContainer" class="col-lg-4 col-md-4 col-sm-5 col-xs-12">
+                            @{
+                                if (ViewBag.ModelId != null)
+                                {
+                                    <select class="form-control" id="Model" name="Model">
+                                        @{ foreach (var mdl in ViewBag.ModelId.Items)
+                                            {
+                                                if (mdl.ModelId == Model.Vehicle.ModelId)
+                                                {
+                                                    <option value="@mdl.ModelId" selected>@mdl.Description</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@mdl.ModelId">@mdl.Description</option>
+                                                }
+                                            }
+                                        }
+                                    </select>
+                                }
+                                else
+                                {
+                                    <select class="form-control" id="Model" name="Model" disabled></select>
+                                }
+                            }
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                        </div>
+                    </div>
+                    <div class="row form-group" style="padding-left:10px">
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-3 col-xs-12">
+                            <label class="control-label">Placa</label>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-5 col-xs-12">
+                            <input type="text" class="form-control" id="Plate" name="Plate" placeholder="Placa" value="@Model.Vehicle.Plate" />
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                        </div>
+                    </div>
+                    <div class="row form-group" style="padding-left:10px">
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-3 col-xs-12">
+                            <label class="control-label">Color</label>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-5 col-xs-12">
+                            <input type="text" class="form-control" id="Color" name="Color" placeholder="Color" value="@Model.Vehicle.Color" />
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                        </div>
+                    </div>
+                    <div class="row form-group" style="padding-left:10px">
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-3 col-xs-12">
+                            <label class="control-label">Capacidad</label> <small>*** Incluido el conductor</small>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-5 col-xs-12">
+                            <input id="Capacity" name="Capacity" class="" style="width:40px;" onfocus="blur();" value="@Model.Vehicle.Spaces">
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+                        </div>
+                    </div>
+                }
+            }
+        }
+
+        <div class="row form-group">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <input type="submit" class="btn btn-info center-block" value="Actualizar" />
+            </div>
+        </div>
+    </div>
 </form>
 
 <script>
+    var maxWaitingSMSTime = @Model.WaitingTimeToResendSMS;
+
+    $('#count-down').slideUp(1);
+    $('#count-down-detail').slideUp(1);
     $('#verification-code-container').slideUp(1);
     $('#send-verification-code-btn').click(function () {
         SendVerificationCode();
@@ -616,6 +606,19 @@
 
     $(document).ready(function () {
         SetRandomImage();
+
+        var lastPhoneModification = new Date($('#last-phone-verification-time').val());
+        var currentTime = Date.now();
+        var remainingSecs = Math.abs((lastPhoneModification - currentTime) / 1000);
+
+        if (remainingSecs < maxWaitingSMSTime) {
+            remainingSecs = maxWaitingSMSTime - remainingSecs;
+
+            $('#send-verification-code-container').slideUp();
+            $('#verification-code-container').slideDown();
+
+            CountDownForSMSCodeVerification(remainingSecs);
+        }
 
         @{
             var spacesValue = 1;
@@ -693,6 +696,8 @@
 
                     $('#send-verification-code-container').slideUp();
                     $('#verification-code-container').slideDown();
+
+                    CountDownForSMSCodeVerification(maxWaitingSMSTime);
                 } else {
                     DisplayGrowlMessage(data, 'error');
                 }
@@ -750,6 +755,35 @@
                     DisplayGrowlMessage('100047', 'warn');
                 }
             });
+    }
+
+    function CountDownForSMSCodeVerification(timeleft) {
+        var downloadTimer = setInterval(function () {
+            var minutes = Math.floor(timeleft / 60);
+            var seconds = Math.round(timeleft - minutes * 60);
+
+            if (seconds < 10) {
+                seconds = '0' + seconds;
+            }
+
+            $('#count-down').slideDown();
+            $('#count-down-detail').slideDown(1000);
+
+            document.getElementById("count-down").innerHTML = '¡Espera mientras tu SMS llega! ' + minutes + ":" + seconds;
+            document.getElementById("count-down-detail").innerHTML = '¡Si tu mensaje no llega en ' + (maxWaitingSMSTime/60) + ' minutos, te permitiremos reenviarlo!';
+
+            timeleft -= 1;
+
+            if (timeleft <= 0) {
+                clearInterval(downloadTimer);
+
+                document.getElementById("count-down").innerHTML = '';
+                document.getElementById("count-down-detail").innerHTML = '';
+
+                $('#send-verification-code-container').slideDown();
+                $('#verification-code-container').slideUp();
+            }
+        }, 1000);
     }
 
     $('#Phone1').mask('0000-0000');

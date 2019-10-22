@@ -67,6 +67,24 @@
             else
             {
                 var index = 1;
+                var claims = (System.Security.Claims.ClaimsIdentity)User.Identity;
+                var value = string.Empty;
+                var obj = claims.FindFirst("CurrencyChar");
+                var currency = string.Empty;
+                var country = string.Empty;
+
+                if (obj != null)
+                {
+                    currency = obj.Value;
+                }
+
+                obj = claims.FindFirst("CountryCode");
+
+                if (obj != null)
+                {
+                    country = obj.Value;
+                }
+
                 foreach (var trip in Model.Trips)
                 {
                     var from = trip.FromTown.FullName;
@@ -77,6 +95,7 @@
                     var background = (evenOdd == 0) ? "azure" : "white";
 
                     index++;
+
                     <li>
                         <div class="panel panel-default" style="border-radius:10px; padding-top: 20px">
                             <div class="row form-group" style="padding-left:20px; padding-right:20px">
@@ -101,7 +120,7 @@
                                         <b><span class="fas fa-road">&nbsp;</span>Distancia: </b><small class="route">@trip.AproxDistance km</small><br />
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                        <small class="price"><b><span class="fas fa-money-bill-alt">&nbsp;</span>Cuota: </b> ₡ @trip.Price</small><br />
+                                        <small class="price"><b><span class="fas fa-money-bill-alt">&nbsp;</span>Cuota: </b> @currency @trip.Price</small><br />
                                         <small class="spaces"><b><span class="fas fa-car-side">&nbsp;</span>Espacios: </b>  @trip.AvailableSpaces</small><br />
                                     </div>
                                 </div>
@@ -123,7 +142,7 @@
                                             <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11">
                                                 @*<hr />*@
                                                 <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6" style="padding:0px">
-                                                    <div id="profile-container-small" class="" data-toggle="tooltip" title="@reservation.PassengerName">
+                                                    <div id="profile-container-small" class="" data-toggle="tooltip" title="Pasajero">
                                                         <img id="profileImage" src="@Url.Content(reservation.ApplicationUser.Picture)" /><br />
                                                     </div>
                                                 </div>
@@ -179,23 +198,14 @@
                                                         <br />
                                                         if (reservation.Status == CarpoolingCR.Utils.Enums.ReservationStatus.Accepted)
                                                         {
-                                                            var claims = (System.Security.Claims.ClaimsIdentity)User.Identity;
-                                                            var value = string.Empty;
-                                                            var obj = claims.FindFirst("CountryCode");
-
-                                                            if (obj != null)
-                                                            {
-                                                                value = obj.Value;
-                                                            }
-
                                                             <small class="driver inline-block ">
-                                                                <span class="fas fa-phone-alt">&nbsp;</span><a href="tel: @value @reservation.ApplicationUser.Phone1" style="color:blue"> @value @reservation.ApplicationUser.Phone1 </a>
+                                                                <span class="fas fa-phone-alt">&nbsp;</span><a href="tel: @country @reservation.ApplicationUser.Phone1" style="color:blue"> @country @reservation.ApplicationUser.Phone1 </a>
 
                                                                 @if (!string.IsNullOrEmpty(reservation.ApplicationUser.Phone2))
                                                                 {
                                                                     <br />
                                                                     <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                                                    <a href="tel: @value @reservation.ApplicationUser.Phone2" style="color:blue"> @value @reservation.ApplicationUser.Phone2 </a>
+                                                                    <a href="tel: @country @reservation.ApplicationUser.Phone2" style="color:blue"> @country @reservation.ApplicationUser.Phone2 </a>
                                                                 }
                                                             </small><br />
                                                         }
@@ -209,11 +219,11 @@
 
                                                         if (reservation.Status == CarpoolingCR.Utils.Enums.ReservationStatus.Accepted)
                                                         {
-                                                            <small class="total"><b><span class="fas fa-money-bill-alt">&nbsp;</span>Total: ₡ @reservation.SelectedSeatsTotalPrice.ToString("N2")</b><br /></small>
+                                                            <small class="total"><b><span class="fas fa-money-bill-alt">&nbsp;</span>Total: @currency @reservation.SelectedSeatsTotalPrice.ToString("N2")</b><br /></small>
                                                         }
                                                         else
                                                         {
-                                                            <small class="total"><b><span class="fas fa-money-bill-alt">&nbsp;</span>Total: </b> ₡ @reservation.SelectedSeatsTotalPrice.ToString("N2")<br /></small>
+                                                            <small class="total"><b><span class="fas fa-money-bill-alt">&nbsp;</span>Total: </b> @currency @reservation.SelectedSeatsTotalPrice.ToString("N2")<br /></small>
                                                         }
 
                                                         var spacesSelected = reservation.SpacesSelected.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
@@ -269,7 +279,7 @@
 
                                     <div class="row">
                                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                            <small class="incomes pull-right bg-info" style="border-radius:10px 10px 10px 10px; width:150px; padding:5px"><b>Ganancias: ₡ @totalAmount.ToString("N2")</b><br /></small>
+                                            <small class="incomes pull-right bg-info" style="border-radius:10px 10px 10px 10px; width:150px; padding:5px"><b>Ganancias: @currency @totalAmount.ToString("N2")</b><br /></small>
                                         </div>
                                     </div>
                                 }

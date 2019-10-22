@@ -89,7 +89,7 @@ namespace CarpoolingCR.Controllers
 
                 if (user.UserType != UserType.Pasajero)
                 {
-                    Common.FinalizeExpiredTrips(user.Id);
+                    Common.FinalizeExpiredTrips(user);
                 }
 
                 if (user.UserType == UserType.Administrador)
@@ -207,7 +207,7 @@ namespace CarpoolingCR.Controllers
 
                 if (user.UserType != UserType.Pasajero)
                 {
-                    Common.FinalizeExpiredTrips(user.Id);
+                    Common.FinalizeExpiredTrips(user);
                 }
 
                 passengerReservations = db.Reservations.Where(x => x.ApplicationUser.Email == User.Identity.Name && (x.Status == ReservationStatus.Accepted || x.Status == ReservationStatus.Pending))
@@ -489,7 +489,7 @@ namespace CarpoolingCR.Controllers
 
                 if (user.UserType != UserType.Pasajero)
                 {
-                    Common.FinalizeExpiredTrips(user.Id);
+                    Common.FinalizeExpiredTrips(user);
                 }
 
                 passengerReservations = db.Reservations.Where(x => x.ApplicationUser.Email == User.Identity.Name && (x.Status == ReservationStatus.Accepted || x.Status == ReservationStatus.Pending))

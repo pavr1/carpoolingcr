@@ -908,7 +908,6 @@
     <Content Include="Views\NotificationRequests\Edit.cshtml" />
     <Content Include="Views\NotificationRequests\Index.cshtml" />
     <Content Include="Views\NotificationRequests\Partials\p_Index.cshtml" />
-    <Content Include="Views\UserRols\PhoneNumberNotVerified.cshtml" />
     <Content Include="Views\Account\GetPendingUserIdentifications.cshtml" />
     <Content Include="Views\Account\Partials\p_PendingUserIdentifications.cshtml" />
     <Content Include="Views\Reservations\CarSeats\CarSeats.cshtml" />

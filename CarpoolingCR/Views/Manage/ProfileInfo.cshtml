@@ -690,8 +690,8 @@
     function SendVerificationCode() {
         $.post('@Url.Action("SendMobileVerificationCode", "Manage")', { unneededParam: ''},
             function (data) {
-                ////¡Código de verificación enviado!
-                if (data == '100042') {
+                //¡Código de verificación enviado!
+                if (data == '100075') {
                     DisplayGrowlMessage(data, 'success');
 
                     $('#send-verification-code-container').slideUp();
@@ -738,7 +738,7 @@
                     mobileHtml += "</div>";
                     mobileHtml += "<div class=\"col-lg-4 col-md-4 col-sm-4 col-xs-12\">";
                     mobileHtml += "<div class=\"input-group btn-block\">";
-                    mobileHtml += "<input class=\"form-control\" id=\"UserIdentification\" name=\"UserIdentification\" placeholder=\"Cédula\" type=\"text\" style=\"width:80%\" value=\"@Model.UserIdentification\">";
+                    mobileHtml += "<input class=\"form-control\" id=\"Phone1\" name=\"Phone1\" placeholder=\"Cédula\" type=\"text\" style=\"width:80%\" value=\"@Model.Phone1\">";
                     mobileHtml += "<div id=\"information-type-tooltip-button\">";
                     mobileHtml += "<button onclick=\"return false\" class=\"btn btn-info pull-left\" style=\"border-radius: 0px 10px 10px 0px\" aria-label=\"Help\"><span class=\"glyphicon glyphicon-info-sign\" data-toggle=\"tooltip\" title=\"¡Número de celular verificado!\"></span></button>";
                     mobileHtml += "</div>";
@@ -769,16 +769,26 @@
             $('#count-down').slideDown();
             $('#count-down-detail').slideDown(1000);
 
-            document.getElementById("count-down").innerHTML = '¡Espera mientras tu SMS llega! ' + minutes + ":" + seconds;
-            document.getElementById("count-down-detail").innerHTML = '¡Si tu mensaje no llega en ' + (maxWaitingSMSTime/60) + ' minutos, te permitiremos reenviarlo!';
+            if (document.getElementById("count-down") != null) {
+                document.getElementById("count-down").innerHTML = '¡Espera mientras tu SMS llega! ' + minutes + ":" + seconds;
+            }
+
+            if (document.getElementById("count-down-detail") != null) {
+                document.getElementById("count-down-detail").innerHTML = '¡Si tu mensaje no llega en ' + (maxWaitingSMSTime / 60) + ' minutos, podás volverlo a enviar!';
+            }
 
             timeleft -= 1;
 
             if (timeleft <= 0) {
                 clearInterval(downloadTimer);
 
-                document.getElementById("count-down").innerHTML = '';
-                document.getElementById("count-down-detail").innerHTML = '';
+                if (document.getElementById("count-down") != null) {
+                    document.getElementById("count-down").innerHTML = '';
+                }
+
+                if (document.getElementById("count-down-detail") != null) {
+                    document.getElementById("count-down-detail").innerHTML = '';
+                }
 
                 $('#send-verification-code-container').slideDown();
                 $('#verification-code-container').slideUp();

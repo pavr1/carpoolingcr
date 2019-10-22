@@ -155,7 +155,7 @@ namespace CarpoolingCR.Controllers
                     db.Entry(user).State = System.Data.Entity.EntityState.Modified;
                     db.SaveChanges();
 
-                    var msg = SMSHandler.SendSMS(user, "Código de Verificación: " + user.MobileVerficationNumber + ". ¡Hagamos Ride!", "https://bit.ly/31q1t6o", logo, out t);
+                    var msg = SMSHandler.SendSMS(user, "Código de Verificación: " + user.MobileVerficationNumber + ". ¡Hagamos Ride!", "www.buscoridecr.com", logo, out t);
 
                     return msg;
                 }
@@ -424,6 +424,12 @@ namespace CarpoolingCR.Controllers
                     user.Name = Request["Name"];
                     user.LastName = Request["LastName"];
                     user.SecondLastName = Request["SecondLastName"];
+
+                    if (user.Phone1 != Request["Phone1"])
+                    {
+                        user.IsPhoneVerified = false;
+                    }
+
                     user.Phone1 = Request["Phone1"];
                     user.Phone2 = Request["Phone2"];
 

@@ -359,16 +359,28 @@ namespace CarpoolingCR.Utils
             return control;
         }
 
-        public static void FinalizeExpiredTrips(string userId)
+        public static void FinalizeExpiredTrips(ApplicationUser user)
         {
             using (var db = new ApplicationDbContext())
             {
                 var currentUTCTime = ConvertToUTCTime(DateTime.Now.ToLocalTime());
-                var currentExpiredTrips = db.Trips
-                    .Where(x => x.ApplicationUserId == userId)
-                    .Where(x => x.DateTime < currentUTCTime)
-                    .Where(x => x.Status != Status.Finalizado)
-                    .ToList();
+                List<Trip> currentExpiredTrips = new List<Trip>();
+
+                if (user.UserType == UserType.Administrador)
+                {
+                    currentExpiredTrips = db.Trips
+                        .Where(x => x.DateTime < currentUTCTime)
+                        .Where(x => x.Status != Status.Finalizado)
+                        .ToList();
+                }
+                else
+                {
+                    currentExpiredTrips = db.Trips
+                        .Where(x => x.ApplicationUserId == user.Id)
+                        .Where(x => x.DateTime < currentUTCTime)
+                        .Where(x => x.Status != Status.Finalizado)
+                        .ToList();
+                }
 
                 foreach (var expiredTrip in currentExpiredTrips)
                 {
@@ -452,7 +464,7 @@ namespace CarpoolingCR.Utils
                     reservations = db.Reservations.Where(x => x.ApplicationUserId == userId && (x.Status == Enums.ReservationStatus.Accepted || x.Status == Enums.ReservationStatus.Pending || x.Status == Enums.ReservationStatus.Rejected)).Count();
                     notifications = db.NotificationRequests.Where(x => x.UserId == userId && (x.Status == CarpoolingCR.Utils.Enums.RequestNotificationStatus.Active)).Count();
                 }
-                
+
                 var Identity = HttpContext.Current.User.Identity as ClaimsIdentity;
                 Identity.RemoveClaim(Identity.FindFirst("Name"));
                 Identity.AddClaim(new Claim("Name", user.Name));

@@ -40,7 +40,7 @@ namespace CarpoolingCR.Controllers
                 }
 
                 //sets expired trips' status "Finalizado"
-                Common.FinalizeExpiredTrips(user.Id);
+                Common.FinalizeExpiredTrips(user);
 
                 var maxTripsPerUser = Convert.ToInt32(WebConfigurationManager.AppSettings["MaxTripsPerUser"]);
                 var currentTrips = db.Trips.Where(x => x.ApplicationUserId == user.Id)
@@ -952,7 +952,7 @@ namespace CarpoolingCR.Controllers
 
                 var user = Common.GetUserByEmail(User.Identity.Name);
 
-                Common.FinalizeExpiredTrips(user.Id);
+                Common.FinalizeExpiredTrips(user);
 
                 List<Trip> trips = new List<Trip>();
 
@@ -967,6 +967,8 @@ namespace CarpoolingCR.Controllers
                     .Where(x => x.Status == Status.Finalizado)
                     .ToList();
                 }
+
+                trips.Sort((x, y) => DateTime.Compare(y.LocalDateTime, x.LocalDateTime));
 
                 foreach (var trip in trips)
                 {

@@ -114,11 +114,6 @@ namespace CarpoolingCR.Controllers
                 {
                     return ValidateUserRol();
                 }
-
-                if (!user.IsPhoneVerified)
-                {
-                    return RedirectToAction("PhoneNumberNotVerified", "UserRols");
-                }
             }
             else
             {
@@ -144,11 +139,6 @@ namespace CarpoolingCR.Controllers
                 {
                     return ValidateUserRol();
                 }
-
-                if (!user.IsPhoneVerified)
-                {
-                    return RedirectToAction("PhoneNumberNotVerified", "UserRols");
-                }
             }
             else
             {
@@ -172,11 +162,6 @@ namespace CarpoolingCR.Controllers
                 if (user.UserType != Enums.UserType.Pasajero)
                 {
                     return ValidateUserRol();
-                }
-
-                if (!user.IsPhoneVerified)
-                {
-                    return RedirectToAction("PhoneNumberNotVerified", "UserRols");
                 }
             }
             else

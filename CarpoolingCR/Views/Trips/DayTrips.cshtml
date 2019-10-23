@@ -55,102 +55,117 @@
                     </div>
                     <div class="modal-body">
                         <div class="row form-group">
-                            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                                <div class="row form-group">
-                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                        <div id="profile-container-small" data-toggle="tooltip" style="margin-right:10px" title="Conductor">
-                                            <img id="driver-img" />
-                                        </div>
-                                        <small id="modelDriver"></small><br /><br />
-                                    </div>
-                                    <div class="row form-group" style="padding-left:20px; padding-right:20px">
-                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                            <span class="fas fa-calendar-alt"></span><small> <b><small id="modelDate"></small></b></small><br />
-                                            <input type="text" id="ReservationDate" name="ReservationDate" class="hidden" />
+                            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                                <span class="fas fa-calendar-alt"></span><small> <b><small id="modelDate"></small></b></small><br />
+                                <input type="text" id="ReservationDate" name="ReservationDate" class="hidden" />
 
-                                            <span class="fas fa-clock"></span>&nbsp;<small id="fromTime"></small>&nbsp;&nbsp;<br class="visible-xs" /><span class="fas fa-map-marker-alt">&nbsp;</span><small id="modelFrom"></small><br />
-                                            <span class="fas fa-clock"></span>&nbsp;<small id="toTime"></small>&nbsp;&nbsp;<br class="visible-xs" /><span class="fas fa-map-marker-alt">&nbsp;</span><small id="modelTo"></small><br />
-                                        </div>
-                                    </div>
-                                    <div class="row form-group" style="padding-left:20px; padding-right:0px">
-                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                            <small><b><span class="fas fa-route">&nbsp;</span>Ruta: </b></small><small id="modelRoute"></small><br />
-                                            <small><b><span class="fas fa-road">&nbsp;</span>Distancia: </b></small><small id="modelDistance"></small><br />
-                                            <small><b><span class="fas fa-money-bill-alt">&nbsp;</span>Cuota: </b></small><small id="modelPrice"></small><br />
-                                        </div>
-                                    </div>
-                                    <div class="row form-group" style="padding-left:20px; padding-right:0px">
-                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                            <small class="price"><b><span class="fas fa-money-bill-alt">&nbsp;</span>Total: </b> <small>@currency</small><small id="modelTotal"></small></small><br />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row form-group">
-                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                        <div id="already-reserved-message">
-
-                                        </div>
-                                    </div>
-                                </div>
+                                <span class="fas fa-clock"></span>&nbsp;<small id="fromTime"></small>&nbsp;&nbsp;<br class="visible-xs" /><span class="fas fa-map-marker-alt">&nbsp;</span><small id="modelFrom"></small><br />
+                                <span class="fas fa-clock"></span>&nbsp;<small id="toTime"></small>&nbsp;&nbsp;<br class="visible-xs" /><span class="fas fa-map-marker-alt">&nbsp;</span><small id="modelTo"></small><br />
                             </div>
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" style="height:330px">
-                                <table border="0" style="padding:0px;margin:0px;position:relative; top:-70px; left:-10px">
-                                    <tr style="height:50px">
-                                        <td colspan="3" style="height:50px">
-                                            <div style="height: 15px;width: 40px;background-color: yellow;border-radius: 50%;position:relative; top:75px; left:20px; z-index:10; -ms-transform: rotate(-20deg); -webkit-transform: rotate(-20deg); transform: rotate(-20deg);"></div>
-                                            <div style="height: 15px;width: 40px;background-color: yellow;border-radius: 50%;position:relative; top:60px; left:123px; z-index:10; -ms-transform: rotate(20deg); -webkit-transform: rotate(20deg); transform: rotate(20deg);"></div>
-                                            <div style="border-radius:50px 50px 0px 0px; background-color:#004a93; width:100%; height:100px;position:relative;top:37px; left:0px;"></div>
-                                            <div class="center-block" style="border-radius:50px 50px 0px 0px; background-color:gainsboro; width:100%; height:35px;position:relative; width:90%"></div>
-                                        </td>
-                                    </tr>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                <div id="profile-container-small" data-toggle="tooltip" style="margin-right:15px" title="Conductor" class="pull-right">
+                                    <img id="driver-img" />
+                                </div><br /><br /><br />
+                                <small id="modelDriver" class="pull-right"></small><br />
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                <small><b><span class="fas fa-route">&nbsp;</span>Ruta: </b></small><small id="modelRoute"></small><br />
+                                <small><b><span class="fas fa-road">&nbsp;</span>Distancia: </b></small><small id="modelDistance"></small><br />
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                <small><b><span class="fas fa-money-bill-alt">&nbsp;</span>Cuota: </b></small><small id="modelPrice"></small><br />
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <span class="fas fa-dog">&nbsp;</span><small>Mascotas&nbsp;</small><input type="checkbox" id="ck-pet-modal" name="ck-pet-modal" onclick="return false" class="form-check" />
+                                <span class="fas fa-suitcase-rolling">&nbsp;</span><small>Equipaje&nbsp;</small><input type="checkbox" id="ck-luggage-modal" name="ck-luggage-modal" onclick="return false" class="form-check" />
+                                <span class="fas fa-smoking">&nbsp;</span><small>Fumado&nbsp;</small><input type="checkbox" id="ck-smoking-modal" name="ck-smoking-modal" onclick="return false" class="form-check" />
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <hr />
+                                <small><b>¡Selecciona tus asientos! </b></small>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:center">
+                                <table style="width:100%">
                                     <tr>
-                                        <td style="background-color:#004a93">
-                                            <div class="seat" style="padding-left:10px; padding-right:0px">
-                                                <input type="checkbox" disabled id="driver-seat" />
-                                                <label for="driver-seat">Conductor</label>
-                                            </div>
-                                        </td>
-                                        <td style="background-color:#004a93"></td>
-                                        <td style="background-color:#004a93">
-                                            <div class="seat" style="padding-left:0px; padding-right:10px">
-                                                <input type="checkbox" id="copilot-seat" class="seats" />
-                                                <label for="copilot-seat" style="color:darkblue"><small>@currency</small><small id="modelPriceCopilot"></small></label>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="background-color:#004a93">
-                                            <div class="seat" style="padding-left:10px; padding-right:0px">
-                                                <input type="checkbox" id="back-left-seat" class="seats" />
-                                                <label for="back-left-seat" style="color:darkblue"><small>@currency</small><small id="modelPriceLeft"></small></label>
-                                            </div>
-                                        </td>
-                                        <td style="background-color:#004a93">
-                                            <div class="seat" style="padding-left:0px; padding-right:0px">
-                                                <input type="checkbox" id="back-middle-seat" class="seats" />
-                                                <label for="back-middle-seat" style="color:darkblue"><small>@currency</small><small id="modelPriceMiddle"></small></label>
-                                            </div>
-                                        </td>
-                                        <td style="background-color:#004a93">
-                                            <div class="seat" style="padding-left:0px; padding-right:10px">
-                                                <input type="checkbox" id="back-right-seat" class="seats" />
-                                                <label for="back-right-seat" style="color:darkblue"><small>@currency</small><small id="modelPriceRight"></small></label>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="3">
-                                            <div class="center-block" style="border-radius:0px 0px 25px 25px; background-color:#004a93; width:100%; height:60px;"></div>
-                                            <div class="center-block" style="border-radius:0px 0px 50px 50px; background-color:gainsboro; width:90%; height:20px;position:relative;top:-60px; left:0px;"></div>
+                                        <td>
+                                            <table border="0" style="padding:0px;margin:0px;position:relative;text-align:center;display:inline; top:-40px">
+                                                <tr style="height:30px">
+                                                    <td colspan="3" style="height:30px">
+                                                        <div style="height: 15px;width: 40px;background-color: yellow;border-radius: 50%;position:relative; top:75px; left:20px; z-index:10; -ms-transform: rotate(-20deg); -webkit-transform: rotate(-20deg); transform: rotate(-20deg);"></div>
+                                                        <div style="height: 15px;width: 40px;background-color: yellow;border-radius: 50%;position:relative; top:60px; left:123px; z-index:10; -ms-transform: rotate(20deg); -webkit-transform: rotate(20deg); transform: rotate(20deg);"></div>
+                                                        <div style="border-radius:50px 50px 0px 0px; background-color:#004a93; width:100%; height:100px;position:relative;top:37px; left:0px;"></div>
+                                                        <div class="center-block" style="border-radius:50px 50px 0px 0px; background-color:gainsboro; width:100%; height:35px;position:relative; width:90%"></div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="background-color:#004a93">
+                                                        <div class="seat" style="padding-left:10px; padding-right:0px">
+                                                            <input type="checkbox" disabled id="driver-seat" />
+                                                            <label for="driver-seat">Conductor</label>
+                                                        </div>
+                                                    </td>
+                                                    <td style="background-color:#004a93"></td>
+                                                    <td style="background-color:#004a93">
+                                                        <div class="seat" style="padding-left:0px; padding-right:10px">
+                                                            <input type="checkbox" id="copilot-seat" class="seats" />
+                                                            <label for="copilot-seat" style="color:darkblue"><small>@currency</small><small id="modelPriceCopilot"></small></label>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="background-color:#004a93">
+                                                        <div class="seat" style="padding-left:10px; padding-right:0px">
+                                                            <input type="checkbox" id="back-left-seat" class="seats" />
+                                                            <label for="back-left-seat" style="color:darkblue"><small>@currency</small><small id="modelPriceLeft"></small></label>
+                                                        </div>
+                                                    </td>
+                                                    <td style="background-color:#004a93">
+                                                        <div class="seat" style="padding-left:0px; padding-right:0px">
+                                                            <input type="checkbox" id="back-middle-seat" class="seats" />
+                                                            <label for="back-middle-seat" style="color:darkblue"><small>@currency</small><small id="modelPriceMiddle"></small></label>
+                                                        </div>
+                                                    </td>
+                                                    <td style="background-color:#004a93">
+                                                        <div class="seat" style="padding-left:0px; padding-right:10px">
+                                                            <input type="checkbox" id="back-right-seat" class="seats" />
+                                                            <label for="back-right-seat" style="color:darkblue"><small>@currency</small><small id="modelPriceRight"></small></label>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="3">
+                                                        <div class="center-block" style="border-radius:0px 0px 25px 25px; background-color:#004a93; width:100%; height:60px;"></div>
+                                                        <div class="center-block" style="border-radius:0px 0px 50px 50px; background-color:gainsboro; width:90%; height:20px;position:relative;top:-60px; left:0px;"></div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+
                                         </td>
                                     </tr>
                                 </table>
                             </div>
                         </div>
-                        <div id="btnsContainer" class="modal-footer" style="top:-50px; padding-top:5px; padding-left:0px; padding-right:0px">
-                            <input type="button" onclick="OpenMessageModel()" class="btn btn-default pull-left" value="&#9993;" />
-                            <input type="button" class="btn btn-default btn-sm" data-dismiss="modal" value="Cancelar" />
-                            <input id="btnSubmitReservations" type="button" onclick="SubmitForm();" style="width:150px" class="btn btn-info btn-sm" value="Solicitar Reserva" />
+                        <div class="row form-group pull-right">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <small class="incomes pull-right bg-info" style="border-radius:10px 10px 10px 10px; width:150px; padding:5px"><b>Total: </b> @currency <span id="modelTotal"></span></small>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div id="btnsContainer" class="modal-footer" style="top:-50px; padding-top:5px; padding-left:0px; padding-right:0px">
+                                    <input type="button" onclick="OpenMessageModel()" class="btn btn-default pull-left" value="&#9993;" />
+                                    <input type="button" class="btn btn-default btn-sm" data-dismiss="modal" value="Cancelar" />
+                                    <input id="btnSubmitReservations" type="button" onclick="SubmitForm();" style="width:150px" class="btn btn-info btn-sm" value="Solicitar Reserva" />
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -160,35 +175,36 @@
 </div>
 
 <div class="modal fade" id="tripQuestionsModal" tabindex="-1" role="dialog" aria-labelledby="tripQuestionsModalLabel" aria-hidden="true">
-    @*<form action="~/Reservations/Create" method="post">*@
-    @Html.AntiForgeryToken()
-    <div class="vertical-alignment-helper">
-        <div class="modal-dialog vertical-align-center">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <input type="text" id="MsgDriverId" name="MsgDriverId" class="hidden" />
-                    <input type="text" id="MsgPassengerId" name="DriverId" class="hidden" value="@Model.CurrentUserId" />
-                    <button type="button" class="close" data-dismiss="modal">
-                        <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
-                    </button>
-                    <h4 class="modal-title" id="dayTripModalLabel">Mensajes</h4>
-                    <small>¿Alguna duda? ¡Contácta al conductor!</small>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <textarea class="form-control" id="Message" name="Message" style="height:200px; min-width:100%"></textarea>
+    @*<form action="~/Reservations/Create" method="post">*@<form action="~/Reservations/Create" method="post">
+        @Html.AntiForgeryToken()
+        <div class="vertical-alignment-helper">
+            <div class="modal-dialog vertical-align-center">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <input type="text" id="MsgDriverId" name="MsgDriverId" class="hidden" />
+                        <input type="text" id="MsgPassengerId" name="DriverId" class="hidden" value="@Model.CurrentUserId" />
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                        </button>
+                        <h4 class="modal-title" id="dayTripModalLabel">Mensajes</h4>
+                        <small>¿Alguna duda? ¡Contácta al conductor!</small>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <textarea class="form-control" id="Message" name="Message" style="height:200px; min-width:100%"></textarea>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div id="btnsContainer" class="modal-footer">
-                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Cerrar" />
-                    <input type="button" class="btn btn-primary" onclick="SendMessage()" value="Enviar" />
+                    <div id="btnsContainer" class="modal-footer">
+                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cerrar" />
+                        <input type="button" class="btn btn-primary" onclick="SendMessage()" value="Enviar" />
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    @*</form>*@
+        @*</form>*@
+    </form>
 </div>
 
 <link href="~/fonts/fullcalendar-3.10.0/fullcalendar.min.css" rel="stylesheet" />
@@ -365,9 +381,9 @@
                                     </tr>
                                     <tr class="fc-list-item ">
                                         <td class="fc-list-item-title fc-widget-content" colspan="2">
-                                            <span class="fas fa-dog">&nbsp;<label class="control-label" style="text-align:left"><small>Mascotas&nbsp;</small></label><input type="checkbox" id="ck-pet" name="ck-pet" class="form-check" ` + allowPets + ` readonly /></span>
-                                            <span class="fas fa-suitcase-rolling">&nbsp;<label class="control-label" style="text-align:left"><small>Equipaje&nbsp;</small></label><input type="checkbox" id="ck-luggage" name="ck-luggage" class="form-check" ` + allowLuggage + ` readonly /></span>
-                                            <span class="fas fa-smoking">&nbsp;<label class="control-label" style="text-align:left"><small>Fumado&nbsp;</small></label><input type="checkbox" id="ck-smoking" name="ck-smoking" class="form-check" ` + allowSmoking + ` readonly /></span>
+                                            <span class="fas fa-dog">&nbsp;</span><small>Mascotas&nbsp;</small><input type="checkbox" id="ck-pet" name="ck-pet" onclick="return false" class="form-check" ` + allowPets + ` readonly />
+                                            <span class="fas fa-suitcase-rolling">&nbsp;</span><small>Equipaje&nbsp;</small><input type="checkbox" id="ck-luggage" name="ck-luggage" onclick="return false" class="form-check" ` + allowLuggage + ` readonly />
+                                            <span class="fas fa-smoking">&nbsp;</span><small>Fumado&nbsp;</small><input type="checkbox" id="ck-smoking" name="ck-smoking" onclick="return false" class="form-check" ` + allowSmoking + ` readonly />
                                         </td>
                                     </tr>
                                 </table>
@@ -409,6 +425,10 @@
                 $('#modelDriver').html(calEvent.driver);
                 $('#AvailableSpaces').val(calEvent.availableSpaces);
                 $("#driver-img").attr("src", calEvent.picture);
+
+                $("#ck-pet-modal").prop("checked", calEvent.allowPets);
+                $("#ck-luggage-modal").prop("checked", calEvent.allowLuggage);
+                $("#ck-smoking-modal").prop("checked", calEvent.allowSmoking);
 
                 $('#modelPrice').html(calEvent.price);
                 $('#modelPriceCopilot').html((Number(calEvent.price) + 500));

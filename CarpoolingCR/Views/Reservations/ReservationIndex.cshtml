@@ -138,7 +138,37 @@
                                         </div>
                                     </div>
                                     <div class="row form-group" style="">
-                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-bottom:0px">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                            @{
+                                                if (reservation.Trip.AllowPets)
+                                                {
+                                                    <span class="fas fa-dog">&nbsp;</span><small>Mascotas&nbsp;</small><input type="checkbox" id="ck-pet-modal" name="ck-pet-modal" onclick="return false" checked class="form-check" />
+                                                }
+                                                else
+                                                {
+                                                    <span class="fas fa-dog">&nbsp;</span><small>Mascotas&nbsp;</small><input type="checkbox" id="ck-pet-modal" name="ck-pet-modal" onclick="return false" class="form-check" />
+                                                }
+
+                                                if (reservation.Trip.AllowLuggage)
+                                                {
+                                                    <span class="fas fa-suitcase-rolling">&nbsp;</span><small>Equipaje&nbsp;</small><input type="checkbox" id="ck-luggage-modal" name="ck-luggage-modal" onclick="return false" checked class="form-check" />
+                                                }
+                                                else
+                                                {
+                                                    <span class="fas fa-suitcase-rolling">&nbsp;</span><small>Equipaje&nbsp;</small><input type="checkbox" id="ck-luggage-modal" name="ck-luggage-modal" onclick="return false" class="form-check" />
+                                                }
+
+                                                if (reservation.Trip.AllowSmoking)
+                                                {
+                                                    <span class="fas fa-smoking">&nbsp;</span><small>Fumado&nbsp;</small><input type="checkbox" id="ck-smoking-modal" name="ck-smoking-modal" onclick="return false" checked class="form-check" /><br />
+                                                }
+                                                else
+                                                {
+                                                    <span class="fas fa-smoking">&nbsp;</span><small>Fumado&nbsp;</small><input type="checkbox" id="ck-smoking-modal" name="ck-smoking-modal" onclick="return false" class="form-check" /><br />
+                                                }
+                                            }
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style="margin-bottom:5px">
                                             @{
                                                 if (reservation.Status != CarpoolingCR.Utils.Enums.ReservationStatus.Cancelled)
                                                 {
@@ -180,10 +210,10 @@
                         <input type="text" id="reservationId" name="reservationId" class="hidden" />
                         <input type="text" id="status" name="status" class="hidden" />
                         <input type="text" id="cancelledFrom" name="cancelledFrom" class="hidden" />
-                        <p id="confirmText">CONFIRMATION TITLE?</p>
+                        <small id="confirmText">CONFIRMATION TITLE?</small>
                         <div class="modal-footer">
-                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Salir" />
-                            <input type="submit" id="modalButton" class="btn btn-danger" value="Eliminar" />
+                            <input type="button" class="btn btn-sm btn-default" data-dismiss="modal" value="Salir" />
+                            <input type="submit" id="modalButton" class="btn btn-sm btn-danger" value="Eliminar" />
                         </div>
                     </div>
                 </div>

@@ -125,6 +125,8 @@ namespace CarpoolingCR.Controllers
                     }
                 }
 
+                trips.Sort((x, y) => y.CreatedTime.CompareTo(x.CreatedTime));
+
                 var response = new TripIndexResponse
                 {
                     IsAdmin = isAdmin,

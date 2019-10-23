@@ -18,13 +18,10 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
-    <IISExpressSSLPort>44346</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication>
-    </IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>
-    </IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>
-    </IISExpressUseClassicPipelineMode>
+    <IISExpressSSLPort>443</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -305,10 +302,6 @@
     <Compile Include="Migrations\201910172302039_Added AproxDistance to trip.Designer.cs">
       <DependentUpon>201910172302039_Added AproxDistance to trip.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201910181339563_Created phone functionality.cs" />
-    <Compile Include="Migrations\201910181339563_Created phone functionality.Designer.cs">
-      <DependentUpon>201910181339563_Created phone functionality.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201910212034231_Added user.PhoneVerificationTime to keep users to resend the sms verification code multiple times.cs" />
     <Compile Include="Migrations\201910212034231_Added user.PhoneVerificationTime to keep users to resend the sms verification code multiple times.Designer.cs">
       <DependentUpon>201910212034231_Added user.PhoneVerificationTime to keep users to resend the sms verification code multiple times.cs</DependentUpon>
@@ -316,6 +309,10 @@
     <Compile Include="Migrations\201910212228463_Changed user.PhoneVerificationTime to nullable.cs" />
     <Compile Include="Migrations\201910212228463_Changed user.PhoneVerificationTime to nullable.Designer.cs">
       <DependentUpon>201910212228463_Changed user.PhoneVerificationTime to nullable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201910221839014_Added AllowPets, AllowSmoking, AllowLouggage.cs" />
+    <Compile Include="Migrations\201910221839014_Added AllowPets, AllowSmoking, AllowLouggage.Designer.cs">
+      <DependentUpon>201910221839014_Added AllowPets, AllowSmoking, AllowLouggage.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -987,14 +984,14 @@
     <EmbeddedResource Include="Migrations\201910172302039_Added AproxDistance to trip.resx">
       <DependentUpon>201910172302039_Added AproxDistance to trip.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201910181339563_Created phone functionality.resx">
-      <DependentUpon>201910181339563_Created phone functionality.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201910212034231_Added user.PhoneVerificationTime to keep users to resend the sms verification code multiple times.resx">
       <DependentUpon>201910212034231_Added user.PhoneVerificationTime to keep users to resend the sms verification code multiple times.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201910212228463_Changed user.PhoneVerificationTime to nullable.resx">
       <DependentUpon>201910212228463_Changed user.PhoneVerificationTime to nullable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910221839014_Added AllowPets, AllowSmoking, AllowLouggage.resx">
+      <DependentUpon>201910221839014_Added AllowPets, AllowSmoking, AllowLouggage.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

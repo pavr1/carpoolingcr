@@ -84,6 +84,9 @@ namespace CarpoolingCR.Models
         public virtual int RouteId { get; set; }
         [NotMapped]
         public virtual  District Route { get; set; }
+        public bool AllowPets { get; set; }
+        public bool AllowSmoking { get; set; }
+        public bool AllowLuggage { get; set; }
 
         [NotMapped]
         public List<Reservation> Reservations { get; set; }

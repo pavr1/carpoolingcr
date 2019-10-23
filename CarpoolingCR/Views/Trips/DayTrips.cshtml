@@ -331,6 +331,10 @@
                                                         break;
                 }
 
+                var allowPets = event.allowPets ? 'checked' : '';
+                var allowLuggage = event.allowLuggage ? 'checked' : '';
+                var allowSmoking = event.allowSmoking ? 'checked' : '';
+
                 var html = `
                     <tr class="fc-list-item ">
                         <td class="fc-list-item-title fc-widget-content" colspan="2">
@@ -349,18 +353,23 @@
                                             <small class="pull-right">` + event.driver + `</small><br>
                                         </td>
                                     </tr>
-
                                     <tr class="fc-list-item ">
                                         <td class="fc-list-item-title fc-widget-content">
                                              <b><span class="fas fa-route">&nbsp;</span>Ruta: </b><small class="route">` + event.route + `</small><br />
                                              <b><span class="fas fa-road">&nbsp;</span>Distancia: </b><small class="route">` + event.distance + ` km</small><br />
                                         </td>
                                         <td class="fc-list-item-title fc-widget-content">
-                                            <small class="price"><b><span class="fas fa-money-bill-alt">&nbsp;</span>Cuota: </b> ` event.currency + event.price + `</small><br />
+                                            <small class="price"><b><span class="fas fa-money-bill-alt">&nbsp;</span>Cuota: </b> ` + event.currency + event.price + `</small><br />
                                             <small class="spaces"><b><span class="fas fa-car-side">&nbsp;</span>Espacios: </b> ` + event.availableSpaces + `</small><br />
                                         </td>
                                     </tr>
-
+                                    <tr class="fc-list-item ">
+                                        <td class="fc-list-item-title fc-widget-content" colspan="2">
+                                            <span class="fas fa-dog">&nbsp;<label class="control-label" style="text-align:left"><small>Mascotas&nbsp;</small></label><input type="checkbox" id="ck-pet" name="ck-pet" class="form-check" ` + allowPets + ` readonly /></span>
+                                            <span class="fas fa-suitcase-rolling">&nbsp;<label class="control-label" style="text-align:left"><small>Equipaje&nbsp;</small></label><input type="checkbox" id="ck-luggage" name="ck-luggage" class="form-check" ` + allowLuggage + ` readonly /></span>
+                                            <span class="fas fa-smoking">&nbsp;<label class="control-label" style="text-align:left"><small>Fumado&nbsp;</small></label><input type="checkbox" id="ck-smoking" name="ck-smoking" class="form-check" ` + allowSmoking + ` readonly /></span>
+                                        </td>
+                                    </tr>
                                 </table>
                             </div>
                         </td>
@@ -400,10 +409,6 @@
                 $('#modelDriver').html(calEvent.driver);
                 $('#AvailableSpaces').val(calEvent.availableSpaces);
                 $("#driver-img").attr("src", calEvent.picture);
-
-                //todo:validar aca cantidad de espacios
-                //$('#RequestedSpaces').spinner('option', 'min', 1);
-                //$('#RequestedSpaces').spinner('option', 'max', calEvent.availableSpaces);
 
                 $('#modelPrice').html(calEvent.price);
                 $('#modelPriceCopilot').html((Number(calEvent.price) + 500));
@@ -464,7 +469,10 @@
             var stars = arrayOfTrips[i].ApplicationUser.Stars;
             var route = 'No especificada'
             var distance = arrayOfTrips[i].AproxDistance;
-            var currency = arrayOfTrips[i].Currency;
+            var allowPets = arrayOfTrips[i].AllowPets;
+            var allowLuggage = arrayOfTrips[i].AllowLuggage;
+            var allowSmoking = arrayOfTrips[i].AllowSmoking;
+            var currency = '@currency';
             var copilotSeatTaken = false;
             var backLeftSeatTaken = false;
             var backMiddleSeatTaken = false;
@@ -532,10 +540,13 @@
                 backLeftSeatTaken: backLeftSeatTaken,
                 backMiddleSeatTaken: backMiddleSeatTaken,
                 backRightSeatTaken: backRightSeatTaken,
-                currency: currency
+                currency: currency,
+                allowPets: allowPets,
+                allowLuggage: allowLuggage,
+                allowSmoking: allowSmoking
             };
 
-                                    console.log('Trip Info => From: ' + event.from + ', To: ' + event.to + ', Route: ' + event.route + ', Driver: ' + event.driver + ', Picture: ' + event.picture + ', Stars: ' + stars, ', Spaces: ' + event.availableSpaces + ', Price: ' + event.price);
+            console.log('Trip Info => From: ' + event.from + ', To: ' + event.to + ', Route: ' + event.route + ', Driver: ' + event.driver + ', Picture: ' + event.picture + ', Stars: ' + stars, ', Spaces: ' + event.availableSpaces + ', Price: ' + event.price);
 
             $('#dayCalendar').fullCalendar('renderEvent', event, true);
                                     }

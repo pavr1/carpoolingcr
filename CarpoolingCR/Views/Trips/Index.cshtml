@@ -114,9 +114,9 @@
                                         }
                                     }
                                 </div>
-                                <div class="row form-group" style="padding-left:20px; padding-right:0px">
+                                <div class="row form-group" style="padding-left:15px; padding-right:0px">
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                        <b><span class="fas fa-route">&nbsp;</span>Ruta: </b><small class="route">@route.Name</small><br />
+                                        <b><span class="fas fa-route"></span>Ruta: </b><small class="route">@route.Name</small><br />
                                         <b><span class="fas fa-road">&nbsp;</span>Distancia: </b><small class="route">@trip.AproxDistance km</small><br />
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
@@ -124,8 +124,46 @@
                                         <small class="spaces"><b><span class="fas fa-car-side">&nbsp;</span>Espacios: </b>  @trip.AvailableSpaces</small><br />
                                     </div>
                                 </div>
-                                <div class="row form-group" style="padding-left:20px">
-                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="row form-group" style="padding-left:0px">
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                        <div id="pet" class="col-md-4 col-sm-4 col-xs-4" style="border-radius:10px 0px 0px 10px; padding-right:0px">
+                                            @{
+                                                if (trip.AllowPets)
+                                                {
+                                                    <span class="fas fa-dog">&nbsp;</span><br /><label class="control-label" style="text-align:left"><small>Mascotas&nbsp;</small></label><input type="checkbox" id="ck-pet" name="ck-pet" class="form-check" checked readonly />
+                                                }
+                                                else
+                                                {
+                                                    <span class="fas fa-dog">&nbsp;</span><br /><label class="control-label" style="text-align:left"><small>Mascotas&nbsp;</small></label><input type="checkbox" id="ck-pet" name="ck-pet" class="form-check" readonly/>
+                                                }
+                                            }
+                                        </div>
+                                        <div id="luggage" class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="border-radius:0px; padding-right:0px">
+                                            @{
+                                                if (trip.AllowLuggage)
+                                                {
+                                                    <span class="fas fa-suitcase-rolling">&nbsp;</span><br /><label class="control-label" style="text-align:left"><small>Equipaje&nbsp;</small></label><input type="checkbox" id="ck-luggage" name="ck-luggage" class="form-check" checked readonly />
+                                                }
+                                                else
+                                                {
+                                                    <span class="fas fa-suitcase-rolling">&nbsp;</span><br /><label class="control-label" style="text-align:left"><small>Equipaje&nbsp;</small></label><input type="checkbox" id="ck-luggage" name="ck-luggage" class="form-check" readonly/>
+                                                }
+                                            }
+                                        </div>
+                                        <div id="smoking" class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="border-radius:0px 10px 10px 0px; padding-right:0px">
+                                            @{
+                                                if (trip.AllowSmoking)
+                                                {
+                                                    <span class="fas fa-smoking">&nbsp;</span><br /><label class="control-label" style="text-align:left"><small>Fumado&nbsp;</small></label><input type="checkbox" id="ck-smoking" name="ck-smoking" class="form-check" checked readonly />
+                                                }
+                                                else
+                                                {
+                                                    <span class="fas fa-smoking">&nbsp;</span><br /><label class="control-label" style="text-align:left"><small>Fumado&nbsp;</small></label><input type="checkbox" id="ck-smoking" name="ck-smoking" class="form-check" readonly/>
+                                                }
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                         <input type="button" class="btn btn-danger btn-sm pull-right" style="width:150px" value="Cancelar Viaje" onclick="ConfirmDelete(@trip.TripId, '@from -> @to')" /><br />
                                     </div>
                                 </div>

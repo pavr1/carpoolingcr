@@ -421,6 +421,9 @@ namespace CarpoolingCR.Controllers
                 fields += "Trip.Details Back: " + Request["Trip_Details_To"] + ", ";
                 fields += "DateTime Back: " + Request["DateTime-To"] + ", ";
                 fields += "Trip.Price: " + Request["Trip.Price"] + ", ";
+                fields += "ck-pet: " + Request["ck-pet"] + ", ";
+                fields += "ck-luggage: " + Request["ck-luggage"] + ", ";
+                fields += "ck-smoking: " + Request["ck-smoking"] + ", ";
                 #endregion
 
                 if (ModelState.IsValid)
@@ -505,7 +508,10 @@ namespace CarpoolingCR.Controllers
                         ToTownId = toDistrict.DistrictId,
                         RouteId = routeId,
                         AproxDistance = Request["aprox-distance"],
-                        ArrivalDateTime = TimeZoneInfo.ConvertTimeToUtc(arrivalTime, TimeZoneInfo.Local)
+                        ArrivalDateTime = TimeZoneInfo.ConvertTimeToUtc(arrivalTime, TimeZoneInfo.Local),
+                        AllowPets = Convert.ToBoolean(Request["ck-pet"] == "on"),
+                        AllowLuggage = Convert.ToBoolean(Request["ck-luggage"] == "on"),
+                        AllowSmoking = Convert.ToBoolean(Request["ck-smoking"] == "on")
                     };
 
                     db.Entry(trip).State = EntityState.Added;
@@ -553,6 +559,8 @@ namespace CarpoolingCR.Controllers
 
                         int routeBackId = routeBack.DistrictId;
                         var tripDateTo = DateTime.SpecifyKind(Convert.ToDateTime(Request["DateTime-To"]), DateTimeKind.Local);
+                        
+                        var arrivalTimeTo = tripDateTo.AddHours(apoxTime);
 
                         var tripBack = new Trip
                         {
@@ -566,7 +574,12 @@ namespace CarpoolingCR.Controllers
                             Status = Enums.Status.Activo,
                             TotalSpaces = Convert.ToInt32(Request["TotalSpaces"]),
                             ToTownId = fromDistrict.DistrictId,
-                            RouteId = routeBackId
+                            RouteId = routeBackId,
+                            AproxDistance = Request["aprox-distance"],
+                            ArrivalDateTime = TimeZoneInfo.ConvertTimeToUtc(arrivalTimeTo, TimeZoneInfo.Local),
+                            AllowPets = Convert.ToBoolean(Request["ck-pet"] == "on"),
+                            AllowLuggage = Convert.ToBoolean(Request["ck-luggage"] == "on"),
+                            AllowSmoking = Convert.ToBoolean(Request["ck-smoking"] == "on")
                         };
 
                         db.Entry(tripBack).State = EntityState.Added;

@@ -86,7 +86,7 @@
                             </div>
                         </div>
                         <div class="row form-group">
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div id="already-reserved-message" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <hr />
                                 <small><b>¡Selecciona tus asientos! </b></small>
                             </div>
@@ -456,7 +456,7 @@
                 var reservationAlreadyExistent = ExistReservationToTrip(calEvent.id)
 
                 if (reservationAlreadyExistent) {
-                    $('#already-reserved-message').html('<small class="pull-left text-warning">¡Ya tiene una reservación activa para este viaje!</small>');
+                    $('#already-reserved-message').html('<hr /><small class="pull-left text-danger">¡Ya contás con una reservación activa para este viaje!</small>');
                     $('#back-right-seat').attr('disabled', true);
                     $('#back-left-seat').attr('disabled', true);
                     $('#back-middle-seat').attr('disabled', true);

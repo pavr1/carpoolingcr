@@ -68,16 +68,16 @@ namespace CarpoolingCR.Controllers
                         }
                         else
                         {
-                            Common.LogData(new Log
-                            {
-                                Line = Common.GetCurrentLine(),
-                                Location = Enums.LogLocation.Server,
-                                LogType = Enums.LogType.SMS,
-                                Message = "El número ya fue notificado anteriormente",
-                                Method = Common.GetCurrentMethod(),
-                                Timestamp = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
-                                UserEmail = User.Identity.Name
-                            }, logo);
+                            //Common.LogData(new Log
+                            //{
+                            //    Line = Common.GetCurrentLine(),
+                            //    Location = Enums.LogLocation.Server,
+                            //    LogType = Enums.LogType.SMS,
+                            //    Message = "El número ya fue notificado anteriormente",
+                            //    Method = Common.GetCurrentMethod(),
+                            //    Timestamp = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
+                            //    UserEmail = User.Identity.Name
+                            //}, logo);
 
                             //¡Número anteriormente notificado!
                             return RedirectToAction("Index", new { message = "100076", type = "warn" });

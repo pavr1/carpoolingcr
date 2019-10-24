@@ -47,6 +47,7 @@ namespace CarpoolingCR.Models
         public int MobileVerficationNumber { get; set; }
         public bool IsPhoneVerified { get; set; }
         public DateTime? PhoneVerificationTime { get; set; }
+        //public DateTime? BirthDate { get; set; }
 
         [Display(Name = "Cuenta de Facebook")]
         public string FacebookAccount { get; set; }

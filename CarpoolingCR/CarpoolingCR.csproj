@@ -18,10 +18,13 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
-    <IISExpressSSLPort>443</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
+    <IISExpressSSLPort>44346</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication>
+    </IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>
+    </IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>
+    </IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -371,10 +374,12 @@
     <Content Include="Content\Icons\ride_small.jpg" />
     <Content Include="Content\Icons\ride_small_darkbg.jpg" />
     <Content Include="Content\Icons\ride_small_pkW_icon.ico" />
+    <Content Include="Content\mdb.css" />
     <Content Include="Content\rating.css" />
     <Content Include="ride.ico" />
     <Content Include="ride2.ico" />
     <Content Include="ride_small_pkW_icon.ico" />
+    <Content Include="Scripts\mdb.js" />
     <Content Include="Scripts\rating.js" />
     <Content Include="Scripts\WaitingDialog.js" />
     <Content Include="SQL\Costa Rica\all.sql" />

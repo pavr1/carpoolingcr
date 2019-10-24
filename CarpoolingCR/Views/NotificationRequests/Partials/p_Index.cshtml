@@ -5,6 +5,7 @@
 }
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <br />
+
 <div class="row form-group" style="text-align:center">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <h5 class="panel-title pull-left">Notificaciones</h5>
@@ -27,6 +28,10 @@
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <b class="pull-right">Notificaciones: @Model.Notifications.Count</b>
     </div>
+</div>
+<div class="md-form">
+    <input placeholder="Selected date" type="text" id="date-picker-example" class="form-control datepicker">
+    <label for="date-picker-example">Try me...</label>
 </div>
 <hr />
 @{
@@ -79,8 +84,14 @@
         }
     }
 }
-
+@*<link href="~/Content/mdb.css" rel="stylesheet" />*@
+<script src="~/Scripts/mdb.js"></script>
 <script>
+    $(document).ready(function () {
+        // Data Picker Initialization
+        $('.datepicker').pickadate();
+    });
+
     function PrepareCancelation(notificationId, userId) {
         console.log('Setting selected notification id: ' + notificationId + ', user id: ' + userId);
 

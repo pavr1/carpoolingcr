@@ -270,6 +270,27 @@
             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
             </div>
         </div>
+        <div class="row form-group" style="padding-left:10px">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-3 col-xs-12">
+                <label class="control-label">Fecha Nacimiento</label>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-5 col-xs-12">
+                @{
+                    if (Model.BirthDay == null)
+                    {
+                        <input type="text" id="BirthDay" name="BirthDay" class="form-control" placeholder="dd/mm/yyyy" />
+                    }
+                    else
+                    {
+                        <input type="text" id="BirthDay" name="BirthDay" class="form-control" placeholder="dd/mm/yyyy" value="@Convert.ToDateTime(Model.BirthDay).ToString("dd/MM/yyyy")" />
+                    }
+                }
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+            </div>
+        </div>
         <div id="mobile-container" style="padding-left:10px">
             @{
                 if (!Model.IsPhoneVerified)
@@ -599,6 +620,15 @@
     $('#send-verification-code-btn').click(function () {
         SendVerificationCode();
     });
+
+    $('#BirthDay').datetimepicker({
+        mask: false,
+        format: 'd/m/Y',
+        timepicker: false,
+        dates: 'ru'
+    });
+
+    $('#BirthDay').mask('00/00/0000');
 
     $('#confirm-verification-code-btn').click(function () {
         ConfirmVerificationCode();

@@ -1,4 +1,5 @@
 ﻿using CarpoolingCR.Utils;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
@@ -96,6 +97,9 @@ namespace CarpoolingCR.Models
         [Required]
         [Display(Name = "Segundo Apellido")]
         public string SecondLastName { get; set; }
+        [Required]
+        [Display(Name = "Fecha de nacimiento")]
+        public DateTime Birthday { get; set; }
         [Required]
         [Display(Name = "Celular")]
         public string Phone1 { get; set; }

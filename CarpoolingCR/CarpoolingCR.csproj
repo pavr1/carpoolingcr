@@ -18,13 +18,10 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
-    <IISExpressSSLPort>44346</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication>
-    </IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>
-    </IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>
-    </IISExpressUseClassicPipelineMode>
+    <IISExpressSSLPort>443</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -317,6 +314,18 @@
     <Compile Include="Migrations\201910221839014_Added AllowPets, AllowSmoking, AllowLouggage.Designer.cs">
       <DependentUpon>201910221839014_Added AllowPets, AllowSmoking, AllowLouggage.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201910251515436_Added user.Birthday.cs" />
+    <Compile Include="Migrations\201910251515436_Added user.Birthday.Designer.cs">
+      <DependentUpon>201910251515436_Added user.Birthday.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201910251538480_ApplicationUser.Birthday.cs" />
+    <Compile Include="Migrations\201910251538480_ApplicationUser.Birthday.Designer.cs">
+      <DependentUpon>201910251538480_ApplicationUser.Birthday.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201910251558305_Deleted user.birthdate.cs" />
+    <Compile Include="Migrations\201910251558305_Deleted user.birthdate.Designer.cs">
+      <DependentUpon>201910251558305_Deleted user.birthdate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Bank.cs" />
@@ -381,7 +390,6 @@
     <Content Include="ride.ico" />
     <Content Include="ride2.ico" />
     <Content Include="ride_small_pkW_icon.ico" />
-    <Content Include="Scripts\mdb.js" />
     <Content Include="Scripts\rating.js" />
     <Content Include="Scripts\WaitingDialog.js" />
     <Content Include="SQL\Costa Rica\all.sql" />
@@ -999,6 +1007,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201910221839014_Added AllowPets, AllowSmoking, AllowLouggage.resx">
       <DependentUpon>201910221839014_Added AllowPets, AllowSmoking, AllowLouggage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910251515436_Added user.Birthday.resx">
+      <DependentUpon>201910251515436_Added user.Birthday.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910251538480_ApplicationUser.Birthday.resx">
+      <DependentUpon>201910251538480_ApplicationUser.Birthday.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910251558305_Deleted user.birthdate.resx">
+      <DependentUpon>201910251558305_Deleted user.birthdate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

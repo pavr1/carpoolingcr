@@ -481,7 +481,8 @@ namespace CarpoolingCR.Controllers
                         UserType = model.UserType,
                         FacebookAccount = model.FacebookAccount,
                         Status = Enums.ProfileStatus.Active,
-                        Picture = picture
+                        Picture = picture,
+                        BirthDay = model.Birthday
                     };
 
                     string emailForAdmin = WebConfigurationManager.AppSettings["AdminEmails"];

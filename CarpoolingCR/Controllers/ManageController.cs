@@ -333,6 +333,7 @@ namespace CarpoolingCR.Controllers
                 fields += "Name: " + Request["Name"];
                 fields += "LastName: " + Request["LastName"] + ", ";
                 fields += "SecondLastName: " + Request["SecondLastName"] + ", ";
+                fields += "BirthDay: " + Request["BirthDay"] + ", ";
                 fields += "Phone1: " + Request["Phone1"] + ", ";
                 fields += "Phone2: " + Request["Phone2"] + ", ";
                 #endregion
@@ -396,6 +397,16 @@ namespace CarpoolingCR.Controllers
                         return View(user);
                     }
 
+                    DateTime dob = DateTime.MinValue;
+
+                    if(!DateTime.TryParse(Request["BirthDay"], out dob))
+                    {
+                        //¡Fecha de nacimiento inválida!
+                        ViewBag.Warning = "100090";
+                        return View(user);
+                    }
+
+
                     if (user.UserIdentification != Request["UserIdentification"])
                     {
                         user.IsUserIdentificationInvalidated = false;
@@ -424,6 +435,7 @@ namespace CarpoolingCR.Controllers
                     user.Name = Request["Name"];
                     user.LastName = Request["LastName"];
                     user.SecondLastName = Request["SecondLastName"];
+                    user.BirthDay= dob;
 
                     if (user.Phone1 != Request["Phone1"])
                     {

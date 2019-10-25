@@ -47,7 +47,6 @@ namespace CarpoolingCR.Models
         public int MobileVerficationNumber { get; set; }
         public bool IsPhoneVerified { get; set; }
         public DateTime? PhoneVerificationTime { get; set; }
-        //public DateTime? BirthDate { get; set; }
 
         [Display(Name = "Cuenta de Facebook")]
         public string FacebookAccount { get; set; }
@@ -59,6 +58,7 @@ namespace CarpoolingCR.Models
         [Display(Name = "País")]
         public int CountryId { get; set; }
         public Country Country { get; set; }
+        public DateTime? BirthDay { get; set; }
 
         [Required]
         [Display(Name = "Estado")]

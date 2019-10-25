@@ -59,7 +59,16 @@
                         <label class="control-label"><i class="fas fa-calendar-alt">&nbsp;</i>Fecha: </label>
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        @*<input id="DateTimeDisplay" name="DateTimeDisplay" autocomplete="off" class="form-control" type="text" onfocus="blur();">*@
                         <input id="DateTimeDisplay" name="DateTimeDisplay" autocomplete="off" class="form-control" type="text" onfocus="blur();">
+                        @*<div class="form-group">
+                                <div class='input-group date' id='DateTimeDisplay'>
+                                    <input type='text' class="form-control" />
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-time"></span>
+                                    </span>
+                                </div>
+                            </div>*@
                     </div>
                     <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
                         <label class="control-label"><i class="fas fa-clock">&nbsp;</i>Hora: </label>
@@ -100,13 +109,11 @@
     $('#FromTown').editableSelect();
     $('#ToTown').editableSelect();
     $('#hour-type').editableSelect();
-    $('#DateTimeDisplay').datepicker({
+    $('#DateTimeDisplay').datetimepicker({
         mask: false,
-        dateFormat: 'dd/mm/yy',
-        //formatTime: 'g:i a',
-        minDate: Date.now(),
-        maxDate: addDays(Date.now(), 31),
-        step: 15,
+        format: 'd/m/Y',
+        timepicker: false,
+        dates: 'ru'
     });
     $('#time-options-check').click(function () {
         if ($(this).prop("checked")) {
@@ -135,16 +142,20 @@
     $('#FromTown')
         .editableSelect()
         .on('select.editable-select', function (e, li) {
-            $('#last-selected').html(
-                $('#fromDistrictId').val(li.val())
-            );
+            if (li != undefined) {
+                $('#last-selected').html(
+                    $('#fromDistrictId').val(li.val())
+                );
+            }
         });
     $('#ToTown')
         .editableSelect()
         .on('select.editable-select', function (e, li) {
-            $('#last-selected').html(
-                $('#toDistrictId').val(li.val())
-            );
+            if (li != undefined) {
+                $('#last-selected').html(
+                    $('#toDistrictId').val(li.val())
+                );
+            }
         });
 
     function SubmitRequest() {

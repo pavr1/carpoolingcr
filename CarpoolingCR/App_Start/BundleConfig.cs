@@ -23,7 +23,7 @@ namespace CarpoolingCR
                       "~/Scripts/bootstrap.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap-spacelab.css",
+                      "~/Content/bootstrap-cerulean.css",
                       //"~/Content/bootswatch/journal/bootstrap.min.css",
                       //"~/Content/bootswatch/journal/bootstrap.css",
                       "~/Content/site.css"));

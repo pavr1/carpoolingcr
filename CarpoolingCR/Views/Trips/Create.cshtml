@@ -165,14 +165,17 @@
                                 </div>
                             </div>
                             <div class="row form-group btn-group center-block" style="padding-left:13px; padding-right:13px; margin-bottom:0px">
-                                <div id="pet" class="btn btn-info col-md-4 col-sm-4 col-xs-4 panel panel-default allow-checkboxes" style="border-radius:10px 0px 0px 10px;">
-                                    <span class="fas fa-dog">&nbsp;</span><br /><label class="control-label" style="text-align:left">Mascotas </label>&nbsp;<input type="checkbox" id="ck-pet" name="ck-pet" class="form-check" />
+                                <div id="pet" class="btn btn-info col-md-4 col-sm-4 col-xs-4 panel panel-default allow-checkboxes" data-toggle="button" aria-pressed="false" autocomplete="off" style="border-radius:10px 0px 0px 10px;">
+                                    <span class="fas fa-dog">&nbsp;</span><br /><label class="control-label" style="text-align:left">Mascotas </label>&nbsp;<span id="check-pet" class="fas fa-check-circle hidden">&nbsp;</span>
+                                    <input type="text" id="ck-pet" name="ck-pet" style="display:none" />
                                 </div>
-                                <div id="luggage" class="btn btn-info col-lg-4 col-md-4 col-sm-4 col-xs-4 panel panel-default allow-checkboxes" style="border-radius:0px">
-                                    <span class="fas fa-suitcase-rolling">&nbsp;</span><br /><label class="control-label" style="text-align:left">Equipaje </label>&nbsp;<input type="checkbox" id="ck-luggage" name="ck-luggage" class="form-check" />
+                                <div id="luggage" class="btn btn-info col-lg-4 col-md-4 col-sm-4 col-xs-4 panel panel-default allow-checkboxes" data-toggle="button" aria-pressed="false" autocomplete="off" style="border-radius:0px">
+                                    <span class="fas fa-suitcase-rolling">&nbsp;</span><br /><label class="control-label" style="text-align:left">Equipaje </label>&nbsp;<span id="check-luggage" class="fas fa-check-circle hidden">&nbsp;</span>
+                                    <input type="text" id="ck-luggage" name="ck-luggage" style="display:none" />
                                 </div>
-                                <div id="smoking" class="btn btn-info col-lg-4 col-md-4 col-sm-4 col-xs-4 panel panel-default allow-checkboxes" style="border-radius:0px 10px 10px 0px">
-                                    <span class="fas fa-smoking">&nbsp;</span><br /><label class="control-label" style="text-align:left">Fumado</label>&nbsp;<input type="checkbox" id="ck-smoking" name="ck-smoking" class="form-check" />
+                                <div id="smoking" class="btn btn-info col-lg-4 col-md-4 col-sm-4 col-xs-4 panel panel-default allow-checkboxes" data-toggle="button" aria-pressed="false" autocomplete="off" style="border-radius:0px 10px 10px 0px">
+                                    <span class="fas fa-smoking">&nbsp;</span><br /><label class="control-label" style="text-align:left">Fumado</label>&nbsp;<span id="check-smoking" class="fas fa-check-circle hidden">&nbsp;</span>
+                                    <input type="text" id="ck-smoking" name="ck-smoking" style="display:none" />
                                 </div>
                             </div>
                         </div>
@@ -419,11 +422,14 @@
 
     $(".allow-checkboxes").click(function () {
         var id = 'ck-' + this.id;
-        
-        if ($('#' + id).prop('checked')) {
-            $('#' + id).prop('checked', false);
+        var checkId = 'check-' + this.id;
+
+        if ($('#' + id).val() == 'on') {
+            $('#' + id).val('');
+            $('#' + checkId).addClass('hidden');
         } else {
-            $('#' + id).prop('checked', true);
+            $('#' + id).val('on');
+            $('#' + checkId).removeClass('hidden');
         }
     });
 

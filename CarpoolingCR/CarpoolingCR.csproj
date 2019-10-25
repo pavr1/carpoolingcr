@@ -365,6 +365,8 @@
     <Compile Include="Objects\Responses\TripIndexResponse.cs" />
     <Compile Include="Objects\Responses\UserManageResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="Content\bootstrap-superhero.css" />
+    <Content Include="Content\bootstrap-cerulean.css" />
     <Content Include="Content\Icons\background.jpg" />
     <Content Include="Content\Icons\HomeLogo.png" />
     <Content Include="Content\Icons\ride .png" />

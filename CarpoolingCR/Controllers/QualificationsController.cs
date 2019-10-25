@@ -52,7 +52,7 @@ namespace CarpoolingCR.Controllers
 
                 var reservation = db.Reservations.Where(x => x.ReservationId == reservationId).Single();
 
-                if (tripId == null)
+                if (user.Id == reservation.ApplicationUserId)
                 {
                     reservation.IsPassengerQualified = true;
                 }
@@ -194,6 +194,8 @@ namespace CarpoolingCR.Controllers
                         trip.ToTown = db.Districts.Where(x => x.DistrictId == trip.ToTownId).Single();
                         trip.Route = db.Districts.Where(x => x.DistrictId == trip.RouteId).Single();
                     }
+
+                    trips.Sort((x, y) => y.CreatedTime.CompareTo(x.CreatedTime));
 
                     var response = new HistorialResponse
                     {

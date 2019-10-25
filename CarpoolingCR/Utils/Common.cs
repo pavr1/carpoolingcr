@@ -317,6 +317,11 @@ namespace CarpoolingCR.Utils
             return utcDate;
         }
 
+        public void GetUserInfo(ApplicationUser user)
+        {
+
+        }
+
         public static string GetCurrentTimeZoneId()
         {
             ApplicationDbContext db = new ApplicationDbContext();

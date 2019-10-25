@@ -193,8 +193,8 @@
                                                     @{
                                                         foreach (var reservation in trip.Reservations)
                                                         {
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6" style="padding-left:15px; text-align:center !important; display:inline;">
-                                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 panel panel-default" style="padding:3px; text-align:center; display:inline; width:130px; border-radius:10px">
+                                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6" style="padding-left:14px; padding-right:14px; text-align:center !important; display:inline;">
+                                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 panel panel-default" style="padding:3px; text-align:center; display:inline; width:100%; border-radius:10px">
                                                                     <div id="profile-container-small" data-toggle="tooltip" title="Pasajero" style="text-align:center;display:inline-block">
                                                                         <img id="profileImage" src="@Url.Content(reservation.ApplicationUser.Picture)" /><br />
                                                                     </div><br />
@@ -248,19 +248,32 @@
                                                                         }
                                                                         <br />
                                                                         <small>@reservation.ApplicationUser.FullName</small><br />
-                                                                        if (reservation.Status == CarpoolingCR.Utils.Enums.ReservationStatus.Accepted)
-                                                                        {
-                                                                            <small class="driver inline-block ">
-                                                                                <span class="fas fa-phone-alt">&nbsp;</span><a href="tel: @country @reservation.ApplicationUser.Phone1" style="color:blue"> @country @reservation.ApplicationUser.Phone1 </a>
+                                                                        <div class="row" style="margin-left:0px; margin-right:0px;">
+                                                                            <div class="col-lg-3 col-md-2 hidden-sm col-xs-12">
 
-                                                                                @if (!string.IsNullOrEmpty(reservation.ApplicationUser.Phone2))
-                                                                                {
-                                                                                    <br />
-                                                                                    <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                                                                    <a href="tel: @country @reservation.ApplicationUser.Phone2" style="color:blue"> @country @reservation.ApplicationUser.Phone2 </a>
+                                                                            </div>
+                                                                            <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12 panel panel-default center-block" style="height:50px;padding-left:0px; padding-right:0px">
+                                                                                @{
+                                                                                    if (reservation.Status == CarpoolingCR.Utils.Enums.ReservationStatus.Accepted)
+                                                                                    {
+
+                                                                                        <small class="driver">
+                                                                                            <span class="fas fa-phone-alt">&nbsp;</span><a href="tel: @country @reservation.ApplicationUser.Phone1" style="color:blue"> @country @reservation.ApplicationUser.Phone1 </a>
+
+                                                                                            @if (!string.IsNullOrEmpty(reservation.ApplicationUser.Phone2))
+                                                                                            {
+                                                                                                <br />
+                                                                                                <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                                                                                <a href="tel: @country @reservation.ApplicationUser.Phone2" style="color:blue"> @country @reservation.ApplicationUser.Phone2 </a>
+                                                                                            }
+                                                                                        </small><br />
+                                                                                    }
                                                                                 }
-                                                                            </small><br />
-                                                                        }
+                                                                            </div>
+                                                                            <div class="col-lg-3 col-md-2 hidden-sm col-xs-12">
+
+                                                                            </div>
+                                                                        </div>
 
                                                                         if (reservation.Status == CarpoolingCR.Utils.Enums.ReservationStatus.Pending)
                                                                         {
@@ -269,10 +282,12 @@
                                                                         }
                                                                         else
                                                                         {
+                                                                            <input type="button" class="btn btn-info btn-sm" style="width:73px; visibility:hidden" value="Aceptar"/>
                                                                             <input type="button" class="btn btn-danger btn-sm" style="width:73px" value="Cancelar" onclick="ConfirmAction(@reservation.ReservationId, 'Cancelled', '¡Confirme que desea cancelar esta reservación!', 'Reservaciones', 'Cancelar', 'btn-danger', 'driver')" />
                                                                         }
                                                                     }
-                                                                    <div class="col-lg-2 col-md-3 col-sm-4 col-xs-12" style="padding:0px; margin:1px; text-align:left; display:inline; width:130px">
+                                                                    <br />
+                                                                    <div class="col-lg-2 col-md-3 col-sm-4 col-xs-12" style="padding:0px; margin:1px; text-align:left; display:inline; width:121px">
                                                                         @*<div class="col-lg-3 col-md-4 col-sm-6 col-xs-6" style="padding:5px; margin:5px; text-align:center; display:inline; width:160px">*@
 
                                                                         <small class="spaces"><b><span class="fas fa-car-side">&nbsp;</span>Espacios: </b> @reservation.RequestedSpaces</small><br />
@@ -280,7 +295,7 @@
                                                                             var spacesSelected = reservation.SpacesSelected.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
                                                                             var displaySpaces = string.Empty;
 
-                                                                            <ul style="padding:0px 0px 0px 24px">
+                                                                            <ul class="panel panel-default center-block" style="padding-left:5px;list-style:none;height:85px; width:100%;margin-bottom: 0px; background-color:aliceblue">
                                                                                 @{
                                                                                     foreach (var space in spacesSelected)
                                                                                     {

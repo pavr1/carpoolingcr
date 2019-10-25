@@ -418,6 +418,8 @@ namespace CarpoolingCR.Controllers
                 fromDistrict.County.Districts = null;
                 toDistrict.County.Districts = null;
 
+                trips.Sort((x, y) => y.CreatedTime.CompareTo(x.CreatedTime));
+
                 foreach (var trip in trips)
                 {
                     trip.FromTown = fromDistrict;
@@ -534,6 +536,8 @@ namespace CarpoolingCR.Controllers
 
                 var districtsSelectHtml = Common.GetLocationsStrings(user.CountryId);
 
+                trips.Sort((x, y) => y.CreatedTime.CompareTo(x.CreatedTime));
+
                 ReservationTransportationResponse response = new ReservationTransportationResponse
                 {
                     Trips = trips,
@@ -614,6 +618,8 @@ namespace CarpoolingCR.Controllers
                         .Include(x => x.ApplicationUser)
                         .ToList();
 
+                    driverTrips.Sort((x, y) => y.CreatedTime.CompareTo(x.CreatedTime));
+
                     foreach (var trip in driverTrips)
                     {
                         trip.Reservations = db.Reservations.Where(x => x.TripId == trip.TripId)
@@ -637,6 +643,8 @@ namespace CarpoolingCR.Controllers
                 else if (user.UserType == Enums.UserType.Administrador)
                 {
                     var adminTrips = db.Trips.Where(x => x.Status == Status.Activo).ToList();
+
+                    adminTrips.Sort((x, y) => y.CreatedTime.CompareTo(x.CreatedTime));
 
                     foreach (var trip in adminTrips)
                     {
@@ -723,6 +731,8 @@ namespace CarpoolingCR.Controllers
                     trip.FromTown = fromDistrict;
                     trip.ToTown = toDistrict;
                 }
+
+                trips.Sort((x, y) => y.CreatedTime.CompareTo(x.CreatedTime));
 
                 response = new ReservationTransportationResponse
                 {
@@ -1309,11 +1319,11 @@ namespace CarpoolingCR.Controllers
                     reservation.Trip.ToTown = db.Districts.Where(x => x.DistrictId == reservation.Trip.ToTownId).Single();
                     reservation.Trip.Route = db.Districts.Where(x => x.DistrictId == reservation.Trip.RouteId).Single();
 
-                    reservation.Trip.Qualifications = db.Qualifications.Where(x => x.TripId == reservation.TripId && x.QualifierId != user.Id)
+                    reservation.Trip.Qualifications = db.Qualifications.Where(x => x.TripId == reservation.TripId)
                         .Include(x => x.Qualifier)
                         .ToList();
 
-                    reservation.Qualifications = db.Qualifications.Where(x => x.ReservationId == reservation.ReservationId && x.QualifierId != user.Id)
+                    reservation.Qualifications = db.Qualifications.Where(x => x.ReservationId == reservation.ReservationId)
                         .Include(x => x.Qualifier)
                         .ToList();
                 }

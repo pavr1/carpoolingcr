@@ -136,7 +136,7 @@
 
                                                     if (!reservation.IsPassengerQualified)
                                                     {
-                                                        <input type="button" class="btn btn-info pull-right" value="Calificar" onclick="PopUpQualifyModal(@reservation.ReservationId, null, '@reservation.ApplicationUser.FullName','#historial-container')" />
+                                                        <input type="button" class="btn btn-info pull-right" value="Calificar" onclick="PopUpQualifyModal(@reservation.ReservationId, @reservation.TripId, '@reservation.ApplicationUser.FullName','#historial-container')" />
                                                     }
                                                 }
                                             </div>
@@ -157,7 +157,7 @@
                                                     if (!reservation.IsPassengerQualified)
                                                     {
                                                         <br class="visible-xs" />
-                                                        <input type="button" class="btn btn-info pull-right" value="Calificar" onclick="PopUpQualifyModal(@reservation.ReservationId, null, '@reservation.ApplicationUser.FullName','#historial-container')" />
+                                                        <input type="button" class="btn btn-info pull-right" value="Calificar" onclick="PopUpQualifyModal(@reservation.ReservationId, @reservation.TripId, '@reservation.ApplicationUser.FullName','#historial-container')" />
                                                     }
                                                 }
                                             </div>

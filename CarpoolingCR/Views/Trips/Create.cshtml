@@ -11,7 +11,7 @@
 <br />
 <div class="row form-group" style="text-align:center">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        <h5 class="panel-title pull-left">Creación de viajes</h5>
+        <h5 class="panel-title pull-left">¡Crea tu viaje!</h5>
     </div>
 </div>
 <div class="row" style="text-align:center">
@@ -41,36 +41,28 @@
     </div>
     <div id="main-content" class="form-horizontal hidden">
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="row">
+        <div class="row form-group">
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                <div class="row form-group">
-                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                        <span class="fas fa-map-marker-alt">&nbsp;</span><label class="control-label" style="text-align:left">Origen</label>
-                    </div>
-                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                        <select id="FromTown" name="FromTown" class="form-control waypoints">
-                            @Html.Raw(Model.DistrictControlOptions)
-                        </select>
-                        <label id="fromDistrictId"></label>
-                    </div>
+                <div class="has-feedback has-search" style="width:100%">
+                    <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                    <select id="FromTown" name="FromTown" class="form-control waypoints" placeholder="Origen" style="width:100%; max-width:500px !important">
+                        @Html.Raw(Model.DistrictControlOptions)
+                    </select>
+                    <label id="fromDistrictId"></label>
                 </div>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                <div class="row form-group">
-                    <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
-                        <span class="fas fa-map-marker-alt">&nbsp;</span><label class="control-label" style="text-align:left">Destino</label>
-                    </div>
-                    <div class="col-lg-9 col-md-9 col-sm-8 col-xs-12">
-                        <select id="ToTown" name="ToTown" class="form-control waypoints">
-                            @Html.Raw(Model.DistrictControlOptions)
-                        </select>
-                        <label id="toDistrictId"></label>
-                    </div>
+                <div class="has-feedback has-search" style="width:100%">
+                    <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                    <select id="ToTown" name="ToTown" class="form-control waypoints w-100" placeholder="Destino" style="width:100%; max-width:500px !important">
+                        @Html.Raw(Model.DistrictControlOptions)
+                    </select>
+                    <label id="toDistrictId"></label>
                 </div>
             </div>
         </div>
         <div class="row form-group" style="padding:20px">
-            <div class="row form-group panel panel-default" style="padding:20px; border-radius:10px">
+            <div class="row form-group panel panel-default" style="padding:10px; border-radius:10px">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="row">
                         <div class="col-lg-6 col-md-8 col-sm-8 col-xs-12">
@@ -277,8 +269,6 @@
                 </div>
             </div>
         </div>
-
-        <hr />
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">

@@ -12,30 +12,21 @@
 <br />
 <div class="row form-group" style="text-align:center">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        <h5 class="panel-title pull-left">Reservaciones</h5>
+        <h5 class="panel-title pull-left">Reservaciones: @Model.PassengerReservations.Count</h5>
     </div>
 </div>
-<div class="row" style="text-align:center">
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        <hr />
-    </div>
-</div>
-
 <div id="yourreservations">
     <div class="row form-group">
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-            <input type="text" class="search form-control small" placeholder="Búsqueda">
+            <div class="form-group has-feedback has-search">
+                <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                <input type="text" class="form-control search" placeholder="Búsqueda">
+            </div>
         </div>
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
             <a class="btn btn-info btn-sm btn-block custom-spin-button pull-right" href="@Url.Action("CreateReservation", "Reservations")" data-loading-text="<i class='fa fa-circle-o-notch fa-spin pull-right'></i> Reservar" style="width:150px">Reservar</a>
         </div>
     </div>
-    <div class="row form-group">
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <b class="pull-right">Reservaciones: @Model.PassengerReservations.Count</b>
-        </div>
-    </div>
-    <hr />
     @{
         if (Model.PassengerReservations.Count == 0)
         {
@@ -76,7 +67,7 @@
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <div class="row form-group">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
-                                            <span class="fas fa-calendar-alt"></span><small> <b>@reservation.Trip.LocalDateTime.ToString("dd/MM/yyyy")</b></small><br />
+                                            <span class="fas fa-calendar-alt"></span><small> <b>@reservation.Trip.LocalDateTime.ToString("dddd dd 'de' MMMM 'del' yyyy")</b></small><br />
                                             <span class="fas fa-clock"></span>&nbsp;<small>@reservation.Trip.LocalDateTime.ToString("hh:mm tt")</small>&nbsp;&nbsp;<br class="visible-xs" /><span class="fas fa-map-marker-alt">&nbsp;</span><small class="from">@from</small><br />
                                             <span class="fas fa-clock"></span>&nbsp;<small>@reservation.Trip.LocalArrivalDateTime.ToString("hh:mm tt")</small>&nbsp;&nbsp;<br class="visible-xs" /><span class="fas fa-map-marker-alt">&nbsp;</span><small class="to">@to</small><br />
                                             <b><span class="fas fa-route">&nbsp;</span>Ruta: </b><small class="route">@route</small><br />
@@ -142,29 +133,47 @@
                                             @{
                                                 if (reservation.Trip.AllowPets)
                                                 {
-                                                    <span class="fas fa-dog">&nbsp;</span><small>Mascotas&nbsp;</small><input type="checkbox" id="ck-pet-modal" name="ck-pet-modal" onclick="return false" checked class="form-check" />
+                                                    <div id="pet" class="btn btn-info col-md-4 col-sm-4 col-xs-4 panel panel-default active" data-toggle="button" onclick="return false" aria-pressed="true" style="border-radius:10px 0px 0px 10px; pointer-events:none">
+                                                        <span class="fas fa-dog">&nbsp;</span><br /><label class="control-label" style="text-align:left">Mascotas </label>&nbsp;<span id="check-pet" class="fas fa-check-circle">&nbsp;</span>
+                                                        <input type="text" id="ck-pet" name="ck-pet" style="display:none" />
+                                                    </div>
                                                 }
                                                 else
                                                 {
-                                                    <span class="fas fa-dog">&nbsp;</span><small>Mascotas&nbsp;</small><input type="checkbox" id="ck-pet-modal" name="ck-pet-modal" onclick="return false" class="form-check" />
+                                                    <div id="pet" class="btn btn-info col-md-4 col-sm-4 col-xs-4 panel panel-default" data-toggle="button" aria-pressed="false" autocomplete="off" style="border-radius:10px 0px 0px 10px; pointer-events:none">
+                                                        <span class="fas fa-dog">&nbsp;</span><br /><label class="control-label" style="text-align:left">Mascotas </label>&nbsp;<span id="check-pet" class="fas fa-check-circle hidden">&nbsp;</span>
+                                                        <input type="text" id="ck-pet" name="ck-pet" style="display:none" />
+                                                    </div>
                                                 }
 
                                                 if (reservation.Trip.AllowLuggage)
                                                 {
-                                                    <span class="fas fa-suitcase-rolling">&nbsp;</span><small>Equipaje&nbsp;</small><input type="checkbox" id="ck-luggage-modal" name="ck-luggage-modal" onclick="return false" checked class="form-check" />
+                                                    <div id="luggage" class="btn btn-info col-lg-4 col-md-4 col-sm-4 col-xs-4 panel panel-default active" data-toggle="button" aria-pressed="true" autocomplete="off" style="border-radius:0px;pointer-events:none">
+                                                        <span class="fas fa-suitcase-rolling">&nbsp;</span><br /><label class="control-label" style="text-align:left">Equipaje </label>&nbsp;<span id="check-luggage" class="fas fa-check-circle">&nbsp;</span>
+                                                        <input type="text" id="ck-luggage" name="ck-luggage" style="display:none" />
+                                                    </div>
                                                 }
                                                 else
                                                 {
-                                                    <span class="fas fa-suitcase-rolling">&nbsp;</span><small>Equipaje&nbsp;</small><input type="checkbox" id="ck-luggage-modal" name="ck-luggage-modal" onclick="return false" class="form-check" />
+                                                    <div id="luggage" class="btn btn-info col-lg-4 col-md-4 col-sm-4 col-xs-4 panel panel-default allow-checkboxes" data-toggle="button" aria-pressed="false" autocomplete="off" style="border-radius:0px;pointer-events:none">
+                                                        <span class="fas fa-suitcase-rolling">&nbsp;</span><br /><label class="control-label" style="text-align:left">Equipaje </label>&nbsp;<span id="check-luggage" class="fas fa-check-circle hidden">&nbsp;</span>
+                                                        <input type="text" id="ck-luggage" name="ck-luggage" style="display:none" />
+                                                    </div>
                                                 }
 
                                                 if (reservation.Trip.AllowSmoking)
                                                 {
-                                                    <span class="fas fa-smoking">&nbsp;</span><small>Fumado&nbsp;</small><input type="checkbox" id="ck-smoking-modal" name="ck-smoking-modal" onclick="return false" checked class="form-check" /><br />
+                                                    <div id="smoking" class="btn btn-info col-lg-4 col-md-4 col-sm-4 col-xs-4 panel panel-default active" data-toggle="button" aria-pressed="true" autocomplete="off" style="border-radius:0px 10px 10px 0px;pointer-events:none">
+                                                        <span class="fas fa-smoking">&nbsp;</span><br /><label class="control-label" style="text-align:left">Fumado</label>&nbsp;<span id="check-smoking" class="fas fa-check-circle">&nbsp;</span>
+                                                        <input type="text" id="ck-smoking" name="ck-smoking" style="display:none" />
+                                                    </div>
                                                 }
                                                 else
                                                 {
-                                                    <span class="fas fa-smoking">&nbsp;</span><small>Fumado&nbsp;</small><input type="checkbox" id="ck-smoking-modal" name="ck-smoking-modal" onclick="return false" class="form-check" /><br />
+                                                    <div id="smoking" class="btn btn-info col-lg-4 col-md-4 col-sm-4 col-xs-4 panel panel-default allow-checkboxes" data-toggle="button" aria-pressed="false" autocomplete="off" style="border-radius:0px 10px 10px 0px;pointer-events:none">
+                                                        <span class="fas fa-smoking">&nbsp;</span><br /><label class="control-label" style="text-align:left">Fumado</label>&nbsp;<span id="check-smoking" class="fas fa-check-circle hidden">&nbsp;</span>
+                                                        <input type="text" id="ck-smoking" name="ck-smoking" style="display:none" />
+                                                    </div>
                                                 }
                                             }
                                         </div>
@@ -232,7 +241,7 @@
 
 <script language="javascript">
     var options = {
-        valueNames: ['fromto', 'date', 'price', 'driver', 'spaces', 'status']
+        valueNames: ['from', 'to', 'date', 'price', 'driver', 'spaces', 'status']
     };
 
     var reservationCount = @Model.PassengerReservations.Count;

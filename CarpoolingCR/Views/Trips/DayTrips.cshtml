@@ -351,6 +351,14 @@
                 var allowLuggage = event.allowLuggage ? 'checked' : '';
                 var allowSmoking = event.allowSmoking ? 'checked' : '';
 
+                var hiddenPets = event.allowPets ? '' : 'hidden';
+                var hiddenLuggage = event.allowLuggage ? '' : 'hidden';
+                var hiddenSmoking = event.allowSmoking ? '' : 'hidden';
+
+                var activePets = !event.allowPets ? '' : 'active';
+                var activeLuggage = !event.allowLuggage ? '' : 'active';
+                var activeSmoking = !event.allowSmoking ? '' : 'active';
+
                 var html = `
                     <tr class="fc-list-item ">
                         <td class="fc-list-item-title fc-widget-content" colspan="2">
@@ -381,9 +389,15 @@
                                     </tr>
                                     <tr class="fc-list-item ">
                                         <td class="fc-list-item-title fc-widget-content" colspan="2">
-                                            <span class="fas fa-dog">&nbsp;</span><small>Mascotas&nbsp;</small><input type="checkbox" id="ck-pet" name="ck-pet" onclick="return false" class="form-check" ` + allowPets + ` readonly />
-                                            <span class="fas fa-suitcase-rolling">&nbsp;</span><small>Equipaje&nbsp;</small><input type="checkbox" id="ck-luggage" name="ck-luggage" onclick="return false" class="form-check" ` + allowLuggage + ` readonly />
-                                            <span class="fas fa-smoking">&nbsp;</span><small>Fumado&nbsp;</small><input type="checkbox" id="ck-smoking" name="ck-smoking" onclick="return false" class="form-check" ` + allowSmoking + ` readonly />
+                                            <div id="pet" class="btn btn-info panel panel-default `+ activePets+`" data-toggle="button" onclick="return false" aria-pressed="` + allowPets + `" style="border-radius:10px 0px 0px 10px; pointer-events:none;position:relative;right:-5px">
+                                                <span class="fas fa-dog">&nbsp;</span><br /><label class="control-label" style="text-align:left">Mascotas </label>&nbsp;<span id="check-pet" class="fas fa-check-circle `+ hiddenPets +`">&nbsp;</span>
+                                            </div>
+                                            <div id="luggage" class="btn btn-info panel panel-default `+ activeLuggage+`" data-toggle="button" aria-pressed="`+ allowLuggage+`" autocomplete="off" style="border-radius:0px;pointer-events:none">
+                                                <span class="fas fa-suitcase-rolling">&nbsp;</span><br /><label class="control-label" style="text-align:left">Equipaje </label>&nbsp;<span id="check-luggage" class="fas fa-check-circle `+ hiddenLuggage+`">&nbsp;</span>
+                                            </div>
+                                            <div id="smoking" class="btn btn-info panel panel-default `+ activeSmoking + `" data-toggle="button" aria-pressed="` + allowSmoking +`" autocomplete="off" style="border-radius:0px 10px 10px 0px;pointer-events:none;position:relative;right:5px">
+                                                <span class="fas fa-smoking">&nbsp;</span><br /><label class="control-label" style="text-align:left">Fumado</label>&nbsp;<span id="check-smoking" class="fas fa-check-circle `+ hiddenSmoking+`">&nbsp;</span>
+                                            </div>
                                         </td>
                                     </tr>
                                 </table>

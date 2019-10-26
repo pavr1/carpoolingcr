@@ -366,7 +366,11 @@
 
         if (from != '' && to != '' && route != '') {
             console.log('Calculating Route... From: ' + from + ', To: ' + to + ', Route: ' + route);
+            initMap();
             calculateAndDisplayRoute(from, to, route, directionsService, directionsDisplay, 'aprox-time-div');
+        } else if (from != '') {
+            console.log('Calculating Route... From: ' + from + ', To: ' + to + ', Route: ' + route);
+            //codeAddress(from);
         }
 
         if (from != '' && to != '' && routeto != '') {
@@ -607,6 +611,29 @@
                 console.log(response)
             } else {
                 console.log('Directions request failed due to ' + status);
+            }
+        });
+    }
+
+    var geocoder;
+
+    function codeAddress(address) {
+        geocoder = new google.maps.Geocoder();
+        geocoder.geocode({
+            'address': address
+        }, function (results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                var myOptions = {
+                    zoom: 10,
+                    center: results[0].geometry.location,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                }
+                map = new google.maps.Map(document.getElementById("map"), myOptions);
+
+                var marker = new google.maps.Marker({
+                    map: map,
+                    position: results[0].geometry.location
+                });
             }
         });
     }

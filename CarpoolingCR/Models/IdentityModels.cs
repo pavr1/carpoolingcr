@@ -262,5 +262,7 @@ namespace CarpoolingCR.Models
 
         public System.Data.Entity.DbSet<CarpoolingCR.Models.NotificationRequest> NotificationRequests { get; set; }
         public System.Data.Entity.DbSet<CarpoolingCR.Models.Phone> Phones { get; set; }
+
+        public System.Data.Entity.DbSet<CarpoolingCR.Models.UserRating> UserRatings { get; set; }
     }
 }

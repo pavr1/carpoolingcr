@@ -229,6 +229,7 @@
     <Compile Include="Controllers\PhoneController.cs" />
     <Compile Include="Controllers\ProfileQualificationsController.cs" />
     <Compile Include="Controllers\ProvincesController.cs" />
+    <Compile Include="Controllers\UserRatingsController.cs" />
     <Compile Include="Controllers\QualificationsController.cs" />
     <Compile Include="Controllers\RideRequestsController.cs" />
     <Compile Include="Controllers\TownsController.cs" />
@@ -326,6 +327,10 @@
     <Compile Include="Migrations\201910251558305_Deleted user.birthdate.Designer.cs">
       <DependentUpon>201910251558305_Deleted user.birthdate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201910302138562_Added UserRatings.cs" />
+    <Compile Include="Migrations\201910302138562_Added UserRatings.Designer.cs">
+      <DependentUpon>201910302138562_Added UserRatings.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Bank.cs" />
@@ -351,6 +356,7 @@
     <Compile Include="Models\Trip.cs" />
     <Compile Include="Models\TripQuestion.cs" />
     <Compile Include="Models\TripQuestionInfo.cs" />
+    <Compile Include="Models\UserRating.cs" />
     <Compile Include="Models\VehicleInfo.cs" />
     <Compile Include="Models\Vehicle\Vehicle.cs" />
     <Compile Include="Objects\Responses\Base\BaseResponse.cs" />
@@ -930,6 +936,7 @@
     <Content Include="Views\Reservations\Partials\_PassengerReservationHistorial.cshtml" />
     <Content Include="Views\Phone\Index.cshtml" />
     <Content Include="Views\Help\PassengerIndex.cshtml" />
+    <Content Include="Views\UserRatings\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1016,6 +1023,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201910251558305_Deleted user.birthdate.resx">
       <DependentUpon>201910251558305_Deleted user.birthdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910302138562_Added UserRatings.resx">
+      <DependentUpon>201910302138562_Added UserRatings.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

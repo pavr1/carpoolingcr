@@ -922,9 +922,9 @@
                 <div class="modal-dialog vertical-align-center">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <input type="text" id="q-reservation-id" name="q-reservation-id" class="hidden" />
                             <input type="text" id="q-trip-id" name="q-trip-id" class="hidden" />
-                            <input type="text" id="q-stars" name="q-stars" class="hidden" />
+                            <input type="text" id="q-from" name="q-from" class="hidden" />
+                            <input type="text" id="q-to" name="q-to" class="hidden" />
                             <button type="button" class="close" data-dismiss="modal">
                                 <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
                             </button>
@@ -1004,10 +1004,11 @@
             }
         });
 
-        function PopUpQualifyModal(reservationId, tripId, userName, url) {
-            $('#q-reservation-id').val(reservationId);
+        function PopUpQualifyModal(tripId, from, to, url) {
             $('#q-trip-id').val(tripId);
-            $('#p-User-Name').html(userName);
+            $('#q-from').val(from);
+            $('#q-to').val(to);
+
             $('#q-comment').val('');
             $('#q-star4').removeClass('checked');
             $('#q-star5').removeClass('checked');

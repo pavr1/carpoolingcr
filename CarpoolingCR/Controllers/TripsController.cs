@@ -1003,7 +1003,8 @@ namespace CarpoolingCR.Controllers
 
                 var response = new HistorialResponse
                 {
-                    Trips = trips
+                    Trips = trips,
+                    UserRatings = new List<UserRating>()
                 };
 
                 return View(response);

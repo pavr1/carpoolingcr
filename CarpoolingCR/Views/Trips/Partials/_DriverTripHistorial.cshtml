@@ -69,7 +69,7 @@
                                 <div class="row form-group" style="padding:10px">
                                     <div class="col-lg-1 col-md-1 col-sm-1 hidden-xs">
                                     </div>
-                                    <div class="col-lg-11 col-md-11 col-sm-11 12" style="border-radius:10px; margin-bottom:0px">
+                                    <div class="col-lg-11 col-md-11 col-sm-11 12 panel panel-default" style="border-radius:10px; margin-bottom:0px; padding:10px">
                                         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
                                             <div id="profile-container-small" data-toggle="tooltip" title="Pasajero" >
                                                 <img id="profileImage" src="@Url.Content(reservation.ApplicationUser.Picture)" style="text-align:center; display:inline" />
@@ -84,14 +84,14 @@
                                             var driverRating = Model.UserRatings.Where(x => x.FromId == passengerId && x.ToId == driverId).SingleOrDefault();
 
                                             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
-                                                <div class="row form-group" style="padding:10px">
-                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 panel panel-default" style="border-radius: 10px; text-align:center; display:inline; width:95%; height:125px">
+                                                <div class="row form-group">
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 panel panel-default" style="margin-bottom:0px; border-radius: 10px; text-align:center; display:inline; width:95%; height:125px; background-color:lightyellow">
                                                         <b>Tu calificación:</b><br />
                                                         @{
                                                             if (passengerRating == null)
                                                             {
                                                                 <small>¡No has calificado al pasajero!</small><br /><br />
-                                                                <input type="button" class="btn btn-info btn-sm" value="Calificar" onclick="PopUpQualifyModal(@reservation.ReservationId, @reservation.TripId, '@reservation.ApplicationUser.FullName','#historial-container')" />
+                                                                <input type="button" class="btn btn-info btn-sm" value="Calificar" onclick="PopUpQualifyModal(@reservation.TripId, '@reservation.Trip.ApplicationUserId', '@reservation.ApplicationUserId', '@reservation.ApplicationUser.FullName','#historial-container')" />
                                                             }
                                                             else
                                                             {
@@ -142,8 +142,8 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
-                                                <div class="row form-group" style="padding:10px; margin-bottom:0px">
-                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 panel panel-default" style="border-radius: 10px; text-align:center; display:inline; padding:5px; width:95%; height:125px;">
+                                                <div class="row form-group" style="margin-bottom:0px">
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 panel panel-default" style="border-radius: 10px; text-align:center; display:inline; width:95%; height:125px; background-color:lightyellow">
                                                         <b>Calificación del pasajero:</b><br />
                                                         @{
                                                             if (driverRating == null)

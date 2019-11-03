@@ -99,43 +99,36 @@
         <div id="main-content" class="row form-group hidden panel panel-default" style="border-radius:10px; margin:1px; padding-top: 10px">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="row form-group">
-                    <div class="col-lg-1 col-md-2 col-sm-6 col-xs-12">
-                        <label class="control-label visible-xs visible-sm"><i class="fas fa-map-marker-alt">&nbsp;</i>Origen</label>
-                        <label class="control-label pull-right visible-md visible-lg"><i class="fas fa-map-marker-alt">&nbsp;</i>Origen</label>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="has-feedback has-search" style="width:100%">
+                            <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                            <select id="FromTown" name="FromTown" class="form-control waypoints" placeholder="Origen" style="width:100%; max-width:500px !important">
+                                @Html.Raw(Model.DistrictControlOptions)
+                            </select>
+                            <label id="fromDistrictId"></label>
+                        </div>
                     </div>
-                    <div class="col-lg-5 col-md-4 col-sm-6 col-xs-12">
-                        <select id="FromTown" name="FromTown" class="form-control" onfocus="this.select()">
-                            @Html.Raw(Model.DistrictControlOptions)
-                        </select>
-                    </div>
-                    <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
-                        <label class="control-label visible-xs visible-sm"><i class="fas fa-map-marker-alt">&nbsp;</i>Destino</label>
-                        <label class="control-label pull-right visible-md visible-lg"><i class="fas fa-map-marker-alt">&nbsp;</i>Destino</label>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                        <select id="ToTown" name="ToTown" class="form-control" style="width:100%" onfocus="this.select()">
-                            @Html.Raw(Model.DistrictControlOptions)
-                        </select>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="has-feedback has-search" style="width:100%">
+                            <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                            <select id="ToTown" name="ToTown" class="form-control waypoints w-100" placeholder="Destino" style="width:100%; max-width:500px !important">
+                                @Html.Raw(Model.DistrictControlOptions)
+                            </select>
+                            <label id="toDistrictId"></label>
+                        </div>
                     </div>
                 </div>
                 <div class="row form-group hidden-xs">
-                    <div class="col-lg-1 col-md-2 col-sm-0">
-                    </div>
-                    <div class="col-lg-5 col-md-4 col-sm-6">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 
                     </div>
-                    <div class="col-lg-2 col-md-2 col-sm-0">
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                         <button onclick="window.location='@Url.Action("Login","Account")'" type="button" class="btn btn-info btn-sm" style="width:260px;border-radius:10px" data-loading-text="<i class='fa fa-circle-o-notch fa-spin pull-right'></i> Consultar Viajes">Consultar Viajes</button>
                     </div>
                 </div>
                 <div class="row form-group visible-xs">
-                    <div class="col-xs-7">
-
-                    </div>
-                    <div class="col-xs-5">
-                        <button onclick="window.location='@Url.Action("Login","Account")'" type="button" class="btn btn-info btn-sm pull-right" style="width:110px;border-radius:10px" data-loading-text="<i class='fa fa-circle-o-notch fa-spin pull-right'></i> Consultar">Consultar</button>
+                    <div class="col-xs-12">
+                        <button onclick="window.location='@Url.Action("Login","Account")'" type="button" class="btn btn-info btn-sm" style="width:260px;border-radius:10px" data-loading-text="<i class='fa fa-circle-o-notch fa-spin pull-right'></i> Consultar Viajes">Consultar Viajes</button>
                     </div>
                 </div>
                 @Html.Partial("~/Views/Reservations/Partials/_RequestJourney.cshtml", Model)

@@ -394,6 +394,7 @@ namespace CarpoolingCR.Controllers
         public ActionResult Create([Bind(Include = "")] Trip trip)
         {
             var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg"); ;
+            var tripBack = new Trip();
 
             var fields = "Fields => ";
 
@@ -495,30 +496,38 @@ namespace CarpoolingCR.Controllers
 
                     int routeId = routeDistrict.DistrictId;
                     decimal price = Convert.ToDecimal(Request["Trip.Price"].Replace("₡", string.Empty).Replace(",00", string.Empty));
+                    var utcTime = TimeZoneInfo.ConvertTimeToUtc(DateTime.Now, TimeZoneInfo.Local);
 
-                    trip = new Trip
+                    var existentTrip = db.Trips.Where(x => x.DateTime == utcTime)
+                        .Where(x => x.FromTownId == fromDistrict.DistrictId && x.ToTownId == toDistrict.DistrictId)
+                        .Where(x => x.ApplicationUserId == user.Id).SingleOrDefault();
+
+                    if (existentTrip == null)
                     {
-                        ApplicationUserId = user.Id,
-                        AvailableSpaces = Convert.ToInt32(Request["AvailableSpaces"]),
-                        CreatedTime = TimeZoneInfo.ConvertTimeToUtc(DateTime.Now, TimeZoneInfo.Local),
-                        DateTime = TimeZoneInfo.ConvertTimeToUtc(tripDate, TimeZoneInfo.Local),
-                        Details = Request["Trip.Details"],
-                        FromTownId = fromDistrict.DistrictId,
-                        Price = price,
-                        Status = Enums.Status.Activo,
-                        TotalSpaces = Convert.ToInt32(Request["TotalSpaces"]),
-                        ToTownId = toDistrict.DistrictId,
-                        RouteId = routeId,
-                        AproxDistance = Request["aprox-distance"],
-                        ArrivalDateTime = TimeZoneInfo.ConvertTimeToUtc(arrivalTime, TimeZoneInfo.Local),
-                        AllowPets = Convert.ToBoolean(Request["ck-pet"] == "on"),
-                        AllowLuggage = Convert.ToBoolean(Request["ck-luggage"] == "on"),
-                        AllowSmoking = Convert.ToBoolean(Request["ck-smoking"] == "on")
-                    };
+                        trip = new Trip
+                        {
+                            ApplicationUserId = user.Id,
+                            AvailableSpaces = Convert.ToInt32(Request["AvailableSpaces"]),
+                            CreatedTime = utcTime,
+                            DateTime = TimeZoneInfo.ConvertTimeToUtc(tripDate, TimeZoneInfo.Local),
+                            Details = Request["Trip.Details"],
+                            FromTownId = fromDistrict.DistrictId,
+                            Price = price,
+                            Status = Enums.Status.Activo,
+                            TotalSpaces = Convert.ToInt32(Request["TotalSpaces"]),
+                            ToTownId = toDistrict.DistrictId,
+                            RouteId = routeId,
+                            AproxDistance = Request["aprox-distance"],
+                            ArrivalDateTime = TimeZoneInfo.ConvertTimeToUtc(arrivalTime, TimeZoneInfo.Local),
+                            AllowPets = Convert.ToBoolean(Request["ck-pet"] == "on"),
+                            AllowLuggage = Convert.ToBoolean(Request["ck-luggage"] == "on"),
+                            AllowSmoking = Convert.ToBoolean(Request["ck-smoking"] == "on")
+                        };
 
-                    db.Entry(trip).State = EntityState.Added;
-                    db.SaveChanges();
-
+                        db.Entry(trip).State = EntityState.Added;
+                        db.SaveChanges();
+                    }
+                    
                     trip.FromTown = fromDistrict;
                     trip.ToTown = toDistrict;
                     trip.Route = routeDistrict;
@@ -564,28 +573,35 @@ namespace CarpoolingCR.Controllers
                         
                         var arrivalTimeTo = tripDateTo.AddHours(apoxTime);
 
-                        var tripBack = new Trip
-                        {
-                            ApplicationUserId = user.Id,
-                            AvailableSpaces = Convert.ToInt32(Request["AvailableSpaces-To"]),
-                            CreatedTime = TimeZoneInfo.ConvertTimeToUtc(DateTime.Now, TimeZoneInfo.Local),
-                            DateTime = TimeZoneInfo.ConvertTimeToUtc(tripDateTo, TimeZoneInfo.Local),
-                            Details = Request["Trip_Details_To"],
-                            FromTownId = toDistrict.DistrictId,
-                            Price = price,
-                            Status = Enums.Status.Activo,
-                            TotalSpaces = Convert.ToInt32(Request["TotalSpaces"]),
-                            ToTownId = fromDistrict.DistrictId,
-                            RouteId = routeBackId,
-                            AproxDistance = Request["aprox-distance"],
-                            ArrivalDateTime = TimeZoneInfo.ConvertTimeToUtc(arrivalTimeTo, TimeZoneInfo.Local),
-                            AllowPets = Convert.ToBoolean(Request["ck-pet"] == "on"),
-                            AllowLuggage = Convert.ToBoolean(Request["ck-luggage"] == "on"),
-                            AllowSmoking = Convert.ToBoolean(Request["ck-smoking"] == "on")
-                        };
+                        existentTrip = db.Trips.Where(x => x.DateTime == utcTime)
+                           .Where(x => x.FromTownId == fromDistrict.DistrictId && x.ToTownId == toDistrict.DistrictId)
+                           .Where(x => x.ApplicationUserId == user.Id).SingleOrDefault();
 
-                        db.Entry(tripBack).State = EntityState.Added;
-                        db.SaveChanges();
+                        if (existentTrip == null)
+                        {
+                            tripBack = new Trip
+                            {
+                                ApplicationUserId = user.Id,
+                                AvailableSpaces = Convert.ToInt32(Request["AvailableSpaces-To"]),
+                                CreatedTime = TimeZoneInfo.ConvertTimeToUtc(DateTime.Now, TimeZoneInfo.Local),
+                                DateTime = TimeZoneInfo.ConvertTimeToUtc(tripDateTo, TimeZoneInfo.Local),
+                                Details = Request["Trip_Details_To"],
+                                FromTownId = toDistrict.DistrictId,
+                                Price = price,
+                                Status = Enums.Status.Activo,
+                                TotalSpaces = Convert.ToInt32(Request["TotalSpaces"]),
+                                ToTownId = fromDistrict.DistrictId,
+                                RouteId = routeBackId,
+                                AproxDistance = Request["aprox-distance"],
+                                ArrivalDateTime = TimeZoneInfo.ConvertTimeToUtc(arrivalTimeTo, TimeZoneInfo.Local),
+                                AllowPets = Convert.ToBoolean(Request["ck-pet"] == "on"),
+                                AllowLuggage = Convert.ToBoolean(Request["ck-luggage"] == "on"),
+                                AllowSmoking = Convert.ToBoolean(Request["ck-smoking"] == "on")
+                            };
+
+                            db.Entry(tripBack).State = EntityState.Added;
+                            db.SaveChanges();
+                        }
 
                         tripBack.FromTown = toDistrict;
                         tripBack.ToTown = fromDistrict;

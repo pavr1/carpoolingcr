@@ -7,12 +7,7 @@
 <br />
 <div class="row form-group" style="text-align:center">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        <h5 class="panel-title pull-left">Notificaciones</h5>
-    </div>
-</div>
-<div class="row" style="text-align:center">
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        <hr />
+        <h5 class="pull-left">Notificaciones</h5>
     </div>
 </div>
 <div id="loading-content" class="row form-group" style="text-align:center; height:500px;">
@@ -28,8 +23,8 @@
     </div>
 </div>
 
-<div id="main-content" class="form-group hidden">
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+<div id="main-content" class="row form-group hidden" style="padding:10px">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 panel panel-default" style="border-radius:10px; padding-top:20px;">
         <form id="notifications-create-form" action="/carpoolingcr/NotificationRequests/Create" method="post">
             @Html.AntiForgeryToken()
             <div class="row form-group">
@@ -52,30 +47,24 @@
                     </div>
                 </div>
             </div>
-                <div class="row form-group">
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                        <label class="control-label"><i class="fas fa-calendar-alt">&nbsp;</i>Fecha: </label><br />
-                        <input id="DateTimeDisplay" name="DateTimeDisplay" autocomplete="off" class="form-control" type="text" onfocus="blur();">
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                        <label class="control-label"><i class="fas fa-clock">&nbsp;</i>Hora: </label><br />
-                        <input id="TimeDisplay" name="TimeDisplay" autocomplete="off" class="form-control" type="text" onfocus="blur();" style="width:100px">
-                        <select id="hour-type" name="hour-type" class="form-control hidden" onfocus="this.select()">
-                            <option value="1">Todo el día (12:00 am-11:59 pm)</option>
-                            <option value="2">Madrugada (12:00 am-5:59 am)</option>
-                            <option value="3">Mañana (6:00 am-11:59 am)</option>
-                            <option value="4">Medio día (12:00 pm-12:59 pm)</option>
-                            <option value="5">Tarde (1:00 pm-6:59 pm)</option>
-                            <option value="6">Noche (7:00 pm-11:59 pm)</option>
-                        </select>
-                        <input id="time-options-check" name="time-options-check" type="checkbox" /> Hora Flexible<br />
-                        <input type="button" value="Solicitar Notificaciones" onclick="return SubmitRequest()" class="btn btn-info btn-sm pull-right" />
-                    </div>
+            <div class="row form-group">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    <label class="control-label"><i class="fas fa-calendar-alt">&nbsp;</i>Fecha: </label><br />
+                    <input id="DateTimeDisplay" name="DateTimeDisplay" autocomplete="off" class="form-control" type="text" onfocus="blur();">
                 </div>
-                <div class="row form-group">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        
-                    </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    <label class="control-label"><i class="fas fa-clock">&nbsp;</i>Hora: </label><br />
+                    <input id="TimeDisplay" name="TimeDisplay" autocomplete="off" class="form-control" type="text" onfocus="blur();" style="width:100px">
+                    <select id="hour-type" name="hour-type" class="form-control hidden" onfocus="this.select()">
+                        <option value="1">Todo el día (12:00 am-11:59 pm)</option>
+                        <option value="2">Madrugada (12:00 am-5:59 am)</option>
+                        <option value="3">Mañana (6:00 am-11:59 am)</option>
+                        <option value="4">Medio día (12:00 pm-12:59 pm)</option>
+                        <option value="5">Tarde (1:00 pm-6:59 pm)</option>
+                        <option value="6">Noche (7:00 pm-11:59 pm)</option>
+                    </select>
+                    <input id="time-options-check" name="time-options-check" type="checkbox" /> Hora Flexible<br />
+                    <input type="button" value="Solicitar Notificaciones" onclick="return SubmitRequest()" class="btn btn-info btn-sm pull-right" />
                 </div>
             </div>
         </form>

@@ -62,41 +62,24 @@ namespace CarpoolingCR.Utils
         {
             using (var db = new ApplicationDbContext())
             {
-                List<Qualification> qualifications = null;
-
-                if (isDriver)
-                {
-                    var trips = db.Trips.Where(x => x.ApplicationUserId == userId)
-                        .Select(x => x.TripId)
-                        .ToList();
-
-                    qualifications = db.Qualifications.Where(x => trips.Contains((int)x.TripId)).ToList();
-                }
-                else
-                {
-                    //Passenger
-                    var reservations = db.Reservations.Where(x => x.ApplicationUserId == userId)
-                        .Select(x => x.ReservationId)
-                        .ToList();
-
-                    qualifications = db.Qualifications.Where(x => reservations.Contains((int)x.ReservationId)).ToList();
-                }
+                List<UserRating> ratings = db.UserRatings.Where(x => x.ToId == userId).ToList();
 
                 var totalStars = 0;
 
-                //if user has been rated in less than 10 times, not enough data to star, return -1
-                if (qualifications.Count < 10)
+                //todo: if user has been rated in less than 10 times, not enough data to star, return -1
+                //disabled this by now
+                if(false)//if (ratings.Count < 10)
                 {
                     return -1;
                 }
                 else
                 {
-                    foreach (var qualification in qualifications)
+                    foreach (var rating in ratings)
                     {
-                        totalStars += qualification.Starts;
+                        totalStars += rating.Stars;
                     }
 
-                    var average = totalStars / qualifications.Count();
+                    var average = totalStars / ratings.Count();
 
                     return average;
                 }

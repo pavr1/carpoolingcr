@@ -922,9 +922,11 @@
                 <div class="modal-dialog vertical-align-center">
                     <div class="modal-content">
                         <div class="modal-header">
+                            <input type="text" id="q-stars" name="q-trip-id" class="hidden" value="3"/>
                             <input type="text" id="q-trip-id" name="q-trip-id" class="hidden" />
                             <input type="text" id="q-from" name="q-from" class="hidden" />
                             <input type="text" id="q-to" name="q-to" class="hidden" />
+                            <input type="text" id="q-is-passenger" name="q-to" class="hidden" />
                             <button type="button" class="close" data-dismiss="modal">
                                 <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
                             </button>
@@ -1007,11 +1009,12 @@
             }
         });
 
-        function PopUpQualifyModal(tripId, from, to, toName, url) {
+        function PopUpQualifyModal(tripId, from, to, toName, isPassenger, url) {
             $('#q-trip-id').val(tripId);
             $('#q-from').val(from);
             $('#q-to').val(to);
             $('#p-User-Name').html(toName);
+            $('#q-is-passenger').val(isPassenger)
 
             $('#q-comment').val('');
             $('#q-star4').removeClass('checked');
@@ -1021,18 +1024,20 @@
         }
 
         function RateUser() {
-            var reservationId = $('#q-reservation-id').val();
             var tripId = $('#q-trip-id').val();
+            var from = $('#q-from').val();
+            var to = $('#q-to').val();
             var stars = $('#q-stars').val();
             var comment = $('#q-comment').val();
+            var isPassenger = $('#q-is-passenger').val()
 
             if (tripId == '') {
                 tripId = null;
             }
 
-            console.log('ReservationId: ' + reservationId + ', TripId: ' + tripId + ', Stars: ' + stars + ', Comment: ' + comment);
+            console.log('tripId: ' + tripId + ', from: ' + from + ', to: ' + to + ', stars: ' + stars + ', comment: ' + comment + ', isPassenger: ' + isPassenger);
 
-            $.post('@Url.Action("QualifyUser", "Qualifications")', { reservationId: reservationId, tripId: tripId, stars: stars, comment: comment},
+            $.post('@Url.Action("RateUser", "UserRatings")', { tripId: tripId, from: from, to: to, stars: stars, comment: comment, isPassenger: isPassenger},
                 function (data) {
                     $('#qualifyUserModal').modal('toggle');
 
@@ -1060,7 +1065,7 @@
             $('#' + prefix + 'star3').removeClass('checked');
             $('#' + prefix + 'star4').removeClass('checked');
             $('#' + prefix + 'star5').removeClass('checked');
-
+            
             $('#q-stars').val(stars);
 
             for (var i = 1; i <= stars; i++) {

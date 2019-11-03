@@ -19,6 +19,9 @@
             var to = reservation.Trip.ToTown.FullName;
             var route = reservation.Trip.Route.Name;
 
+            var driverId = reservation.Trip.ApplicationUserId;
+            var passengerId = reservation.ApplicationUserId;
+
             <div class="row container">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 panel panel-default" style="border-radius:10px; padding-left:15px">
                     <div class="row form-group">
@@ -33,11 +36,11 @@
                         </div>
                         <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6 pull-right">
                             @{
-                                var qualification = reservation.Qualifications.Where(x => x.ReservationId == reservation.ReservationId).SingleOrDefault();
+                                var qualification = 5;// reservation.Qualifications.Where(x => x.ReservationId == reservation.ReservationId).SingleOrDefault();
 
                                 if (qualification != null)
                                 {
-                                    switch (qualification.Starts)
+                                    switch (5)
                                     {
                                         case 1:
                                             <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star1" class="fa fa-star checked" data-toggle="Muy Malo"></span></a>
@@ -87,12 +90,12 @@
                                 }
                                 else
                                 {
-                                    <small>@qualification.Comments</small>
+                                    <small></small>
                                 }
 
                                 if (!reservation.IsDriverQualified)
                                 {
-                                    <input type="button" class="btn btn-info pull-right" value="Calificar" onclick="PopUpQualifyModal(@reservation.ReservationId, @reservation.TripId, '@reservation.Trip.ApplicationUser.FullName','historial-container')" />
+                                    <input type="button" class="btn btn-info pull-right" value="Calificar" onclick="PopUpQualifyModal(@reservation.ReservationId, @reservation.TripId, '@reservation.Trip.ApplicationUser.FullName', true, 'historial-container')" />
                                 }
                             }
                         </div>

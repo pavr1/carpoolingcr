@@ -991,20 +991,20 @@ namespace CarpoolingCR.Controllers
                         .Include(x => x.ApplicationUser)
                         .ToList();
 
-                    trip.Qualifications = db.Qualifications.Where(x => x.TripId == trip.TripId)
-                        .Include(x => x.Qualifier)
-                        .ToList();
+                    //trip.Qualifications = db.Qualifications.Where(x => x.TripId == trip.TripId)
+                    //    .Include(x => x.Qualifier)
+                    //    .ToList();
 
                     trip.ApplicationUser = db.Users.Where(x => x.Id == trip.ApplicationUserId).Single();
                     trip.FromTown = db.Districts.Where(x => x.DistrictId == trip.FromTownId).Single();
                     trip.ToTown = db.Districts.Where(x => x.DistrictId == trip.ToTownId).Single();
                     trip.Route = db.Districts.Where(x => x.DistrictId == trip.RouteId).Single();
-                }
+                    trip.UserRatings = db.UserRatings.Where(x => x.TripId == trip.TripId).ToList();
+    }
 
                 var response = new HistorialResponse
                 {
-                    Trips = trips,
-                    UserRatings = new List<UserRating>()
+                    Trips = trips
                 };
 
                 return View(response);

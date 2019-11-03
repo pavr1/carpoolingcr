@@ -136,6 +136,6 @@ namespace CarpoolingCR.Models
             }
         }
 
-        public List<Qualification> Qualifications { get; set; }
+        public List<UserRating> UserRatings{ get; set; }
     }
 }

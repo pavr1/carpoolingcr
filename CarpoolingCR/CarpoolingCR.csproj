@@ -331,6 +331,10 @@
     <Compile Include="Migrations\201910302138562_Added UserRatings.Designer.cs">
       <DependentUpon>201910302138562_Added UserRatings.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201911030140255_Changed trip.Qualification to trip.UserRating migration.cs" />
+    <Compile Include="Migrations\201911030140255_Changed trip.Qualification to trip.UserRating migration.Designer.cs">
+      <DependentUpon>201911030140255_Changed trip.Qualification to trip.UserRating migration.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Bank.cs" />
@@ -1026,6 +1030,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201910302138562_Added UserRatings.resx">
       <DependentUpon>201910302138562_Added UserRatings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911030140255_Changed trip.Qualification to trip.UserRating migration.resx">
+      <DependentUpon>201911030140255_Changed trip.Qualification to trip.UserRating migration.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

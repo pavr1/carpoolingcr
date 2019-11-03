@@ -35,8 +35,6 @@ namespace CarpoolingCR.Models
         
         public string PassengerName { get; set; }
 
-        public List<Qualification> Qualifications { get; set; }
-
         public bool IsPassengerQualified { get; set; }
         public bool IsDriverQualified { get; set; }
     }

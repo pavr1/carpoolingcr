@@ -11,7 +11,5 @@ namespace CarpoolingCR.Objects.Responses
     {
         public List<Trip> Trips { get; set; }
         public List<Reservation> Reservations { get; set; }
-
-        public List<UserRating> UserRatings { get; set; }
     }
 }

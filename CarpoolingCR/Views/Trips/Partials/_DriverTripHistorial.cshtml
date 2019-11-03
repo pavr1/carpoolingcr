@@ -70,135 +70,137 @@
                                     <div class="col-lg-1 col-md-1 col-sm-1 hidden-xs">
                                     </div>
                                     <div class="col-lg-11 col-md-11 col-sm-11 12 panel panel-default" style="border-radius:10px; margin-bottom:0px; padding:10px">
-                                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                                            <div id="profile-container-small" data-toggle="tooltip" title="Pasajero" >
-                                                <img id="profileImage" src="@Url.Content(reservation.ApplicationUser.Picture)" style="text-align:center; display:inline" />
+                                        <div class="row">
+                                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                                <div id="profile-container-small" data-toggle="tooltip" title="Pasajero">
+                                                    <img id="profileImage" src="@Url.Content(reservation.ApplicationUser.Picture)" style="text-align:center; display:inline" />
+                                                </div>
+                                                <small>@reservation.ApplicationUser.FullName</small><br />
                                             </div>
-                                            <small>@reservation.ApplicationUser.FullName</small><br />
+
+                                            @{
+                                                var passengerId = reservation.ApplicationUserId;
+
+                                                var passengerRating = trip.UserRatings.Where(x => x.FromId == driverId && x.ToId == passengerId).SingleOrDefault();
+                                                var driverRating = trip.UserRatings.Where(x => x.FromId == passengerId && x.ToId == driverId).SingleOrDefault();
+
+                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
+                                                    <div class="row form-group">
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 panel panel-default" style="margin-left:15px; margin-right:15px; margin-bottom:0px; border-radius: 10px; text-align:center; display:inline; width:90%; height:125px; background-color:lightyellow">
+                                                            <b>Tu calificación:</b><br />
+                                                            @{
+                                                                if (passengerRating == null)
+                                                                {
+                                                                    <small>¡No has calificado al pasajero!</small><br /><br />
+                                                                    <input type="button" class="btn btn-info btn-sm" value="Calificar" onclick="PopUpQualifyModal(@reservation.TripId, '@reservation.Trip.ApplicationUserId', '@reservation.ApplicationUserId', '@reservation.ApplicationUser.FullName', false,'#historial-container')" />
+                                                                }
+                                                                else
+                                                                {
+                                                                    switch (passengerRating.Stars)
+                                                                    {
+                                                                        case 1:
+                                                                            <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star1" class="fa fa-star checked" data-toggle="Muy Malo"></span></a>
+                                                                            <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star2" class="fa fa-star" data-toggle="Muy Malo"></span></a>
+                                                                            <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star3" class="fa fa-star" data-toggle="Muy Malo"></span></a>
+                                                                            <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star4" class="fa fa-star" data-toggle="Muy Malo"></span></a>
+                                                                            <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star5" class="fa fa-star" data-toggle="Muy Malo"></span></a>
+                                                                            break;
+                                                                        case 2:
+                                                                            <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star1" class="fa fa-star checked" data-toggle="Malo"></span></a>
+                                                                            <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star2" class="fa fa-star checked" data-toggle="Malo"></span></a>
+                                                                            <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star3" class="fa fa-star" data-toggle="Malo"></span></a>
+                                                                            <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star4" class="fa fa-star" data-toggle="Malo"></span></a>
+                                                                            <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star5" class="fa fa-star" data-toggle="Malo"></span></a>
+                                                                            break;
+                                                                        case 3:
+                                                                            <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star1" class="fa fa-star checked" data-toggle="Bueno"></span></a>
+                                                                            <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star2" class="fa fa-star checked" data-toggle="Bueno"></span></a>
+                                                                            <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star3" class="fa fa-star checked" data-toggle="Bueno"></span></a>
+                                                                            <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star4" class="fa fa-star" data-toggle="Bueno"></span></a>
+                                                                            <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star5" class="fa fa-star" data-toggle="Bueno"></span></a>
+                                                                            break;
+                                                                        case 4:
+                                                                            <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star1" class="fa fa-star checked" data-toggle="Muy Bueno"></span></a>
+                                                                            <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star2" class="fa fa-star checked" data-toggle="Muy Bueno"></span></a>
+                                                                            <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star3" class="fa fa-star checked" data-toggle="Muy Bueno"></span></a>
+                                                                            <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star4" class="fa fa-star checked" data-toggle="Muy Bueno"></span></a>
+                                                                            <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star5" class="fa fa-star" data-toggle="Muy Bueno"></span></a>
+                                                                            break;
+                                                                        case 5:
+                                                                            <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star1" class="fa fa-star checked" data-toggle="Excelente"></span></a>
+                                                                            <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star2" class="fa fa-star checked" data-toggle="Excelente"></span></a>
+                                                                            <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star3" class="fa fa-star checked" data-toggle="Excelente"></span></a>
+                                                                            <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star4" class="fa fa-star checked" data-toggle="Excelente"></span></a>
+                                                                            <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star5" class="fa fa-star checked" data-toggle="Excelente"></span></a>
+                                                                            break;
+                                                                    }
+                                                                    <br />
+                                                                    <small>@passengerRating.Comments</small>
+                                                                }
+
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
+                                                    <div class="row form-group" style="margin-bottom:0px">
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 panel panel-default" style="margin-left:15px; margin-right:15px; margin-bottom:0px; border-radius: 10px; text-align:center; display:inline; width:90%; height:125px; background-color:lightyellow">
+                                                            <b>Calificación del pasajero:</b><br />
+                                                            @{
+                                                                if (driverRating == null)
+                                                                {
+                                                                    <small>¡No te ha calificado!</small><br /><br />
+                                                                }
+                                                                else
+                                                                {
+                                                                    switch (driverRating.Stars)
+                                                                    {
+                                                                        case 1:
+                                                                            <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star1" class="fa fa-star checked" data-toggle="Muy Malo"></span></a>
+                                                                            <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star2" class="fa fa-star" data-toggle="Muy Malo"></span></a>
+                                                                            <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star3" class="fa fa-star" data-toggle="Muy Malo"></span></a>
+                                                                            <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star4" class="fa fa-star" data-toggle="Muy Malo"></span></a>
+                                                                            <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star5" class="fa fa-star" data-toggle="Muy Malo"></span></a>
+                                                                            break;
+                                                                        case 2:
+                                                                            <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star1" class="fa fa-star checked" data-toggle="Malo"></span></a>
+                                                                            <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star2" class="fa fa-star checked" data-toggle="Malo"></span></a>
+                                                                            <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star3" class="fa fa-star" data-toggle="Malo"></span></a>
+                                                                            <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star4" class="fa fa-star" data-toggle="Malo"></span></a>
+                                                                            <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star5" class="fa fa-star" data-toggle="Malo"></span></a>
+                                                                            break;
+                                                                        case 3:
+                                                                            <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star1" class="fa fa-star checked" data-toggle="Bueno"></span></a>
+                                                                            <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star2" class="fa fa-star checked" data-toggle="Bueno"></span></a>
+                                                                            <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star3" class="fa fa-star checked" data-toggle="Bueno"></span></a>
+                                                                            <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star4" class="fa fa-star" data-toggle="Bueno"></span></a>
+                                                                            <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star5" class="fa fa-star" data-toggle="Bueno"></span></a>
+                                                                            break;
+                                                                        case 4:
+                                                                            <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star1" class="fa fa-star checked" data-toggle="Muy Bueno"></span></a>
+                                                                            <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star2" class="fa fa-star checked" data-toggle="Muy Bueno"></span></a>
+                                                                            <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star3" class="fa fa-star checked" data-toggle="Muy Bueno"></span></a>
+                                                                            <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star4" class="fa fa-star checked" data-toggle="Muy Bueno"></span></a>
+                                                                            <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star5" class="fa fa-star" data-toggle="Muy Bueno"></span></a>
+                                                                            break;
+                                                                        case 5:
+                                                                            <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star1" class="fa fa-star checked" data-toggle="Excelente"></span></a>
+                                                                            <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star2" class="fa fa-star checked" data-toggle="Excelente"></span></a>
+                                                                            <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star3" class="fa fa-star checked" data-toggle="Excelente"></span></a>
+                                                                            <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star4" class="fa fa-star checked" data-toggle="Excelente"></span></a>
+                                                                            <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star5" class="fa fa-star checked" data-toggle="Excelente"></span></a>
+                                                                            break;
+                                                                    }
+                                                                    <br />
+                                                                    <small>@driverRating.Comments</small>
+                                                                }
+
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
                                         </div>
-
-                                        @{
-                                            var passengerId = reservation.ApplicationUserId;
-
-                                            var passengerRating = Model.UserRatings.Where(x => x.FromId == driverId && x.ToId == passengerId).SingleOrDefault();
-                                            var driverRating = Model.UserRatings.Where(x => x.FromId == passengerId && x.ToId == driverId).SingleOrDefault();
-
-                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
-                                                <div class="row form-group">
-                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 panel panel-default" style="margin-bottom:0px; border-radius: 10px; text-align:center; display:inline; width:95%; height:125px; background-color:lightyellow">
-                                                        <b>Tu calificación:</b><br />
-                                                        @{
-                                                            if (passengerRating == null)
-                                                            {
-                                                                <small>¡No has calificado al pasajero!</small><br /><br />
-                                                                <input type="button" class="btn btn-info btn-sm" value="Calificar" onclick="PopUpQualifyModal(@reservation.TripId, '@reservation.Trip.ApplicationUserId', '@reservation.ApplicationUserId', '@reservation.ApplicationUser.FullName','#historial-container')" />
-                                                            }
-                                                            else
-                                                            {
-                                                                switch (passengerRating.Stars)
-                                                                {
-                                                                    case 1:
-                                                                        <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star1" class="fa fa-star checked" data-toggle="Muy Malo"></span></a>
-                                                                        <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star2" class="fa fa-star" data-toggle="Muy Malo"></span></a>
-                                                                        <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star3" class="fa fa-star" data-toggle="Muy Malo"></span></a>
-                                                                        <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star4" class="fa fa-star" data-toggle="Muy Malo"></span></a>
-                                                                        <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star5" class="fa fa-star" data-toggle="Muy Malo"></span></a>
-                                                                        break;
-                                                                    case 2:
-                                                                        <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star1" class="fa fa-star checked" data-toggle="Malo"></span></a>
-                                                                        <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star2" class="fa fa-star checked" data-toggle="Malo"></span></a>
-                                                                        <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star3" class="fa fa-star" data-toggle="Malo"></span></a>
-                                                                        <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star4" class="fa fa-star" data-toggle="Malo"></span></a>
-                                                                        <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star5" class="fa fa-star" data-toggle="Malo"></span></a>
-                                                                        break;
-                                                                    case 3:
-                                                                        <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star1" class="fa fa-star checked" data-toggle="Bueno"></span></a>
-                                                                        <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star2" class="fa fa-star checked" data-toggle="Bueno"></span></a>
-                                                                        <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star3" class="fa fa-star checked" data-toggle="Bueno"></span></a>
-                                                                        <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star4" class="fa fa-star" data-toggle="Bueno"></span></a>
-                                                                        <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star5" class="fa fa-star" data-toggle="Bueno"></span></a>
-                                                                        break;
-                                                                    case 4:
-                                                                        <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star1" class="fa fa-star checked" data-toggle="Muy Bueno"></span></a>
-                                                                        <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star2" class="fa fa-star checked" data-toggle="Muy Bueno"></span></a>
-                                                                        <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star3" class="fa fa-star checked" data-toggle="Muy Bueno"></span></a>
-                                                                        <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star4" class="fa fa-star checked" data-toggle="Muy Bueno"></span></a>
-                                                                        <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star5" class="fa fa-star" data-toggle="Muy Bueno"></span></a>
-                                                                        break;
-                                                                    case 5:
-                                                                        <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star1" class="fa fa-star checked" data-toggle="Excelente"></span></a>
-                                                                        <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star2" class="fa fa-star checked" data-toggle="Excelente"></span></a>
-                                                                        <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star3" class="fa fa-star checked" data-toggle="Excelente"></span></a>
-                                                                        <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star4" class="fa fa-star checked" data-toggle="Excelente"></span></a>
-                                                                        <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star5" class="fa fa-star checked" data-toggle="Excelente"></span></a>
-                                                                        break;
-                                                                }
-                                                                <br />
-                                                                <small>@passengerRating.Comments</small>
-                                                            }
-
-                                                        }
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
-                                                <div class="row form-group" style="margin-bottom:0px">
-                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 panel panel-default" style="border-radius: 10px; text-align:center; display:inline; width:95%; height:125px; background-color:lightyellow">
-                                                        <b>Calificación del pasajero:</b><br />
-                                                        @{
-                                                            if (driverRating == null)
-                                                            {
-                                                                <small>¡No te ha calificado!</small><br /><br />
-                                                            }
-                                                            else
-                                                            {
-                                                                switch (driverRating.Stars)
-                                                                {
-                                                                    case 1:
-                                                                        <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star1" class="fa fa-star checked" data-toggle="Muy Malo"></span></a>
-                                                                        <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star2" class="fa fa-star" data-toggle="Muy Malo"></span></a>
-                                                                        <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star3" class="fa fa-star" data-toggle="Muy Malo"></span></a>
-                                                                        <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star4" class="fa fa-star" data-toggle="Muy Malo"></span></a>
-                                                                        <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star5" class="fa fa-star" data-toggle="Muy Malo"></span></a>
-                                                                        break;
-                                                                    case 2:
-                                                                        <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star1" class="fa fa-star checked" data-toggle="Malo"></span></a>
-                                                                        <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star2" class="fa fa-star checked" data-toggle="Malo"></span></a>
-                                                                        <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star3" class="fa fa-star" data-toggle="Malo"></span></a>
-                                                                        <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star4" class="fa fa-star" data-toggle="Malo"></span></a>
-                                                                        <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star5" class="fa fa-star" data-toggle="Malo"></span></a>
-                                                                        break;
-                                                                    case 3:
-                                                                        <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star1" class="fa fa-star checked" data-toggle="Bueno"></span></a>
-                                                                        <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star2" class="fa fa-star checked" data-toggle="Bueno"></span></a>
-                                                                        <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star3" class="fa fa-star checked" data-toggle="Bueno"></span></a>
-                                                                        <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star4" class="fa fa-star" data-toggle="Bueno"></span></a>
-                                                                        <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star5" class="fa fa-star" data-toggle="Bueno"></span></a>
-                                                                        break;
-                                                                    case 4:
-                                                                        <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star1" class="fa fa-star checked" data-toggle="Muy Bueno"></span></a>
-                                                                        <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star2" class="fa fa-star checked" data-toggle="Muy Bueno"></span></a>
-                                                                        <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star3" class="fa fa-star checked" data-toggle="Muy Bueno"></span></a>
-                                                                        <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star4" class="fa fa-star checked" data-toggle="Muy Bueno"></span></a>
-                                                                        <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star5" class="fa fa-star" data-toggle="Muy Bueno"></span></a>
-                                                                        break;
-                                                                    case 5:
-                                                                        <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star1" class="fa fa-star checked" data-toggle="Excelente"></span></a>
-                                                                        <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star2" class="fa fa-star checked" data-toggle="Excelente"></span></a>
-                                                                        <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star3" class="fa fa-star checked" data-toggle="Excelente"></span></a>
-                                                                        <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star4" class="fa fa-star checked" data-toggle="Excelente"></span></a>
-                                                                        <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star5" class="fa fa-star checked" data-toggle="Excelente"></span></a>
-                                                                        break;
-                                                                }
-                                                                <br />
-                                                                <small>@driverRating.Comments</small>
-                                                            }
-
-                                                        }
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        }
                                     </div>
                                 </div>
                             }

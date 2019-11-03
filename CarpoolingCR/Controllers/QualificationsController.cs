@@ -86,44 +86,25 @@ namespace CarpoolingCR.Controllers
                         res.Trip.ToTown = db.Districts.Where(x => x.DistrictId == res.Trip.ToTownId).Single();
                         res.Trip.Route = db.Districts.Where(x => x.DistrictId == res.Trip.RouteId).Single();
 
-                        res.Trip.Qualifications = db.Qualifications.Where(x => x.TripId == res.TripId && x.QualifierId != user.Id)
-                            .Include(x => x.Qualifier)
-                            .ToList();
+                        //res.Trip.Qualifications = db.Qualifications.Where(x => x.TripId == res.TripId && x.QualifierId != user.Id)
+                        //    .Include(x => x.Qualifier)
+                        //    .ToList();
 
                         if (res.Trip.Reservations != null)
                         {
                             foreach (var res1 in res.Trip.Reservations)
                             {
                                 res1.Trip = null;
-
-                                if (res.Qualifications != null)
-                                {
-                                    foreach (var qual in res.Qualifications)
-                                    {
-                                        qual.Reservation = null;
-                                        qual.Trip = null;
-                                    }
-                                }
                             }
                         }
 
-                        if (res.Trip.Qualifications != null)
-                        {
-                            foreach (var qual in res.Trip.Qualifications)
-                            {
-                                qual.Trip = null;
-                            }
-                        }
-
-                        res.Qualifications = db.Qualifications.Where(x => x.ReservationId == res.ReservationId && x.QualifierId != user.Id)
-                            .Include(x => x.Qualifier)
-                            .ToList();
-
-                        foreach (var res2 in res.Qualifications)
-                        {
-                            res2.Trip = null;
-                            res2.Reservation = null;
-                        }
+                        //if (res.Trip.Qualifications != null)
+                        //{
+                        //    foreach (var qual in res.Trip.Qualifications)
+                        //    {
+                        //        qual.Trip = null;
+                        //    }
+                        //}
                     }
 
                     var response = new HistorialResponse
@@ -168,26 +149,17 @@ namespace CarpoolingCR.Controllers
                         foreach (var res in trip.Reservations)
                         {
                             res.Trip = null;
-
-                            if (res.Qualifications != null)
-                            {
-                                foreach (var qual in res.Qualifications)
-                                {
-                                    qual.Reservation = null;
-                                    qual.Trip = null;
-                                }
-                            }
                         }
 
-                        trip.Qualifications = db.Qualifications.Where(x => x.TripId == trip.TripId)
-                            .Include(x => x.Qualifier)
-                            .ToList();
+                        //trip.Qualifications = db.Qualifications.Where(x => x.TripId == trip.TripId)
+                        //    .Include(x => x.Qualifier)
+                        //    .ToList();
 
-                        foreach (var qual in trip.Qualifications)
-                        {
-                            qual.Reservation = null;
-                            qual.Trip = null;
-                        }
+                        //foreach (var qual in trip.Qualifications)
+                        //{
+                        //    qual.Reservation = null;
+                        //    qual.Trip = null;
+                        //}
 
                         trip.ApplicationUser = db.Users.Where(x => x.Id == trip.ApplicationUserId).Single();
                         trip.FromTown = db.Districts.Where(x => x.DistrictId == trip.FromTownId).Single();

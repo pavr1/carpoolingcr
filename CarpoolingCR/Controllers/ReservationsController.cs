@@ -115,9 +115,7 @@ namespace CarpoolingCR.Controllers
                     reservation.Trip.ToTown = db.Districts.Where(x => x.DistrictId == reservation.Trip.ToTownId).Single();
                     reservation.Trip.Route = db.Districts.Where(x => x.DistrictId == reservation.Trip.RouteId).Single();
 
-                    reservation.Qualifications = db.Qualifications.Where(x => x.ReservationId == reservation.ReservationId && x.QualifierId != user.Id)
-                        .Include(x => x.Qualifier)
-                        .ToList();
+                    reservation.Trip.UserRatings = db.UserRatings.Where(x => x.TripId == reservation.TripId).ToList();
                 }
 
                 List<Trip> trips = new List<Trip>();
@@ -224,9 +222,7 @@ namespace CarpoolingCR.Controllers
                     reservation.Trip.ToTown = db.Districts.Where(x => x.DistrictId == reservation.Trip.ToTownId).Single();
                     reservation.Trip.Route = db.Districts.Where(x => x.DistrictId == reservation.Trip.RouteId).Single();
 
-                    reservation.Qualifications = db.Qualifications.Where(x => x.ReservationId == reservation.ReservationId && x.QualifierId != user.Id)
-                        .Include(x => x.Qualifier)
-                        .ToList();
+                    reservation.Trip.UserRatings = db.UserRatings.Where(x => x.TripId == reservation.TripId).ToList();
                 }
 
 
@@ -324,7 +320,7 @@ namespace CarpoolingCR.Controllers
                         {
                             reservation.Trip = null;
                         }
-                        
+
                         trip.FromTown = db.Districts.Where(x => x.DistrictId == trip.FromTownId).Single();
                         trip.ToTown = db.Districts.Where(x => x.DistrictId == trip.ToTownId).Single();
                         trip.Route = db.Districts.Where(x => x.DistrictId == trip.RouteId).Single();
@@ -508,9 +504,7 @@ namespace CarpoolingCR.Controllers
                     reservation.Trip.ToTown = db.Districts.Where(x => x.DistrictId == reservation.Trip.ToTownId).Single();
                     reservation.Trip.Route = db.Districts.Where(x => x.DistrictId == reservation.Trip.RouteId).Single();
 
-                    reservation.Qualifications = db.Qualifications.Where(x => x.ReservationId == reservation.ReservationId && x.QualifierId != user.Id)
-                        .Include(x => x.Qualifier)
-                        .ToList();
+                    reservation.Trip.UserRatings = db.UserRatings.Where(x => x.TripId == reservation.TripId).ToList();
                 }
 
                 int tabIndexAux = (tabIndex == null) ? 0 : Convert.ToInt32(tabIndex);
@@ -1075,7 +1069,7 @@ namespace CarpoolingCR.Controllers
 
                 if (send)
                 {
-                    var callbackUrl = Url.Action("ReservationIndex", "Reservations", new { message = ""}, protocol: Request.Url.Scheme);
+                    var callbackUrl = Url.Action("ReservationIndex", "Reservations", new { message = "" }, protocol: Request.Url.Scheme);
 
                     EmailHandler.SendEmailTripReservation(WebConfigurationManager.AppSettings["AdminEmails"], trip.ApplicationUser.Email, reservation.PassengerName, spaces, tripInfo, callbackUrl, logo);
                 }
@@ -1287,7 +1281,7 @@ namespace CarpoolingCR.Controllers
         public ActionResult LoadPassengerReservationHistorial(string message)
         {
             var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg"); ;
-            
+
             try
             {
                 if (!Common.IsAuthorized(User))
@@ -1318,14 +1312,7 @@ namespace CarpoolingCR.Controllers
                     reservation.Trip.FromTown = db.Districts.Where(x => x.DistrictId == reservation.Trip.FromTownId).Single();
                     reservation.Trip.ToTown = db.Districts.Where(x => x.DistrictId == reservation.Trip.ToTownId).Single();
                     reservation.Trip.Route = db.Districts.Where(x => x.DistrictId == reservation.Trip.RouteId).Single();
-
-                    reservation.Trip.Qualifications = db.Qualifications.Where(x => x.TripId == reservation.TripId)
-                        .Include(x => x.Qualifier)
-                        .ToList();
-
-                    reservation.Qualifications = db.Qualifications.Where(x => x.ReservationId == reservation.ReservationId)
-                        .Include(x => x.Qualifier)
-                        .ToList();
+                    reservation.Trip.UserRatings = db.UserRatings.Where(x => x.TripId == reservation.TripId).ToList();
                 }
 
                 var response = new HistorialResponse

@@ -1,10 +1,13 @@
 ﻿using CarpoolingCR.Models;
+using CarpoolingCR.Objects.Responses;
 using CarpoolingCR.Utils;
 using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
+using static CarpoolingCR.Utils.Enums;
 
 namespace CarpoolingCR.Controllers
 {
@@ -47,172 +50,114 @@ namespace CarpoolingCR.Controllers
                 db.Entry(rate).State = EntityState.Added;
                 db.SaveChanges();
 
-                var ratings = db.UserRatings.Where(x => x.TripId == tripId).ToList();
+                var html = string.Empty;
 
-                //var reservation = db.Reservations.Where(x => x.ReservationId == reservationId).Single();
+                if (isPassenger)
+                {
+                    var currentUTCTime = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime());
 
-                //if (user.Id == reservation.ApplicationUserId)
-                //{
-                //    reservation.IsPassengerQualified = true;
-                //}
-                //else
-                //{
-                //    reservation.IsDriverQualified = true;
-                //}
+                    var reservations = db.Reservations.Where(x => x.ApplicationUserId == user.Id)
+                    .Include(x => x.ApplicationUser)
+                    .Include(x => x.Trip)
+                    .Where(x => x.Trip.DateTime <= currentUTCTime)
+                    .ToList();
 
-                //db.Entry(reservation).State = EntityState.Modified;
-                //db.SaveChanges();
+                    foreach (var res in reservations)
+                    {
+                        res.Trip = db.Trips.Where(x => x.TripId == res.TripId)
+                            .Include(x => x.ApplicationUser)
+                            .Single();
 
-                //var html = string.Empty;
+                        res.Trip.UserRatings = db.UserRatings.Where(x => x.TripId == res.TripId).ToList();
+                        res.Trip.FromTown = db.Districts.Where(x => x.DistrictId == res.Trip.FromTownId).Single();
+                        res.Trip.ToTown = db.Districts.Where(x => x.DistrictId == res.Trip.ToTownId).Single();
+                        res.Trip.Route = db.Districts.Where(x => x.DistrictId == res.Trip.RouteId).Single();
+                        res.Trip.UserRatings = db.UserRatings.Where(x => x.TripId == res.TripId).ToList();
 
-                //if (reservation.IsDriverQualified)
-                //{
-                //    var currentUTCTime = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime());
+                        //res.Trip.Qualifications = db.Qualifications.Where(x => x.TripId == res.TripId && x.QualifierId != user.Id)
+                        //    .Include(x => x.Qualifier)
+                        //    .ToList();
 
-                //    var reservations = db.Reservations.Where(x => x.ApplicationUserId == user.Id)
-                //    .Include(x => x.ApplicationUser)
-                //    .Include(x => x.Trip)
-                //    .Where(x => x.Trip.DateTime <= currentUTCTime)
-                //    .ToList();
+                        if (res.Trip.Reservations != null)
+                        {
+                            foreach (var res1 in res.Trip.Reservations)
+                            {
+                                res1.Trip = null;
+                            }
+                        }
+                    }
 
-                //    foreach (var res in reservations)
-                //    {
-                //        res.Trip = db.Trips.Where(x => x.TripId == res.TripId)
-                //            .Include(x => x.ApplicationUser)
-                //            .Single();
+                    var response = new HistorialResponse
+                    {
+                        Reservations = reservations,
+                        //¡Usuario Calificado!
+                        Message = "100074",
+                        MessageType = "success"
+                    };
 
-                //        res.Trip.FromTown = db.Districts.Where(x => x.DistrictId == res.Trip.FromTownId).Single();
-                //        res.Trip.ToTown = db.Districts.Where(x => x.DistrictId == res.Trip.ToTownId).Single();
-                //        res.Trip.Route = db.Districts.Where(x => x.DistrictId == res.Trip.RouteId).Single();
+                    html = Serializer.RenderViewToString(this.ControllerContext, "../Reservations/Partials/_PassengerReservationHistorial", response);
+                    response.Html = html;
 
-                //        res.Trip.Qualifications = db.Qualifications.Where(x => x.TripId == res.TripId && x.QualifierId != user.Id)
-                //            .Include(x => x.Qualifier)
-                //            .ToList();
+                    html = Serializer.Serialize(response);
 
-                //        if (res.Trip.Reservations != null)
-                //        {
-                //            foreach (var res1 in res.Trip.Reservations)
-                //            {
-                //                res1.Trip = null;
+                    tran.Commit();
 
-                //                if (res.Qualifications != null)
-                //                {
-                //                    foreach (var qual in res.Qualifications)
-                //                    {
-                //                        qual.Reservation = null;
-                //                        qual.Trip = null;
-                //                    }
-                //                }
-                //            }
-                //        }
+                    return html;
+                }
+                else
+                {
+                    List<Trip> trips = new List<Trip>();
 
-                //        if (res.Trip.Qualifications != null)
-                //        {
-                //            foreach (var qual in res.Trip.Qualifications)
-                //            {
-                //                qual.Trip = null;
-                //            }
-                //        }
+                    if (user.UserType == UserType.Administrador)
+                    {
+                        trips = db.Trips.Where(x => x.Status == Status.Finalizado)
+                        .ToList();
+                    }
+                    else if (user.UserType == UserType.Conductor)
+                    {
+                        trips = db.Trips.Where(x => x.ApplicationUserId == user.Id)
+                        .Where(x => x.Status == Status.Finalizado)
+                        .ToList();
+                    }
 
-                //        res.Qualifications = db.Qualifications.Where(x => x.ReservationId == res.ReservationId && x.QualifierId != user.Id)
-                //            .Include(x => x.Qualifier)
-                //            .ToList();
+                    foreach (var trip in trips)
+                    {
+                        trip.Reservations = db.Reservations.Where(x => x.TripId == trip.TripId)
+                            .Include(x => x.ApplicationUser)
+                            .ToList();
 
-                //        foreach (var res2 in res.Qualifications)
-                //        {
-                //            res2.Trip = null;
-                //            res2.Reservation = null;
-                //        }
-                //    }
+                        trip.UserRatings = db.UserRatings.Where(x => x.TripId == trip.TripId).ToList();
 
-                //    var response = new HistorialResponse
-                //    {
-                //        Reservations = reservations,
-                //        //¡Usuario Calificado!
-                //        Message = "100074",
-                //        MessageType = "success"
-                //    };
+                        foreach (var res in trip.Reservations)
+                        {
+                            res.Trip = null;
+                        }
 
-                //    html = Serializer.RenderViewToString(this.ControllerContext, "../Reservations/Partials/_PassengerReservationHistorial", response);
-                //    response.Html = html;
+                        trip.ApplicationUser = db.Users.Where(x => x.Id == trip.ApplicationUserId).Single();
+                        trip.FromTown = db.Districts.Where(x => x.DistrictId == trip.FromTownId).Single();
+                        trip.ToTown = db.Districts.Where(x => x.DistrictId == trip.ToTownId).Single();
+                        trip.Route = db.Districts.Where(x => x.DistrictId == trip.RouteId).Single();
+                    }
 
-                //    html = Serializer.Serialize(response);
+                    trips.Sort((x, y) => y.CreatedTime.CompareTo(x.CreatedTime));
 
-                //    tran.Commit();
+                    var response = new HistorialResponse
+                    {
+                        Trips = trips,
+                        //¡Usuario Calificado!
+                        Message = "100074",
+                        MessageType = "success"
+                    };
 
-                //    return html;
-                //}
-                //else
-                //{
-                //    List<Trip> trips = new List<Trip>();
+                    html = Serializer.RenderViewToString(this.ControllerContext, "../Trips/Partials/_DriverTripHistorial", response);
+                    response.Html = html;
 
-                //    if (user.UserType == UserType.Administrador)
-                //    {
-                //        trips = db.Trips.Where(x => x.Status == Status.Finalizado)
-                //        .ToList();
-                //    }
-                //    else if (user.UserType == UserType.Conductor)
-                //    {
-                //        trips = db.Trips.Where(x => x.ApplicationUserId == user.Id)
-                //        .Where(x => x.Status == Status.Finalizado)
-                //        .ToList();
-                //    }
+                    html = Serializer.Serialize(response);
 
-                //    foreach (var trip in trips)
-                //    {
-                //        trip.Reservations = db.Reservations.Where(x => x.TripId == trip.TripId)
-                //            .Include(x => x.ApplicationUser)
-                //            .ToList();
+                    tran.Commit();
 
-                //        foreach (var res in trip.Reservations)
-                //        {
-                //            res.Trip = null;
-
-                //            if (res.Qualifications != null)
-                //            {
-                //                foreach (var qual in res.Qualifications)
-                //                {
-                //                    qual.Reservation = null;
-                //                    qual.Trip = null;
-                //                }
-                //            }
-                //        }
-
-                //        trip.Qualifications = db.Qualifications.Where(x => x.TripId == trip.TripId)
-                //            .Include(x => x.Qualifier)
-                //            .ToList();
-
-                //        foreach (var qual in trip.Qualifications)
-                //        {
-                //            qual.Reservation = null;
-                //            qual.Trip = null;
-                //        }
-
-                //        trip.ApplicationUser = db.Users.Where(x => x.Id == trip.ApplicationUserId).Single();
-                //        trip.FromTown = db.Districts.Where(x => x.DistrictId == trip.FromTownId).Single();
-                //        trip.ToTown = db.Districts.Where(x => x.DistrictId == trip.ToTownId).Single();
-                //        trip.Route = db.Districts.Where(x => x.DistrictId == trip.RouteId).Single();
-                //    }
-
-                //    trips.Sort((x, y) => y.CreatedTime.CompareTo(x.CreatedTime));
-
-                //    var response = new HistorialResponse
-                //    {
-                //        Trips = trips,
-                //        //¡Usuario Calificado!
-                //        Message = "100074",
-                //        MessageType = "success"
-                //    };
-
-                //    html = Serializer.RenderViewToString(this.ControllerContext, "../Trips/Partials/_DriverTripHistorial", response);
-                //    response.Html = html;
-
-                //    html = Serializer.Serialize(response);
-
-                //    tran.Commit();
-
-                return "";//    return html;
-                //}
+                    return html;
+                }
             }
             catch (Exception ex)
             {

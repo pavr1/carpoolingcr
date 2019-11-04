@@ -87,11 +87,11 @@
 
                                                 if (reservation.Status == CarpoolingCR.Utils.Enums.ReservationStatus.Rejected)
                                                 {
-                                                    <small class="status text-danger"><b><span class="fas fa-shield-alt">&nbsp;</span>Estado: </b>@description</small>
+                                                    <small class="status text-danger"><b><span class="fas fa-shield-alt">&nbsp;</span>Estado: @description <span class="fas fa-frown">&nbsp;</span></b></small>
                                                 }
                                                 else
                                                 {
-                                                    <small class="status"><b><span class="fas fa-shield-alt">&nbsp;</span>Estado: </b>@description</small>
+                                                    <small class="status text-success"><b><span class="fas fa-shield-alt">&nbsp;</span>Estado: @description <span class="fas fa-smile-beam">&nbsp;</span></b></small>
                                                 }
                                             }
                                             <br />
@@ -133,45 +133,45 @@
                                             @{
                                                 if (reservation.Trip.AllowPets)
                                                 {
-                                                    <div id="pet" class="btn btn-info col-md-4 col-sm-4 col-xs-4 panel panel-default active" data-toggle="button" onclick="return false" aria-pressed="true" style="border-radius:10px 0px 0px 10px; pointer-events:none">
-                                                        <span class="fas fa-dog">&nbsp;</span><br /><label class="control-label" style="text-align:left">Mascotas </label>&nbsp;<span id="check-pet" class="fas fa-check-circle">&nbsp;</span>
+                                                    <div id="pet" class="btn btn-info panel panel-default active" data-toggle="button" onclick="return false" aria-pressed="true" style="border-radius:10px 0px 0px 10px; pointer-events:none">
+                                                        <span class="fas fa-dog">&nbsp;</span>&nbsp;<span id="check-pet" class="fas fa-check-circle">&nbsp;</span><br /><label class="control-label" style="text-align:left">Mascotas </label>
                                                         <input type="text" id="ck-pet" name="ck-pet" style="display:none" />
                                                     </div>
                                                 }
                                                 else
                                                 {
-                                                    <div id="pet" class="btn btn-info col-md-4 col-sm-4 col-xs-4 panel panel-default" data-toggle="button" aria-pressed="false" autocomplete="off" style="border-radius:10px 0px 0px 10px; pointer-events:none">
-                                                        <span class="fas fa-dog">&nbsp;</span><br /><label class="control-label" style="text-align:left">Mascotas </label>&nbsp;<span id="check-pet" class="fas fa-check-circle hidden">&nbsp;</span>
+                                                    <div id="pet" class="btn btn-info panel panel-default" data-toggle="button" aria-pressed="false" autocomplete="off" style="border-radius:10px 0px 0px 10px; pointer-events:none">
+                                                        <span class="fas fa-dog">&nbsp;</span>&nbsp;<span id="check-pet" class="fas fa-check-circle hidden">&nbsp;</span><br /><label class="control-label" style="text-align:left">Mascotas </label>
                                                         <input type="text" id="ck-pet" name="ck-pet" style="display:none" />
                                                     </div>
                                                 }
 
                                                 if (reservation.Trip.AllowLuggage)
                                                 {
-                                                    <div id="luggage" class="btn btn-info col-lg-4 col-md-4 col-sm-4 col-xs-4 panel panel-default active" data-toggle="button" aria-pressed="true" autocomplete="off" style="border-radius:0px;pointer-events:none">
-                                                        <span class="fas fa-suitcase-rolling">&nbsp;</span><br /><label class="control-label" style="text-align:left">Equipaje </label>&nbsp;<span id="check-luggage" class="fas fa-check-circle">&nbsp;</span>
+                                                    <div id="luggage" class="btn btn-info col-lg-4 panel panel-default active" data-toggle="button" aria-pressed="true" autocomplete="off" style="border-radius:0px;pointer-events:none">
+                                                        <span class="fas fa-suitcase-rolling">&nbsp;</span>&nbsp;<span id="check-luggage" class="fas fa-check-circle">&nbsp;</span><br /><label class="control-label" style="text-align:left">Equipaje </label>
                                                         <input type="text" id="ck-luggage" name="ck-luggage" style="display:none" />
                                                     </div>
                                                 }
                                                 else
                                                 {
-                                                    <div id="luggage" class="btn btn-info col-lg-4 col-md-4 col-sm-4 col-xs-4 panel panel-default allow-checkboxes" data-toggle="button" aria-pressed="false" autocomplete="off" style="border-radius:0px;pointer-events:none">
-                                                        <span class="fas fa-suitcase-rolling">&nbsp;</span><br /><label class="control-label" style="text-align:left">Equipaje </label>&nbsp;<span id="check-luggage" class="fas fa-check-circle hidden">&nbsp;</span>
+                                                    <div id="luggage" class="btn btn-info col-lg-4 panel panel-default allow-checkboxes" data-toggle="button" aria-pressed="false" autocomplete="off" style="border-radius:0px;pointer-events:none">
+                                                        <span class="fas fa-suitcase-rolling">&nbsp;</span>&nbsp;<span id="check-luggage" class="fas fa-check-circle hidden">&nbsp;</span><br /><label class="control-label" style="text-align:left">Equipaje </label>
                                                         <input type="text" id="ck-luggage" name="ck-luggage" style="display:none" />
                                                     </div>
                                                 }
 
                                                 if (reservation.Trip.AllowSmoking)
                                                 {
-                                                    <div id="smoking" class="btn btn-info col-lg-4 col-md-4 col-sm-4 col-xs-4 panel panel-default active" data-toggle="button" aria-pressed="true" autocomplete="off" style="border-radius:0px 10px 10px 0px;pointer-events:none">
-                                                        <span class="fas fa-smoking">&nbsp;</span><br /><label class="control-label" style="text-align:left">Fumado</label>&nbsp;<span id="check-smoking" class="fas fa-check-circle">&nbsp;</span>
+                                                    <div id="smoking" class="btn btn-info col-lg-4 panel panel-default active" data-toggle="button" aria-pressed="true" autocomplete="off" style="border-radius:0px 10px 10px 0px;pointer-events:none">
+                                                        <span class="fas fa-smoking">&nbsp;</span>&nbsp;<span id="check-smoking" class="fas fa-check-circle">&nbsp;</span><br /><label class="control-label" style="text-align:left">Fumado</label>
                                                         <input type="text" id="ck-smoking" name="ck-smoking" style="display:none" />
                                                     </div>
                                                 }
                                                 else
                                                 {
-                                                    <div id="smoking" class="btn btn-info col-lg-4 col-md-4 col-sm-4 col-xs-4 panel panel-default allow-checkboxes" data-toggle="button" aria-pressed="false" autocomplete="off" style="border-radius:0px 10px 10px 0px;pointer-events:none">
-                                                        <span class="fas fa-smoking">&nbsp;</span><br /><label class="control-label" style="text-align:left">Fumado</label>&nbsp;<span id="check-smoking" class="fas fa-check-circle hidden">&nbsp;</span>
+                                                    <div id="smoking" class="btn btn-info col-lg-4 panel panel-default allow-checkboxes" data-toggle="button" aria-pressed="false" autocomplete="off" style="border-radius:0px 10px 10px 0px;pointer-events:none">
+                                                        <span class="fas fa-smoking">&nbsp;</span>&nbsp;<span id="check-smoking" class="fas fa-check-circle hidden">&nbsp;</span><br /><label class="control-label" style="text-align:left">Fumado</label>
                                                         <input type="text" id="ck-smoking" name="ck-smoking" style="display:none" />
                                                     </div>
                                                 }

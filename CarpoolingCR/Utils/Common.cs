@@ -74,14 +74,21 @@ namespace CarpoolingCR.Utils
                 }
                 else
                 {
-                    foreach (var rating in ratings)
+                    if (ratings.Count() == 0)
                     {
-                        totalStars += rating.Stars;
+                        return -1;
                     }
+                    else
+                    {
+                        foreach (var rating in ratings)
+                        {
+                            totalStars += rating.Stars;
+                        }
 
-                    var average = totalStars / ratings.Count();
+                        var average = totalStars / ratings.Count();
 
-                    return average;
+                        return average;
+                    }
                 }
             }
         }

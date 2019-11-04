@@ -89,277 +89,277 @@
 
                         index++;
 
-                <li>
-                    <div class="row form-group" style="padding-left:15px">
-                        <div class="panel panel-default" style="border-radius:10px; padding-top: 20px;">
-                            <div class="row form-group" style="padding-left:20px; padding-right:20px">
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
-                                    <span class="fas fa-calendar-alt"></span><small class="date"> <b>@trip.LocalDateTime.ToString("dddd dd 'de' MMMM 'del' yyyy")</b></small><br />
+                        <li>
+                            <div class="row form-group" style="padding-left:15px">
+                                <div class="panel panel-default" style="border-radius:10px; padding-top: 20px;">
+                                    <div class="row form-group" style="padding-left:20px; padding-right:20px">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
+                                            <span class="fas fa-calendar-alt"></span><small class="date"> <b>@trip.LocalDateTime.ToString("dddd dd 'de' MMMM 'del' yyyy")</b></small><br />
 
-                                    <span class="fas fa-clock"></span>&nbsp;<small>@trip.LocalDateTime.ToString("hh:mm tt")</small>&nbsp;&nbsp;<br class="visible-xs" /><span class="fas fa-map-marker-alt">&nbsp;</span><small class="from">@from</small><br />
-                                    <span class="fas fa-clock"></span>&nbsp;<small>@trip.LocalArrivalDateTime.ToString("hh:mm tt")</small>&nbsp;&nbsp;<br class="visible-xs" /><span class="fas fa-map-marker-alt">&nbsp;</span><small class="to">@to</small><br />
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="text-align:center">
-                                    @{
-                                        if (Model.IsAdmin)
-                                        {
-                                            <div class="pull-right" id="profile-container-small" data-toggle="tooltip" style="margin-right:10px" title="Conductor"><img id="profileImage" src="@Url.Content(trip.ApplicationUser.Picture)" /></div><br /><br /><br />
-                                            <small class="pull-right name">@trip.ApplicationUser.FullName</small><br>
-                                        }
-                                    }
-                                </div>
-                                <div class="row form-group" style="padding-left:15px; padding-right:0px">
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                        <b><span class="fas fa-route"></span>Ruta: </b><small class="route">@route.Name</small><br />
-                                        <b><span class="fas fa-road">&nbsp;</span>Distancia: </b><small>@trip.AproxDistance km</small><br />
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                        <small class="price"><b><span class="fas fa-money-bill-alt">&nbsp;</span>Cuota: </b> @currency @trip.Price</small><br />
-                                        <small class="spaces"><b><span class="fas fa-car-side">&nbsp;</span>Espacios: </b>  @trip.AvailableSpaces</small><br />
-                                    </div>
-                                </div>
-                                <div class="row form-group" style="padding-left:0px">
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                        <div class="row form-group btn-group center-block" style="padding-left:0px; padding-right:0px; margin-bottom:0px">
+                                            <span class="fas fa-clock"></span>&nbsp;<small>@trip.LocalDateTime.ToString("hh:mm tt")</small>&nbsp;&nbsp;<br class="visible-xs" /><span class="fas fa-map-marker-alt">&nbsp;</span><small class="from">@from</small><br />
+                                            <span class="fas fa-clock"></span>&nbsp;<small>@trip.LocalArrivalDateTime.ToString("hh:mm tt")</small>&nbsp;&nbsp;<br class="visible-xs" /><span class="fas fa-map-marker-alt">&nbsp;</span><small class="to">@to</small><br />
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="text-align:center">
                                             @{
-                                                if (trip.AllowPets)
+                                                if (Model.IsAdmin)
                                                 {
-                                                    <div id="pet" class="btn btn-info col-md-4 col-sm-4 col-xs-4 panel panel-default active" data-toggle="button" onclick="return false" aria-pressed="true" style="border-radius:10px 0px 0px 10px; pointer-events:none">
-                                                        <span class="fas fa-dog">&nbsp;</span><br /><label class="control-label" style="text-align:left">Mascotas </label>&nbsp;<span id="check-pet" class="fas fa-check-circle">&nbsp;</span>
-                                                        <input type="text" id="ck-pet" name="ck-pet" style="display:none" />
-                                                    </div>
-                                                }
-                                                else
-                                                {
-                                                    <div id="pet" class="btn btn-info col-md-4 col-sm-4 col-xs-4 panel panel-default" data-toggle="button" aria-pressed="false" autocomplete="off" style="border-radius:10px 0px 0px 10px; pointer-events:none">
-                                                        <span class="fas fa-dog">&nbsp;</span><br /><label class="control-label" style="text-align:left">Mascotas </label>&nbsp;<span id="check-pet" class="fas fa-check-circle hidden">&nbsp;</span>
-                                                        <input type="text" id="ck-pet" name="ck-pet" style="display:none" />
-                                                    </div>
-                                                }
-
-                                                if (trip.AllowLuggage)
-                                                {
-                                                    <div id="luggage" class="btn btn-info col-lg-4 col-md-4 col-sm-4 col-xs-4 panel panel-default active" data-toggle="button" aria-pressed="true" autocomplete="off" style="border-radius:0px;pointer-events:none">
-                                                        <span class="fas fa-suitcase-rolling">&nbsp;</span><br /><label class="control-label" style="text-align:left">Equipaje </label>&nbsp;<span id="check-luggage" class="fas fa-check-circle">&nbsp;</span>
-                                                        <input type="text" id="ck-luggage" name="ck-luggage" style="display:none" />
-                                                    </div>
-                                                }
-                                                else
-                                                {
-                                                    <div id="luggage" class="btn btn-info col-lg-4 col-md-4 col-sm-4 col-xs-4 panel panel-default allow-checkboxes" data-toggle="button" aria-pressed="false" autocomplete="off" style="border-radius:0px;pointer-events:none">
-                                                        <span class="fas fa-suitcase-rolling">&nbsp;</span><br /><label class="control-label" style="text-align:left">Equipaje </label>&nbsp;<span id="check-luggage" class="fas fa-check-circle hidden">&nbsp;</span>
-                                                        <input type="text" id="ck-luggage" name="ck-luggage" style="display:none" />
-                                                    </div>
-                                                }
-
-                                                if (trip.AllowSmoking)
-                                                {
-                                                    <div id="smoking" class="btn btn-info col-lg-4 col-md-4 col-sm-4 col-xs-4 panel panel-default active" data-toggle="button" aria-pressed="true" autocomplete="off" style="border-radius:0px 10px 10px 0px;pointer-events:none">
-                                                        <span class="fas fa-smoking">&nbsp;</span><br /><label class="control-label" style="text-align:left">Fumado</label>&nbsp;<span id="check-smoking" class="fas fa-check-circle">&nbsp;</span>
-                                                        <input type="text" id="ck-smoking" name="ck-smoking" style="display:none" />
-                                                    </div>
-                                                }
-                                                else
-                                                {
-                                                    <div id="smoking" class="btn btn-info col-lg-4 col-md-4 col-sm-4 col-xs-4 panel panel-default allow-checkboxes" data-toggle="button" aria-pressed="false" autocomplete="off" style="border-radius:0px 10px 10px 0px;pointer-events:none">
-                                                        <span class="fas fa-smoking">&nbsp;</span><br /><label class="control-label" style="text-align:left">Fumado</label>&nbsp;<span id="check-smoking" class="fas fa-check-circle hidden">&nbsp;</span>
-                                                        <input type="text" id="ck-smoking" name="ck-smoking" style="display:none" />
-                                                    </div>
+                                                    <div class="pull-right" id="profile-container-small" data-toggle="tooltip" style="margin-right:10px" title="Conductor"><img id="profileImage" src="@Url.Content(trip.ApplicationUser.Picture)" /></div><br /><br /><br />
+                                                    <small class="pull-right name">@trip.ApplicationUser.FullName</small><br>
                                                 }
                                             }
                                         </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style="padding-left:15px">
-                                        <input type="button" class="btn btn-danger btn-sm pull-right" style="width:150px" value="Cancelar Viaje" onclick="ConfirmDelete(@trip.TripId, '@from -> @to')" /><br />
-                                    </div>
-                                </div>
-                                <hr />
-                                <div class="row form-group" style="padding-left:20px">
-                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                        <label class="control-label" style="text-align:left">Reservaciones</label>
-                                    </div>
-                                </div>
-                                @{
-                                    var totalAmount = 0m;
-
-                                    if (trip.Reservations.Count == 0)
-                                    {
-                                        <div class="row form-group" style="padding-left:20px; text-align:center">
-                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                <small>¡No hay reservaciones registradas!</small>
+                                        <div class="row form-group" style="padding-left:15px; padding-right:0px">
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                <b><span class="fas fa-route"></span>Ruta: </b><small class="route">@route.Name</small><br />
+                                                <b><span class="fas fa-road">&nbsp;</span>Distancia: </b><small>@trip.AproxDistance km</small><br />
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                <small class="price"><b><span class="fas fa-money-bill-alt">&nbsp;</span>Cuota: </b> @currency @trip.Price</small><br />
+                                                <small class="spaces"><b><span class="fas fa-car-side">&nbsp;</span>Espacios: </b>  @trip.AvailableSpaces</small><br />
                                             </div>
                                         </div>
-                                    }
-                                    else
-                                    {
-                                        <div class="row form-group" style="margin-bottom:0px">
-                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                <div class="row" style="text-align:center">
+                                        <div class="row form-group" style="padding-left:0px">
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                <div class="row form-group btn-group center-block" style="padding-left:0px; padding-right:0px; margin-bottom:0px">
                                                     @{
-                                                        foreach (var reservation in trip.Reservations)
+                                                        if (trip.AllowPets)
                                                         {
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6" style="padding-left:14px; padding-right:14px; text-align:center !important; display:inline;">
-                                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 panel panel-default" style="padding:3px; text-align:center; display:inline; width:100%; border-radius:10px; margin-bottom:0px">
-                                                                    <div id="profile-container-small" data-toggle="tooltip" title="Pasajero" style="text-align:center;display:inline-block">
-                                                                        <img id="profileImage" src="@Url.Content(reservation.ApplicationUser.Picture)" /><br />
-                                                                    </div><br />
-                                                                    @{
-                                                                        var stars = reservation.ApplicationUser.Stars;
-
-                                                                        switch (stars)
-                                                                        {
-                                                                            case 1:
-                                                                                <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star1" class="fa fa-star checked" data-toggle="Muy Malo"></span></a>
-                                                                                <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star2" class="fa fa-star" data-toggle="Muy Malo"></span></a>
-                                                                                <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star3" class="fa fa-star" data-toggle="Muy Malo"></span></a>
-                                                                                <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star4" class="fa fa-star" data-toggle="Muy Malo"></span></a>
-                                                                                <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star5" class="fa fa-star" data-toggle="Muy Malo"></span></a>
-                                                                                break;
-                                                                            case 2:
-                                                                                <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star1" class="fa fa-star checked" data-toggle="Malo"></span></a>
-                                                                                <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star2" class="fa fa-star checked" data-toggle="Malo"></span></a>
-                                                                                <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star3" class="fa fa-star" data-toggle="Malo"></span></a>
-                                                                                <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star4" class="fa fa-star" data-toggle="Malo"></span></a>
-                                                                                <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star5" class="fa fa-star" data-toggle="Malo"></span></a>
-                                                                                break;
-                                                                            case 3:
-                                                                                <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star1" class="fa fa-star checked" data-toggle="Bueno"></span></a>
-                                                                                <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star2" class="fa fa-star checked" data-toggle="Bueno"></span></a>
-                                                                                <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star3" class="fa fa-star checked" data-toggle="Bueno"></span></a>
-                                                                                <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star4" class="fa fa-star" data-toggle="Bueno"></span></a>
-                                                                                <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star5" class="fa fa-star" data-toggle="Bueno"></span></a>
-                                                                                break;
-                                                                            case 4:
-                                                                                <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star1" class="fa fa-star checked" data-toggle="Muy Bueno"></span></a>
-                                                                                <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star2" class="fa fa-star checked" data-toggle="Muy Bueno"></span></a>
-                                                                                <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star3" class="fa fa-star checked" data-toggle="Muy Bueno"></span></a>
-                                                                                <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star4" class="fa fa-star checked" data-toggle="Muy Bueno"></span></a>
-                                                                                <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star5" class="fa fa-star" data-toggle="Muy Bueno"></span></a>
-                                                                                break;
-                                                                            case 5:
-                                                                                <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star1" class="fa fa-star checked" data-toggle="Excelente"></span></a>
-                                                                                <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star2" class="fa fa-star checked" data-toggle="Excelente"></span></a>
-                                                                                <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star3" class="fa fa-star checked" data-toggle="Excelente"></span></a>
-                                                                                <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star4" class="fa fa-star checked" data-toggle="Excelente"></span></a>
-                                                                                <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star5" class="fa fa-star checked" data-toggle="Excelente"></span></a>
-                                                                                break;
-                                                                            case -1:
-                                                                                <a href="#" data-toggle="tooltip" title="¡Usuario no calificado!"><span id="p-star1" class="fa fa-star" data-toggle="¡No hay suficientes calificaciones!"></span></a>
-                                                                                <a href="#" data-toggle="tooltip" title="¡Usuario no calificado!"><span id="p-star2" class="fa fa-star" data-toggle="¡Usuario no calificado!"></span></a>
-                                                                                <a href="#" data-toggle="tooltip" title="¡Usuario no calificado!"><span id="p-star3" class="fa fa-star" data-toggle="¡Usuario no calificado!"></span></a>
-                                                                                <a href="#" data-toggle="tooltip" title="¡Usuario no calificado!"><span id="p-star4" class="fa fa-star" data-toggle="¡Usuario no calificado!"></span></a>
-                                                                                <a href="#" data-toggle="tooltip" title="¡Usuario no calificado!"><span id="p-star5" class="fa fa-star" data-toggle="¡Usuario no calificado!"></span></a>
-                                                                                break;
-                                                                        }
-                                                                        <br />
-                                                                        <small class="name">@reservation.ApplicationUser.FullName</small><br />
-                                                                        <div class="row" style="margin-left:0px; margin-right:0px;">
-                                                                            <div class="col-lg-3 col-md-2 hidden-sm col-xs-12">
-
-                                                                            </div>
-                                                                            <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12 panel panel-default center-block" style="height:50px;padding-left:0px; padding-right:0px;background-color:lightyellow">
-                                                                                @{
-                                                                                    if (reservation.Status == CarpoolingCR.Utils.Enums.ReservationStatus.Accepted)
-                                                                                    {
-
-                                                                                        <small class="driver">
-                                                                                            <span class="fas fa-phone-alt phone">&nbsp;</span><a href="tel: @country @reservation.ApplicationUser.Phone1" style="color:blue"> @country @reservation.ApplicationUser.Phone1 </a>
-
-                                                                                            @if (!string.IsNullOrEmpty(reservation.ApplicationUser.Phone2))
-                                                                                            {
-                                                                                                <br />
-                                                                                                <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                                                                                <a href="tel: @country @reservation.ApplicationUser.Phone2" style="color:blue" class="phone"> @country @reservation.ApplicationUser.Phone2 </a>
-                                                                                            }
-                                                                                        </small><br />
-                                                                                    }
-                                                                                }
-                                                                            </div>
-                                                                            <div class="col-lg-3 col-md-2 hidden-sm col-xs-12">
-
-                                                                            </div>
-                                                                        </div>
-
-                                                                        if (reservation.Status == CarpoolingCR.Utils.Enums.ReservationStatus.Pending)
-                                                                        {
-                                                                            <input type="button" class="btn btn-info btn-sm" style="width:73px" value="Aceptar" onclick="ConfirmAction(@reservation.ReservationId, 'Accepted', '¡Confirme que desea aceptar esta reservación!', 'Reservaciones', 'Confirmar', 'btn-info', 'driver')" />
-                                                                            <input type="button" class="btn btn-danger btn-sm" style="width:73px" value="Rechazar" onclick="ConfirmAction(@reservation.ReservationId, 'Rejected', '¡Confirme que desea rechazar esta reservación!', 'Reservaciones', 'Rechazar', 'btn-danger', 'driver')" />
-                                                                        }
-                                                                        else
-                                                                        {
-                                                                            <input type="button" class="btn btn-info btn-sm" style="width:73px; visibility:hidden" value="Aceptar" />
-                                                                            <input type="button" class="btn btn-danger btn-sm" style="width:73px" value="Cancelar" onclick="ConfirmAction(@reservation.ReservationId, 'Cancelled', '¡Confirme que desea cancelar esta reservación!', 'Reservaciones', 'Cancelar', 'btn-danger', 'driver')" />
-                                                                        }
-                                                                    }
-                                                                    <br />
-                                                                    @*<div class="col-lg-2 col-md-3 col-sm-4 col-xs-12" style="padding:0px; margin:1px; text-align:left; display:inline; width:121px">*@
-                                                                    @*<div class="col-lg-3 col-md-4 col-sm-6 col-xs-6" style="padding:5px; margin:5px; text-align:center; display:inline; width:160px">*@
-
-                                                                    <small class="spaces"><b><span class="fas fa-car-side">&nbsp;</span>Espacios: </b> @reservation.RequestedSpaces</small><br />
-                                                                    <div class="row" style="margin-left:0px; margin-right:0px">
-                                                                        <div class="col-lg-3 col-md-2 hidden-sm col-xs-12">
-
-                                                                        </div>
-                                                                        <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12 panel panel-default center-block" style="height:50px;padding-left:0px; padding-right:0px;height:85px;background-color:lightyellow">
-                                                                            @{
-                                                                                var spacesSelected = reservation.SpacesSelected.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
-                                                                                var displaySpaces = string.Empty;
-
-                                                                                foreach (var space in spacesSelected)
-                                                                                {
-                                                                                    switch (space)
-                                                                                    {
-                                                                                        case "modelPriceCopilot":
-                                                                                            <small>Delantero Derecho</small><br />
-                                                                                            break;
-                                                                                        case "modelPriceLeft":
-                                                                                            <small>Trasero Izquierdo</small><br />
-                                                                                            break;
-                                                                                        case "modelPriceMiddle":
-                                                                                            <small>Trasero Central</small><br />
-                                                                                            break;
-                                                                                        case "modelPriceRight":
-                                                                                            <small>Trasero Derecho</small><br />
-                                                                                            break;
-                                                                                    }
-                                                                                }
-                                                                            }
-                                                                        </div>
-                                                                        <div class="col-lg-3 col-md-2 hidden-sm col-xs-12">
-
-                                                                        </div>
-                                                                    </div>
-
-                                                                    @{
-                                                                        var description = CarpoolingCR.Utils.EnumHelper<CarpoolingCR.Utils.Enums.ReservationStatus>.GetDisplayValue(reservation.Status);
-                                                                        <small class="total"><b><span class="fas fa-money-bill-alt">&nbsp;</span>Total: @currency @reservation.SelectedSeatsTotalPrice.ToString("N2")</b></small><br />
-                                                                        <small class="status"><b><span class="fas fa-shield-alt">&nbsp;</span>Estado: </b>@description</small>
-                                                                    }
-                                                                    @*</div>*@
-                                                                </div>
+                                                            <div id="pet" class="btn btn-info panel panel-default active" data-toggle="button" onclick="return false" aria-pressed="true" style="border-radius:10px 0px 0px 10px; pointer-events:none; width:100px">
+                                                                <span class="fas fa-dog">&nbsp;</span>&nbsp;<span id="check-pet" class="fas fa-check-circle">&nbsp;</span><br /><small class="control-label" style="text-align:left">Mascotas </small>
+                                                                <input type="text" id="ck-pet" name="ck-pet" style="display:none" />
                                                             </div>
+                                                        }
+                                                        else
+                                                        {
+                                                            <div id="pet" class="btn btn-info panel panel-default" data-toggle="button" aria-pressed="false" autocomplete="off" style="border-radius:10px 0px 0px 10px; pointer-events:none; width:100px">
+                                                                <span class="fas fa-dog">&nbsp;</span>&nbsp;<span id="check-pet" class="fas fa-check-circle hidden">&nbsp;</span><br /><small class="control-label" style="text-align:left">Mascotas </small>
+                                                                <input type="text" id="ck-pet" name="ck-pet" style="display:none" />
+                                                            </div>
+                                                        }
 
-                                                            if (reservation.Status == CarpoolingCR.Utils.Enums.ReservationStatus.Accepted)
-                                                            {
-                                                                totalAmount += reservation.SelectedSeatsTotalPrice;
-                                                            }
+                                                        if (trip.AllowLuggage)
+                                                        {
+                                                            <div id="luggage" class="btn btn-info col-lg-4 panel panel-default active" data-toggle="button" aria-pressed="true" autocomplete="off" style="border-radius:0px;pointer-events:none; width:100px">
+                                                                <span class="fas fa-suitcase-rolling">&nbsp;</span>&nbsp;<span id="check-luggage" class="fas fa-check-circle"></span><br /><small class="control-label" style="text-align:left">Equipaje </small>&nbsp;
+                                                                <input type="text" id="ck-luggage" name="ck-luggage" style="display:none" />
+                                                            </div>
+                                                        }
+                                                        else
+                                                        {
+                                                            <div id="luggage" class="btn btn-info col-lg-4 panel panel-default allow-checkboxes" data-toggle="button" aria-pressed="false" autocomplete="off" style="border-radius:0px;pointer-events:none; width:100px">
+                                                                <span class="fas fa-suitcase-rolling">&nbsp;</span>&nbsp;<span id="check-luggage" class="fas fa-check-circle hidden">&nbsp;</span><br /><small class="control-label" style="text-align:left">Equipaje </small>
+                                                                <input type="text" id="ck-luggage" name="ck-luggage" style="display:none" />
+                                                            </div>
+                                                        }
+
+                                                        if (trip.AllowSmoking)
+                                                        {
+                                                            <div id="smoking" class="btn btn-info col-lg-4 panel panel-default active" data-toggle="button" aria-pressed="true" autocomplete="off" style="border-radius:0px 10px 10px 0px;pointer-events:none; width:100px">
+                                                                <span class="fas fa-smoking">&nbsp;</span>&nbsp;<span id="check-smoking" class="fas fa-check-circle">&nbsp;</span><br /><small class="control-label" style="text-align:left">Fumado</small>
+                                                                <input type="text" id="ck-smoking" name="ck-smoking" style="display:none" />
+                                                            </div>
+                                                        }
+                                                        else
+                                                        {
+                                                            <div id="smoking" class="btn btn-info col-lg-4 panel panel-default allow-checkboxes" data-toggle="button" aria-pressed="false" autocomplete="off" style="border-radius:0px 10px 10px 0px;pointer-events:none; width:100px">
+                                                                <span class="fas fa-smoking">&nbsp;</span>&nbsp;<span id="check-smoking" class="fas fa-check-circle hidden">&nbsp;</span><br /><small class="control-label" style="text-align:left">Fumado</small>
+                                                                <input type="text" id="ck-smoking" name="ck-smoking" style="display:none" />
+                                                            </div>
                                                         }
                                                     }
                                                 </div>
                                             </div>
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style="padding-left:15px">
+                                                <input type="button" class="btn btn-danger btn-sm pull-right" style="width:150px" value="Cancelar Viaje" onclick="ConfirmDelete(@trip.TripId, '@from -> @to')" /><br />
+                                            </div>
                                         </div>
-                                    }
+                                        <hr />
+                                        <div class="row form-group" style="padding-left:20px">
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <label class="control-label" style="text-align:left">Reservaciones</label>
+                                            </div>
+                                        </div>
+                                        @{
+                                            var totalAmount = 0m;
 
-                                    <div class="row">
-                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                            <small class="incomes pull-right bg-info total" style="border-radius:10px 10px 10px 10px; width:150px; padding:5px"><b>Ganancias: @currency @totalAmount.ToString("N2")</b><br /></small>
-                                        </div>
+                                            if (trip.Reservations.Count == 0)
+                                            {
+                                                <div class="row form-group" style="padding-left:20px; text-align:center">
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                        <small>¡No hay reservaciones registradas!</small>
+                                                    </div>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="row form-group" style="margin-bottom:0px">
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                        <div class="row" style="text-align:center">
+                                                            @{
+                                                                foreach (var reservation in trip.Reservations)
+                                                                {
+                                                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6" style="padding-left:14px; padding-right:14px; text-align:center !important; display:inline;">
+                                                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 panel panel-default" style="padding:3px; text-align:center; display:inline; width:100%; border-radius:10px; margin-bottom:0px">
+                                                                            <div id="profile-container-small" data-toggle="tooltip" title="Pasajero" style="text-align:center;display:inline-block">
+                                                                                <img id="profileImage" src="@Url.Content(reservation.ApplicationUser.Picture)" /><br />
+                                                                            </div><br />
+                                                                            @{
+                                                                                var stars = reservation.ApplicationUser.Stars;
+
+                                                                                switch (stars)
+                                                                                {
+                                                                                    case 1:
+                                                                                        <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star1" class="fa fa-star checked" data-toggle="Muy Malo"></span></a>
+                                                                                        <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star2" class="fa fa-star" data-toggle="Muy Malo"></span></a>
+                                                                                        <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star3" class="fa fa-star" data-toggle="Muy Malo"></span></a>
+                                                                                        <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star4" class="fa fa-star" data-toggle="Muy Malo"></span></a>
+                                                                                        <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star5" class="fa fa-star" data-toggle="Muy Malo"></span></a>
+                                                                                        break;
+                                                                                    case 2:
+                                                                                        <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star1" class="fa fa-star checked" data-toggle="Malo"></span></a>
+                                                                                        <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star2" class="fa fa-star checked" data-toggle="Malo"></span></a>
+                                                                                        <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star3" class="fa fa-star" data-toggle="Malo"></span></a>
+                                                                                        <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star4" class="fa fa-star" data-toggle="Malo"></span></a>
+                                                                                        <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star5" class="fa fa-star" data-toggle="Malo"></span></a>
+                                                                                        break;
+                                                                                    case 3:
+                                                                                        <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star1" class="fa fa-star checked" data-toggle="Bueno"></span></a>
+                                                                                        <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star2" class="fa fa-star checked" data-toggle="Bueno"></span></a>
+                                                                                        <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star3" class="fa fa-star checked" data-toggle="Bueno"></span></a>
+                                                                                        <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star4" class="fa fa-star" data-toggle="Bueno"></span></a>
+                                                                                        <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star5" class="fa fa-star" data-toggle="Bueno"></span></a>
+                                                                                        break;
+                                                                                    case 4:
+                                                                                        <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star1" class="fa fa-star checked" data-toggle="Muy Bueno"></span></a>
+                                                                                        <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star2" class="fa fa-star checked" data-toggle="Muy Bueno"></span></a>
+                                                                                        <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star3" class="fa fa-star checked" data-toggle="Muy Bueno"></span></a>
+                                                                                        <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star4" class="fa fa-star checked" data-toggle="Muy Bueno"></span></a>
+                                                                                        <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star5" class="fa fa-star" data-toggle="Muy Bueno"></span></a>
+                                                                                        break;
+                                                                                    case 5:
+                                                                                        <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star1" class="fa fa-star checked" data-toggle="Excelente"></span></a>
+                                                                                        <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star2" class="fa fa-star checked" data-toggle="Excelente"></span></a>
+                                                                                        <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star3" class="fa fa-star checked" data-toggle="Excelente"></span></a>
+                                                                                        <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star4" class="fa fa-star checked" data-toggle="Excelente"></span></a>
+                                                                                        <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star5" class="fa fa-star checked" data-toggle="Excelente"></span></a>
+                                                                                        break;
+                                                                                    case -1:
+                                                                                        <a href="#" data-toggle="tooltip" title="¡Usuario no calificado!"><span id="p-star1" class="fa fa-star" data-toggle="¡No hay suficientes calificaciones!"></span></a>
+                                                                                        <a href="#" data-toggle="tooltip" title="¡Usuario no calificado!"><span id="p-star2" class="fa fa-star" data-toggle="¡Usuario no calificado!"></span></a>
+                                                                                        <a href="#" data-toggle="tooltip" title="¡Usuario no calificado!"><span id="p-star3" class="fa fa-star" data-toggle="¡Usuario no calificado!"></span></a>
+                                                                                        <a href="#" data-toggle="tooltip" title="¡Usuario no calificado!"><span id="p-star4" class="fa fa-star" data-toggle="¡Usuario no calificado!"></span></a>
+                                                                                        <a href="#" data-toggle="tooltip" title="¡Usuario no calificado!"><span id="p-star5" class="fa fa-star" data-toggle="¡Usuario no calificado!"></span></a>
+                                                                                        break;
+                                                                                }
+                                                                                <br />
+                                                                                <small class="name">@reservation.ApplicationUser.FullName</small><br />
+                                                                                <div class="row" style="margin-left:0px; margin-right:0px;">
+                                                                                    <div class="col-lg-3 col-md-2 hidden-sm col-xs-12">
+
+                                                                                    </div>
+                                                                                    <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12 panel panel-default center-block" style="height:50px;padding-left:0px; padding-right:0px;background-color:lightyellow">
+                                                                                        @{
+                                                                                            if (reservation.Status == CarpoolingCR.Utils.Enums.ReservationStatus.Accepted)
+                                                                                            {
+
+                                                                                                <small class="driver">
+                                                                                                    <span class="fas fa-phone-alt phone">&nbsp;</span><a href="tel: @country @reservation.ApplicationUser.Phone1" style="color:blue"> @country @reservation.ApplicationUser.Phone1 </a>
+
+                                                                                                    @if (!string.IsNullOrEmpty(reservation.ApplicationUser.Phone2))
+                                                                                                    {
+                                                                                                        <br />
+                                                                                                        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                                                                                        <a href="tel: @country @reservation.ApplicationUser.Phone2" style="color:blue" class="phone"> @country @reservation.ApplicationUser.Phone2 </a>
+                                                                                                    }
+                                                                                                </small><br />
+                                                                                            }
+                                                                                        }
+                                                                                    </div>
+                                                                                    <div class="col-lg-3 col-md-2 hidden-sm col-xs-12">
+
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                if (reservation.Status == CarpoolingCR.Utils.Enums.ReservationStatus.Pending)
+                                                                                {
+                                                                                    <input type="button" class="btn btn-info btn-sm" style="width:73px" value="Aceptar" onclick="ConfirmAction(@reservation.ReservationId, 'Accepted', '¡Confirme que desea aceptar esta reservación!', 'Reservaciones', 'Confirmar', 'btn-info', 'driver')" />
+                                                                                    <input type="button" class="btn btn-danger btn-sm" style="width:73px" value="Rechazar" onclick="ConfirmAction(@reservation.ReservationId, 'Rejected', '¡Confirme que desea rechazar esta reservación!', 'Reservaciones', 'Rechazar', 'btn-danger', 'driver')" />
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    <input type="button" class="btn btn-info btn-sm" style="width:73px; visibility:hidden" value="Aceptar" />
+                                                                                    <input type="button" class="btn btn-danger btn-sm" style="width:73px" value="Cancelar" onclick="ConfirmAction(@reservation.ReservationId, 'Cancelled', '¡Confirme que desea cancelar esta reservación!', 'Reservaciones', 'Cancelar', 'btn-danger', 'driver')" />
+                                                                                }
+                                                                            }
+                                                                            <br />
+                                                                            @*<div class="col-lg-2 col-md-3 col-sm-4 col-xs-12" style="padding:0px; margin:1px; text-align:left; display:inline; width:121px">*@
+                                                                            @*<div class="col-lg-3 col-md-4 col-sm-6 col-xs-6" style="padding:5px; margin:5px; text-align:center; display:inline; width:160px">*@
+
+                                                                            <small class="spaces"><b><span class="fas fa-car-side">&nbsp;</span>Espacios: </b> @reservation.RequestedSpaces</small><br />
+                                                                            <div class="row" style="margin-left:0px; margin-right:0px">
+                                                                                <div class="col-lg-3 col-md-2 hidden-sm col-xs-12">
+
+                                                                                </div>
+                                                                                <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12 panel panel-default center-block" style="height:50px;padding-left:0px; padding-right:0px;height:85px;background-color:lightyellow">
+                                                                                    @{
+                                                                                        var spacesSelected = reservation.SpacesSelected.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
+                                                                                        var displaySpaces = string.Empty;
+
+                                                                                        foreach (var space in spacesSelected)
+                                                                                        {
+                                                                                            switch (space)
+                                                                                            {
+                                                                                                case "modelPriceCopilot":
+                                                                                                    <small>Delantero Derecho</small><br />
+                                                                                                    break;
+                                                                                                case "modelPriceLeft":
+                                                                                                    <small>Trasero Izquierdo</small><br />
+                                                                                                    break;
+                                                                                                case "modelPriceMiddle":
+                                                                                                    <small>Trasero Central</small><br />
+                                                                                                    break;
+                                                                                                case "modelPriceRight":
+                                                                                                    <small>Trasero Derecho</small><br />
+                                                                                                    break;
+                                                                                            }
+                                                                                        }
+                                                                                    }
+                                                                                </div>
+                                                                                <div class="col-lg-3 col-md-2 hidden-sm col-xs-12">
+
+                                                                                </div>
+                                                                            </div>
+
+                                                                            @{
+                                                                                var description = CarpoolingCR.Utils.EnumHelper<CarpoolingCR.Utils.Enums.ReservationStatus>.GetDisplayValue(reservation.Status);
+                                                                                <small class="total"><b><span class="fas fa-money-bill-alt">&nbsp;</span>Total: @currency @reservation.SelectedSeatsTotalPrice.ToString("N2")</b></small><br />
+                                                                                <small class="status"><b><span class="fas fa-shield-alt">&nbsp;</span>Estado: </b>@description</small>
+                                                                            }
+                                                                            @*</div>*@
+                                                                        </div>
+                                                                    </div>
+
+                                                                    if (reservation.Status == CarpoolingCR.Utils.Enums.ReservationStatus.Accepted)
+                                                                    {
+                                                                        totalAmount += reservation.SelectedSeatsTotalPrice;
+                                                                    }
+                                                                }
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+
+                                            <div class="row">
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                    <small class="incomes pull-right bg-info total" style="border-radius:10px 10px 10px 10px; width:150px; padding:5px"><b>Ganancias: @currency @totalAmount.ToString("N2")</b><br /></small>
+                                                </div>
+                                            </div>
+                                        }
                                     </div>
-                                }
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                </li>
+                        </li>
                     }
                 }
             </ul>

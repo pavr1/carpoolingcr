@@ -24,7 +24,7 @@
             </div>
         </div>
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-            <a class="btn btn-info btn-sm btn-block custom-spin-button pull-right" href="@Url.Action("CreateReservation", "Reservations")" data-loading-text="<i class='fa fa-circle-o-notch fa-spin pull-right'></i> Reservar" style="width:150px">Reservar</a>
+            <a class="btn btn-info btn-sm btn-block custom-spin-button pull-right" href="@Url.Action("CreateReservation", "Reservations")" data-loading-text="<i class='fa fa-circle-o-notch fa-spin pull-right'></i> Reserva tu viaje" style="width:150px">Reserva tu viaje</a>
         </div>
     </div>
     @{
@@ -128,63 +128,53 @@
                                             }
                                         </div>
                                     </div>
-                                    <div class="row form-group" style="">
-                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                            @{
-                                                if (reservation.Trip.AllowPets)
-                                                {
-                                                    <div id="pet" class="btn btn-info panel panel-default active" data-toggle="button" onclick="return false" aria-pressed="true" style="border-radius:10px 0px 0px 10px; pointer-events:none">
-                                                        <span class="fas fa-dog">&nbsp;</span>&nbsp;<span id="check-pet" class="fas fa-check-circle">&nbsp;</span><br /><label class="control-label" style="text-align:left">Mascotas </label>
-                                                        <input type="text" id="ck-pet" name="ck-pet" style="display:none" />
-                                                    </div>
-                                                }
-                                                else
-                                                {
-                                                    <div id="pet" class="btn btn-info panel panel-default" data-toggle="button" aria-pressed="false" autocomplete="off" style="border-radius:10px 0px 0px 10px; pointer-events:none">
-                                                        <span class="fas fa-dog">&nbsp;</span>&nbsp;<span id="check-pet" class="fas fa-check-circle hidden">&nbsp;</span><br /><label class="control-label" style="text-align:left">Mascotas </label>
-                                                        <input type="text" id="ck-pet" name="ck-pet" style="display:none" />
-                                                    </div>
-                                                }
-
-                                                if (reservation.Trip.AllowLuggage)
-                                                {
-                                                    <div id="luggage" class="btn btn-info col-lg-4 panel panel-default active" data-toggle="button" aria-pressed="true" autocomplete="off" style="border-radius:0px;pointer-events:none">
-                                                        <span class="fas fa-suitcase-rolling">&nbsp;</span>&nbsp;<span id="check-luggage" class="fas fa-check-circle">&nbsp;</span><br /><label class="control-label" style="text-align:left">Equipaje </label>
-                                                        <input type="text" id="ck-luggage" name="ck-luggage" style="display:none" />
-                                                    </div>
-                                                }
-                                                else
-                                                {
-                                                    <div id="luggage" class="btn btn-info col-lg-4 panel panel-default allow-checkboxes" data-toggle="button" aria-pressed="false" autocomplete="off" style="border-radius:0px;pointer-events:none">
-                                                        <span class="fas fa-suitcase-rolling">&nbsp;</span>&nbsp;<span id="check-luggage" class="fas fa-check-circle hidden">&nbsp;</span><br /><label class="control-label" style="text-align:left">Equipaje </label>
-                                                        <input type="text" id="ck-luggage" name="ck-luggage" style="display:none" />
-                                                    </div>
-                                                }
-
-                                                if (reservation.Trip.AllowSmoking)
-                                                {
-                                                    <div id="smoking" class="btn btn-info col-lg-4 panel panel-default active" data-toggle="button" aria-pressed="true" autocomplete="off" style="border-radius:0px 10px 10px 0px;pointer-events:none">
-                                                        <span class="fas fa-smoking">&nbsp;</span>&nbsp;<span id="check-smoking" class="fas fa-check-circle">&nbsp;</span><br /><label class="control-label" style="text-align:left">Fumado</label>
-                                                        <input type="text" id="ck-smoking" name="ck-smoking" style="display:none" />
-                                                    </div>
-                                                }
-                                                else
-                                                {
-                                                    <div id="smoking" class="btn btn-info col-lg-4 panel panel-default allow-checkboxes" data-toggle="button" aria-pressed="false" autocomplete="off" style="border-radius:0px 10px 10px 0px;pointer-events:none">
-                                                        <span class="fas fa-smoking">&nbsp;</span>&nbsp;<span id="check-smoking" class="fas fa-check-circle hidden">&nbsp;</span><br /><label class="control-label" style="text-align:left">Fumado</label>
-                                                        <input type="text" id="ck-smoking" name="ck-smoking" style="display:none" />
-                                                    </div>
-                                                }
+                                    <div class="row form-group btn-group center-block" style="padding-left:0px; padding-right:0px; margin-bottom:0px">
+                                        @{
+                                            if (reservation.Trip.AllowPets)
+                                            {
+                                                <div id="pet" class="btn btn-xs btn-info panel panel-default active" data-toggle="button" onclick="return false" aria-pressed="true" style="border-radius:10px 0px 0px 10px; pointer-events:none; width:70px">
+                                                    <span class="fas fa-dog">&nbsp;</span>&nbsp;<span id="check-pet" class="fas fa-check-circle">&nbsp;</span><br /><small class="control-label" style="text-align:left">Mascotas </small>
+                                                    <input type="text" id="ck-pet" name="ck-pet" style="display:none" />
+                                                </div>
                                             }
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style="margin-bottom:5px">
-                                            @{
-                                                if (reservation.Status != CarpoolingCR.Utils.Enums.ReservationStatus.Cancelled)
-                                                {
-                                                    <input type="button" class="btn btn-danger btn-sm pull-right" value="Cancelar Reservación" onclick="ConfirmAction(@reservation.ReservationId, '@CarpoolingCR.Utils.Enums.ReservationStatus.Cancelled','cancelar esta reservación','Reservaciones', 'Cancelar', 'btn-danger', 'passenger')" />
-                                                }
+                                            else
+                                            {
+                                                <div id="pet" class="btn btn-xs btn-info panel panel-default" data-toggle="button" aria-pressed="false" autocomplete="off" style="border-radius:10px 0px 0px 10px; pointer-events:none; width:70px">
+                                                    <span class="fas fa-dog">&nbsp;</span>&nbsp;<span id="check-pet" class="fas fa-check-circle hidden">&nbsp;</span><br /><small class="control-label" style="text-align:left">Mascotas </small>
+                                                    <input type="text" id="ck-pet" name="ck-pet" style="display:none" />
+                                                </div>
                                             }
-                                        </div>
+
+                                            if (reservation.Trip.AllowLuggage)
+                                            {
+                                                <div id="luggage" class="btn btn-xs btn-info col-lg-4 panel panel-default active" data-toggle="button" aria-pressed="true" autocomplete="off" style="border-radius:0px;pointer-events:none; width:70px">
+                                                    <span class="fas fa-suitcase-rolling">&nbsp;</span>&nbsp;<span id="check-luggage" class="fas fa-check-circle"></span><br /><small class="control-label" style="text-align:left">Equipaje </small>&nbsp;
+                                                    <input type="text" id="ck-luggage" name="ck-luggage" style="display:none" />
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div id="luggage" class="btn btn-xs btn-info col-lg-4 panel panel-default allow-checkboxes" data-toggle="button" aria-pressed="false" autocomplete="off" style="border-radius:0px;pointer-events:none; width:70px">
+                                                    <span class="fas fa-suitcase-rolling">&nbsp;</span>&nbsp;<span id="check-luggage" class="fas fa-check-circle hidden">&nbsp;</span><br /><small class="control-label" style="text-align:left">Equipaje </small>
+                                                    <input type="text" id="ck-luggage" name="ck-luggage" style="display:none" />
+                                                </div>
+                                            }
+
+                                            if (reservation.Trip.AllowSmoking)
+                                            {
+                                                <div id="smoking" class="btn btn-xs btn-info col-lg-4 panel panel-default active" data-toggle="button" aria-pressed="true" autocomplete="off" style="border-radius:0px 10px 10px 0px;pointer-events:none; width:70px">
+                                                    <span class="fas fa-smoking">&nbsp;</span>&nbsp;<span id="check-smoking" class="fas fa-check-circle">&nbsp;</span><br /><small class="control-label" style="text-align:left">Fumado</small>
+                                                    <input type="text" id="ck-smoking" name="ck-smoking" style="display:none" />
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div id="smoking" class="btn btn-xs btn-info col-lg-4 panel panel-default allow-checkboxes" data-toggle="button" aria-pressed="false" autocomplete="off" style="border-radius:0px 10px 10px 0px;pointer-events:none; width:70px">
+                                                    <span class="fas fa-smoking">&nbsp;</span>&nbsp;<span id="check-smoking" class="fas fa-check-circle hidden">&nbsp;</span><br /><small class="control-label" style="text-align:left">Fumado</small>
+                                                    <input type="text" id="ck-smoking" name="ck-smoking" style="display:none" />
+                                                </div>
+                                            }
+                                        }
                                     </div>
                                     <div class="row form-group" style="">
                                         <hr />

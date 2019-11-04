@@ -74,6 +74,7 @@ namespace CarpoolingCR.Models
         [NotMapped]
         public string MessageType { get; set; }
         public string Picture { get; set; }
+        public DateTime? MemberSince { get; set; }
 
         public int? VehicleId { get; set; }
 

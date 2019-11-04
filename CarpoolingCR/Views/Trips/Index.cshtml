@@ -34,7 +34,7 @@
                     }
                     else
                     {
-                        <a class="btn btn-info btn-sm btn-block custom-spin-button pull-right" href="~/Trips/Create" data-loading-text="<i class='fa fa-circle-o-notch fa-spin pull-right'></i> Crear Viaje" style="width:150px">Crear Viaje</a>
+                        <a class="btn btn-info btn-sm btn-block custom-spin-button pull-right" href="~/Trips/Create" data-loading-text="<i class='fa fa-circle-o-notch fa-spin pull-right'></i> Crea tu viaje" style="width:150px">Crea tu viaje</a>
                     }
                 }
             }
@@ -120,18 +120,18 @@
                                         </div>
                                         <div class="row form-group" style="padding-left:0px">
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                                <div class="row form-group btn-group center-block" style="padding-left:0px; padding-right:0px; margin-bottom:0px">
+                                                <div class="row form-group btn-group center-block" style="padding-left:10px; padding-right:0px; margin-bottom:0px">
                                                     @{
                                                         if (trip.AllowPets)
                                                         {
-                                                            <div id="pet" class="btn btn-info panel panel-default active" data-toggle="button" onclick="return false" aria-pressed="true" style="border-radius:10px 0px 0px 10px; pointer-events:none; width:100px">
+                                                            <div id="pet" class="btn btn-xs btn-info panel panel-default active" data-toggle="button" onclick="return false" aria-pressed="true" style="border-radius:10px 0px 0px 10px; pointer-events:none; width:70px">
                                                                 <span class="fas fa-dog">&nbsp;</span>&nbsp;<span id="check-pet" class="fas fa-check-circle">&nbsp;</span><br /><small class="control-label" style="text-align:left">Mascotas </small>
                                                                 <input type="text" id="ck-pet" name="ck-pet" style="display:none" />
                                                             </div>
                                                         }
                                                         else
                                                         {
-                                                            <div id="pet" class="btn btn-info panel panel-default" data-toggle="button" aria-pressed="false" autocomplete="off" style="border-radius:10px 0px 0px 10px; pointer-events:none; width:100px">
+                                                            <div id="pet" class="btn btn-xs btn-info panel panel-default" data-toggle="button" aria-pressed="false" autocomplete="off" style="border-radius:10px 0px 0px 10px; pointer-events:none; width:70px">
                                                                 <span class="fas fa-dog">&nbsp;</span>&nbsp;<span id="check-pet" class="fas fa-check-circle hidden">&nbsp;</span><br /><small class="control-label" style="text-align:left">Mascotas </small>
                                                                 <input type="text" id="ck-pet" name="ck-pet" style="display:none" />
                                                             </div>
@@ -139,14 +139,14 @@
 
                                                         if (trip.AllowLuggage)
                                                         {
-                                                            <div id="luggage" class="btn btn-info col-lg-4 panel panel-default active" data-toggle="button" aria-pressed="true" autocomplete="off" style="border-radius:0px;pointer-events:none; width:100px">
+                                                            <div id="luggage" class="btn btn-xs btn-info col-lg-4 panel panel-default active" data-toggle="button" aria-pressed="true" autocomplete="off" style="border-radius:0px;pointer-events:none; width:70px">
                                                                 <span class="fas fa-suitcase-rolling">&nbsp;</span>&nbsp;<span id="check-luggage" class="fas fa-check-circle"></span><br /><small class="control-label" style="text-align:left">Equipaje </small>&nbsp;
                                                                 <input type="text" id="ck-luggage" name="ck-luggage" style="display:none" />
                                                             </div>
                                                         }
                                                         else
                                                         {
-                                                            <div id="luggage" class="btn btn-info col-lg-4 panel panel-default allow-checkboxes" data-toggle="button" aria-pressed="false" autocomplete="off" style="border-radius:0px;pointer-events:none; width:100px">
+                                                            <div id="luggage" class="btn btn-xs btn-info col-lg-4 panel panel-default allow-checkboxes" data-toggle="button" aria-pressed="false" autocomplete="off" style="border-radius:0px;pointer-events:none; width:70px">
                                                                 <span class="fas fa-suitcase-rolling">&nbsp;</span>&nbsp;<span id="check-luggage" class="fas fa-check-circle hidden">&nbsp;</span><br /><small class="control-label" style="text-align:left">Equipaje </small>
                                                                 <input type="text" id="ck-luggage" name="ck-luggage" style="display:none" />
                                                             </div>
@@ -154,14 +154,14 @@
 
                                                         if (trip.AllowSmoking)
                                                         {
-                                                            <div id="smoking" class="btn btn-info col-lg-4 panel panel-default active" data-toggle="button" aria-pressed="true" autocomplete="off" style="border-radius:0px 10px 10px 0px;pointer-events:none; width:100px">
+                                                            <div id="smoking" class="btn btn-xs btn-info col-lg-4 panel panel-default active" data-toggle="button" aria-pressed="true" autocomplete="off" style="border-radius:0px 10px 10px 0px;pointer-events:none; width:70px">
                                                                 <span class="fas fa-smoking">&nbsp;</span>&nbsp;<span id="check-smoking" class="fas fa-check-circle">&nbsp;</span><br /><small class="control-label" style="text-align:left">Fumado</small>
                                                                 <input type="text" id="ck-smoking" name="ck-smoking" style="display:none" />
                                                             </div>
                                                         }
                                                         else
                                                         {
-                                                            <div id="smoking" class="btn btn-info col-lg-4 panel panel-default allow-checkboxes" data-toggle="button" aria-pressed="false" autocomplete="off" style="border-radius:0px 10px 10px 0px;pointer-events:none; width:100px">
+                                                            <div id="smoking" class="btn btn-xs btn-info col-lg-4 panel panel-default allow-checkboxes" data-toggle="button" aria-pressed="false" autocomplete="off" style="border-radius:0px 10px 10px 0px;pointer-events:none; width:70px">
                                                                 <span class="fas fa-smoking">&nbsp;</span>&nbsp;<span id="check-smoking" class="fas fa-check-circle hidden">&nbsp;</span><br /><small class="control-label" style="text-align:left">Fumado</small>
                                                                 <input type="text" id="ck-smoking" name="ck-smoking" style="display:none" />
                                                             </div>
@@ -254,7 +254,7 @@
                                                                                 <br />
                                                                                 <small class="name">@reservation.ApplicationUser.FullName</small><br />
                                                                                 <div class="row" style="margin-left:0px; margin-right:0px;">
-                                                                                    <div class="col-lg-3 col-md-2 hidden-sm col-xs-12">
+                                                                                    <div class="col-lg-3 col-md-2 hidden-sm hidden-xs">
 
                                                                                     </div>
                                                                                     <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12 panel panel-default center-block" style="height:50px;padding-left:0px; padding-right:0px;background-color:lightyellow">
@@ -275,21 +275,31 @@
                                                                                             }
                                                                                         }
                                                                                     </div>
-                                                                                    <div class="col-lg-3 col-md-2 hidden-sm col-xs-12">
+                                                                                    <div class="col-lg-3 col-md-2 hidden-sm hidden-xs">
 
                                                                                     </div>
                                                                                 </div>
+                                                                                <div class="row">
+                                                                                    <div class="col-lg-3 col-md-2 hidden-sm hidden-xs">
 
-                                                                                if (reservation.Status == CarpoolingCR.Utils.Enums.ReservationStatus.Pending)
-                                                                                {
-                                                                                    <input type="button" class="btn btn-info btn-sm" style="width:73px" value="Aceptar" onclick="ConfirmAction(@reservation.ReservationId, 'Accepted', '¡Confirme que desea aceptar esta reservación!', 'Reservaciones', 'Confirmar', 'btn-info', 'driver')" />
-                                                                                    <input type="button" class="btn btn-danger btn-sm" style="width:73px" value="Rechazar" onclick="ConfirmAction(@reservation.ReservationId, 'Rejected', '¡Confirme que desea rechazar esta reservación!', 'Reservaciones', 'Rechazar', 'btn-danger', 'driver')" />
-                                                                                }
-                                                                                else
-                                                                                {
-                                                                                    <input type="button" class="btn btn-info btn-sm" style="width:73px; visibility:hidden" value="Aceptar" />
-                                                                                    <input type="button" class="btn btn-danger btn-sm" style="width:73px" value="Cancelar" onclick="ConfirmAction(@reservation.ReservationId, 'Cancelled', '¡Confirme que desea cancelar esta reservación!', 'Reservaciones', 'Cancelar', 'btn-danger', 'driver')" />
-                                                                                }
+                                                                                    </div>
+                                                                                    <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12">
+                                                                                        @{
+                                                                                            if (reservation.Status == CarpoolingCR.Utils.Enums.ReservationStatus.Pending)
+                                                                                            {
+                                                                                                <input type="button" class="btn btn-info btn-sm" style="width:73px" value="Aceptar" onclick="ConfirmAction(@reservation.ReservationId, 'Accepted', '¡Confirme que desea aceptar esta reservación!', 'Reservaciones', 'Confirmar', 'btn-info', 'driver')" />
+                                                                                                <input type="button" class="btn btn-danger btn-sm" style="width:73px" value="Rechazar" onclick="ConfirmAction(@reservation.ReservationId, 'Rejected', '¡Confirme que desea rechazar esta reservación!', 'Reservaciones', 'Rechazar', 'btn-danger', 'driver')" />
+                                                                                            }
+                                                                                            else
+                                                                                            {
+                                                                                                <input type="button" class="btn btn-danger btn-sm" style="width:73px" value="Cancelar" onclick="ConfirmAction(@reservation.ReservationId, 'Cancelled', '¡Confirme que desea cancelar esta reservación!', 'Reservaciones', 'Cancelar', 'btn-danger', 'driver')" />
+                                                                                            }
+                                                                                        }
+                                                                                    </div>
+                                                                                    <div class="col-lg-3 col-md-2 hidden-sm hidden-xs">
+
+                                                                                    </div>
+                                                                                </div>
                                                                             }
                                                                             <br />
                                                                             @*<div class="col-lg-2 col-md-3 col-sm-4 col-xs-12" style="padding:0px; margin:1px; text-align:left; display:inline; width:121px">*@
@@ -333,7 +343,19 @@
                                                                             @{
                                                                                 var description = CarpoolingCR.Utils.EnumHelper<CarpoolingCR.Utils.Enums.ReservationStatus>.GetDisplayValue(reservation.Status);
                                                                                 <small class="total"><b><span class="fas fa-money-bill-alt">&nbsp;</span>Total: @currency @reservation.SelectedSeatsTotalPrice.ToString("N2")</b></small><br />
-                                                                                <small class="status"><b><span class="fas fa-shield-alt">&nbsp;</span>Estado: </b>@description</small>
+
+                                                                                if (reservation.Status == CarpoolingCR.Utils.Enums.ReservationStatus.Accepted)
+                                                                                {
+                                                                                    <small class="status text-success"><b><span class="fas fa-shield-alt">&nbsp;</span>Estado: </b>@description &nbsp;<span class="fas fa-smile-beam">&nbsp;</span></small>
+                                                                                }
+                                                                                else if (reservation.Status == CarpoolingCR.Utils.Enums.ReservationStatus.Rejected)
+                                                                                {
+                                                                                    <small class="status text-danger"><b><span class="fas fa-shield-alt">&nbsp;</span>Estado: </b>@description &nbsp;<span class="fas fa-frown">&nbsp;</span></small>
+                                                                                }
+                                                                                if (reservation.Status == CarpoolingCR.Utils.Enums.ReservationStatus.Pending)
+                                                                                {
+                                                                                    <small class="status text-warning"><b><span class="fas fa-shield-alt">&nbsp;</span>Estado: </b>@description &nbsp;<span class="fas fa-clock">&nbsp;</span></small>
+                                                                                }
                                                                             }
                                                                             @*</div>*@
                                                                         </div>

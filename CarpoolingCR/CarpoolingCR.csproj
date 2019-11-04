@@ -18,10 +18,13 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
-    <IISExpressSSLPort>443</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
+    <IISExpressSSLPort>44346</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication>
+    </IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>
+    </IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>
+    </IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -335,6 +338,10 @@
     <Compile Include="Migrations\201911030140255_Changed trip.Qualification to trip.UserRating migration.Designer.cs">
       <DependentUpon>201911030140255_Changed trip.Qualification to trip.UserRating migration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201911041714030_Added user.MemberSince field.cs" />
+    <Compile Include="Migrations\201911041714030_Added user.MemberSince field.Designer.cs">
+      <DependentUpon>201911041714030_Added user.MemberSince field.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Bank.cs" />
@@ -372,6 +379,7 @@
     <Compile Include="Objects\Responses\EditUserResponse.cs" />
     <Compile Include="Objects\Responses\LocationsResponse.cs" />
     <Compile Include="Objects\Responses\NotificationsRequestResponse.cs" />
+    <Compile Include="Objects\Responses\OverallUserInfo.cs" />
     <Compile Include="Objects\Responses\TownCreateResponse.cs" />
     <Compile Include="Objects\Responses\TownIndexResponse.cs" />
     <Compile Include="Objects\Responses\TripDayTripsResponse.cs" />
@@ -940,7 +948,7 @@
     <Content Include="Views\Reservations\Partials\_PassengerReservationHistorial.cshtml" />
     <Content Include="Views\Phone\Index.cshtml" />
     <Content Include="Views\Help\PassengerIndex.cshtml" />
-    <Content Include="Views\UserRatings\Index.cshtml" />
+    <Content Include="Views\Account\Partials\p_OverallUserInfo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1033,6 +1041,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201911030140255_Changed trip.Qualification to trip.UserRating migration.resx">
       <DependentUpon>201911030140255_Changed trip.Qualification to trip.UserRating migration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911041714030_Added user.MemberSince field.resx">
+      <DependentUpon>201911041714030_Added user.MemberSince field.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

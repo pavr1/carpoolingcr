@@ -78,20 +78,18 @@
                                 <small><b><span class="fas fa-money-bill-alt">&nbsp;</span>Cuota: </b></small><small id="modelPrice"></small><br />
                             </div>
                         </div>
-                        <div class="row form-group">
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                <div id="pet" class="btn btn-info panel panel-default" data-toggle="button" onclick="return false" aria-pressed="true" style="border-radius:10px 0px 0px 10px; pointer-events:none">
-                                    <span class="fas fa-dog">&nbsp;</span>&nbsp;<span id="check-pet" class="fas fa-check-circle">&nbsp;</span><br /><small class="control-label" style="text-align:left">Mascotas </small>
-                                    <input type="text" id="ck-pet" name="ck-pet" style="display:none" />
-                                </div>
-                                <div id="luggage" class="btn btn-info panel panel-default" data-toggle="button" aria-pressed="true" autocomplete="off" style="border-radius:0px;pointer-events:none; left:-4px">
-                                    <span class="fas fa-suitcase-rolling">&nbsp;</span>&nbsp;<span id="check-luggage" class="fas fa-check-circle">&nbsp;</span><br /><small class="control-label" style="text-align:left">Equipaje </small>
-                                    <input type="text" id="ck-pet" name="ck-pet" style="display:none" />
-                                </div>
-                                <div id="smoking" class="btn btn-info panel panel-default" data-toggle="button" aria-pressed="true" autocomplete="off" style="border-radius:0px 10px 10px 0px;pointer-events:none; left:-8px">
-                                    <span class="fas fa-smoking">&nbsp;</span>&nbsp;<span id="check-smoking" class="fas fa-check-circle">&nbsp;</span><br /><small class="control-label" style="text-align:left">Fumado </small>
-                                    <input type="text" id="ck-pet" name="ck-pet" style="display:none" />
-                                </div>
+                        <div class="row form-group btn-group center-block" style="padding-left:0px; padding-right:13px; margin-bottom:0px">
+                            <div id="modelpet" class="btn btn-xs btn-info col-md-4 col-sm-4 col-xs-4 panel panel-default allow-checkboxes" data-toggle="button" aria-pressed="false" autocomplete="off" style="border-radius:10px 0px 0px 10px; width:70px; pointer-events:none">
+                                <span class="fas fa-dog">&nbsp;</span>&nbsp;<span id="modelcheck-pet" class="fas fa-check-circle hidden">&nbsp;</span><br /><label class="control-label" style="text-align:left">Mascotas </label>
+                                <input type="text" id="ck-pet" name="ck-pet" style="display:none" />
+                            </div>
+                            <div id="modelluggage" class="btn btn-xs btn-info col-lg-4 col-md-4 col-sm-4 col-xs-4 panel panel-default allow-checkboxes" data-toggle="button" aria-pressed="false" autocomplete="off" style="border-radius:0px; width:70px; pointer-events:none">
+                                <span class="fas fa-suitcase-rolling">&nbsp;</span>&nbsp;<span id="modelcheck-luggage" class="fas fa-check-circle hidden">&nbsp;</span><br /><label class="control-label" style="text-align:left">Equipaje </label>
+                                <input type="text" id="ck-luggage" name="ck-luggage" style="display:none" />
+                            </div>
+                            <div id="modelsmoking" class="btn btn-xs btn-info col-lg-4 col-md-4 col-sm-4 col-xs-4 panel panel-default allow-checkboxes" data-toggle="button" aria-pressed="false" autocomplete="off" style="border-radius:0px 10px 10px 0px; width:70px; pointer-events:none">
+                                <span class="fas fa-smoking">&nbsp;</span>&nbsp;<span id="modelcheck-smoking" class="fas fa-check-circle hidden">&nbsp;</span><br /><label class="control-label" style="text-align:left">Fumado</label>
+                                <input type="text" id="ck-smoking" name="ck-smoking" style="display:none" />
                             </div>
                         </div>
                         <div class="row form-group">
@@ -300,7 +298,7 @@
             eventLimit: true, // for all non-agenda views
             contentHeight: "auto",
             header: {
-                                                            left: '',
+                left: '',
                 center: '',
                 right: ''
             },
@@ -398,13 +396,13 @@
                                     </tr>
                                     <tr class="fc-list-item ">
                                         <td class="fc-list-item-title fc-widget-content" colspan="2" style="padding-left: 0px;padding-right: 0px;">
-                                            <div id="pet" class="btn btn-info panel panel-default `+ activePets+`" data-toggle="button" onclick="return false" aria-pressed="` + allowPets + `" style="border-radius:10px 0px 0px 10px; pointer-events:none;position:relative;right:-5px">
+                                            <div id="pet" class="btn btn-xs btn-info panel panel-default `+ activePets + `" data-toggle="button" onclick="return false" aria-pressed="` + allowPets + `" style="border-radius:10px 0px 0px 10px; pointer-events:none;position:relative;right:-5px; width:70px">
                                                 <span class="fas fa-dog">&nbsp;</span>&nbsp;<span id="check-pet" class="fas fa-check-circle `+ hiddenPets +`">&nbsp;</span><br /><small class="control-label" style="text-align:left">Mascotas </small>
                                             </div>
-                                            <div id="luggage" class="btn btn-info panel panel-default `+ activeLuggage+`" data-toggle="button" aria-pressed="`+ allowLuggage+`" autocomplete="off" style="border-radius:0px;pointer-events:none">
+                                            <div id="luggage" class="btn btn-xs btn-info panel panel-default `+ activeLuggage + `" data-toggle="button" aria-pressed="` + allowLuggage +`" autocomplete="off" style="border-radius:0px;pointer-events:none; width:70px">
                                                 <span class="fas fa-suitcase-rolling">&nbsp;</span>&nbsp;<span id="check-luggage" class="fas fa-check-circle `+ hiddenLuggage +`">&nbsp;</span><br /><small class="control-label" style="text-align:left">Equipaje </small>
                                             </div>
-                                            <div id="smoking" class="btn btn-info panel panel-default `+ activeSmoking + `" data-toggle="button" aria-pressed="` + allowSmoking +`" autocomplete="off" style="border-radius:0px 10px 10px 0px;pointer-events:none;position:relative;right:5px">
+                                            <div id="smoking" class="btn btn-xs btn-info panel panel-default `+ activeSmoking + `" data-toggle="button" aria-pressed="` + allowSmoking +`" autocomplete="off" style="border-radius:0px 10px 10px 0px;pointer-events:none;position:relative;right:5px; width:70px">
                                                 <span class="fas fa-smoking">&nbsp;</span>&nbsp;<span id="check-smoking" class="fas fa-check-circle `+ hiddenSmoking +`">&nbsp;</span><br /><small class="control-label" style="text-align:left">Fumado</small>
                                             </div>
                                         </td>
@@ -450,29 +448,29 @@
                 $("#driver-img").attr("src", calEvent.picture);
 
                 if (calEvent.allowPets) {
-                    $('#pet').addClass('active');
-                    $('#check-pet').removeClass('hidden');
+                    $('#modelpet').addClass('active');
+                    $('#modelcheck-pet').removeClass('hidden');
                 } else {
-                    $('#pet').removeClass('active');
-                    $('#check-pet').addClass('hidden');
+                    $('#modelpet').removeClass('active');
+                    $('#modelcheck-pet').addClass('hidden');
                 }
 
                 if (calEvent.allowLuggage) {
-                    $('#luggage').addClass('active');
-                    $('#check-luggage').removeClass('hidden');
+                    $('#modelluggage').addClass('active');
+                    $('#modelcheck-luggage').removeClass('hidden');
                 } else {
-                    $('#luggage').removeClass('active');
-                    $('#check-luggage').addClass('hidden');
+                    $('#modelluggage').removeClass('active');
+                    $('#modelcheck-luggage').addClass('hidden');
                 }
 
                 if (calEvent.allowSmoking) {
-                    $('#smoking').addClass('active');
-                    $('#check-smoking').removeClass('hidden');
+                    $('#modelsmoking').addClass('active');
+                    $('#modelcheck-smoking').removeClass('hidden');
                 } else {
-                    $('#smoking').removeClass('active');
-                    $('#check-smoking').addClass('hidden');
+                    $('#modelsmoking').removeClass('active');
+                    $('#modelcheck-smoking').addClass('hidden');
                 }
-                
+
                 $('#modelPrice').html(calEvent.price);
                 $('#modelPriceCopilot').html((Number(calEvent.price) + 500));
                 $('#modelPriceLeft').html((Number(calEvent.price)));

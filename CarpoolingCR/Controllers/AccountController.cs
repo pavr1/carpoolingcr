@@ -87,8 +87,6 @@ namespace CarpoolingCR.Controllers
             try
             {
                 ViewBag.ReturnUrl = returnUrl;
-
-                ReloadEmailDomains();
             }
             catch (Exception ex)
             {
@@ -111,6 +109,42 @@ namespace CarpoolingCR.Controllers
             return View();
         }
 
+        public string GetOverallUserInfo(string userId)
+        {
+            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg"); ;
+            
+            try
+            {
+                var user = Common.GetUserById(userId);
+
+                if(user != null)
+                {
+
+                }
+
+                return "";
+            }
+            catch (Exception ex)
+            {
+                var inner = (ex.InnerException != null) ? ex.InnerException.Message : "None";
+
+                Common.LogData(new Log
+                {
+                    Line = Common.GetCurrentLine(),
+                    Location = Enums.LogLocation.Server,
+                    LogType = Enums.LogType.Error,
+                    Message = ex.Message + " / Inner: " + inner + " / " + ex.StackTrace,
+                    Method = Common.GetCurrentMethod(),
+                    Timestamp = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
+                    UserEmail = User.Identity.Name
+                }, logo);
+
+                ViewBag.Error = "¡Error inesperado, intente de nuevo!";
+
+                return "";
+            }
+        }
+
         //
         // POST: /Account/Login
         [HttpPost]
@@ -119,8 +153,6 @@ namespace CarpoolingCR.Controllers
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
             var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg"); ;
-
-            ReloadEmailDomains();
 
             try
             {
@@ -301,7 +333,6 @@ namespace CarpoolingCR.Controllers
             try
             {
                 ReloadCountryList();
-                ReloadEmailDomains();
             }
             catch (Exception ex)
             {
@@ -426,7 +457,6 @@ namespace CarpoolingCR.Controllers
             try
             {
                 ReloadCountryList();
-                ReloadEmailDomains();
 
                 using (var db = new ApplicationDbContext())
                 {
@@ -597,36 +627,7 @@ namespace CarpoolingCR.Controllers
                 ViewBag.Error = "¡Error inesperado, intente de nuevo!";
             }
         }
-
-        private void ReloadEmailDomains()
-        {
-            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg"); ;
-
-            try
-            {
-                SelectList emailDomains = Common.GetEmailDomains();
-
-                ViewBag.EmailDomains = emailDomains;
-            }
-            catch (Exception ex)
-            {
-                var inner = (ex.InnerException != null) ? ex.InnerException.Message : "None";
-
-                Common.LogData(new Log
-                {
-                    Line = Common.GetCurrentLine(),
-                    Location = Enums.LogLocation.Server,
-                    LogType = Enums.LogType.Error,
-                    Message = ex.Message + " / Inner: " + inner + " / " + ex.StackTrace,
-                    Method = Common.GetCurrentMethod(),
-                    Timestamp = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
-                    UserEmail = User.Identity.Name
-                }, logo);
-
-                ViewBag.Error = "¡Error inesperado, intente de nuevo!";
-            }
-        }
-
+        
         [AllowAnonymous]
         public ActionResult CheckEmail()
         {

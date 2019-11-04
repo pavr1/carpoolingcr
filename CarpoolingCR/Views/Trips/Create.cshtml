@@ -14,11 +14,6 @@
         <h5 class="pull-left">¡Crea tu viaje!</h5>
     </div>
 </div>
-<div class="row" style="text-align:center">
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        <hr />
-    </div>
-</div>
 
 @using (Html.BeginForm("Create", "Trips", FormMethod.Post, new { id = "createtripform" }))
 {
@@ -157,16 +152,16 @@
                                 </div>
                             </div>
                             <div class="row form-group btn-group center-block" style="padding-left:13px; padding-right:13px; margin-bottom:0px">
-                                <div id="pet" class="btn btn-info col-md-4 col-sm-4 col-xs-4 panel panel-default allow-checkboxes" data-toggle="button" aria-pressed="false" autocomplete="off" style="border-radius:10px 0px 0px 10px;">
-                                    <span class="fas fa-dog">&nbsp;</span><br /><label class="control-label" style="text-align:left">Mascotas </label>&nbsp;<span id="check-pet" class="fas fa-check-circle hidden">&nbsp;</span>
+                                <div id="pet" class="btn btn-xs btn-info col-md-4 col-sm-4 col-xs-4 panel panel-default allow-checkboxes" data-toggle="button" aria-pressed="false" autocomplete="off" style="border-radius:10px 0px 0px 10px; width:70px;">
+                                    <span class="fas fa-dog">&nbsp;</span>&nbsp;<span id="check-pet" class="fas fa-check-circle hidden">&nbsp;</span><br /><label class="control-label" style="text-align:left">Mascotas </label>
                                     <input type="text" id="ck-pet" name="ck-pet" style="display:none" />
                                 </div>
-                                <div id="luggage" class="btn btn-info col-lg-4 col-md-4 col-sm-4 col-xs-4 panel panel-default allow-checkboxes" data-toggle="button" aria-pressed="false" autocomplete="off" style="border-radius:0px">
-                                    <span class="fas fa-suitcase-rolling">&nbsp;</span><br /><label class="control-label" style="text-align:left">Equipaje </label>&nbsp;<span id="check-luggage" class="fas fa-check-circle hidden">&nbsp;</span>
+                                <div id="luggage" class="btn btn-xs btn-info col-lg-4 col-md-4 col-sm-4 col-xs-4 panel panel-default allow-checkboxes" data-toggle="button" aria-pressed="false" autocomplete="off" style="border-radius:0px; width:70px">
+                                    <span class="fas fa-suitcase-rolling">&nbsp;</span>&nbsp;<span id="check-luggage" class="fas fa-check-circle hidden">&nbsp;</span><br /><label class="control-label" style="text-align:left">Equipaje </label>
                                     <input type="text" id="ck-luggage" name="ck-luggage" style="display:none" />
                                 </div>
-                                <div id="smoking" class="btn btn-info col-lg-4 col-md-4 col-sm-4 col-xs-4 panel panel-default allow-checkboxes" data-toggle="button" aria-pressed="false" autocomplete="off" style="border-radius:0px 10px 10px 0px">
-                                    <span class="fas fa-smoking">&nbsp;</span><br /><label class="control-label" style="text-align:left">Fumado</label>&nbsp;<span id="check-smoking" class="fas fa-check-circle hidden">&nbsp;</span>
+                                <div id="smoking" class="btn btn-xs btn-info col-lg-4 col-md-4 col-sm-4 col-xs-4 panel panel-default allow-checkboxes" data-toggle="button" aria-pressed="false" autocomplete="off" style="border-radius:0px 10px 10px 0px; width:70px">
+                                    <span class="fas fa-smoking">&nbsp;</span>&nbsp;<span id="check-smoking" class="fas fa-check-circle hidden">&nbsp;</span><br /><label class="control-label" style="text-align:left">Fumado</label>
                                     <input type="text" id="ck-smoking" name="ck-smoking" style="display:none" />
                                 </div>
                             </div>

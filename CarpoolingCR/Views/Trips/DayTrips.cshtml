@@ -6,21 +6,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
 <div class="form-group">
-    <h3>Viajes Disponibles</h3>
-
-    <br />
-    <label class="control-label">@ViewBag.Info</label>
-
-    <input id="AvailableSpaces" type="hidden" value="" />
-    <div class="row">
+    <div class="row form-group" style="text-align:center">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <label class="control-label" style="text-align:left">Origen: </label> @Model.From <br /><label class="control-label" style="text-align:left">Destino: </label> @Model.To
+            <h5 class="pull-left">Viajes Disponibles</h5>
         </div>
     </div>
-    <div class="row form-group">
-        <div id="dayCalendar" style="overflow:hidden" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+</div>
+@*<label class="control-label">@ViewBag.Info</label>*@
 
-        </div>
+<input id="AvailableSpaces" type="hidden" value="" />
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <span class="fas fa-map-marker-alt">&nbsp;</span><small>@Model.From</small> <br />
+        <span class="fas fa-map-marker-alt">&nbsp;</span><small>@Model.To</small> <br />
+    </div>
+</div>
+<div class="row form-group">
+    <div id="dayCalendar" style="overflow:hidden" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
     </div>
 </div>
 
@@ -92,10 +95,13 @@
                                 <input type="text" id="ck-smoking" name="ck-smoking" style="display:none" />
                             </div>
                         </div>
+                        <hr />
                         <div class="row form-group">
-                            <div id="already-reserved-message" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                <hr />
+                            <div id="already-reserved-message" class="col-lg-8 col-md-8 col-sm-8 col-xs-6">
                                 <small><b>¡Selecciona tus asientos! </b></small>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                                <small class="incomes pull-right bg-info" style="border-radius:10px 10px 10px 10px; width:130px; padding:5px"><b>Total: </b> @currency <span id="modelTotal"></span></small>
                             </div>
                         </div>
                         <div class="row form-group">
@@ -158,11 +164,6 @@
                                         </td>
                                     </tr>
                                 </table>
-                            </div>
-                        </div>
-                        <div class="row form-group pull-right">
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                <small class="incomes pull-right bg-info" style="border-radius:10px 10px 10px 10px; width:150px; padding:5px"><b>Total: </b> @currency <span id="modelTotal"></span></small>
                             </div>
                         </div>
                         <div class="row form-group">
@@ -379,8 +380,8 @@
                                             <span class="fas fa-clock"></span>&nbsp;<small>`+ formatAMPM(new Date(event.end)) +`</small>&nbsp;&nbsp;<span class="fas fa-map-marker-alt">&nbsp;</span><small class="to">` + event.to + `</small><br />
                                         </td>
                                         <td class="fc-list-item-title fc-widget-content">
-                                            <div class="pull-right" id="profile-container-small" data-toggle="tooltip" style="margin-right:20px" title="Conductor"><img id="profileImage" src="` + event.picture + `" /></div><br /><br /><br />
-                                            <small class="pull-right" style="padding-right:5px">` + starsStr + `</small><br>
+                                            <div class="pull-right" id="profile-container-small" data-toggle="tooltip" title="Conductor"><img id="profileImage" src="` + event.picture + `" /></div><br /><br /><br />
+                                            <small class="pull-right"><small>` + starsStr + `</small></small><br>
                                             <small class="pull-right">` + event.driver + `</small><br>
                                         </td>
                                     </tr>
@@ -497,7 +498,7 @@
                 var reservationAlreadyExistent = ExistReservationToTrip(calEvent.id)
 
                 if (reservationAlreadyExistent) {
-                    $('#already-reserved-message').html('<hr /><small class="pull-left text-danger">¡Ya contás con una reservación activa para este viaje!</small>');
+                    $('#already-reserved-message').html('<small class="pull-left text-danger">¡Ya contás con una reservación activa para este viaje!</small>');
                     $('#back-right-seat').attr('disabled', true);
                     $('#back-left-seat').attr('disabled', true);
                     $('#back-middle-seat').attr('disabled', true);

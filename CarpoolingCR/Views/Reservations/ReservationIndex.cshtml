@@ -10,7 +10,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <meta charset="utf-8">
 <br />
-<div class="row form-group" style="text-align:center">
+<div class="row form-group">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <h5 class="pull-left">Reservaciones: @Model.PassengerReservations.Count</h5>
     </div>
@@ -72,11 +72,8 @@
                                             <span class="fas fa-clock"></span>&nbsp;<small>@reservation.Trip.LocalArrivalDateTime.ToString("hh:mm tt")</small>&nbsp;&nbsp;<br class="visible-xs" /><span class="fas fa-map-marker-alt">&nbsp;</span><small class="to">@to</small><br />
                                             <b><span class="fas fa-route">&nbsp;</span>Ruta: </b><small class="route">@route</small><br />
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="text-align:center">
-                                            @{
-                                                <div class="pull-right" id="profile-container-small" data-toggle="tooltip" style="margin-right:10px" title="Conductor"><img id="profileImage" src="@Url.Content(reservation.Trip.ApplicationUser.Picture)" /></div><br /><br /><br />
-                                                <small class="pull-right">@reservation.Trip.ApplicationUser.FullName</small><br>
-                                            }
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4">
+                                            @Html.Partial("~/Views/Account/Partials/p_UserOverallInfo.cshtml", reservation.Trip.ApplicationUser)
                                         </div>
                                     </div>
                                     <div class="row form-group">

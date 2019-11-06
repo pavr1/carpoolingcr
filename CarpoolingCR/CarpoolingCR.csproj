@@ -949,6 +949,8 @@
     <Content Include="Views\Phone\Index.cshtml" />
     <Content Include="Views\Help\PassengerIndex.cshtml" />
     <Content Include="Views\Account\Partials\p_OverallUserInfo.cshtml" />
+    <Content Include="Views\Account\Partials\p_UserOverallInfoRight.cshtml" />
+    <Content Include="Views\Account\Partials\p_UserOverallInfo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

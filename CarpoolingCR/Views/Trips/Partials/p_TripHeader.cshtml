@@ -1,0 +1,108 @@
+﻿@model CarpoolingCR.Models.Trip
+@{
+    ViewBag.Title = "LoadDriverTripHistorial";
+}
+
+@{ 
+    var claims = (System.Security.Claims.ClaimsIdentity)User.Identity;
+    var value = string.Empty;
+    var obj = claims.FindFirst("CurrencyChar");
+    var currency = string.Empty;
+    var country = string.Empty;
+
+    if (obj != null)
+    {
+        currency = obj.Value;
+    }
+
+    obj = claims.FindFirst("CountryCode");
+
+    if (obj != null)
+    {
+        country = obj.Value;
+    }
+}
+
+<div class="row form-group" style="padding-left:20px; padding-right:20px">
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
+        <span class="fas fa-calendar-alt"></span><small class="date"> <b>@Model.LocalDateTime.ToString("dddd dd 'de' MMMM 'del' yyyy")</b></small><br />
+        <br />
+        <span class="fas fa-clock"></span>&nbsp;<small>@Model.LocalDateTime.ToString("hh:mm tt")</small>&nbsp;&nbsp;<br class="visible-xs" /><span class="fas fa-map-marker-alt">&nbsp;</span><small class="from">@Model.FromTown.FullName</small><br />
+        <span class="fas fa-clock"></span>&nbsp;<small>@Model.LocalArrivalDateTime.ToString("hh:mm tt")</small>&nbsp;&nbsp;<br class="visible-xs" /><span class="fas fa-map-marker-alt">&nbsp;</span><small class="to">@Model.ToTown.FullName</small><br />
+        <small><b><span class="fas fa-route route">&nbsp;</span>Ruta: </b>@Model.Route.Name</small>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4">
+        @{
+            if (Model.ApplicationUser.UserType == CarpoolingCR.Utils.Enums.UserType.Administrador)
+            {
+                @Html.Partial("~/Views/Account/Partials/p_UserOverallInfo.cshtml", Model.ApplicationUser)
+            }
+        }
+    </div>
+</div>
+<div class="row form-group" style="padding-left:15px; padding-right:0px">
+    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+        <b><span class="fas fa-road">&nbsp;</span>Distancia: </b><small>@Model.AproxDistance km</small><br />
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+        <small class="spaces"><b><span class="fas fa-car-side">&nbsp;</span>Espacios: </b>  @Model.AvailableSpaces</small><br />
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+        <small class="price"><b><span class="fas fa-money-bill-alt">&nbsp;</span>Cuota: </b> @currency @Model.Price</small><br />
+    </div>
+</div>
+<div class="row form-group" style="padding-left:0px">
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+        <div class="row form-group btn-group center-block" style="padding-left:10px; padding-right:0px; margin-bottom:0px">
+            @{
+                if (Model.AllowPets)
+                {
+                    <div id="pet" class="btn btn-xs btn-info panel panel-default active" data-toggle="button" onclick="return false" aria-pressed="true" style="border-radius:10px 0px 0px 10px; pointer-events:none; width:70px">
+                        <span class="fas fa-dog">&nbsp;</span>&nbsp;<span id="check-pet" class="fas fa-check-circle">&nbsp;</span><br /><small class="control-label" style="text-align:left">Mascotas </small>
+                        <input type="text" id="ck-pet" name="ck-pet" style="display:none" />
+                    </div>
+                }
+                else
+                {
+                    <div id="pet" class="btn btn-xs btn-info panel panel-default" data-toggle="button" aria-pressed="false" autocomplete="off" style="border-radius:10px 0px 0px 10px; pointer-events:none; width:70px">
+                        <span class="fas fa-dog">&nbsp;</span>&nbsp;<span id="check-pet" class="fas fa-check-circle hidden">&nbsp;</span><br /><small class="control-label" style="text-align:left">Mascotas </small>
+                        <input type="text" id="ck-pet" name="ck-pet" style="display:none" />
+                    </div>
+                }
+
+                if (Model.AllowLuggage)
+                {
+                    <div id="luggage" class="btn btn-xs btn-info col-lg-4 panel panel-default active" data-toggle="button" aria-pressed="true" autocomplete="off" style="border-radius:0px;pointer-events:none; width:70px">
+                        <span class="fas fa-suitcase-rolling">&nbsp;</span>&nbsp;<span id="check-luggage" class="fas fa-check-circle"></span><br /><small class="control-label" style="text-align:left">Equipaje </small>&nbsp;
+                        <input type="text" id="ck-luggage" name="ck-luggage" style="display:none" />
+                    </div>
+                }
+                else
+                {
+                    <div id="luggage" class="btn btn-xs btn-info col-lg-4 panel panel-default allow-checkboxes" data-toggle="button" aria-pressed="false" autocomplete="off" style="border-radius:0px;pointer-events:none; width:70px">
+                        <span class="fas fa-suitcase-rolling">&nbsp;</span>&nbsp;<span id="check-luggage" class="fas fa-check-circle hidden">&nbsp;</span><br /><small class="control-label" style="text-align:left">Equipaje </small>
+                        <input type="text" id="ck-luggage" name="ck-luggage" style="display:none" />
+                    </div>
+                }
+
+                if (Model.AllowSmoking)
+                {
+                    <div id="smoking" class="btn btn-xs btn-info col-lg-4 panel panel-default active" data-toggle="button" aria-pressed="true" autocomplete="off" style="border-radius:0px 10px 10px 0px;pointer-events:none; width:70px">
+                        <span class="fas fa-smoking">&nbsp;</span>&nbsp;<span id="check-smoking" class="fas fa-check-circle">&nbsp;</span><br /><small class="control-label" style="text-align:left">Fumado</small>
+                        <input type="text" id="ck-smoking" name="ck-smoking" style="display:none" />
+                    </div>
+                }
+                else
+                {
+                    <div id="smoking" class="btn btn-xs btn-info col-lg-4 panel panel-default allow-checkboxes" data-toggle="button" aria-pressed="false" autocomplete="off" style="border-radius:0px 10px 10px 0px;pointer-events:none; width:70px">
+                        <span class="fas fa-smoking">&nbsp;</span>&nbsp;<span id="check-smoking" class="fas fa-check-circle hidden">&nbsp;</span><br /><small class="control-label" style="text-align:left">Fumado</small>
+                        <input type="text" id="ck-smoking" name="ck-smoking" style="display:none" />
+                    </div>
+                }
+            }
+        </div>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style="padding-left:15px">
+        <input type="button" class="btn btn-danger btn-sm pull-right" style="width:150px" value="Cancelar Viaje" onclick="ConfirmDelete(@Model.TripId, '@Model.FromTown.FullName -> @Model.ToTown.FullName')" /><br />
+    </div>
+</div>

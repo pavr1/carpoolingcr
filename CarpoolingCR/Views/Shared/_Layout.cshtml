@@ -401,7 +401,7 @@
 
     <style>
         .selectable-div:hover {
-            background-color: lightyellow
+            /*background-color: lightyellow*/
         }
     </style>
 </head>
@@ -916,70 +916,96 @@
             </div>
         }
     }
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <br />
-            <small class="pull-right">&copy; @DateTime.Now.Year - www.buscoridecr.com <img src="~/Content/Icons/ride_small_pkW_icon.ico" style="width:20px; height:20px" /></small>
-        </footer>
-        <div class="modal fade" id="qualifyUserModal" tabindex="-1" role="dialog" aria-labelledby="qualifyUserModalModalLabel" aria-hidden="true">
-            <div class="vertical-alignment-helper">
-                <div class="modal-dialog vertical-align-center">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <input type="text" id="q-stars" name="q-trip-id" class="hidden" value="3"/>
-                            <input type="text" id="q-trip-id" name="q-trip-id" class="hidden" />
-                            <input type="text" id="q-from" name="q-from" class="hidden" />
-                            <input type="text" id="q-to" name="q-to" class="hidden" />
-                            <input type="text" id="q-is-passenger" name="q-to" class="hidden" />
-                            <button type="button" class="close" data-dismiss="modal">
-                                <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
-                            </button>
-                            <h4 class="modal-title" id="dayTripModalLabel">Calificación de Usuarios</h4>
-                        </div>
-                        <div class="modal-body">
-                            <div class="row">
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                    <h4 style="margin:0px" id="p-User-Name"></h4>
+            <div class="container body-content">
+                @RenderBody()
+                <hr />
+                <footer>
+                    <br />
+                    <small class="pull-right">&copy; @DateTime.Now.Year - www.buscoridecr.com <img src="~/Content/Icons/ride_small_pkW_icon.ico" style="width:20px; height:20px" /></small>
+                </footer>
+                <div class="modal fade" id="qualifyUserModal" tabindex="-1" role="dialog" aria-labelledby="qualifyUserModalModalLabel" aria-hidden="true">
+                    <div class="vertical-alignment-helper">
+                        <div class="modal-dialog vertical-align-center">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <input type="text" id="q-stars" name="q-trip-id" class="hidden" value="3" />
+                                    <input type="text" id="q-trip-id" name="q-trip-id" class="hidden" />
+                                    <input type="text" id="q-from" name="q-from" class="hidden" />
+                                    <input type="text" id="q-to" name="q-to" class="hidden" />
+                                    <input type="text" id="q-is-passenger" name="q-to" class="hidden" />
+                                    <button type="button" class="close" data-dismiss="modal">
+                                        <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                                    </button>
+                                    <h4 class="modal-title" id="dayTripModalLabel">Calificación de Usuarios</h4>
                                 </div>
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                    <h4 style="margin:0px" id="p-User-Name"></h4>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                            <h4 style="margin:0px" id="p-User-Name"></h4>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                            <h4 style="margin:0px" id="p-User-Name"></h4>
 
-                                    <h4 style="margin-top:0px" class="pull-right">
-                                        <a href="#" data-toggle="tooltip" onclick="SetStars(1,'q-')" title="Muy Malo"><span id="q-star1" class="fa fa-star checked" data-toggle="Muy Malo"></span></a>
-                                        <a href="#" data-toggle="tooltip" onclick="SetStars(2,'q-')" title="Malo"><span id="q-star2" class="fa fa-star checked" data-toggle="Malo"></span></a>
-                                        <a href="#" data-toggle="tooltip" onclick="SetStars(3,'q-')" title="Bueno"><span id="q-star3" class="fa fa-star checked" data-toggle="Bueno"></span></a>
-                                        <a href="#" data-toggle="tooltip" onclick="SetStars(4,'q-')" title="Muy Bueno"><span id="q-star4" class="fa fa-star" data-toggle="Muy Bueno"></span></a>
-                                        <a href="#" data-toggle="tooltip" onclick="SetStars(5,'q-')" title="Excelente"><span id="q-star5" class="fa fa-star" data-toggle="Excelente"></span></a>
-                                    </h4>
+                                            <h4 style="margin-top:0px" class="pull-right">
+                                                <a href="#" data-toggle="tooltip" onclick="SetStars(1,'q-')" title="Muy Malo"><span id="q-star1" class="fa fa-star checked" data-toggle="Muy Malo"></span></a>
+                                                <a href="#" data-toggle="tooltip" onclick="SetStars(2,'q-')" title="Malo"><span id="q-star2" class="fa fa-star checked" data-toggle="Malo"></span></a>
+                                                <a href="#" data-toggle="tooltip" onclick="SetStars(3,'q-')" title="Bueno"><span id="q-star3" class="fa fa-star checked" data-toggle="Bueno"></span></a>
+                                                <a href="#" data-toggle="tooltip" onclick="SetStars(4,'q-')" title="Muy Bueno"><span id="q-star4" class="fa fa-star" data-toggle="Muy Bueno"></span></a>
+                                                <a href="#" data-toggle="tooltip" onclick="SetStars(5,'q-')" title="Excelente"><span id="q-star5" class="fa fa-star" data-toggle="Excelente"></span></a>
+                                            </h4>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <textarea class="form-control" id="q-comment" name="q-comment" style="height:200px; min-width:100%" placeholder="Deja un comentario..."></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="btnsContainer" class="modal-footer">
+                                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Cerrar" />
+                                    <input type="button" class="btn btn-info" onclick="RateUser()" value="Calificar" />
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                    <textarea class="form-control" id="q-comment" name="q-comment" style="height:200px; min-width:100%" placeholder="Deja un comentario..."></textarea>
-                                </div>
-                            </div>
-                        </div>
-                        <div id="btnsContainer" class="modal-footer">
-                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cerrar" />
-                            <input type="button" class="btn btn-info" onclick="RateUser()" value="Calificar" />
                         </div>
                     </div>
+                </div>
+
+                <div class="modal fade" id="rateUserInfoModal" tabindex="-1" role="dialog" aria-labelledby="rateUserInfoModalModalLabel" aria-hidden="true">
+                    <div class="vertical-alignment-helper">
+                        <div class="modal-dialog vertical-align-center">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">
+                                        <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                                    </button>
+                                    <h4 class="modal-title" id="dayTripModalLabel">Información de Usuario</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                                        </div>
+                                    </div>        
+                                </div>
+                                <div id="btnsContainer" class="modal-footer">
+                                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Cerrar" />
+                                    <input type="button" class="btn btn-info" onclick="RateUser()" value="Calificar" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @*<div class="modal hide" id="pleaseWaitDialog" data-backdrop="static" data-keyboard="false">
+            <div class="modal-header">
+                <h1>Processing...</h1>
+            </div>
+            <div class="modal-body">
+                <div class="progress progress-striped active">
+                    <div class="bar" style="width: 100%;"></div>
                 </div>
             </div>
-        </div>
-        @*<div class="modal hide" id="pleaseWaitDialog" data-backdrop="static" data-keyboard="false">
-                <div class="modal-header">
-                    <h1>Processing...</h1>
-                </div>
-                <div class="modal-body">
-                    <div class="progress progress-striped active">
-                        <div class="bar" style="width: 100%;"></div>
-                    </div>
-                </div>
-            </div>*@
-    </div>
+        </div>*@
+            </div>
 
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
@@ -1381,7 +1407,7 @@
             } else if (code === "100074") {
                 return "¡Usuario Calificado!";
             } else if (code === "100075") {
-                return "¡Mensaje Enviado!";
+                return "¡Hora Inválida!";
             } else if (code === "100076") {
                 return "¡Número anteriormente notificado!";
             } else if (code === "100077") {

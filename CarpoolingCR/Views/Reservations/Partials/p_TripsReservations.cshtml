@@ -1,0 +1,167 @@
+﻿@model List<CarpoolingCR.Models.Reservation>
+@{
+    ViewBag.Title = "LoadDriverTripHistorial";
+}
+
+@{
+    var totalAmount = 0m;
+
+    if (Model.Count() == 0)
+    {
+        <div class="row form-group">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <small>¡No hay reservaciones registradas!</small>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row form-group">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="row" style="text-align:center">
+                    @{
+                        var claims = (System.Security.Claims.ClaimsIdentity)User.Identity;
+                        var value = string.Empty;
+                        var obj = claims.FindFirst("CurrencyChar");
+                        var currency = string.Empty;
+                        var country = string.Empty;
+
+                        if (obj != null)
+                        {
+                            currency = obj.Value;
+                        }
+
+                        obj = claims.FindFirst("CountryCode");
+
+                        if (obj != null)
+                        {
+                            country = obj.Value;
+                        }
+
+                        foreach (var reservation in Model)
+                        {
+                            <div class="col-lg-12 col-md-12 col-sm-12 colxs12">
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6" style="padding-left:5px; padding-right:5px">
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 panel panel-default" style="padding:3px; text-align:center; display:inline; width:100%; border-radius:10px; margin-bottom:0px">
+                                        @Html.Partial("~/Views/Account/Partials/p_UserOverallInfo.cshtml", reservation.Trip.ApplicationUser)
+                                        <div class="row" style="margin-left:0px; margin-right:0px;">
+                                            <div class="col-lg-3 col-md-2 hidden-sm hidden-xs">
+
+                                            </div>
+                                            <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12 panel panel-default center-block" style="height:50px;padding-left:0px; padding-right:0px;background-color:lightyellow">
+                                                @{
+                                                    if (reservation.Status == CarpoolingCR.Utils.Enums.ReservationStatus.Accepted)
+                                                    {
+
+                                                        <small class="driver">
+                                                            <span class="fas fa-phone-alt phone">&nbsp;</span><a href="tel: @country @reservation.ApplicationUser.Phone1" style="color:blue"> @country @reservation.ApplicationUser.Phone1 </a>
+
+                                                            @if (!string.IsNullOrEmpty(reservation.ApplicationUser.Phone2))
+                                                            {
+                                                                <br />
+                                                                <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                                                <a href="tel: @country @reservation.ApplicationUser.Phone2" style="color:blue" class="phone"> @country @reservation.ApplicationUser.Phone2 </a>
+                                                            }
+                                                        </small><br />
+                                                    }
+                                                }
+                                            </div>
+                                            <div class="col-lg-3 col-md-2 hidden-sm hidden-xs">
+
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-3 col-md-2 hidden-sm hidden-xs">
+
+                                            </div>
+                                            <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12">
+                                                @{
+                                                    if (reservation.Status == CarpoolingCR.Utils.Enums.ReservationStatus.Pending)
+                                                    {
+                                                        <input type="button" class="btn btn-info btn-sm" style="width:73px" value="Aceptar" onclick="ConfirmAction(@reservation.ReservationId, 'Accepted', '¡Confirme que desea aceptar esta reservación!', 'Reservaciones', 'Confirmar', 'btn-info', 'driver')" />
+                                                        <input type="button" class="btn btn-danger btn-sm" style="width:73px" value="Rechazar" onclick="ConfirmAction(@reservation.ReservationId, 'Rejected', '¡Confirme que desea rechazar esta reservación!', 'Reservaciones', 'Rechazar', 'btn-danger', 'driver')" />
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="button" class="btn btn-danger btn-sm" style="width:73px" value="Cancelar" onclick="ConfirmAction(@reservation.ReservationId, 'Cancelled', '¡Confirme que desea cancelar esta reservación!', 'Reservaciones', 'Cancelar', 'btn-danger', 'driver')" />
+                                                    }
+                                                }
+                                            </div>
+                                            <div class="col-lg-3 col-md-2 hidden-sm hidden-xs">
+
+                                            </div>
+                                        </div>
+                                        <br />
+                                        <small class="spaces"><b><span class="fas fa-car-side">&nbsp;</span>Espacios: </b> @reservation.RequestedSpaces</small><br />
+                                        <div class="row" style="margin-left:0px; margin-right:0px">
+                                            <div class="col-lg-3 col-md-2 hidden-sm col-xs-12">
+
+                                            </div>
+                                            <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12 panel panel-default center-block" style="height:50px;padding-left:0px; padding-right:0px;height:85px;background-color:lightyellow">
+                                                @{
+                                                    var spacesSelected = reservation.SpacesSelected.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
+                                                    var displaySpaces = string.Empty;
+
+                                                    foreach (var space in spacesSelected)
+                                                    {
+                                                        switch (space)
+                                                        {
+                                                            case "modelPriceCopilot":
+                                                                <small>Delantero Derecho</small><br />
+                                                                break;
+                                                            case "modelPriceLeft":
+                                                                <small>Trasero Izquierdo</small><br />
+                                                                break;
+                                                            case "modelPriceMiddle":
+                                                                <small>Trasero Central</small><br />
+                                                                break;
+                                                            case "modelPriceRight":
+                                                                <small>Trasero Derecho</small><br />
+                                                                break;
+                                                        }
+                                                    }
+                                                }
+                                            </div>
+                                            <div class="col-lg-3 col-md-2 hidden-sm col-xs-12">
+
+                                            </div>
+                                        </div>
+
+                                        @{
+                                            var description = CarpoolingCR.Utils.EnumHelper<CarpoolingCR.Utils.Enums.ReservationStatus>.GetDisplayValue(reservation.Status);
+                                            <small class="total"><b><span class="fas fa-money-bill-alt">&nbsp;</span>Total: @currency @reservation.SelectedSeatsTotalPrice.ToString("N2")</b></small><br />
+
+                                            if (reservation.Status == CarpoolingCR.Utils.Enums.ReservationStatus.Accepted)
+                                            {
+                                                <small class="status text-success"><b><span class="fas fa-shield-alt">&nbsp;</span>Estado: </b>@description &nbsp;<span class="fas fa-smile-beam">&nbsp;</span></small>
+                                            }
+                                            else if (reservation.Status == CarpoolingCR.Utils.Enums.ReservationStatus.Rejected)
+                                            {
+                                                <small class="status text-danger"><b><span class="fas fa-shield-alt">&nbsp;</span>Estado: </b>@description &nbsp;<span class="fas fa-frown">&nbsp;</span></small>
+                                            }
+                                            if (reservation.Status == CarpoolingCR.Utils.Enums.ReservationStatus.Pending)
+                                            {
+                                                <small class="status text-warning"><b><span class="fas fa-shield-alt">&nbsp;</span>Estado: </b>@description &nbsp;<span class="fas fa-clock">&nbsp;</span></small>
+                                            }
+                                        }
+                                        @*</div>*@
+                                    </div>
+                                </div>
+                            </div>
+
+                            if (reservation.Status == CarpoolingCR.Utils.Enums.ReservationStatus.Accepted)
+                            {
+                                totalAmount += reservation.SelectedSeatsTotalPrice;
+                            }
+                        }
+                    }
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <small class="incomes pull-right bg-info total" style="border-radius:10px 10px 10px 10px; width:150px; padding:5px"><b>Ganancias: @currency @totalAmount.ToString("N2")</b><br /></small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}

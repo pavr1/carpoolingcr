@@ -342,6 +342,14 @@
     <Compile Include="Migrations\201911041714030_Added user.MemberSince field.Designer.cs">
       <DependentUpon>201911041714030_Added user.MemberSince field.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201911062119253_Set MemberSince not nullable migration.cs" />
+    <Compile Include="Migrations\201911062119253_Set MemberSince not nullable migration.Designer.cs">
+      <DependentUpon>201911062119253_Set MemberSince not nullable migration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911062146575_New functions in rating.cs" />
+    <Compile Include="Migrations\201911062146575_New functions in rating.Designer.cs">
+      <DependentUpon>201911062146575_New functions in rating.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Bank.cs" />
@@ -944,13 +952,13 @@
     <Content Include="Views\Email\Index.cshtml" />
     <Content Include="Views\Reservations\ReservationIndex.cshtml" />
     <Content Include="Views\Reservations\CreateReservation.cshtml" />
-    <Content Include="Views\Trips\Partials\_DriverTripHistorial.cshtml" />
+    <Content Include="Views\Trips\Partials\p_DriverTripHistorial.cshtml" />
     <Content Include="Views\Reservations\Partials\_PassengerReservationHistorial.cshtml" />
     <Content Include="Views\Phone\Index.cshtml" />
     <Content Include="Views\Help\PassengerIndex.cshtml" />
-    <Content Include="Views\Account\Partials\p_OverallUserInfo.cshtml" />
-    <Content Include="Views\Account\Partials\p_UserOverallInfoRight.cshtml" />
     <Content Include="Views\Account\Partials\p_UserOverallInfo.cshtml" />
+    <Content Include="Views\Trips\Partials\p_TripHeader.cshtml" />
+    <Content Include="Views\Reservations\Partials\p_TripsReservations.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1046,6 +1054,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201911041714030_Added user.MemberSince field.resx">
       <DependentUpon>201911041714030_Added user.MemberSince field.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911062119253_Set MemberSince not nullable migration.resx">
+      <DependentUpon>201911062119253_Set MemberSince not nullable migration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911062146575_New functions in rating.resx">
+      <DependentUpon>201911062146575_New functions in rating.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

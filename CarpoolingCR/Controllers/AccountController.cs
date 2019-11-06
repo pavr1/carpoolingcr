@@ -508,6 +508,7 @@ namespace CarpoolingCR.Controllers
                         MobileVerficationNumber = Common.GetRandomPhoneVerificationNumber(),
                         Phone2 = model.Phone2,
                         CountryId = model.CountryId,
+                        MemberSince = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
                         UserType = model.UserType,
                         FacebookAccount = model.FacebookAccount,
                         Status = Enums.ProfileStatus.Active,

@@ -74,7 +74,7 @@ namespace CarpoolingCR.Models
         [NotMapped]
         public string MessageType { get; set; }
         public string Picture { get; set; }
-        public DateTime? MemberSince { get; set; }
+        public DateTime MemberSince { get; set; }
 
         public int? VehicleId { get; set; }
 
@@ -95,6 +95,53 @@ namespace CarpoolingCR.Models
             get
             {
                 return Convert.ToInt32(WebConfigurationManager.AppSettings["WaitingTimeToResendSMS"]);
+            }
+        }
+
+        [NotMapped]
+        public int TripsAmount
+        {
+            get
+            {
+                using (var db = new ApplicationDbContext())
+                {
+                    if (UserType == Enums.UserType.Pasajero)
+                    {
+                        return -1;
+                    }
+                    else
+                    {
+                        return db.Trips.Where(x => x.ApplicationUserId == Id).Count();
+                    }
+                }
+            }
+        }
+
+        [NotMapped]
+        public int ReservationsAmount
+        {
+            get
+            {
+                using (var db = new ApplicationDbContext())
+                {
+                    return db.Reservations.Where(x => x.ApplicationUserId == Id).Count();
+                }
+            }
+        }
+
+        [NotMapped]
+        public List<UserRating> UserRatings
+        {
+            get
+            {
+                using (var db = new ApplicationDbContext())
+                {
+                    var ratings = db.UserRatings.Where(x => x.ToId == Id).ToList().ToList();
+
+                    ratings.Sort((x, y) => y.DateTime.CompareTo(x.DateTime));
+
+                    return ratings;
+                }
             }
         }
 

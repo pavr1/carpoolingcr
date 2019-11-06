@@ -2,7 +2,7 @@
 
 <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pull-right">
-        <div class="pull-right selectable-div" style="width:110px;cursor:pointer; border-radius:10px">
+        <div class="pull-right selectable-div" style="width:110px;cursor:pointer; border-radius:10px" onclick="PopUpUserInfo()">
             @{
                 <span class="fas fa-caret-down pull-right"></span>
                 <div class="pull-right" id="profile-container-small" data-toggle="tooltip" style="margin-right:0px" title="Conductor">
@@ -69,4 +69,223 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="rateUserInfoModal" tabindex="-1" role="dialog" aria-labelledby="rateUserInfoModalModalLabel" aria-hidden="true">
+    <div class="vertical-alignment-helper">
+        <div class="modal-dialog vertical-align-center">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="dayTripModalLabel">Información de Usuarios</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="center-block" style="width:110px;border-radius:10px;text-align:center">
+                                @{
+                                    <div id="profile-container-small" data-toggle="tooltip" style="margin-right:0px;width:100px; height:100px" title="Conductor">
+                                        <img id="profileImage" src="@Url.Content(Model.Picture)" style="margin-right:0px;width:100px; height:100px" />
+                                    </div>
+
+                                    stars = Model.Stars;
+                                    <b class="text-info">(@stars / 5)</b><br />
+
+                                    <small style="text-align:center">
+                                        @{
+                                            switch (stars)
+                                            {
+                                                case 1:
+                                                    <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star1" class="fa fa-star checked" data-toggle="Muy Malo"></span></a>
+                                                    <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star2" class="fa fa-star" data-toggle="Muy Malo"></span></a>
+                                                    <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star3" class="fa fa-star" data-toggle="Muy Malo"></span></a>
+                                                    <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star4" class="fa fa-star" data-toggle="Muy Malo"></span></a>
+                                                    <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star5" class="fa fa-star" data-toggle="Muy Malo"></span></a>
+                                                    break;
+                                                case 2:
+                                                    <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star1" class="fa fa-star checked" data-toggle="Malo"></span></a>
+                                                    <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star2" class="fa fa-star checked" data-toggle="Malo"></span></a>
+                                                    <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star3" class="fa fa-star" data-toggle="Malo"></span></a>
+                                                    <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star4" class="fa fa-star" data-toggle="Malo"></span></a>
+                                                    <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star5" class="fa fa-star" data-toggle="Malo"></span></a>
+                                                    break;
+                                                case 3:
+                                                    <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star1" class="fa fa-star checked" data-toggle="Bueno"></span></a>
+                                                    <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star2" class="fa fa-star checked" data-toggle="Bueno"></span></a>
+                                                    <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star3" class="fa fa-star checked" data-toggle="Bueno"></span></a>
+                                                    <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star4" class="fa fa-star" data-toggle="Bueno"></span></a>
+                                                    <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star5" class="fa fa-star" data-toggle="Bueno"></span></a>
+                                                    break;
+                                                case 4:
+                                                    <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star1" class="fa fa-star checked" data-toggle="Muy Bueno"></span></a>
+                                                    <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star2" class="fa fa-star checked" data-toggle="Muy Bueno"></span></a>
+                                                    <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star3" class="fa fa-star checked" data-toggle="Muy Bueno"></span></a>
+                                                    <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star4" class="fa fa-star checked" data-toggle="Muy Bueno"></span></a>
+                                                    <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star5" class="fa fa-star" data-toggle="Muy Bueno"></span></a>
+                                                    break;
+                                                case 5:
+                                                    <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star1" class="fa fa-star checked" data-toggle="Excelente"></span></a>
+                                                    <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star2" class="fa fa-star checked" data-toggle="Excelente"></span></a>
+                                                    <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star3" class="fa fa-star checked" data-toggle="Excelente"></span></a>
+                                                    <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star4" class="fa fa-star checked" data-toggle="Excelente"></span></a>
+                                                    <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star5" class="fa fa-star checked" data-toggle="Excelente"></span></a>
+                                                    break;
+                                                case -1:
+                                                    <a href="#" data-toggle="tooltip" title="¡Usuario no calificado!"><span id="p-star1" class="fa fa-star" data-toggle="¡No hay suficientes calificaciones!"></span></a>
+                                                    <a href="#" data-toggle="tooltip" title="¡Usuario no calificado!"><span id="p-star2" class="fa fa-star" data-toggle="¡Usuario no calificado!"></span></a>
+                                                    <a href="#" data-toggle="tooltip" title="¡Usuario no calificado!"><span id="p-star3" class="fa fa-star" data-toggle="¡Usuario no calificado!"></span></a>
+                                                    <a href="#" data-toggle="tooltip" title="¡Usuario no calificado!"><span id="p-star4" class="fa fa-star" data-toggle="¡Usuario no calificado!"></span></a>
+                                                    <a href="#" data-toggle="tooltip" title="¡Usuario no calificado!"><span id="p-star5" class="fa fa-star" data-toggle="¡Usuario no calificado!"></span></a>
+                                                    break;
+                                            }
+                                        }
+                                    </small>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:center">
+                            <h4>@Model.FullName</h4>
+                        </div>
+                    </div>
+                    <hr style="padding:0px; margin:0px" />
+                    <h6 class="text-default">Verificación de datos personales:</h6>
+                    <div class="row">
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-4">
+                            @{
+                                if (Model.EmailConfirmed)
+                                {
+                                    <small class="text-success"><span class="fas fa-check"></span>&nbsp;Email</small>
+                                }
+                                else
+                                {
+                                    <small class="text-danger"><span class="fas fa-times"></span>&nbsp;Email</small>
+                                }
+                            }
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-4">
+                            @{
+                                if (Model.IsPhoneVerified)
+                                {
+                                    <small class="text-success"><span class="fas fa-check"></span>&nbsp;Celular</small>
+                                }
+                                else
+                                {
+                                    <small class="text-danger"><span class="fas fa-times"></span>&nbsp;Celular</small>
+                                }
+                            }
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-4">
+                            @{
+                                if (Model.IsUserIdentificationVerified)
+                                {
+                                    <small class="text-success"><span class="fas fa-check"></span>&nbsp;Cédula</small>
+                                }
+                                else
+                                {
+                                    <small class="text-danger"><span class="fas fa-times"></span>&nbsp;Cédula</small>
+                                }
+                            }
+                        </div>
+                    </div>
+                    <hr style="padding:0px; margin:0px" />
+                    <div class="row">
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                            @{
+                                if (Model.BirthDay != null)
+                                {
+                                    var today = DateTime.Today;
+                                    var age = today.Year - ((DateTime)Model.BirthDay).Year;
+
+                                    if (((DateTime)Model.BirthDay).Date > today.AddYears(-age))
+                                    {
+                                        age--;
+                                    }
+
+                                    <small><b>Edad: </b> <br /> @age</small>
+                                }
+                            }
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                            <small><b>Miembro Desde: </b> <br /> @Model.MemberSince.ToString("MMMM, yyyy")</small>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                            <small><b>Reservaciones: </b><br /> @Model.ReservationsAmount</small>
+                        </div>
+                        @{
+                            if (Model.UserType != CarpoolingCR.Utils.Enums.UserType.Pasajero)
+                            {
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                                    <small><b>Viajes: </b><br /> @Model.TripsAmount</small>
+                                </div>
+                            }
+                        }
+                    </div>
+                    <hr style="padding:0px; margin:0px" />
+                    <h6 class="text-default">Comentarios:</h6>
+                    @{
+                        if (Model.UserRatings.Count() == 0)
+                        {
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:center">
+                                    <h4>¡No hay calificaciones registradas!</h4>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            foreach (var rating in Model.UserRatings)
+                            {
+                                <hr style="padding:0px; margin:0px" />
+                                <div class="row">
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                                        <div id="profile-container-small" data-toggle="tooltip" style="margin-right:0px" title="Conductor">
+                                            <img id="profileImage" src="@Url.Content(rating.FromUser.Picture)" style="margin-right:0px;" />
+                                        </div>
+                                        <small>&nbsp;&nbsp;@rating.FromUser.Name</small>
+                                    </div>
+                                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-9">
+                                        @{
+                                            switch (rating.Stars)
+                                            {
+                                                case 1:
+                                                    <small class="pull-right"><b>Muy Malo</b></small><br />
+                                                    break;
+                                                case 2:
+                                                    <small class="pull-right"><b>Malo</b></small><br />
+                                                    break;
+                                                case 3:
+                                                    <small class="pull-right"><b>Bueno</b></small><br />
+                                                    break;
+                                                case 4:
+                                                    <small class="pull-right"><b>Muy Bueno</b></small><br />
+                                                    break;
+                                                case 5:
+                                                    <small class="pull-right"><b>Excelente</b></small><br />
+                                                    break;
+                                            }
+                                        }
+                                        <small>@rating.Comments</small>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    }
+                </div>
+                <div id="btnsContainer" class="modal-footer">
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Cerrar" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function PopUpUserInfo() {
+        $('#rateUserInfoModal').modal();
+    }
+</script>
 

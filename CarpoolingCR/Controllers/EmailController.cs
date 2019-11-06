@@ -111,14 +111,22 @@ namespace CarpoolingCR.Controllers
 
         private void SendToAll(List<ApplicationUser> users, string logo)
         {
-            foreach (var user in users)
+            try
             {
-               EmailHandler.SendEmail(new IdentityMessage
+                foreach (var user in users)
                 {
-                    Destination = user.Email,
-                    Subject = "¡Correo Informativo buscoridecr.com!",
-                    Body = string.Empty
-                }, EmailType.Notifications, false, logo);
+                    EmailHandler.SendEmail(new IdentityMessage
+                    {
+                        Destination = user.Email,
+                        Subject = "¡Correo Informativo buscoridecr.com!",
+                        Body = string.Empty
+                    }, EmailType.Notifications, false, logo);
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
         }
     }

@@ -177,7 +177,7 @@ namespace CarpoolingCR.Controllers
                         MessageType = "success"
                     };
 
-                    html = Serializer.RenderViewToString(this.ControllerContext, "../Trips/Partials/_DriverTripHistorial", response);
+                    html = Serializer.RenderViewToString(this.ControllerContext, "../Trips/Partials/p_DriverTripHistorial", response);
                     response.Html = html;
 
                     html = Serializer.Serialize(response);

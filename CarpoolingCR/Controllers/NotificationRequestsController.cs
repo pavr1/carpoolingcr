@@ -304,7 +304,7 @@ namespace CarpoolingCR.Controllers
                     FacebookHandler.PublishNotification(fromDistrict.FullName, toDistrict.FullName, requestedFromDateTime, facebookTimeDetail);
                 }
 
-                Common.UpdateUserTripsReservationsAndNotifications(user.Id);
+                Common.UpdateItemsCount(user.Id);
 
                 Common.LogData(new Log
                 {
@@ -381,7 +381,7 @@ namespace CarpoolingCR.Controllers
                     Notifications = notificationRequests,
                 };
 
-                Common.UpdateUserTripsReservationsAndNotifications(userId);
+                Common.UpdateItemsCount(userId);
 
                 var html = Serializer.RenderViewToString(this.ControllerContext, "Partials/p_Index", response);
 

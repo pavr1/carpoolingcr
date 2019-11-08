@@ -92,7 +92,7 @@ namespace CarpoolingCR.Utils
                 case "0":
                     //¡Mensaje Enviado!
                     type = "success";
-                    return "100075";
+                    return "100026";
                 case "1":
                     //¡Llave API vacía!
                     type = "warning";

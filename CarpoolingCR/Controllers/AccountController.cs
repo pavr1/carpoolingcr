@@ -112,12 +112,12 @@ namespace CarpoolingCR.Controllers
         public string GetOverallUserInfo(string userId)
         {
             var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg"); ;
-            
+
             try
             {
                 var user = Common.GetUserById(userId);
 
-                if(user != null)
+                if (user != null)
                 {
 
                 }
@@ -326,12 +326,14 @@ namespace CarpoolingCR.Controllers
         //
         // GET: /Account/Register
         [AllowAnonymous]
-        public ActionResult Register()
+        public ActionResult Register(string refusr)
         {
             var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg"); ;
 
             try
             {
+                ViewBag.ReferencedUser = refusr;
+
                 ReloadCountryList();
             }
             catch (Exception ex)
@@ -420,7 +422,7 @@ namespace CarpoolingCR.Controllers
                     db.SaveChanges();
 
                     var users = db.Users.Where(x => x.UserIdentification != string.Empty && !x.IsUserIdentificationVerified && !x.IsUserIdentificationInvalidated).ToList();
-                    
+
                     return Serializer.RenderViewToString(this.ControllerContext, "Partials/p_PendingUserIdentifications", users);
                 }
             }
@@ -495,6 +497,12 @@ namespace CarpoolingCR.Controllers
                     }
 
                     var picture = Request["registeredUserPicture"];
+                    string referencedUser = null;
+
+                    if (string.IsNullOrEmpty(Request["registeredUserPicture"]))
+                    {
+                        referencedUser = Request["registeredUserPicture"];
+                    }
 
                     var user = new ApplicationUser
                     {
@@ -628,7 +636,7 @@ namespace CarpoolingCR.Controllers
                 ViewBag.Error = "¡Error inesperado, intente de nuevo!";
             }
         }
-        
+
         [AllowAnonymous]
         public ActionResult CheckEmail()
         {

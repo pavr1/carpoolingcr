@@ -31,7 +31,7 @@ namespace CarpoolingCR.Controllers
                 }
 
                 var user = Common.GetUserByEmail(User.Identity.Name);
-                Common.UpdateUserTripsReservationsAndNotifications(user.Id);
+                Common.UpdateItemsCount(user.Id);
 
                 var districtsSelectHtml = Common.GetLocationsStrings(user.CountryId);
 
@@ -84,13 +84,14 @@ namespace CarpoolingCR.Controllers
                 var driverTrips = new List<Trip>();
                 var user = Common.GetUserByEmail(User.Identity.Name);
 
-                Common.UpdateUserTripsReservationsAndNotifications(user.Id);
                 Common.FinalizeExpiredReservations(user.Id);
 
                 if (user.UserType != UserType.Pasajero)
                 {
                     Common.FinalizeExpiredTrips(user);
                 }
+
+                Common.UpdateItemsCount(user.Id);
 
                 if (user.UserType == UserType.Administrador)
                 {
@@ -201,12 +202,12 @@ namespace CarpoolingCR.Controllers
                 var driverTrips = new List<Trip>();
                 var user = Common.GetUserByEmail(User.Identity.Name);
 
-                Common.FinalizeExpiredReservations(user.Id);
-
                 if (user.UserType != UserType.Pasajero)
                 {
                     Common.FinalizeExpiredTrips(user);
                 }
+
+                Common.FinalizeExpiredReservations(user.Id);
 
                 passengerReservations = db.Reservations.Where(x => x.ApplicationUser.Email == User.Identity.Name && (x.Status == ReservationStatus.Accepted || x.Status == ReservationStatus.Pending))
                     .Include(x => x.ApplicationUser)
@@ -483,12 +484,12 @@ namespace CarpoolingCR.Controllers
                 var driverTrips = new List<Trip>();
                 var user = Common.GetUserByEmail(User.Identity.Name);
 
-                Common.FinalizeExpiredReservations(user.Id);
-
                 if (user.UserType != UserType.Pasajero)
                 {
                     Common.FinalizeExpiredTrips(user);
                 }
+
+                Common.FinalizeExpiredReservations(user.Id);
 
                 passengerReservations = db.Reservations.Where(x => x.ApplicationUser.Email == User.Identity.Name && (x.Status == ReservationStatus.Accepted || x.Status == ReservationStatus.Pending))
                     .Include(x => x.ApplicationUser)
@@ -818,6 +819,7 @@ namespace CarpoolingCR.Controllers
 
                 var trip = db.Trips.Where(x => x.TripId == reservation.TripId).
                     Include(x => x.ApplicationUser).SingleOrDefault();
+
                 trip.FromTown = db.Districts.Where(x => x.DistrictId == trip.FromTownId).Single();
                 trip.ToTown = db.Districts.Where(x => x.DistrictId == trip.ToTownId).Single();
 
@@ -893,7 +895,8 @@ namespace CarpoolingCR.Controllers
 
                 tran.Commit();
 
-                Common.UpdateUserTripsReservationsAndNotifications(reservation.ApplicationUserId);
+                var user = Common.GetUserByEmail(User.Identity.Name);
+                Common.UpdateItemsCount(user.Id);
 
                 if (cancelledFrom == "passenger")
                 {
@@ -1033,15 +1036,15 @@ namespace CarpoolingCR.Controllers
                 fields += "TripId: " + Request["TripId"];
                 #endregion
 
-                var passenger = Common.GetUserByEmail(User.Identity.Name);
+                var user = Common.GetUserByEmail(User.Identity.Name);
                 var date = Convert.ToDateTime(Request["ReservationDate"]);
                 var tripId = Convert.ToInt32(Request["TripId"]);
 
                 Reservation reservation = new Reservation
                 {
-                    ApplicationUserId = passenger.Id,
+                    ApplicationUserId = user.Id,
                     Date = Common.ConvertToUTCTime(date),
-                    PassengerName = passenger.Name + " " + passenger.LastName + " " + passenger.SecondLastName,
+                    PassengerName = user.Name + " " + user.LastName + " " + user.SecondLastName,
                     RequestedSpaces = Convert.ToInt32(Request["RequestedSpaces"]),
                     SpacesSelected = Request["SpacesSelected"],
                     SelectedSeatsTotalPrice = Convert.ToDecimal(Request["SelectedSeatsTotalPrice"]),
@@ -1056,7 +1059,7 @@ namespace CarpoolingCR.Controllers
                 trip.FromTown = db.Districts.Where(x => x.DistrictId == trip.FromTownId).Single();
                 trip.ToTown = db.Districts.Where(x => x.DistrictId == trip.ToTownId).Single();
 
-                reservation.ApplicationUserId = passenger.Id;
+                reservation.ApplicationUserId = user.Id;
                 reservation.Date = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime());
 
                 db.Reservations.Add(reservation);
@@ -1074,7 +1077,7 @@ namespace CarpoolingCR.Controllers
                     EmailHandler.SendEmailTripReservation(WebConfigurationManager.AppSettings["AdminEmails"], trip.ApplicationUser.Email, reservation.PassengerName, spaces, tripInfo, callbackUrl, logo);
                 }
 
-                Common.UpdateUserTripsReservationsAndNotifications(passenger.Id);
+                Common.UpdateItemsCount(user.Id);
 
                 return RedirectToAction("ReservationIndex", "Reservations", new
                 {

@@ -32,7 +32,7 @@ namespace CarpoolingCR.Controllers
                 }
 
                 var user = Common.GetUserByEmail(User.Identity.Name);
-                Common.UpdateUserTripsReservationsAndNotifications(user.Id);
+                Common.UpdateItemsCount(user.Id);
 
                 if (user == null)
                 {
@@ -624,7 +624,7 @@ namespace CarpoolingCR.Controllers
                         sendNotificationRequests.Start();
                     }
 
-                    Common.UpdateUserTripsReservationsAndNotifications(user.Id);
+                    Common.UpdateItemsCount(user.Id);
                     //¡Viaje Creado!
                     return RedirectToAction("Index", new { message = "10007", type = "info" });
                 }
@@ -938,7 +938,8 @@ namespace CarpoolingCR.Controllers
 
                 tran.Commit();
 
-                Common.UpdateUserTripsReservationsAndNotifications(trip.ApplicationUserId);
+                var user = Common.GetUserByEmail(User.Identity.Name);
+                Common.UpdateItemsCount(user.Id);
 
                 return RedirectToAction("Index", new { message = "Viaje Eliminado!", type = "info" });
             }

@@ -1,8 +1,8 @@
 ﻿@model CarpoolingCR.Models.RegisterViewModel
 @{
-                /**/
+    /**/
 
-                ViewBag.Title = "Register";
+    ViewBag.Title = "Register";
 }
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <br />
@@ -22,6 +22,7 @@
     @Html.TextBoxFor(m => m.UserType, new { @class = "form-control", @Value = "Pasajero", style = "display: none;" })
     @Html.AntiForgeryToken()
     <input type="text" id="registeredUserPicture" name="registeredUserPicture" class="hidden" />
+    <input type="text" id="referencedUser" name="referencedUser" class="hidden" value="@ViewBag.ReferencedUser" />
     <div class="form-group">
         @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">

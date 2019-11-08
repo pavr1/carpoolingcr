@@ -26,7 +26,7 @@ namespace CarpoolingCR.Controllers
                 }
 
                 var user = Common.GetUserByEmail(User.Identity.Name);
-                Common.UpdateUserTripsReservationsAndNotifications(user.Id);
+                Common.UpdateItemsCount(user.Id);
 
                 if (!string.IsNullOrEmpty(message))
                 {

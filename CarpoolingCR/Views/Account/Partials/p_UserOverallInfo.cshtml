@@ -13,7 +13,6 @@
 
                 <small>
                     <small class="pull-right">
-                        <b class="text-info">(@stars)&nbsp;&nbsp;</b>
                         @{
                             switch (stars)
                             {
@@ -52,7 +51,7 @@
                                     <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star4" class="fa fa-star checked" data-toggle="Excelente"></span></a>
                                     <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star5" class="fa fa-star checked" data-toggle="Excelente"></span></a>
                                     break;
-                                case -1:
+                                case 0:
                                     <a href="#" data-toggle="tooltip" title="¡Usuario no calificado!"><span id="p-star1" class="fa fa-star" data-toggle="¡No hay suficientes calificaciones!"></span></a>
                                     <a href="#" data-toggle="tooltip" title="¡Usuario no calificado!"><span id="p-star2" class="fa fa-star" data-toggle="¡Usuario no calificado!"></span></a>
                                     <a href="#" data-toggle="tooltip" title="¡Usuario no calificado!"><span id="p-star3" class="fa fa-star" data-toggle="¡Usuario no calificado!"></span></a>
@@ -131,7 +130,7 @@
                                                     <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star4" class="fa fa-star checked" data-toggle="Excelente"></span></a>
                                                     <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star5" class="fa fa-star checked" data-toggle="Excelente"></span></a>
                                                     break;
-                                                case -1:
+                                                case 0:
                                                     <a href="#" data-toggle="tooltip" title="¡Usuario no calificado!"><span id="p-star1" class="fa fa-star" data-toggle="¡No hay suficientes calificaciones!"></span></a>
                                                     <a href="#" data-toggle="tooltip" title="¡Usuario no calificado!"><span id="p-star2" class="fa fa-star" data-toggle="¡Usuario no calificado!"></span></a>
                                                     <a href="#" data-toggle="tooltip" title="¡Usuario no calificado!"><span id="p-star3" class="fa fa-star" data-toggle="¡Usuario no calificado!"></span></a>
@@ -231,7 +230,7 @@
                         {
                             <div class="row">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:center">
-                                    <h4>¡No hay calificaciones registradas!</h4>
+                                    <small>¡No hay calificaciones registradas!</small>
                                 </div>
                             </div>
                         }

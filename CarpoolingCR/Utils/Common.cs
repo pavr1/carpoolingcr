@@ -68,7 +68,7 @@ namespace CarpoolingCR.Utils
 
                 //todo: if user has been rated in less than 10 times, not enough data to star, return -1
                 //disabled this by now
-                if(false)//if (ratings.Count < 10)
+                if (false)//if (ratings.Count < 10)
                 {
                     return -1;
                 }
@@ -76,7 +76,7 @@ namespace CarpoolingCR.Utils
                 {
                     if (ratings.Count() == 0)
                     {
-                        return -1;
+                        return 0;
                     }
                     else
                     {
@@ -358,56 +358,97 @@ namespace CarpoolingCR.Utils
         {
             using (var db = new ApplicationDbContext())
             {
-                var currentUTCTime = ConvertToUTCTime(DateTime.Now.ToLocalTime());
-                List<Trip> currentExpiredTrips = new List<Trip>();
+                var tran = db.Database.BeginTransaction();
 
-                if (user.UserType == UserType.Administrador)
+                try
                 {
-                    currentExpiredTrips = db.Trips
-                        .Where(x => x.DateTime < currentUTCTime)
-                        .Where(x => x.Status != Status.Finalizado)
-                        .ToList();
+                    var currentUTCTime = ConvertToUTCTime(DateTime.Now.ToLocalTime());
+                    List<Trip> currentExpiredTrips = new List<Trip>();
+
+                    if (user.UserType == UserType.Administrador)
+                    {
+                        currentExpiredTrips = db.Trips
+                            .Where(x => x.DateTime < currentUTCTime)
+                            .Where(x => x.Status != Status.Finalizado)
+                            .ToList();
+                    }
+                    else
+                    {
+                        currentExpiredTrips = db.Trips
+                            .Where(x => x.ApplicationUserId == user.Id)
+                            .Where(x => x.DateTime < currentUTCTime)
+                            .Where(x => x.Status != Status.Finalizado)
+                            .ToList();
+                    }
+
+                    foreach (var expiredTrip in currentExpiredTrips)
+                    {
+                        expiredTrip.Status = Status.Finalizado;
+
+                        db.Entry(expiredTrip).State = EntityState.Modified;
+                        db.SaveChanges();
+
+                        //load all reservations except the ones cancelled/rejected/finalized before, those will remain with that status.
+                        var reservations = db.Reservations.Where(x => x.TripId == expiredTrip.TripId)
+                            .Where(x => x.Status != ReservationStatus.Cancelled && x.Status != ReservationStatus.Rejected && x.Status != ReservationStatus.Finalized)
+                            .ToList();
+
+                        foreach (var expiredReservation in reservations)
+                        {
+                            //if reservation remains Pending after the trip time, then it will be cancelled.
+                            if (expiredReservation.Status == ReservationStatus.Pending)
+                            {
+                                expiredReservation.Status = ReservationStatus.Cancelled;
+                            }
+                            else
+                            {
+                                //if status is accepted, set it to finilized
+                                expiredReservation.Status = ReservationStatus.Finalized;
+                            }
+
+                            db.Entry(expiredReservation).State = EntityState.Modified;
+                            db.SaveChanges();
+                        }
+                    }
+
+                    tran.Commit();
                 }
-                else
+                catch (Exception ex)
                 {
-                    currentExpiredTrips = db.Trips
-                        .Where(x => x.ApplicationUserId == user.Id)
-                        .Where(x => x.DateTime < currentUTCTime)
-                        .Where(x => x.Status != Status.Finalizado)
-                        .ToList();
-                }
+                    tran.Rollback();
 
-                foreach (var expiredTrip in currentExpiredTrips)
-                {
-                    expiredTrip.Status = Status.Finalizado;
-
-                    db.Entry(expiredTrip).State = EntityState.Modified;
-                    db.SaveChanges();
-
-                    UpdateUserTripsReservationsAndNotifications(expiredTrip.ApplicationUserId);
+                    throw ex;
                 }
             }
+
+            UpdateItemsCount(user.Id);
         }
 
         public static void FinalizeExpiredReservations(string userId)
         {
             using (var db = new ApplicationDbContext())
             {
-                var currentUTCTime = Common.ConvertToUTCTime(DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Local));
+                var currentUTCTime = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime());
                 var expiredReservations = db.Reservations.Where(x => x.ApplicationUserId == userId && (x.Status == ReservationStatus.Accepted || x.Status == ReservationStatus.Pending))
-                    .Include(x => x.Trip)
                     .Where(x => x.Trip.DateTime < currentUTCTime)
                     .ToList();
 
                 //finalizing expired reservations
                 foreach (var expiredReservation in expiredReservations)
                 {
-                    expiredReservation.Status = ReservationStatus.Finalized;
+                    //if reservation remains Pending after the trip time, then it will be cancelled.
+                    if (expiredReservation.Status == ReservationStatus.Pending)
+                    {
+                        expiredReservation.Status = ReservationStatus.Cancelled;
+                    }
+                    else
+                    {
+                        //if status is accepted, set it to finilized
+                        expiredReservation.Status = ReservationStatus.Finalized;
+                    }
 
                     db.Entry(expiredReservation).State = EntityState.Modified;
                     db.SaveChanges();
-
-                    UpdateUserTripsReservationsAndNotifications(expiredReservation.ApplicationUserId);
                 }
             }
         }
@@ -430,7 +471,7 @@ namespace CarpoolingCR.Utils
             return (long)(datetime - sTime).TotalSeconds;
         }
 
-        public static void UpdateUserTripsReservationsAndNotifications(string userId)
+        public static void UpdateItemsCount(string userId)
         {
             using (var db = new ApplicationDbContext())
             {

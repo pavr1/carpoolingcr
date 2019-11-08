@@ -56,7 +56,7 @@ namespace CarpoolingCR.Controllers
                             var msg = SMSHandler.SendSMS(phone, sms, "www.buscoridecr.com", logo, out t);
 
                             //¡Mensaje Enviado!
-                            if (msg == "100075")
+                            if (msg == "100026")
                             {
                                 var phoneObj = new Phone { PhoneNumber = phone };
 

@@ -59,14 +59,11 @@ namespace CarpoolingCR.Models
         public int CountryId { get; set; }
         public Country Country { get; set; }
         public DateTime? BirthDay { get; set; }
-
         [Required]
         [Display(Name = "Estado")]
         public Enums.ProfileStatus Status { get; set; }
-
         public int? BankAccountId { get; set; }
         public BankAccount BankAccount { get; set; }
-
         [NotMapped]
         public MonthlyBalance MonthlyBalance { get; set; }
         [NotMapped]
@@ -75,9 +72,8 @@ namespace CarpoolingCR.Models
         public string MessageType { get; set; }
         public string Picture { get; set; }
         public DateTime MemberSince { get; set; }
-
         public int? VehicleId { get; set; }
-
+        public string ReferencedUser { get; set; }
         [NotMapped]
         public Vehicle.Vehicle Vehicle { get; set; }
 
@@ -160,6 +156,9 @@ namespace CarpoolingCR.Models
                 }
             }
         }
+
+        [NotMapped]
+        public string ReferenceLink { get; set; }
 
         public int Stars
         {

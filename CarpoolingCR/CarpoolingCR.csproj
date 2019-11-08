@@ -350,6 +350,10 @@
     <Compile Include="Migrations\201911062146575_New functions in rating.Designer.cs">
       <DependentUpon>201911062146575_New functions in rating.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201911080009418_created user.ReferenceUser migration.cs" />
+    <Compile Include="Migrations\201911080009418_created user.ReferenceUser migration.Designer.cs">
+      <DependentUpon>201911080009418_created user.ReferenceUser migration.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Bank.cs" />
@@ -1060,6 +1064,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201911062146575_New functions in rating.resx">
       <DependentUpon>201911062146575_New functions in rating.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911080009418_created user.ReferenceUser migration.resx">
+      <DependentUpon>201911080009418_created user.ReferenceUser migration.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

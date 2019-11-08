@@ -274,6 +274,10 @@ namespace CarpoolingCR.Controllers
                     db.SaveChanges();
                 }
 
+                var referenceLink = Url.Action("Register", "Account", new { refusr = user.Id}, protocol: Request.Url.Scheme);
+
+                user.ReferenceLink = referenceLink;
+
                 ViewBag.BrandId = new SelectList(user.Brands, "BrandId", "Name");
 
                 if (user.Vehicle != null)
@@ -309,7 +313,6 @@ namespace CarpoolingCR.Controllers
         }
 
         [HttpPost]
-        //public string ProfileInfo(string name, string lastName, string secLastName, string phone1, string phone2, string picture)
         public ActionResult ProfileInfo(string id)
         {
             var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg");
@@ -587,7 +590,7 @@ namespace CarpoolingCR.Controllers
                     ViewBag.Info = "100011";
                 }
 
-                Common.UpdateUserTripsReservationsAndNotifications(user.Id);
+                Common.UpdateItemsCount(user.Id);
 
                 //return Serializer.RenderViewToString(this.ControllerContext, "Partials/_ProfileInfo", user);
                 return View(user);

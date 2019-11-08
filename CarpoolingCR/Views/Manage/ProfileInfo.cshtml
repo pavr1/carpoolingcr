@@ -102,11 +102,8 @@
             <div class="col-lg-4 col-md-4 col-sm-3 col-xs-12">
                 <label class="control-label">Correo Electrónico</label>
             </div>
-            <div class="col-lg-4 col-md-4 col-sm-5 col-xs-12">
+            <div class="col-lg-6 col-md-6 col-sm-5 col-xs-12">
                 @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "Correo Electrónico", @readonly = "readonly" })
-            </div>
-            <div class="col-lg-4 col-md-2 col-sm-2 col-xs-0">
-
             </div>
         </div>
 
@@ -603,8 +600,11 @@
             }
         }
 
-        <div class="row form-group">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="row form-group" style="padding-left:10px">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                <input type="submit" class="btn btn-info center-block" value="Enlace de Referencia" />
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pull-right">
                 <input type="submit" class="btn btn-info center-block" value="Actualizar" />
             </div>
         </div>

@@ -1,0 +1,149 @@
+﻿@model decimal
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 center-block">
+        @{
+            var value = Model;
+
+            if (value == 0m)
+            {
+                //no stars
+                <b class="text-info">@value.ToString("N1") <span class="fas fa-meh-blank" aria-hidden="true">&nbsp;</span></b>
+            }
+            else if (value > 0m && value < 1m)
+            {
+                //half star
+                <b class="text-danger">@value.ToString("N1") <span class="fas fa-frown-open" aria-hidden="true">&nbsp;</span></b>
+            }
+            else if (value >= 1m && value < 2m)
+            {
+                //one and a half star
+                <b class="text-danger">@value.ToString("N1") <span class="fas fa-frown" aria-hidden="true">&nbsp;</span></b>
+            }
+            else if (value >= 2m && value < 3m)
+            {
+                //two and a half stars
+                <b class="text-warning">@value.ToString("N1") <span class="fas fa-meh" aria-hidden="true">&nbsp;</span></b>
+            }
+            else if (value >= 3m && value < 4m)
+            {
+                //three and a half stars
+                <b class="text-warning">@value.ToString("N1") <span class="fas fa-smile" aria-hidden="true">&nbsp;</span></b>
+            }
+            else if (value >= 4m && value < 5m)
+            {
+                //four and a half stars
+                <b class="text-success">@value.ToString("N1") <span class="fas fa-grin-alt" aria-hidden="true">&nbsp;</span></b>
+
+            }
+            else if (value == 5m)
+            {
+                //five stars
+                <b class="text-success">@value.ToString("N1") <span class="fas fa-grin-stars" aria-hidden="true">&nbsp;</span></b>
+            }
+            <br />
+        }
+
+        @{
+            if (value == 0m)
+            {
+                //no stars
+                <a href="#" data-toggle="tooltip" title="¡Sin Calificación!"><span id="p-star1" class="fa fa-star" data-toggle="¡Sin Calificación!"></span></a>
+                <a href="#" data-toggle="tooltip" title="¡Sin Calificación!"><span id="p-star2" class="fa fa-star" data-toggle="¡Sin Calificación!"></span></a>
+                <a href="#" data-toggle="tooltip" title="¡Sin Calificación!"><span id="p-star3" class="fa fa-star" data-toggle="¡Sin Calificación!"></span></a>
+                <a href="#" data-toggle="tooltip" title="¡Sin Calificación!"><span id="p-star4" class="fa fa-star" data-toggle="¡Sin Calificación!"></span></a>
+                <a href="#" data-toggle="tooltip" title="¡Sin Calificación!"><span id="p-star5" class="fa fa-star" data-toggle="¡Sin Calificación!"></span></a>
+            }
+            else if (value > 0m && value < 1m)
+            {
+                //half star
+                <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star1" class="fa fa-star-half-alt checked" data-toggle="Muy Malo"></span></a>
+                <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star2" class="fa fa-star" data-toggle="Muy Malo"></span></a>
+                <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star3" class="fa fa-star" data-toggle="Muy Malo"></span></a>
+                <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star4" class="fa fa-star" data-toggle="Muy Malo"></span></a>
+                <a href="#" data-toggle="tooltip" title="Muy Malo"><span id="p-star5" class="fa fa-star" data-toggle="Muy Malo"></span></a>
+            }
+            else if (value == 1m)
+            {
+                //one and a half star
+                <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star1" class="fa fa-star checked" data-toggle="Malo"></span></a>
+                <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star3" class="fa fa-star" data-toggle="Malo"></span></a>
+                <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star3" class="fa fa-star" data-toggle="Malo"></span></a>
+                <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star4" class="fa fa-star" data-toggle="Malo"></span></a>
+                <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star5" class="fa fa-star" data-toggle="Malo"></span></a>
+            }
+            else if (value > 1m && value < 2m)
+            {
+                //one and a half star
+                <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star1" class="fa fa-star checked" data-toggle="Malo"></span></a>
+                <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star2" class="fa fa-star-half-alt checked" data-toggle="Malo"></span></a>
+                <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star3" class="fa fa-star" data-toggle="Malo"></span></a>
+                <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star4" class="fa fa-star" data-toggle="Malo"></span></a>
+                <a href="#" data-toggle="tooltip" title="Malo"><span id="p-star5" class="fa fa-star" data-toggle="Malo"></span></a>
+            }
+            else if (value == 2m)
+            {
+                //two and a half stars
+                <a href="#" data-toggle="tooltip" title="Regular"><span id="p-star1" class="fa fa-star checked" data-toggle="Regular"></span></a>
+                <a href="#" data-toggle="tooltip" title="Regular"><span id="p-star2" class="fa fa-star checked" data-toggle="Regular"></span></a>
+                <a href="#" data-toggle="tooltip" title="Regular"><span id="p-star4" class="fa fa-star" data-toggle="Regular"></span></a>
+                <a href="#" data-toggle="tooltip" title="Regular"><span id="p-star4" class="fa fa-star" data-toggle="Regular"></span></a>
+                <a href="#" data-toggle="tooltip" title="Regular"><span id="p-star5" class="fa fa-star" data-toggle="Regular"></span></a>
+            }
+            else if (value > 2m && value < 3m)
+            {
+                //two and a half stars
+                <a href="#" data-toggle="tooltip" title="Regular"><span id="p-star1" class="fa fa-star checked" data-toggle="Regular"></span></a>
+                <a href="#" data-toggle="tooltip" title="Regular"><span id="p-star2" class="fa fa-star checked" data-toggle="Regular"></span></a>
+                <a href="#" data-toggle="tooltip" title="Regular"><span id="p-star2" class="fa fa-star-half-alt checked" data-toggle="Regular"></span></a>
+                <a href="#" data-toggle="tooltip" title="Regular"><span id="p-star4" class="fa fa-star" data-toggle="Regular"></span></a>
+                <a href="#" data-toggle="tooltip" title="Regular"><span id="p-star5" class="fa fa-star" data-toggle="Regular"></span></a>
+            }
+            else if (value == 3m)
+            {
+                //three and a half stars
+                <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star1" class="fa fa-star checked" data-toggle="Bueno"></span></a>
+                <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star2" class="fa fa-star checked" data-toggle="Bueno"></span></a>
+                <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star2" class="fa fa-star checked" data-toggle="Bueno"></span></a>
+                <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star5" class="fa fa-star" data-toggle="Bueno"></span></a>
+                <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star5" class="fa fa-star" data-toggle="Bueno"></span></a>
+            }
+            else if (value > 3m && value < 4m)
+            {
+                //three and a half stars
+                <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star1" class="fa fa-star checked" data-toggle="Bueno"></span></a>
+                <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star2" class="fa fa-star checked" data-toggle="Bueno"></span></a>
+                <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star2" class="fa fa-star checked" data-toggle="Bueno"></span></a>
+                <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star2" class="fa fa-star-half-alt checked" data-toggle="Bueno"></span></a>
+                <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star5" class="fa fa-star" data-toggle="Bueno"></span></a>
+            }
+            else if (value == 4m)
+            {
+                //four and a half stars
+                <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star1" class="fa fa-star checked" data-toggle="Muy Bueno"></span></a>
+                <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star2" class="fa fa-star checked" data-toggle="Muy Bueno"></span></a>
+                <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star3" class="fa fa-star checked" data-toggle="Muy Bueno"></span></a>
+                <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star4" class="fa fa-star checked" data-toggle="Muy Bueno"></span></a>
+                <a href="#" data-toggle="tooltip" title="Bueno"><span id="p-star5" class="fa fa-star" data-toggle="Bueno"></span></a>
+            }
+            else if (value >= 4m && value < 5m)
+            {
+                //four and a half stars
+                <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star1" class="fa fa-star checked" data-toggle="Muy Bueno"></span></a>
+                <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star2" class="fa fa-star checked" data-toggle="Muy Bueno"></span></a>
+                <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star3" class="fa fa-star checked" data-toggle="Muy Bueno"></span></a>
+                <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star4" class="fa fa-star checked" data-toggle="Muy Bueno"></span></a>
+                <a href="#" data-toggle="tooltip" title="Muy Bueno"><span id="p-star5" class="fa fa-star-half-alt checked" data-toggle="Muy Bueno"></span></a>
+            }
+            else if (value == 5m)
+            {
+                //five stars
+                <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star1" class="fa fa-star checked" data-toggle="Excelente"></span></a>
+                <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star2" class="fa fa-star checked" data-toggle="Excelente"></span></a>
+                <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star3" class="fa fa-star checked" data-toggle="Excelente"></span></a>
+                <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star4" class="fa fa-star checked" data-toggle="Excelente"></span></a>
+                <a href="#" data-toggle="tooltip" title="Excelente"><span id="p-star5" class="fa fa-star checked" data-toggle="Excelente"></span></a>
+            }
+        }
+    </div>
+</div>

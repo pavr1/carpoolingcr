@@ -77,6 +77,8 @@ namespace CarpoolingCR.Controllers
 
                     foreach (var trip in trips)
                     {
+                        trip.CanCancelTrip = true;
+
                         trip.Reservations = db.Reservations.Where(x => x.TripId == trip.TripId)
                             .Where(x => x.Status == ReservationStatus.Accepted || x.Status == ReservationStatus.Pending)
                             .Include(x => x.ApplicationUser)
@@ -105,6 +107,8 @@ namespace CarpoolingCR.Controllers
 
                         foreach (var trip in trips)
                         {
+                            trip.CanCancelTrip = true;
+
                             trip.Reservations = db.Reservations.Where(x => x.TripId == trip.TripId)
                                 .Where(x => x.Status == ReservationStatus.Accepted || x.Status == ReservationStatus.Pending)
                                 .Include(x => x.ApplicationUser)

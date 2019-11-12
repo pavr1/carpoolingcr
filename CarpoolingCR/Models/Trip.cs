@@ -20,6 +20,8 @@ namespace CarpoolingCR.Models
         [Display(Name = "Fecha")]
         private DateTime _DateTime;
         private DateTime _ArrivalDateTime;
+        [NotMapped]
+        public bool CanCancelTrip { get; set; }
 
         public DateTime DateTime
         {

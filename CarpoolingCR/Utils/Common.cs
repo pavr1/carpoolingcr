@@ -58,13 +58,13 @@ namespace CarpoolingCR.Utils
             return from;
         }
 
-        public static int CalculateOverallUserStars(string userId, bool isDriver)
+        public static decimal CalculateOverallUserStars(string userId, bool isDriver)
         {
             using (var db = new ApplicationDbContext())
             {
                 List<UserRating> ratings = db.UserRatings.Where(x => x.ToId == userId).ToList();
 
-                var totalStars = 0;
+                var totalStars = 0m;
 
                 //todo: if user has been rated in less than 10 times, not enough data to star, return -1
                 //disabled this by now
@@ -76,7 +76,7 @@ namespace CarpoolingCR.Utils
                 {
                     if (ratings.Count() == 0)
                     {
-                        return 0;
+                        return 0m;
                     }
                     else
                     {
@@ -85,7 +85,7 @@ namespace CarpoolingCR.Utils
                             totalStars += rating.Stars;
                         }
 
-                        var average = totalStars / ratings.Count();
+                        var average = Convert.ToDecimal(totalStars / ratings.Count());
 
                         return average;
                     }

@@ -160,7 +160,7 @@ namespace CarpoolingCR.Models
         [NotMapped]
         public string ReferenceLink { get; set; }
 
-        public int Stars
+        public decimal Stars
         {
             get
             {

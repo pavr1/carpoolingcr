@@ -230,10 +230,8 @@
     <Compile Include="Controllers\MonthlyTransactionsController.cs" />
     <Compile Include="Controllers\NotificationRequestsController.cs" />
     <Compile Include="Controllers\PhoneController.cs" />
-    <Compile Include="Controllers\ProfileQualificationsController.cs" />
     <Compile Include="Controllers\ProvincesController.cs" />
     <Compile Include="Controllers\UserRatingsController.cs" />
-    <Compile Include="Controllers\QualificationsController.cs" />
     <Compile Include="Controllers\RideRequestsController.cs" />
     <Compile Include="Controllers\TownsController.cs" />
     <Compile Include="Controllers\TripQuestionsController.cs" />
@@ -353,6 +351,10 @@
     <Compile Include="Migrations\201911080009418_created user.ReferenceUser migration.cs" />
     <Compile Include="Migrations\201911080009418_created user.ReferenceUser migration.Designer.cs">
       <DependentUpon>201911080009418_created user.ReferenceUser migration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911120044238_Changed stars type from int to decimal.cs" />
+    <Compile Include="Migrations\201911120044238_Changed stars type from int to decimal.Designer.cs">
+      <DependentUpon>201911120044238_Changed stars type from int to decimal.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -932,16 +934,6 @@
     <Content Include="Views\Provinces\Details.cshtml" />
     <Content Include="Views\Provinces\Edit.cshtml" />
     <Content Include="Views\Provinces\Index.cshtml" />
-    <Content Include="Views\Qualifications\Create.cshtml" />
-    <Content Include="Views\Qualifications\Delete.cshtml" />
-    <Content Include="Views\Qualifications\Details.cshtml" />
-    <Content Include="Views\Qualifications\Edit.cshtml" />
-    <Content Include="Views\Qualifications\Index.cshtml" />
-    <Content Include="Views\ProfileQualifications\Create.cshtml" />
-    <Content Include="Views\ProfileQualifications\Delete.cshtml" />
-    <Content Include="Views\ProfileQualifications\Details.cshtml" />
-    <Content Include="Views\ProfileQualifications\Edit.cshtml" />
-    <Content Include="Views\ProfileQualifications\Index.cshtml" />
     <Content Include="Views\Trips\LoadDriverTripHistorial.cshtml" />
     <Content Include="Views\Reservations\LoadPassengerReservationHistorial.cshtml" />
     <Content Include="Views\NotificationRequests\Create.cshtml" />
@@ -963,6 +955,7 @@
     <Content Include="Views\Account\Partials\p_UserOverallInfo.cshtml" />
     <Content Include="Views\Trips\Partials\p_TripHeader.cshtml" />
     <Content Include="Views\Reservations\Partials\p_TripsReservations.cshtml" />
+    <Content Include="Views\Account\Partials\p_UserStars.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1067,6 +1060,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201911080009418_created user.ReferenceUser migration.resx">
       <DependentUpon>201911080009418_created user.ReferenceUser migration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911120044238_Changed stars type from int to decimal.resx">
+      <DependentUpon>201911120044238_Changed stars type from int to decimal.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

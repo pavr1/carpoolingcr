@@ -103,6 +103,11 @@
         </div>
     </div>
     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style="padding-left:15px">
-        <input type="button" class="btn btn-danger btn-sm pull-right" style="width:150px" value="Cancelar Viaje" onclick="ConfirmDelete(@Model.TripId, '@Model.FromTown.FullName -> @Model.ToTown.FullName')" /><br />
+        @{
+            if (Model.CanCancelTrip)
+            {
+                <input type="button" class="btn btn-danger btn-sm pull-right" style="width:150px" value="Cancelar Viaje" onclick="ConfirmDelete(@Model.TripId, '@Model.FromTown.FullName -> @Model.ToTown.FullName')" /><br />
+            }
+        }
     </div>
 </div>

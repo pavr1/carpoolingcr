@@ -1,22 +1,20 @@
 ﻿@model CarpoolingCR.Models.ApplicationUser
 
 <div class="row">
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pull-right">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="pull-right selectable-div" style="width:110px;cursor:pointer; border-radius:10px" onclick="PopUpUserInfo()">
             @{
-                <span class="fas fa-caret-down pull-right"></span>
-                <div class="pull-right" id="profile-container-small" data-toggle="tooltip" style="margin-right:0px" title="Conductor">
-                    <img id="profileImage" src="@Url.Content(Model.Picture)" />
-                </div><br /><br /><br />
-
+                <div class="pull-right" id="profile-container-small" data-toggle="tooltip" style="margin-right:30px;" title="Conductor">
+                    <img id="profileImage" class="center-block" src="@Url.Content(Model.Picture)" />
+                </div>
                 var stars = Model.Stars;
 
-                <small class="pull-right">
+                <small class="center-block">
                     @Html.Partial("~/Views/Account/Partials/p_UserStars.cshtml", stars)
                 </small>
+
+                <h4><span class="fas fa-chevron-down center-block"></span></h4>
             }
-            <br />
-            <small class="pull-right"><span class="fas fa-user">&nbsp;</span>@Model.FullName</small><br>
         </div>
     </div>
 </div>
@@ -141,7 +139,10 @@
                         {
                             foreach (var rating in Model.UserRatings)
                             {
+                                rating.LoadUserInstances = true;
+
                                 <hr style="padding:0px; margin:0px" />
+
                                 <div class="row">
                                     <div class="col-lg-2 col-md-2 col-sm-2 col-xs-3">
                                         <div id="profile-container-small" data-toggle="tooltip" style="margin-right:0px" title="Conductor">

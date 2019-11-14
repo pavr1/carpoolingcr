@@ -15,15 +15,24 @@ namespace CarpoolingCR.Models
         public decimal Stars { get; set; }
         public string Comments { get; set; }
         public DateTime DateTime { get; set; }
+        [NotMapped]
+        public bool LoadUserInstances { get; set; }
 
         [NotMapped]
         public ApplicationUser FromUser
         {
             get
             {
-                using (var db = new ApplicationDbContext())
+                if (LoadUserInstances)
                 {
-                    return db.Users.Where(x => x.Id == FromId).SingleOrDefault();
+                    using (var db = new ApplicationDbContext())
+                    {
+                        return db.Users.Where(x => x.Id == FromId).SingleOrDefault();
+                    }
+                }
+                else
+                {
+                    return null;
                 }
             }
         }
@@ -33,9 +42,16 @@ namespace CarpoolingCR.Models
         {
             get
             {
-                using (var db = new ApplicationDbContext())
+                if (LoadUserInstances)
                 {
-                    return db.Users.Where(x => x.Id == ToId).SingleOrDefault();
+                    using (var db = new ApplicationDbContext())
+                    {
+                        return db.Users.Where(x => x.Id == ToId).SingleOrDefault();
+                    }
+                }
+                else
+                {
+                    return null;
                 }
             }
         }

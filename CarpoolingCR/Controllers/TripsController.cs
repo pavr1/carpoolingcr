@@ -196,7 +196,6 @@ namespace CarpoolingCR.Controllers
                 var trips = db.Trips.Where(x => x.Status == Enums.Status.Activo
                     && x.DateTime >= startDate && x.DateTime <= endDate
                     && x.FromTownId == fromDistrict.DistrictId && x.ToTownId == toDistrict.DistrictId)
-                    .Include(x => x.ApplicationUser)
                     .ToList();
 
                 var couldNotFindExactTrip = false;
@@ -204,12 +203,14 @@ namespace CarpoolingCR.Controllers
 
                 for (int i = 0; i < trips.Count; i++)
                 {
+                    var userId = trips[i].ApplicationUserId;
                     var fromId = trips[i].FromTownId;
                     var toId = trips[i].ToTownId;
                     var routeId = trips[i].RouteId;
                     trips[i].FromTown = db.Districts.Where(x => x.DistrictId == fromId).Single();
                     trips[i].ToTown = db.Districts.Where(x => x.DistrictId == toId).Single();
                     trips[i].Route = db.Districts.Where(x => x.DistrictId == routeId).Single();
+                    trips[i].ApplicationUser = db.Users.Where(x => x.Id == userId).Single();
                     // \\ chars giving errors when parsing to Json, so replace them to parse correctly and change back in javascript
                     trips[i].ApplicationUser.Picture = trips[i].ApplicationUser.Picture.Replace("/", "|");
                     trips[i].FromTown.County = null;
@@ -223,6 +224,12 @@ namespace CarpoolingCR.Controllers
                     {
                         reservation.Trip = null;
                     }
+
+                    //foreach (var rating in trips[i].ApplicationUser.UserRatings)
+                    //{
+                    //    rating.FromUser = null;
+                    //    rating.ToUser = null;
+                    //}
                 }
 
                 var existentReservation = db.Reservations.Where(x => x.ApplicationUserId == user.Id)

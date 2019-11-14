@@ -1,9 +1,9 @@
 ﻿@model CarpoolingCR.Objects.Responses.TripDayTripsResponse
 
 @{
-                /**/
+    /**/
 
-                ViewBag.Title = "MonthTrips";
+    ViewBag.Title = "MonthTrips";
 }
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
@@ -382,7 +382,7 @@
                                             <span class="fas fa-clock"></span>&nbsp;<small>`+ formatAMPM(new Date(event.end)) +`</small>&nbsp;&nbsp;<span class="fas fa-map-marker-alt">&nbsp;</span><small class="to">` + event.to + `</small><br />
                                         </td>
                                         <td class="fc-list-item-title fc-widget-content">
-                                            <div class="pull-right" id="profile-container-small" data-toggle="tooltip" title="Conductor"><img id="profileImage" src="` + event.picture + `" /></div><br /><br /><br />
+                                            <div class="pull-right" id="profile-container-small" data-toggle="tooltip" title="Conductor"><img id="profileImage" src="` + event.picture + `" /></div><br /><br />
                                             <small class="pull-right"><small>` + starsStr + `</small></small><br>
                                             <small class="pull-right">` + event.driver + `</small><br>
                                         </td>

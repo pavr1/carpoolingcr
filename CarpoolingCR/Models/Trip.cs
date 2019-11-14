@@ -85,7 +85,7 @@ namespace CarpoolingCR.Models
 
         public virtual int RouteId { get; set; }
         [NotMapped]
-        public virtual  District Route { get; set; }
+        public virtual District Route { get; set; }
         public bool AllowPets { get; set; }
         public bool AllowSmoking { get; set; }
         public bool AllowLuggage { get; set; }
@@ -116,7 +116,7 @@ namespace CarpoolingCR.Models
                 var auxDate = new DateTime(LocalDateTime.Year, LocalDateTime.Month, LocalDateTime.Day, 12, 0, 0, DateTimeKind.Local);
                 var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
                 var unixDateTime = (auxDate.ToUniversalTime() - epoch).TotalSeconds;
-                
+
                 return unixDateTime;
             }
         }
@@ -138,6 +138,7 @@ namespace CarpoolingCR.Models
             }
         }
 
-        public List<UserRating> UserRatings{ get; set; }
+        [NotMapped]
+        public List<UserRating> UserRatings { get; set; }
     }
 }

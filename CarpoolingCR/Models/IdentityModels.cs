@@ -76,6 +76,8 @@ namespace CarpoolingCR.Models
         public string ReferencedUser { get; set; }
         [NotMapped]
         public Vehicle.Vehicle Vehicle { get; set; }
+        [NotMapped]
+        public bool DontBreakLine { get; set; }
 
         [NotMapped]
         public string FullName
@@ -227,6 +229,9 @@ namespace CarpoolingCR.Models
             }
         }
     }
+    //public class CustomUser: ApplicationUser
+    //{
+    //}
 
     //public static class IdentityExtensions
     //{

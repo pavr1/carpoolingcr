@@ -88,9 +88,16 @@
                                                 }
                                                 else
                                                 {
+                                                    if (reservation.Status == CarpoolingCR.Utils.Enums.ReservationStatus.Pending)
+                                                    {
+                                                        <small class="status text-warning"><b><span class="fas fa-shield-alt">&nbsp;</span>Estado: @description <span class="fas fa-clock">&nbsp;</span></b></small>
+                                                    }
+                                                    else
+                                                    {
                                                     <small class="status text-success"><b><span class="fas fa-shield-alt">&nbsp;</span>Estado: @description <span class="fas fa-smile-beam">&nbsp;</span></b></small>
+                                                        }
+                                                    }
                                                 }
-                                            }
                                             <br />
                                             <small class="price"><b><span class="fas fa-money-bill-alt">&nbsp;</span>Cuota: </b> @currency @reservation.Trip.Price</small><br />
                                         </div>

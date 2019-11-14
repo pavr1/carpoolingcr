@@ -356,6 +356,10 @@
     <Compile Include="Migrations\201911120044238_Changed stars type from int to decimal.Designer.cs">
       <DependentUpon>201911120044238_Changed stars type from int to decimal.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201911132041422_added UserRating.LoadUserInstances.cs" />
+    <Compile Include="Migrations\201911132041422_added UserRating.LoadUserInstances.Designer.cs">
+      <DependentUpon>201911132041422_added UserRating.LoadUserInstances.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Bank.cs" />
@@ -1063,6 +1067,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201911120044238_Changed stars type from int to decimal.resx">
       <DependentUpon>201911120044238_Changed stars type from int to decimal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911132041422_added UserRating.LoadUserInstances.resx">
+      <DependentUpon>201911132041422_added UserRating.LoadUserInstances.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

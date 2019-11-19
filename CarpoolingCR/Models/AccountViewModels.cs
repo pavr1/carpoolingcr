@@ -97,7 +97,6 @@ namespace CarpoolingCR.Models
         [Required]
         [Display(Name = "Segundo Apellido")]
         public string SecondLastName { get; set; }
-        [Required]
         [Display(Name = "Fecha de nacimiento")]
         public DateTime Birthday { get; set; }
         [Required]

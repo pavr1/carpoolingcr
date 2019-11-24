@@ -1,8 +1,10 @@
 ﻿using CarpoolingCR.Models;
 using CarpoolingCR.Utils;
 using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading;
 using System.Web.Configuration;
 using System.Web.Mvc;
 
@@ -45,42 +47,47 @@ namespace CarpoolingCR.Controllers
                 {
                     using (var db = new ApplicationDbContext())
                     {
-                        var phone = Request["phone"].Replace("-", string.Empty).Trim();
+                        var message = Request["message"];
+                        var initialMessage = Request["ckInitialMessage"] == "on";
 
-                        var existendPhone = db.Phones.Where(x => x.PhoneNumber == phone).SingleOrDefault();
-
-                        if (existendPhone == null)
+                        if (initialMessage)
                         {
-                            var t = string.Empty;
-                            var sms = "Carpooling: Crea viajes, reserva espacios, recibe notificaciones, califica usuarios y mucho mas. Gratis, seguro y confiable.";//"CARPOOLING: Visita www.buscoridecr.com \nCreación de viajes, reservas, notificaciones, selección de asientos y mucho más.\n ¡Hagamos Ride!";
-                            var msg = SMSHandler.SendSMS(phone, sms, "www.buscoridecr.com", logo, out t);
+                            var phone = Request["phone"].Replace("-", string.Empty).Trim();
+                            var existendPhone = db.Phones.Where(x => x.PhoneNumber == phone).SingleOrDefault();
 
-                            //¡Mensaje Enviado!
-                            if (msg == "100026")
+                            if (existendPhone == null)
                             {
-                                var phoneObj = new Phone { PhoneNumber = phone };
+                                var t = string.Empty;
+                                var sms = message;//"Carpooling: Crea viajes, reserva espacios, recibe notificaciones, califica usuarios y mucho mas. Gratis, seguro y confiable.";
+                                var msg = SMSHandler.SendSMS(phone, sms, "www.buscoridecr.com", logo, out t);
 
-                                db.Entry(phoneObj).State = EntityState.Added;
-                                db.SaveChanges();
+                                //¡Mensaje Enviado!
+                                if (msg == "100026")
+                                {
+                                    var phoneObj = new Phone { PhoneNumber = phone };
+
+                                    db.Entry(phoneObj).State = EntityState.Added;
+                                    db.SaveChanges();
+                                }
+
+                                return RedirectToAction("Index", new { message = msg, type = t });
                             }
-
-                            return RedirectToAction("Index", new { message = msg, type = t });
+                            else
+                            {
+                                //¡Número anteriormente notificado!
+                                return RedirectToAction("Index", new { message = "100076", type = "warn" });
+                            }
                         }
                         else
                         {
-                            //Common.LogData(new Log
-                            //{
-                            //    Line = Common.GetCurrentLine(),
-                            //    Location = Enums.LogLocation.Server,
-                            //    LogType = Enums.LogType.SMS,
-                            //    Message = "El número ya fue notificado anteriormente",
-                            //    Method = Common.GetCurrentMethod(),
-                            //    Timestamp = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
-                            //    UserEmail = User.Identity.Name
-                            //}, logo);
+                            //send to all numbers
+                            var users = db.Users.Where(x => x.Status == Enums.ProfileStatus.Active).ToList();
 
-                            //¡Número anteriormente notificado!
-                            return RedirectToAction("Index", new { message = "100076", type = "warn" });
+                            var sendEmails = new Thread(() => SendSMSToUsers(users, message, logo));
+                            sendEmails.Start();
+
+                            //¡Enviando mensajes, revisar logs en un momento!
+                            return RedirectToAction("Index", new { message = "100091", type = "success" });
                         }
                     }
                 }
@@ -97,7 +104,7 @@ namespace CarpoolingCR.Controllers
                         UserEmail = User.Identity.Name
                     }, logo);
 
-                    //¡Error al mandar SMS!
+                    //¡Error al mandar mensaje, SMS inactivo!
                     return RedirectToAction("Index", new { message = "100077", type = "error" });
                 }
             }
@@ -119,6 +126,53 @@ namespace CarpoolingCR.Controllers
                 ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
                 return RedirectToAction("Index", new { message = "" });
+            }
+        }
+
+        private void SendSMSToUsers(List<ApplicationUser> users, string message, string logo)
+        {
+            var sentToAll = true;
+            var notSentMsgsCodes = string.Empty;
+
+            foreach (var user in users)
+            {
+                var t = string.Empty;
+                var sms = message;//"Carpooling: Crea viajes, reserva espacios, recibe notificaciones, califica usuarios y mucho mas. Gratis, seguro y confiable.";
+                var msg = SMSHandler.SendSMS(user.Phone1, sms, "www.buscoridecr.com", logo, out t);
+
+                //¡Mensaje Enviado!
+                if (msg != "100026")
+                {
+                    sentToAll = false;
+                    notSentMsgsCodes += msg + " | ";
+                }
+            }
+
+            if (!sentToAll)
+            {
+                Common.LogData(new Log
+                {
+                    Line = Common.GetCurrentLine(),
+                    Location = Enums.LogLocation.Server,
+                    LogType = Enums.LogType.SMS,
+                    Message = "No todos los mensajes fueron enviados: " + notSentMsgsCodes,
+                    Method = Common.GetCurrentMethod(),
+                    Timestamp = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
+                    UserEmail = "administrador"
+                }, logo);
+            }
+            else
+            {
+                Common.LogData(new Log
+                {
+                    Line = Common.GetCurrentLine(),
+                    Location = Enums.LogLocation.Server,
+                    LogType = Enums.LogType.SMS,
+                    Message = "Todos los mensajes fueron enviados",
+                    Method = Common.GetCurrentMethod(),
+                    Timestamp = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
+                    UserEmail = "administrador"
+                }, logo);
             }
         }
     }

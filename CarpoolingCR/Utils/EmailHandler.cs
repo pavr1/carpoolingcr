@@ -15,7 +15,7 @@ namespace CarpoolingCR.Utils
         {
             callbackUrl = callbackUrl.Replace("http://", "https://");
 
-            var html = "Gracias por formar parte de nuestro sitio. Buscoridecr.com le da la bienvenida! <br/> Para confirmar tu cuenta da click <a href='" + callbackUrl + "'><b>AQUÍ</a></a>";
+            var html = "Te has registrado de forma exitosa en nuestro sitio. Buscoridecr.com te da la bienvenida! <br/> Para confirmar tu cuenta <a href='" + callbackUrl + "'><b>DA CLICK AQUÍ</a></a>";
 
             SendEmail(new IdentityMessage
             {

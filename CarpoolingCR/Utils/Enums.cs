@@ -125,6 +125,12 @@ namespace CarpoolingCR.Utils
             Updates = 2,
             Errors = 3
         }
+
+        public enum PromoStatus
+        {
+            Active = 1,
+            Inactive = 2
+        }
     }
 
     public static class EnumHelper<T>

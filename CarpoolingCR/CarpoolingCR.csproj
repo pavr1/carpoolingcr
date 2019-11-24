@@ -230,6 +230,7 @@
     <Compile Include="Controllers\MonthlyTransactionsController.cs" />
     <Compile Include="Controllers\NotificationRequestsController.cs" />
     <Compile Include="Controllers\PhoneController.cs" />
+    <Compile Include="Controllers\PromoesController.cs" />
     <Compile Include="Controllers\ProvincesController.cs" />
     <Compile Include="Controllers\UserRatingsController.cs" />
     <Compile Include="Controllers\RideRequestsController.cs" />
@@ -360,6 +361,18 @@
     <Compile Include="Migrations\201911132041422_added UserRating.LoadUserInstances.Designer.cs">
       <DependentUpon>201911132041422_added UserRating.LoadUserInstances.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201911242126579_Added User.PromoBalance.cs" />
+    <Compile Include="Migrations\201911242126579_Added User.PromoBalance.Designer.cs">
+      <DependentUpon>201911242126579_Added User.PromoBalance.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911242130278_Added Created Promo classes.cs" />
+    <Compile Include="Migrations\201911242130278_Added Created Promo classes.Designer.cs">
+      <DependentUpon>201911242130278_Added Created Promo classes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911242154135_changed Promo.MaxAmountPerUser to MaxTimesPerUser.cs" />
+    <Compile Include="Migrations\201911242154135_changed Promo.MaxAmountPerUser to MaxTimesPerUser.Designer.cs">
+      <DependentUpon>201911242154135_changed Promo.MaxAmountPerUser to MaxTimesPerUser.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Bank.cs" />
@@ -377,6 +390,10 @@
     <Compile Include="Models\NotificationRequest.cs" />
     <Compile Include="Models\Phone.cs" />
     <Compile Include="Models\ProfileQualification.cs" />
+    <Compile Include="Models\Promos\BalanceHistorial.cs" />
+    <Compile Include="Models\Promos\Promo.cs" />
+    <Compile Include="Models\Promos\PromoType.cs" />
+    <Compile Include="Models\Promos\UserPromos.cs" />
     <Compile Include="Models\Qualification.cs" />
     <Compile Include="Models\Reservation.cs" />
     <Compile Include="Models\RideRequest.cs" />
@@ -960,6 +977,11 @@
     <Content Include="Views\Trips\Partials\p_TripHeader.cshtml" />
     <Content Include="Views\Reservations\Partials\p_TripsReservations.cshtml" />
     <Content Include="Views\Account\Partials\p_UserStars.cshtml" />
+    <Content Include="Views\Promoes\Create.cshtml" />
+    <Content Include="Views\Promoes\Delete.cshtml" />
+    <Content Include="Views\Promoes\Details.cshtml" />
+    <Content Include="Views\Promoes\Edit.cshtml" />
+    <Content Include="Views\Promoes\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1070,6 +1092,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201911132041422_added UserRating.LoadUserInstances.resx">
       <DependentUpon>201911132041422_added UserRating.LoadUserInstances.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911242126579_Added User.PromoBalance.resx">
+      <DependentUpon>201911242126579_Added User.PromoBalance.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911242130278_Added Created Promo classes.resx">
+      <DependentUpon>201911242130278_Added Created Promo classes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911242154135_changed Promo.MaxAmountPerUser to MaxTimesPerUser.resx">
+      <DependentUpon>201911242154135_changed Promo.MaxAmountPerUser to MaxTimesPerUser.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

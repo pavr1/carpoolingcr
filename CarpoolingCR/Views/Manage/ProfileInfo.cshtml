@@ -372,6 +372,30 @@
 
             </div>
         </div>
+        <hr />
+        <div class="row form-group">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:center">
+                <h3>Enlace de Referencia</h3>
+            </div>
+        </div>
+        <div class="row form-group" style="padding-left:10px">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                <input id="referenceLink" name="referenceLink" type="text" class="form-control" style="width:100% !important; max-width:680px !important" readonly value="@Model.ReferenceLink" />
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+
+            </div>
+        </div>
+        <div class="row form-group" style="padding-left:10px">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pull-right">
+                <input type="button" onclick="copyToClipboard('referenceLink')" class="btn btn-success center-block" value="Copiar" />
+            </div>
+        </div>
         @{
             if ((Model.UserType == CarpoolingCR.Utils.Enums.UserType.Conductor) || (Model.UserType == CarpoolingCR.Utils.Enums.UserType.Administrador))
             {
@@ -551,10 +575,8 @@
                 }
             }
         }
-
         <div class="row form-group" style="padding-left:10px">
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                <input type="submit" class="btn btn-info center-block" value="Enlace de Referencia" />
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pull-right">
                 <input type="submit" class="btn btn-info center-block" value="Actualizar" />
@@ -572,6 +594,69 @@
     $('#send-verification-code-btn').click(function () {
         SendVerificationCode();
     });
+
+    function copyToClipboard(controlId) {
+        var copyText = document.getElementById(controlId);
+
+        copyText.select();
+        copyText.setSelectionRange(0, 99999);
+
+        document.execCommand("copy");
+        
+        //¡Enlace de referencia copiado!
+        DisplayGrowlMessage("100092", "success");
+    }
+
+    function copyToClipboard2(controlId) {
+        var elem = document.getElementById(controlId);
+        // create hidden text element, if it doesn't already exist
+        var targetId = "_hiddenCopyText_";
+        var isInput = elem.tagName === "INPUT" || elem.tagName === "TEXTAREA";
+        var origSelectionStart, origSelectionEnd;
+        if (isInput) {
+            // can just use the original source element for the selection and copy
+            target = elem;
+            origSelectionStart = elem.selectionStart;
+            origSelectionEnd = elem.selectionEnd;
+        } else {
+            // must use a temporary form element for the selection and copy
+            target = document.getElementById(targetId);
+            if (!target) {
+                var target = document.createElement("textarea");
+                target.style.position = "absolute";
+                target.style.left = "-9999px";
+                target.style.top = "0";
+                target.id = targetId;
+                document.body.appendChild(target);
+            }
+            target.textContent = elem.textContent;
+        }
+        // select the content
+        var currentFocus = document.activeElement;
+        target.focus();
+        target.setSelectionRange(0, target.value.length);
+
+        // copy the selection
+        var succeed;
+        try {
+            succeed = document.execCommand("copy");
+        } catch (e) {
+            succeed = false;
+        }
+        // restore original focus
+        if (currentFocus && typeof currentFocus.focus === "function") {
+            currentFocus.focus();
+        }
+
+        if (isInput) {
+            // restore prior selection
+            elem.setSelectionRange(origSelectionStart, origSelectionEnd);
+        } else {
+            // clear temporary content
+            target.textContent = "";
+        }
+        return succeed;
+    }
 
     $('#BirthDay').datetimepicker({
         mask: false,

@@ -89,7 +89,7 @@
                             <span class="fas fa-mobile-alt">&nbsp;</span><input type="checkbox" checked="@item.IsPhoneVerified" disabled /><br />
                             <span class="fas fa-envelope">&nbsp;</span><input type="checkbox" checked="@item.EmailConfirmed" disabled />
 
-                            @Html.ActionLink("Eliminar", "EditUser", new { id = item.Id }, new { @class = "btn btn-danger btn-sm pull-right", @disabled = "disabled" })
+                            @Html.ActionLink("Eliminar", "EditUser", new { id = item.Id }, new { @class = "btn btn-danger btn-sm pull-right" })
                             @Html.ActionLink("Editar", "DeleteUser", new { id = item.Id }, new { @class = "btn btn-info btn-sm pull-right" })
                         </div>
                         <div class="visible-xs col-xs-12">

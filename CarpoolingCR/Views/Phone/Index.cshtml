@@ -18,11 +18,80 @@
         <div class="col-lg-4 col-md-4 col-sm-3 col-xs-3">
         </div>
         <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+            <textarea class="form-control" id="message" name="message" maxlength="124" rows="5" cols="30" readonly>Busca Ride: Crea viajes, reserva espacios, recibe notificaciones, califica usuarios y mucho mas. Gratis, seguro y confiable.</textarea>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-3 col-xs-3">
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-lg-4 col-md-4 col-sm-3 col-xs-3">
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+            <input id="ckInitialMessage" name="ckInitialMessage" type="checkbox" checked class="checkbox" style="width:20px; display:inline !important" /> Mensaje Inicial
+            <input id="ckSendToAll" name="ckSendToAll" type="checkbox" class="checkbox" style="width:20px; display:inline !important" /> Enviar a todos
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-3 col-xs-3">
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-lg-4 col-md-4 col-sm-3 col-xs-3">
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
             <input type="text" class="form-control" id="phone" name="phone" /><br />
-            
-            <input type="submit" class="btn btn-info" value="Enviar SMS" />
+
+            <input id="btn-submit" type="submit" class="btn btn-info" value="Enviar SMS" />
         </div>
         <div class="col-lg-4 col-md-4 col-sm-3 col-xs-3">
         </div>
     </div>
 </form>
+
+<script>
+    $('#ckInitialMessage').click(function () {
+        InitialMessageCheckChange();
+    });
+
+    $('#ckSendToAll').click(function () {
+        SendToAllCheckChange();
+    });
+
+    function SendToAllCheckChange() {
+        if ($("#ckSendToAll").prop('checked')) {
+            $('#phone').attr('readonly', 'readyonly');
+            $('#ckInitialMessage').removeAttr('checked');
+            $('#message').removeAttr('readonly');
+        } else {
+            //$('#phone').removeAttr('readonly');
+            //$('#phone').focus();
+            //$('#ckInitialMessage').attr('checked', 'checked');
+            //$('#ckSendToAll').removeAttr('checked');
+        }
+
+        validateCheckboxes();
+    }
+
+    function InitialMessageCheckChange() {
+        if ($("#ckInitialMessage").prop('checked')) {
+            $('#message').val('Busca Ride: Crea viajes, reserva espacios, recibe notificaciones, califica usuarios y mucho mas. Gratis, seguro y confiable.');
+            $('#message').attr('readonly', 'readonly');
+            $('#ckSendToAll').removeAttr('checked');
+            $('#phone').removeAttr('readonly');
+            $('#phone').focus();
+        } else {
+            //$('#phone').removeAttr('readonly');
+            //$('#phone').focus();
+            //$('#ckSendToAll').attr('checked', 'checked');
+            //$('#ckInitialMessage').removeAttr('checked');
+        }
+
+        validateCheckboxes();
+    }
+
+    function validateCheckboxes() {
+        if ((!$("#ckInitialMessage").prop('checked')) && (!$("#ckSendToAll").prop('checked'))) {
+            $('#btn-submit').attr('disabled', 'disabled');
+        } else {
+            $('#btn-submit').removeAttr('disabled');
+        }
+    }
+</script>

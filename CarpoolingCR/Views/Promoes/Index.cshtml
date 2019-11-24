@@ -1,0 +1,182 @@
+﻿@model IEnumerable<CarpoolingCR.Models.Promos.Promo>
+
+@{
+    ViewBag.Title = "Index";
+}
+<div class="row form-group" style="text-align:center">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <h5 class="pull-left">Promos: @Model.Count()</h5>
+    </div>
+</div>
+<div class="row form-group">
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+        <div class="form-group has-feedback has-search">
+            <span class="glyphicon glyphicon-search form-control-feedback"></span>
+            <input type="text" class="form-control search" placeholder="Búsqueda">
+        </div>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+        <a class="btn btn-info btn-sm btn-block custom-spin-button pull-right" href="~/Promoes/Create" data-loading-text="<i class='fa fa-circle-o-notch fa-spin pull-right'></i> Crea una Promo" style="width:150px">Crea una Promo</a>
+    </div>
+</div>
+@{
+    if (Model.Count() == 0)
+    {
+        <div class="row form-group">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" style="text-align:center">
+                <small class="center-block">¡No hay promociones registradas!</small>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+
+            </div>
+        </div>
+    }
+    else
+    {
+        var claims = (System.Security.Claims.ClaimsIdentity)User.Identity;
+        var value = string.Empty;
+        var obj = claims.FindFirst("CurrencyChar");
+        var currency = string.Empty;
+        var country = string.Empty;
+
+        if (obj != null)
+        {
+            currency = obj.Value;
+        }
+
+        obj = claims.FindFirst("CountryCode");
+
+        if (obj != null)
+        {
+            country = obj.Value;
+        }
+
+        <ul class="list" style="list-style:none; padding-left:0px">
+            @{
+                foreach (var promo in Model)
+                {
+                    <li>
+                        <div class="row form-group panel panel-default" style="border-radius:10px; margin-right:5px">
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                    <b><span class="fas fa-road">&nbsp;</span>Tipo de Promoción: </b><small>@promo.PromoType.Description</small><br />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                    <b><span class="fas fa-road">&nbsp;</span>Fecha Inicio: </b><small>@promo.StartTime</small><br />
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                    <b><span class="fas fa-road">&nbsp;</span>Fecha Fin: </b><small>@promo.EndTime</small><br />
+                                    <input type="checkbox" class="checkbox" /> Hasta agotar existencias
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                    <b><span class="fas fa-road">&nbsp;</span>Monto por ususario: </b><small>@promo.Amount</small><br />
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                    <b><span class="fas fa-road">&nbsp;</span>Monto Máximo: </b><small>@promo.MaxAmountToSpend</small><br />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                    <b><span class="fas fa-road">&nbsp;</span>Cantidad máxima por usuario: </b><small>@promo.MaxTimesPerUser</small><br />
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                    <b><span class="fas fa-road">&nbsp;</span>Descripción: </b><small>@promo.MaxAmountToSpend</small><br />
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                }
+            }
+        </ul>
+    }
+}
+@*<h2>Index</h2>
+
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PromoType.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Amount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EndTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UntilAssignedAmountRunsOut)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MaxAmountPerUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MaxAmountToSpend)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AmountAvailable)
+            </th>
+            <th></th>
+        </tr>
+
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PromoType.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Amount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UntilAssignedAmountRunsOut)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaxAmountPerUser)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaxAmountToSpend)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AmountAvailable)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.PromoId }) |
+                @Html.ActionLink("Details", "Details", new { id=item.PromoId }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.PromoId })
+            </td>
+        </tr>
+    }
+
+    </table>*@

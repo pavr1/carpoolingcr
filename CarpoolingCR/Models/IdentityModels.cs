@@ -64,6 +64,7 @@ namespace CarpoolingCR.Models
         public Enums.ProfileStatus Status { get; set; }
         public int? BankAccountId { get; set; }
         public BankAccount BankAccount { get; set; }
+        public decimal PromoBalance { get; set; }
         [NotMapped]
         public MonthlyBalance MonthlyBalance { get; set; }
         [NotMapped]
@@ -316,5 +317,10 @@ namespace CarpoolingCR.Models
         public System.Data.Entity.DbSet<CarpoolingCR.Models.Phone> Phones { get; set; }
 
         public System.Data.Entity.DbSet<CarpoolingCR.Models.UserRating> UserRatings { get; set; }
+
+        public System.Data.Entity.DbSet<CarpoolingCR.Models.Promos.BalanceHistorial> BalanceHistorials { get; set; }
+        public System.Data.Entity.DbSet<CarpoolingCR.Models.Promos.Promo> Promo { get; set; }
+        public System.Data.Entity.DbSet<CarpoolingCR.Models.Promos.PromoType> PromoType { get; set; }
+        public System.Data.Entity.DbSet<CarpoolingCR.Models.Promos.UserPromos> UserPromos { get; set; }
     }
 }

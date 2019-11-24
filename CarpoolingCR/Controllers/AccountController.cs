@@ -499,9 +499,9 @@ namespace CarpoolingCR.Controllers
                     var picture = Request["registeredUserPicture"];
                     string referencedUser = null;
 
-                    if (string.IsNullOrEmpty(Request["registeredUserPicture"]))
+                    if (string.IsNullOrEmpty(Request["referencedUser"]))
                     {
-                        referencedUser = Request["registeredUserPicture"];
+                        referencedUser = Request["referencedUser"];
                     }
 
                     var user = new ApplicationUser
@@ -521,6 +521,7 @@ namespace CarpoolingCR.Controllers
                         FacebookAccount = model.FacebookAccount,
                         Status = Enums.ProfileStatus.Active,
                         Picture = picture,
+                        ReferencedUser = referencedUser,
                         BirthDay = model.Birthday
                     };
 
@@ -538,6 +539,8 @@ namespace CarpoolingCR.Controllers
                         string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
 
                         var callbackUrl = string.Empty;
+
+
 
                         try
                         {

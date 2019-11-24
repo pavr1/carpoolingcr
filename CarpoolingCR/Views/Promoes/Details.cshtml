@@ -1,0 +1,98 @@
+﻿@model CarpoolingCR.Models.Promos.Promo
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Promo</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.PromoType.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PromoType.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Amount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Amount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StartTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StartTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EndTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EndTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UntilAssignedAmountRunsOut)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UntilAssignedAmountRunsOut)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MaxAmountPerUser)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MaxAmountPerUser)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MaxAmountToSpend)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MaxAmountToSpend)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AmountAvailable)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AmountAvailable)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.PromoId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

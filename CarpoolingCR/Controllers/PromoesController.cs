@@ -53,6 +53,17 @@ namespace CarpoolingCR.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (promo.UntilAssignedAmountRunsOut)
+                {
+                    promo.EndTime = null;
+                }
+                else
+                {
+                    promo.MaxAmountToSpend = null;
+                }
+
+                promo.AmountAvailable = promo.Amount;
+
                 db.Promo.Add(promo);
                 db.SaveChanges();
                 return RedirectToAction("Index");

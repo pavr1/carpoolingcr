@@ -59,37 +59,63 @@
                 foreach (var promo in Model)
                 {
                     <li>
-                        <div class="row form-group panel panel-default" style="border-radius:10px; margin-right:5px">
+                        <div class="row form-group panel panel-default" style="border-radius:10px; padding:10px">
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                    @{
+                                        var description = CarpoolingCR.Utils.EnumHelper<CarpoolingCR.Utils.Enums.PromoStatus>.GetDisplayValue(promo.Status);
+
+                                        if (promo.Status == CarpoolingCR.Utils.Enums.PromoStatus.Active)
+                                        {
+                                            <small class="status text-success"><b><span class="fas fa-shield-alt">&nbsp;</span>Estado: </b>@description</small>
+                                        }
+                                        else
+                                        {
+                                            <small class="status text-danger"><b><span class="fas fa-shield-alt">&nbsp;</span>Estado: </b>@description</small>
+                                        }
+                                    }
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                    <b><span class="fas fa-road">&nbsp;</span>Tipo de Promoción: </b><small>@promo.PromoType.Description</small><br />
+                                    <b><span class="fas fa-receipt">&nbsp;</span>Tipo de Promoción: </b><small>@promo.PromoType.Description</small><br />
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                    <b><span class="fas fa-road">&nbsp;</span>Fecha Inicio: </b><small>@promo.StartTime</small><br />
+                                    <b><span class="fas fa-calendar-alt">&nbsp;</span>Fecha Inicio: </b><small>@promo.StartTime</small><br />
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                    <b><span class="fas fa-road">&nbsp;</span>Fecha Fin: </b><small>@promo.EndTime</small><br />
-                                    <input type="checkbox" class="checkbox" /> Hasta agotar existencias
+                                    @{
+                                        if (promo.UntilAssignedAmountRunsOut)
+                                        {
+                                            <b><span class="fas fa-calendar-alt">&nbsp;</span>Fecha Fin: </b><small>Hasta agotar existencias</small><br />
+                                        }
+                                        else
+                                        {
+                                            <b><span class="fas fa-calendar-alt">&nbsp;</span>Fecha Fin: </b><small>@promo.EndTime</small><br />
+                                        }
+                                    }
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                    <b><span class="fas fa-road">&nbsp;</span>Monto por ususario: </b><small>@promo.Amount</small><br />
+                                    <b><span class="fas fa-money-bill-alt">&nbsp;</span>Monto por ususario: </b><small>@currency @promo.Amount</small><br />
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                    <b><span class="fas fa-road">&nbsp;</span>Monto Máximo: </b><small>@promo.MaxAmountToSpend</small><br />
+                                    <b><span class="fas fa-money-bill-alt">&nbsp;</span>Monto Máximo: </b><small>@currency @promo.MaxAmountToSpend</small><br />
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                    <b><span class="fas fa-road">&nbsp;</span>Cantidad máxima por usuario: </b><small>@promo.MaxTimesPerUser</small><br />
+                                    <b><span class="fas fa-sort-amount-up-alt">&nbsp;</span>Cantidad máxima por usuario: </b><small>@promo.MaxTimesPerUser</small><br />
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                    <b><span class="fas fa-road">&nbsp;</span>Descripción: </b><small>@promo.MaxAmountToSpend</small><br />
+                                    <b><span class="fas fa-money-bill-alt">&nbsp;</span>Monto Disponible: </b><small>@currency @promo.AmountAvailable</small><br />
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <b><span class="fas fa-info-circle">&nbsp;</span>Descripción: </b><small>@promo.Description</small><br />
                                 </div>
                             </div>
                         </div>

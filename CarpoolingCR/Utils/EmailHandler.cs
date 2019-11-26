@@ -188,6 +188,20 @@ namespace CarpoolingCR.Utils
         //    }
         //}
 
+        public static void SendPromoAppliedEmail(string email, string promoDescription, decimal amount, string callbackUrl, string appLogo)
+        {
+            callbackUrl = callbackUrl.Replace("http://", "https://");
+
+            var html = "Felicidades, has recibido un " + promoDescription + " por un monto de " + amount.ToString("N2") + ". ¡Sigue participando en nuestras promociones!";
+
+            SendEmail(new IdentityMessage
+            {
+                Destination = email,
+                Subject = "¡Bono aplicado a tu cueta!",
+                Body = html
+            }, EmailType.Notifications, true, appLogo);
+        }
+
         public static void SendEmail(int line, Enums.LogLocation location, Enums.LogType logType, string message, string method, DateTime time, string user, string fields, string appLogo)
         {
             string callbackUrl = "www.buscoridecr.com/Logs/Index";

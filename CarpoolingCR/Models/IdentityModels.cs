@@ -171,6 +171,25 @@ namespace CarpoolingCR.Models
             }
         }
 
+        [NotMapped]
+        public List<CarpoolingCR.Models.Promos.BalanceHistorial> BalanceHistorial
+        {
+            get {
+                using (var db = new ApplicationDbContext())
+                {
+                    var monthStartDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1, 0, 0, 0);
+                    var monthEndDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month), 23, 59, 59);
+
+                    var balances = db.BalanceHistorials.Where(x => x.UserId == Id)
+                        .Where(x => x.Date >= monthStartDate && x.Date >= monthEndDate).ToList();
+
+                    balances.Sort((x, y) => y.Date.CompareTo(x.Date));
+
+                    return balances;
+                }
+            }
+        }
+
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType

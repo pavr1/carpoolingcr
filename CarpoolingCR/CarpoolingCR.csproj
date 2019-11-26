@@ -373,6 +373,14 @@
     <Compile Include="Migrations\201911242154135_changed Promo.MaxAmountPerUser to MaxTimesPerUser.Designer.cs">
       <DependentUpon>201911242154135_changed Promo.MaxAmountPerUser to MaxTimesPerUser.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201911261937186_added UserPromos.UserId.cs" />
+    <Compile Include="Migrations\201911261937186_added UserPromos.UserId.Designer.cs">
+      <DependentUpon>201911261937186_added UserPromos.UserId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911262333337_added BalanceHistorial.UserId.cs" />
+    <Compile Include="Migrations\201911262333337_added BalanceHistorial.UserId.Designer.cs">
+      <DependentUpon>201911262333337_added BalanceHistorial.UserId.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Bank.cs" />
@@ -982,6 +990,7 @@
     <Content Include="Views\Promoes\Details.cshtml" />
     <Content Include="Views\Promoes\Edit.cshtml" />
     <Content Include="Views\Promoes\Index.cshtml" />
+    <Content Include="Views\Account\GetUserBalanceInformation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -991,6 +1000,7 @@
     <Folder Include="Content\jquery-weekcalendar-1.2.2\full_demo\images\.svn\tmp\text-base\" />
     <Folder Include="Content\Pictures\GroupEmails\" />
     <Folder Include="Content\Pictures\Users\" />
+    <Folder Include="Views\Balance\" />
     <Folder Include="Views\Manage\Partials\" />
     <Folder Include="Views\Offline\" />
     <Folder Include="Views\Vehicles\" />
@@ -1101,6 +1111,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201911242154135_changed Promo.MaxAmountPerUser to MaxTimesPerUser.resx">
       <DependentUpon>201911242154135_changed Promo.MaxAmountPerUser to MaxTimesPerUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911261937186_added UserPromos.UserId.resx">
+      <DependentUpon>201911261937186_added UserPromos.UserId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911262333337_added BalanceHistorial.UserId.resx">
+      <DependentUpon>201911262333337_added BalanceHistorial.UserId.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

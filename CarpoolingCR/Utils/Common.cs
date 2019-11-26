@@ -421,7 +421,7 @@ namespace CarpoolingCR.Utils
                 }
             }
 
-            UpdateItemsCount(user.Id);
+            UpdateMenuItemsCount(user.Id);
         }
 
         public static void FinalizeExpiredReservations(string userId)
@@ -471,7 +471,7 @@ namespace CarpoolingCR.Utils
             return (long)(datetime - sTime).TotalSeconds;
         }
 
-        public static void UpdateItemsCount(string userId)
+        public static void UpdateMenuItemsCount(string userId)
         {
             using (var db = new ApplicationDbContext())
             {
@@ -506,6 +506,18 @@ namespace CarpoolingCR.Utils
 
                 Identity.RemoveClaim(Identity.FindFirst("Notifications"));
                 Identity.AddClaim(new Claim("Notifications", notifications.ToString()));
+
+                try
+                {
+                    Identity.RemoveClaim(Identity.FindFirst("Balance"));
+                }
+                catch (Exception)
+                {
+                    //do nothing
+                }
+
+                Identity.AddClaim(new Claim("Balance", user.PromoBalance.ToString()));
+
                 var authenticationManager = System.Web.HttpContext.Current.GetOwinContext().Authentication;
                 authenticationManager.AuthenticationResponseGrant = new AuthenticationResponseGrant(new ClaimsPrincipal(Identity), new AuthenticationProperties() { IsPersistent = true });
             }

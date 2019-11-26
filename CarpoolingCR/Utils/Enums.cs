@@ -128,7 +128,9 @@ namespace CarpoolingCR.Utils
 
         public enum PromoStatus
         {
+            [Description("Activo")]
             Active = 1,
+            [Description("Inactivo")]
             Inactive = 2
         }
     }

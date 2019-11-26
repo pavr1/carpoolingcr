@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using CarpoolingCR.Models;
 using CarpoolingCR.Models.Promos;
+using CarpoolingCR.Utils;
 
 namespace CarpoolingCR.Controllers
 {
@@ -62,7 +63,16 @@ namespace CarpoolingCR.Controllers
                     promo.MaxAmountToSpend = null;
                 }
 
-                promo.AmountAvailable = promo.Amount;
+                promo.StartTime = Common.ConvertToUTCTime(promo.StartTime);
+
+                if (promo.EndTime != null)
+                {
+                    promo.EndTime = Common.ConvertToUTCTime((DateTime)promo.EndTime);
+                }
+
+                promo.AmountAvailable = promo.MaxAmountToSpend;
+                promo.Status = Utils.Enums.PromoStatus.Active;
+                promo.MaxTimesPerUser = Convert.ToInt32(Request["MaxTimesPerUser"]);
 
                 db.Promo.Add(promo);
                 db.SaveChanges();

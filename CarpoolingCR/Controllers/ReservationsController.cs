@@ -31,7 +31,7 @@ namespace CarpoolingCR.Controllers
                 }
 
                 var user = Common.GetUserByEmail(User.Identity.Name);
-                Common.UpdateItemsCount(user.Id);
+                Common.UpdateMenuItemsCount(user.Id);
 
                 var districtsSelectHtml = Common.GetLocationsStrings(user.CountryId);
 
@@ -91,7 +91,7 @@ namespace CarpoolingCR.Controllers
                     Common.FinalizeExpiredTrips(user);
                 }
 
-                Common.UpdateItemsCount(user.Id);
+                Common.UpdateMenuItemsCount(user.Id);
 
                 if (user.UserType == UserType.Administrador)
                 {
@@ -896,7 +896,7 @@ namespace CarpoolingCR.Controllers
                 tran.Commit();
 
                 var user = Common.GetUserByEmail(User.Identity.Name);
-                Common.UpdateItemsCount(user.Id);
+                Common.UpdateMenuItemsCount(user.Id);
 
                 if (cancelledFrom == "passenger")
                 {
@@ -1077,7 +1077,7 @@ namespace CarpoolingCR.Controllers
                     EmailHandler.SendEmailTripReservation(WebConfigurationManager.AppSettings["AdminEmails"], trip.ApplicationUser.Email, reservation.PassengerName, spaces, tripInfo, callbackUrl, logo);
                 }
 
-                Common.UpdateItemsCount(user.Id);
+                Common.UpdateMenuItemsCount(user.Id);
 
                 return RedirectToAction("ReservationIndex", "Reservations", new
                 {

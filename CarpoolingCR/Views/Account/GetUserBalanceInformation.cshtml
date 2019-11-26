@@ -1,0 +1,26 @@
+﻿@model CarpoolingCR.Models.ApplicationUser
+
+<div class="row form-group" style="text-align:center">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <h5 class="pull-left">Balance: @Model.PromoBalance.ToString("N2")</h5>
+    </div>
+</div>
+<div class="row form-group" style="text-align:center">
+    <hr />
+</div>
+@{
+    foreach (var balance in Model.BalanceHistorial)
+    {
+        <div class="row form-group" style="text-align:center">
+            <div class="col-lg-4 col-md-4 col-sm-4 hidden-xs">
+
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 hidden-xs">
+                @balance.
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 hidden-xs">
+
+            </div>
+        </div>
+    }
+}

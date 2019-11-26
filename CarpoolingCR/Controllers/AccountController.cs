@@ -1,4 +1,5 @@
 ﻿using CarpoolingCR.Models;
+using CarpoolingCR.Models.Promos;
 using CarpoolingCR.Objects.Responses;
 using CarpoolingCR.Utils;
 using Microsoft.AspNet.Identity;
@@ -142,6 +143,37 @@ namespace CarpoolingCR.Controllers
                 ViewBag.Error = "¡Error inesperado, intente de nuevo!";
 
                 return "";
+            }
+        }
+
+        public ActionResult GetUserBalanceInformation()
+        {
+            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg"); ;
+
+            try
+            {
+                var user = Common.GetUserByEmail(User.Identity.Name);
+
+                return View(user);
+            }
+            catch (Exception ex)
+            {
+                var inner = (ex.InnerException != null) ? ex.InnerException.Message : "None";
+
+                Common.LogData(new Log
+                {
+                    Line = Common.GetCurrentLine(),
+                    Location = Enums.LogLocation.Server,
+                    LogType = Enums.LogType.Error,
+                    Message = ex.Message + " / Inner: " + inner + " / " + ex.StackTrace,
+                    Method = Common.GetCurrentMethod(),
+                    Timestamp = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
+                    UserEmail = User.Identity.Name
+                }, logo);
+
+                ViewBag.Error = "¡Error inesperado, intente de nuevo!";
+
+                return View();
             }
         }
 
@@ -536,11 +568,19 @@ namespace CarpoolingCR.Controllers
 
                     if (result.Succeeded)
                     {
+                        if (!string.IsNullOrEmpty(user.ReferencedUser))
+                        {
+                            var refUser = db.Users.Where(x => x.Id == user.ReferencedUser).Single();
+
+                            ValidatePromo("Referencia", logo, db, refUser);
+                        }
+
+                        //validate register promo if existent
+                        ValidatePromo("Registro", logo, db, user);
+
                         string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
 
                         var callbackUrl = string.Empty;
-
-
 
                         try
                         {
@@ -609,6 +649,129 @@ namespace CarpoolingCR.Controllers
 
             // If we got this far, something failed, redisplay form
             return View(model);
+        }
+
+        private static void ValidatePromo(string promoType, string logo, ApplicationDbContext db, ApplicationUser user)
+        {
+            //look for register promo available
+            var registerPromoType = db.PromoType.Where(x => x.Description == promoType).Single();
+
+            var promo = db.Promo.Where(x => x.PromoTypeId == registerPromoType.PromoTypeId)
+                .Where(x => x.Status == Enums.PromoStatus.Active)
+                .SingleOrDefault();
+
+            if (Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()) < promo.StartTime)
+            {
+                //not in promo's range. Treat it as there is no promo yet
+                promo = null;
+            }
+
+            if (promo.EndTime != null)
+            {
+                if (Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()) > promo.EndTime)
+                {
+                    //not in promo's range. Treat it as there is no promo yet
+                    promo = null;
+                }
+            }
+
+            if (promo != null)
+            {
+                var appliesForPromo = false;
+                //the user can get the promo as many times as he wants
+                if (promo.MaxTimesPerUser == 0)
+                {
+                    appliesForPromo = true;
+                }
+                else
+                {
+                    var promosAlreadyTaken = db.UserPromos.Where(x => x.PromoId == promo.PromoId && x.UserId == user.Id).ToList();
+
+                    if (promosAlreadyTaken.Count() <= promo.MaxTimesPerUser)
+                    {
+                        appliesForPromo = true;
+                    }
+                }
+
+                var remainingBudget = promo.AmountAvailable - promo.Amount;
+
+                //if the available amount minus promo amount for this particular user is less than or equal to zero, then the promo is over. Not enough money for this user's bonus
+                //so do not apply the promo and inactivate it
+                if (remainingBudget <= 0)
+                {
+                    appliesForPromo = false;
+
+                    promo.Status = Enums.PromoStatus.Inactive;
+
+                    db.Entry(promo).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+
+                if (appliesForPromo)
+                {
+                    var currentDate = DateTime.Now;
+
+                    var tran = db.Database.BeginTransaction();
+
+                    try
+                    {
+                        //create user promo
+                        var userPromo = new UserPromos
+                        {
+                            UserId = user.Id,
+                            Date = currentDate,
+                            PromoId = promo.PromoId
+                        };
+
+                        db.Entry(userPromo).State = EntityState.Added;
+                        db.SaveChanges();
+
+                        //create historial movement
+                        var historial = new BalanceHistorial
+                        {
+                            UserPromoId = userPromo.UserPromosId,
+                            Amount = promo.Amount,
+                            Date = currentDate,
+                            Detail = promo.Description,
+                            UserId = user.Id
+                        };
+
+                        db.Entry(historial).State = EntityState.Added;
+                        db.SaveChanges();
+
+                        //substract the current user's bonus to the available amount
+                        promo.AmountAvailable -= promo.Amount;
+
+                        db.Entry(promo).State = EntityState.Modified;
+                        db.SaveChanges();
+
+                        //add the substracted user's bonus to it's promo balance
+                        user.PromoBalance += promo.Amount;
+
+                        db.Entry(user).State = EntityState.Modified;
+                        db.SaveChanges();
+
+                        tran.Commit();
+
+                        EmailHandler.SendPromoAppliedEmail(user.Email, promo.Description, promo.Amount, "", logo);
+                    }
+                    catch (Exception)
+                    {
+                        tran.Rollback();
+
+                        Common.LogData(new Log
+                        {
+                            Line = Common.GetCurrentLine(),
+                            Location = Enums.LogLocation.Server,
+                            LogType = Enums.LogType.Warning,
+                            Message = "Hubo un error al aplicar el promo al usuario: " + user.Email + ". Información de Promo: " + promo.Description + ", monto: " + promo.Amount,
+                            Method = Common.GetCurrentMethod(),
+                            Timestamp = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
+                            UserEmail = user.Email
+                        }, logo);
+                    }
+                }
+            }
         }
 
         private void ReloadCountryList()

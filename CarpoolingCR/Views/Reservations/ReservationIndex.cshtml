@@ -94,15 +94,21 @@
                                                     }
                                                     else
                                                     {
-                                                    <small class="status text-success"><b><span class="fas fa-shield-alt">&nbsp;</span>Estado: @description <span class="fas fa-smile-beam">&nbsp;</span></b></small>
-                                                        }
+                                                        <small class="status text-success"><b><span class="fas fa-shield-alt">&nbsp;</span>Estado: @description <span class="fas fa-smile-beam">&nbsp;</span></b></small>
                                                     }
                                                 }
+                                            }
                                             <br />
                                             <small class="price"><b><span class="fas fa-money-bill-alt">&nbsp;</span>Cuota: </b> @currency @reservation.Trip.Price</small><br />
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                             <small class="spaces"><b><span class="fas fa-car-side">&nbsp;</span>Espacios: </b>  @reservation.RequestedSpaces</small><br />
+                                            @{
+                                                if (reservation.Status != CarpoolingCR.Utils.Enums.ReservationStatus.Cancelled)
+                                                {
+                                                    <input type="button" class="btn btn-danger btn-sm pull-right" value="Cancelar Reservación" onclick="ConfirmAction(@reservation.ReservationId, '@CarpoolingCR.Utils.Enums.ReservationStatus.Cancelled','cancelar esta reservación','Reservaciones', 'Cancelar', 'btn-danger', 'passenger')" />
+                                                }
+                                            }
                                             @{
                                                 var spacesSelected = reservation.SpacesSelected.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
                                                 var displaySpaces = string.Empty;
@@ -182,8 +188,17 @@
                                     </div>
                                     <div class="row form-group" style="">
                                         <hr />
-                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                            <small class="incomes pull-right bg-info" style="border-radius:10px 10px 10px 10px; width:180px; padding:5px"><b>Total a pagar: @currency @reservation.SelectedSeatsTotalPrice</b><br></small>
+                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                            <span class="badge badge-success pull-left"><i class="fas fa-money-bill-alt">&nbsp;</i><b>Monto Total: </b>@currency <span id="modelCashTotal" name="modelCashTotal">@reservation.SelectedSeatsTotalPrice</span></span><br />
+                                        </div>
+                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                            <span class="badge badge-success"><i class="fas fa-money-bill-alt">&nbsp;</i><b>Total Cancelado: </b>@currency <span id="modelCashTotal" name="modelCashTotal">@reservation.totalPayedWithBalance</span></span><br />
+                                        </div>
+                                        <div class="col-lg-4 col-md-4 col-sm-4 hidden-xs">
+                                            <span class="badge badge-success pull-right"><i class="fas fa-money-bill-alt">&nbsp;</i><b>Cancela el día del viaje: </b>@currency <span id="modelCashTotal" name="modelCashTotal">@reservation.totalPayedWithCash</span></span><br />
+                                        </div>
+                                        <div class="col-xs-12 visible-xs">
+                                            <span class="badge badge-success"><i class="fas fa-money-bill-alt">&nbsp;</i><b>Cancela el día del viaje: </b>@currency <span id="modelCashTotal" name="modelCashTotal">@reservation.totalPayedWithCash</span></span><br />
                                         </div>
                                     </div>
                                 </div>

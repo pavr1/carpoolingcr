@@ -180,6 +180,8 @@ namespace CarpoolingCR.Controllers
                 fromDistrict = Common.ValidateDistrictString(from);
                 toDistrict = Common.ValidateDistrictString(to);
 
+                Common.UpdateMenuItemsCount(user.Id);
+
                 DateTime d = new DateTime();
 
                 if (!DateTime.TryParse(date, out d))

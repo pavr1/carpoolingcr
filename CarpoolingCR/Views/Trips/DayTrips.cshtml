@@ -40,13 +40,21 @@
         @{
             var claims = (System.Security.Claims.ClaimsIdentity)User.Identity;
             var value = string.Empty;
-            var obj = claims.FindFirst("CurrencyChar");
+            var currencyObj = claims.FindFirst("CurrencyChar");
             var currency = string.Empty;
             var country = string.Empty;
+            var balanceObj = claims.FindFirst("Balance");
 
-            if (obj != null)
+            if (currencyObj != null)
             {
-                currency = obj.Value;
+                currency = currencyObj.Value;
+            }
+
+            var balance = 0m;
+
+            if (balanceObj != null)
+            {
+                balance = Convert.ToDecimal(balanceObj.Value);
             }
         }
         <div class="vertical-alignment-helper">
@@ -103,7 +111,23 @@
                                 <small><b>¡Selecciona tus asientos! </b></small>
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
-                                <small class="incomes pull-right bg-info" style="border-radius:10px 10px 10px 10px; width:130px; padding:5px"><b>Total: </b> @currency <span id="modelTotal"></span></small>
+                                <input id="hidden-balance" type="hidden" value="@balance.ToString().Replace(",",".")" />
+                                <span class="badge badge-success pull-right"><i class="fas fa-money-bill-alt">&nbsp;</i><b>Tu Balance</b><br />@currency <span id="modelBalance" name="modelBalance">@balance.ToString("N2")</span></span><br />
+                                <input type="text" id="actualBalance" name="actualBalance" class="hidden" />
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                                <span class="badge badge-success pull-left"><i class="fas fa-money-bill-alt">&nbsp;</i><b>Monto a cancelar</b><br />@currency <span id="modelTotal" name="modelTotal"></span></span><br />
+                                <input type="text" id="actualTotal" name="actualTotal" class="hidden" />
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                                <span class="badge badge-success center-block"><i class="fas fa-money-bill-alt">&nbsp;</i><b>Pago con Balance</b><br />@currency <span id="modelBalanceTotal" name="modelBalanceTotal"></span></span><br />
+                                <input type="text" id="balancePayment" name="balancePayment" class="hidden" />
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                <span class="badge badge-success pull-right"><i class="fas fa-money-bill-alt">&nbsp;</i><b>Pago en Efectivo: </b><br />@currency <span id="modelCashTotal" name="modelCashTotal"></span></span><br />
+                                <input type="text" id="cashPayment" name="cashPayment" class="hidden" />
                             </div>
                         </div>
                         <div class="row form-group">
@@ -281,7 +305,33 @@
             requestedSpacesControlIds += "modelPriceRight;";
         }
 
+        var cash = 0;
+        var bal = $('#hidden-balance').val();
+        var balance = Number(bal);
+        var paymentWithBalance = 0;
+        
+        if (totalSelectedSeats >= balance) {
+            paymentWithBalance = balance;
+            balance = 0;
+            cash = totalSelectedSeats - paymentWithBalance;
+        } else {
+            paymentWithBalance = totalSelectedSeats;
+            balance -= paymentWithBalance;
+
+        }
+
+        $('#modelBalanceTotal').html(paymentWithBalance.toFixed(2));
+        $('#balancePayment').val(paymentWithBalance.toFixed(2));        
+
         $('#modelTotal').html(totalSelectedSeats.toFixed(2));
+        $('#actualTotal').val(totalSelectedSeats.toFixed(2));
+
+        $('#modelBalance').html(balance.toFixed(2));
+        $('#actualBalance').val(balance.toFixed(2));
+
+        $('#modelCashTotal').html(cash.toFixed(2));
+        $('#cashPayment').val(cash.toFixed(2));
+
         $('#RequestedSpaces').val(requestedSpaces);
         $('#SpacesSelected').val(requestedSpacesControlIds);
         $('#SelectedSeatsTotalPrice').val(totalSelectedSeats);
@@ -495,12 +545,15 @@
 
                 var defaultValue = Number(0).toFixed(2);
                 $('#modelTotal').html(defaultValue);
+                $('#modelBalanceTotal').html(defaultValue);
+                $('#modelCashTotal').html(defaultValue);
+
                 $('#TripId').val(calEvent.id);
 
                 var reservationAlreadyExistent = ExistReservationToTrip(calEvent.id)
 
                 if (reservationAlreadyExistent) {
-                    $('#already-reserved-message').html('<small class="pull-left text-danger">¡Ya contás con una reservación activa para este viaje!</small>');
+                    $('#already-reserved-message').html('<small class="pull-left text-danger">¡Ya contás con esta reservación!</small>');
                     $('#back-right-seat').attr('disabled', true);
                     $('#back-left-seat').attr('disabled', true);
                     $('#back-middle-seat').attr('disabled', true);

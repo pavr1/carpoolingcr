@@ -531,7 +531,7 @@ namespace CarpoolingCR.Controllers
                     var picture = Request["registeredUserPicture"];
                     string referencedUser = null;
 
-                    if (string.IsNullOrEmpty(Request["referencedUser"]))
+                    if (!string.IsNullOrEmpty(Request["referencedUser"]))
                     {
                         referencedUser = Request["referencedUser"];
                     }
@@ -740,7 +740,7 @@ namespace CarpoolingCR.Controllers
                         db.SaveChanges();
 
                         //substract the current user's bonus to the available amount
-                        promo.AmountAvailable -= promo.Amount;
+                        promo.AmountAvailable = remainingBudget;
 
                         db.Entry(promo).State = EntityState.Modified;
                         db.SaveChanges();

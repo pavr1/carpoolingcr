@@ -1,5 +1,6 @@
 ﻿using CarpoolingCR.Models;
 using CarpoolingCR.Models.Locations;
+using CarpoolingCR.Models.Promos;
 using CarpoolingCR.Models.Vehicle;
 using CarpoolingCR.Objects.Responses;
 using Microsoft.Owin.Security;
@@ -20,6 +21,85 @@ namespace CarpoolingCR.Utils
 {
     public class Common
     {
+        public static void ApplyBlockedAmount(Reservation reservation)
+        {
+            using (var db = new ApplicationDbContext())
+            {
+                var blockedAmount = db.BlockedAmounts.Where(x => x.ReservationId == reservation.ReservationId).SingleOrDefault();
+
+                if (blockedAmount == null)
+                {
+                    return;
+                }
+
+                var tran = db.Database.BeginTransaction();
+
+                try
+                {
+                    if ((reservation.Status == ReservationStatus.Cancelled) || (reservation.Status == ReservationStatus.Rejected))
+                    {
+                        var rollbackBalance = blockedAmount.BlockedBalanceAmount;
+
+                        db.Entry(blockedAmount).State = EntityState.Deleted;
+                        db.SaveChanges();
+
+                        var reservationUser = db.Users.Where(x => x.Id == reservation.ApplicationUserId).Single();
+                        reservationUser.PromoBalance += rollbackBalance;
+
+                        db.Entry(reservationUser).State = EntityState.Modified;
+                        db.SaveChanges();
+                    }
+                    else if (reservation.Status == ReservationStatus.Finalized)
+                    {
+                        var rollbackBalance = blockedAmount.BlockedBalanceAmount;
+
+                        db.Entry(blockedAmount).State = EntityState.Deleted;
+                        db.SaveChanges();
+
+                        var trip = db.Trips.Where(x => x.TripId == reservation.TripId).Single();
+
+                        var tripUser = db.Users.Where(x => x.Id == trip.ApplicationUserId).Single();
+                        tripUser.PromoBalance += rollbackBalance;
+
+                        db.Entry(tripUser).State = EntityState.Modified;
+                        db.SaveChanges();
+
+                        //add historial for the driver's payment
+                        var driverBalanceHistorial = new BalanceHistorial
+                        {
+                            Amount = rollbackBalance,
+                            Date = trip.DateTime,
+                            Detail = trip.FromTown.FullName + " - " + trip.ToTown.FullName + " el " + trip.DateTime.ToString(WebConfigurationManager.AppSettings["DateTimeFormat"]),
+                            TripId = trip.TripId,
+                            UserId = trip.ApplicationUserId
+                        };
+
+                        db.Entry(driverBalanceHistorial).State = EntityState.Added;
+                        db.SaveChanges();
+
+                        //add historial for the passenger's payment
+                        var passengerBalanceHistorial = new BalanceHistorial
+                        {
+                            Amount = rollbackBalance * -1,
+                            Date = trip.DateTime,
+                            Detail = trip.FromTown.FullName + " - " + trip.ToTown.FullName + " el " + trip.DateTime.ToString(WebConfigurationManager.AppSettings["DateTimeFormat"]),
+                            TripId = trip.TripId,
+                            UserId = reservation.ApplicationUserId
+                        };
+
+                        db.Entry(passengerBalanceHistorial).State = EntityState.Added;
+                        db.SaveChanges();
+                    }
+
+                    tran.Commit();
+                }
+                catch (Exception)
+                {
+                    tran.Rollback();
+                }
+            }
+        }
+
         public static string GetLocationsStrings(int countryId)
         {
             var list = new List<LocationsResponse>();
@@ -408,6 +488,8 @@ namespace CarpoolingCR.Utils
 
                             db.Entry(expiredReservation).State = EntityState.Modified;
                             db.SaveChanges();
+
+                            ApplyBlockedAmount(expiredReservation);
                         }
                     }
 
@@ -449,6 +531,8 @@ namespace CarpoolingCR.Utils
 
                     db.Entry(expiredReservation).State = EntityState.Modified;
                     db.SaveChanges();
+
+                    ApplyBlockedAmount(expiredReservation);
                 }
             }
         }

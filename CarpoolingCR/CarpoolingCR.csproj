@@ -18,13 +18,10 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
-    <IISExpressSSLPort>44346</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication>
-    </IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>
-    </IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>
-    </IISExpressUseClassicPipelineMode>
+    <IISExpressSSLPort>443</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -381,6 +378,18 @@
     <Compile Include="Migrations\201911262333337_added BalanceHistorial.UserId.Designer.cs">
       <DependentUpon>201911262333337_added BalanceHistorial.UserId.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201911272217195_added reservation.totalPayedWithBalance and totalPayedWithCash.cs" />
+    <Compile Include="Migrations\201911272217195_added reservation.totalPayedWithBalance and totalPayedWithCash.Designer.cs">
+      <DependentUpon>201911272217195_added reservation.totalPayedWithBalance and totalPayedWithCash.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911272343039_created BlockedAmount.cs" />
+    <Compile Include="Migrations\201911272343039_created BlockedAmount.Designer.cs">
+      <DependentUpon>201911272343039_created BlockedAmount.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911280334118_added blockedAmounts.FromUserId, ToUserId.cs" />
+    <Compile Include="Migrations\201911280334118_added blockedAmounts.FromUserId, ToUserId.Designer.cs">
+      <DependentUpon>201911280334118_added blockedAmounts.FromUserId, ToUserId.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Bank.cs" />
@@ -399,6 +408,7 @@
     <Compile Include="Models\Phone.cs" />
     <Compile Include="Models\ProfileQualification.cs" />
     <Compile Include="Models\Promos\BalanceHistorial.cs" />
+    <Compile Include="Models\Promos\BlockedAmount.cs" />
     <Compile Include="Models\Promos\Promo.cs" />
     <Compile Include="Models\Promos\PromoType.cs" />
     <Compile Include="Models\Promos\UserPromos.cs" />
@@ -1117,6 +1127,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201911262333337_added BalanceHistorial.UserId.resx">
       <DependentUpon>201911262333337_added BalanceHistorial.UserId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911272217195_added reservation.totalPayedWithBalance and totalPayedWithCash.resx">
+      <DependentUpon>201911272217195_added reservation.totalPayedWithBalance and totalPayedWithCash.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911272343039_created BlockedAmount.resx">
+      <DependentUpon>201911272343039_created BlockedAmount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911280334118_added blockedAmounts.FromUserId, ToUserId.resx">
+      <DependentUpon>201911280334118_added blockedAmounts.FromUserId, ToUserId.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

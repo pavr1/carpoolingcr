@@ -1,5 +1,6 @@
 ﻿using CarpoolingCR.Models;
 using CarpoolingCR.Models.Locations;
+using CarpoolingCR.Models.Promos;
 using CarpoolingCR.Objects.Responses;
 using CarpoolingCR.Utils;
 using Microsoft.AspNet.Identity;
@@ -817,6 +818,8 @@ namespace CarpoolingCR.Controllers
                 db.Entry(reservation).State = EntityState.Modified;
                 db.SaveChanges();
 
+                Common.ApplyBlockedAmount(reservation);
+
                 var trip = db.Trips.Where(x => x.TripId == reservation.TripId).
                     Include(x => x.ApplicationUser).SingleOrDefault();
 
@@ -1021,6 +1024,8 @@ namespace CarpoolingCR.Controllers
 
             var fields = "Fields => ";
 
+            var tran = db.Database.BeginTransaction();
+
             try
             {
                 if (!Common.IsAuthorized(User))
@@ -1032,7 +1037,10 @@ namespace CarpoolingCR.Controllers
                 fields += "ReservationDate: " + Request["ReservationDate"] + ", ";
                 fields += "RequestedSpaces: " + Request["RequestedSpaces"] + ", ";
                 fields += "SpacesSelected: " + Request["SpacesSelected"] + ", ";
+                fields += "actualBalance: " + Request["actualBalance"] + ", ";
                 fields += "SelectedSeatsTotalPrice: " + Request["SelectedSeatsTotalPrice"] + ", ";
+                fields += "balancePayment: " + Request["balancePayment"] + ", ";
+                fields += "cashPayment: " + Request["cashPayment"] + ", ";
                 fields += "TripId: " + Request["TripId"];
                 #endregion
 
@@ -1047,7 +1055,9 @@ namespace CarpoolingCR.Controllers
                     PassengerName = user.Name + " " + user.LastName + " " + user.SecondLastName,
                     RequestedSpaces = Convert.ToInt32(Request["RequestedSpaces"]),
                     SpacesSelected = Request["SpacesSelected"],
-                    SelectedSeatsTotalPrice = Convert.ToDecimal(Request["SelectedSeatsTotalPrice"]),
+                    SelectedSeatsTotalPrice = Convert.ToDecimal(Request["SelectedSeatsTotalPrice"].Replace(".", ",")),
+                    totalPayedWithBalance = Convert.ToDecimal(Request["balancePayment"].Replace(".", ",")),
+                    totalPayedWithCash = Convert.ToDecimal(Request["cashPayment"].Replace(".", ",")),
                     Status = ReservationStatus.Pending,
                     TripId = tripId
                 };
@@ -1064,6 +1074,24 @@ namespace CarpoolingCR.Controllers
 
                 db.Reservations.Add(reservation);
                 db.SaveChanges();
+
+                var blockedBalance = new BlockedAmount
+                {
+                    BlockedBalanceAmount = Convert.ToDecimal(Request["balancePayment"].Replace(".", ",")),
+                    ReservationId = reservation.ReservationId,
+                    FromUserId = reservation.ApplicationUserId,
+                    ToUserId = trip.ApplicationUserId
+                };
+
+                db.BlockedAmounts.Add(blockedBalance);
+
+                user = db.Users.Where(x => x.Id == user.Id).Single();
+                user.PromoBalance = Convert.ToDecimal(Request["actualBalance"].Replace(".", ","));
+
+                db.Entry(user).State = EntityState.Modified;
+                db.SaveChanges();
+
+                tran.Commit();
 
                 var tripInfo = trip.FromTown.FullName + " a " + trip.ToTown.FullName + " el " + trip.LocalDateTime.ToString(WebConfigurationManager.AppSettings["DateTimeFormat"]);
                 var spaces = reservation.RequestedSpaces;
@@ -1087,6 +1115,8 @@ namespace CarpoolingCR.Controllers
             }
             catch (Exception ex)
             {
+                tran.Rollback();
+
                 var inner = (ex.InnerException != null) ? ex.InnerException.Message : "None";
 
                 Common.LogData(new Log

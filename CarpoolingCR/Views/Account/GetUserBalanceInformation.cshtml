@@ -1,25 +1,40 @@
 ﻿@model CarpoolingCR.Models.ApplicationUser
 
+<br />
 <div class="row form-group" style="text-align:center">
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        <h5 class="pull-left">Balance: @Model.PromoBalance.ToString("N2")</h5>
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+        <h5 class="pull-left">Balance Disponible: @Model.PromoBalance.ToString("N2")</h5>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+        <h5 class="pull-left">Balance Bloqueado: @Model.BlockedBalance.ToString("N2")</h5>
     </div>
 </div>
 <div class="row form-group" style="text-align:center">
     <hr />
+</div>
+<div class="row form-group" style="text-align:center">
+    <div class="col-lg-4 col-md-4 col-sm-4 hidden-xs">
+        Detalle
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-4 hidden-xs">
+        Fecha
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-4 hidden-xs">
+        Monto
+    </div>
 </div>
 @{
     foreach (var balance in Model.BalanceHistorial)
     {
         <div class="row form-group" style="text-align:center">
             <div class="col-lg-4 col-md-4 col-sm-4 hidden-xs">
-
+                @balance.Detail
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4 hidden-xs">
-                @balance.
+                @balance.Date
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4 hidden-xs">
-
+                @balance.Amount
             </div>
         </div>
     }

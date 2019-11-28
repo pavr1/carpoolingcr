@@ -130,6 +130,8 @@
                                         @{
                                             var description = CarpoolingCR.Utils.EnumHelper<CarpoolingCR.Utils.Enums.ReservationStatus>.GetDisplayValue(reservation.Status);
                                             <small class="total"><b><span class="fas fa-money-bill-alt">&nbsp;</span>Total: @currency @reservation.SelectedSeatsTotalPrice.ToString("N2")</b></small><br />
+                                            <small class="total"><b><span class="fas fa-money-bill-alt">&nbsp;</span>Pagado: @currency @reservation.totalPayedWithBalance.ToString("N2")</b></small><br />
+                                            <small class="total"><b><span class="fas fa-money-bill-alt">&nbsp;</span>Por Pagar: @currency @reservation.totalPayedWithCash.ToString("N2")</b></small><br />
 
                                             if (reservation.Status == CarpoolingCR.Utils.Enums.ReservationStatus.Accepted)
                                             {

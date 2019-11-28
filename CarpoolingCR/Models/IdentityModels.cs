@@ -177,15 +177,41 @@ namespace CarpoolingCR.Models
             get {
                 using (var db = new ApplicationDbContext())
                 {
-                    var monthStartDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1, 0, 0, 0);
-                    var monthEndDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month), 23, 59, 59);
+                    //by now do not filter by month
+                    //var monthStartDate = DateTime.Now.ToLocalTime();
+                    //monthStartDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1, 0, 0, 0).ToLocalTime();
+                    //var monthEndDate = DateTime.Now.ToLocalTime();
+                    //monthEndDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month), 23, 59, 59).ToLocalTime();
 
-                    var balances = db.BalanceHistorials.Where(x => x.UserId == Id)
-                        .Where(x => x.Date >= monthStartDate && x.Date >= monthEndDate).ToList();
+                    //monthStartDate = Common.ConvertToUTCTime(monthStartDate);
+                    //monthEndDate = Common.ConvertToUTCTime(monthEndDate);
+
+                    var balances = db.BalanceHistorials.Where(x => x.UserId == Id).ToList();
+                        //.Where(x => x.Date >= monthStartDate && x.Date >= monthEndDate).ToList();
 
                     balances.Sort((x, y) => y.Date.CompareTo(x.Date));
 
                     return balances;
+                }
+            }
+        }
+
+        [NotMapped]
+        public decimal BlockedBalance
+        {
+            get
+            {
+                using (var db = new ApplicationDbContext())
+                {
+                    var balances = db.BlockedAmounts.Where(x => x.FromUserId == Id).ToList();
+                    var blockedAmount = 0m;
+
+                    foreach (var blocked in balances)
+                    {
+                        blockedAmount += blocked.BlockedBalanceAmount;
+                    }
+
+                    return blockedAmount;
                 }
             }
         }
@@ -341,5 +367,7 @@ namespace CarpoolingCR.Models
         public System.Data.Entity.DbSet<CarpoolingCR.Models.Promos.Promo> Promo { get; set; }
         public System.Data.Entity.DbSet<CarpoolingCR.Models.Promos.PromoType> PromoType { get; set; }
         public System.Data.Entity.DbSet<CarpoolingCR.Models.Promos.UserPromos> UserPromos { get; set; }
+
+        public System.Data.Entity.DbSet<CarpoolingCR.Models.Promos.BlockedAmount> BlockedAmounts { get; set; }
     }
 }

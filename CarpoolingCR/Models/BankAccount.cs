@@ -10,9 +10,11 @@ namespace CarpoolingCR.Models
     {
         public int BankAccountId { get; set; }
 
-        [Display(Name = "Banco")]
         public int BankId { get; set; }
+        [Display(Name = "Banco")]
         public Bank Bank { get; set; }
+
+        public string UserId { get; set; }
 
         [Required]
         [Display(Name = "Cuenta de Ahorros")]

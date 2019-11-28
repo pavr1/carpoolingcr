@@ -172,6 +172,25 @@ namespace CarpoolingCR.Models
         }
 
         [NotMapped]
+        public List<BankAccount> BankAccounts
+        {
+            get
+            {
+                using (var db = new ApplicationDbContext())
+                {
+                    var bankAccounts = db.BankAccounts.Where(x => x.UserId == Id).ToList();
+
+                    foreach (var bA in bankAccounts)
+                    {
+                        bA.Bank = db.Banks.Where(x => x.BankId == bA.BankId).Single();
+                    }
+
+                    return bankAccounts;
+                }
+            }
+        }
+
+        [NotMapped]
         public List<CarpoolingCR.Models.Promos.BalanceHistorial> BalanceHistorial
         {
             get {

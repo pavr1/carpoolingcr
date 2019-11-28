@@ -115,6 +115,10 @@ namespace CarpoolingCR.Controllers
                     return RedirectToAction("Login", "Account");
                 }
 
+                var user = Common.GetUserByEmail(User.Identity.Name);
+
+                bankAccount.UserId = user.Id;
+
                 if (ModelState.IsValid)
                 {
                     db.BankAccounts.Add(bankAccount);

@@ -18,10 +18,13 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
-    <IISExpressSSLPort>443</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
+    <IISExpressSSLPort>44346</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication>
+    </IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>
+    </IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>
+    </IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -389,6 +392,10 @@
     <Compile Include="Migrations\201911280334118_added blockedAmounts.FromUserId, ToUserId.cs" />
     <Compile Include="Migrations\201911280334118_added blockedAmounts.FromUserId, ToUserId.Designer.cs">
       <DependentUpon>201911280334118_added blockedAmounts.FromUserId, ToUserId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911281945261_Added BankAccount.UserId.cs" />
+    <Compile Include="Migrations\201911281945261_Added BankAccount.UserId.Designer.cs">
+      <DependentUpon>201911281945261_Added BankAccount.UserId.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -1136,6 +1143,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201911280334118_added blockedAmounts.FromUserId, ToUserId.resx">
       <DependentUpon>201911280334118_added blockedAmounts.FromUserId, ToUserId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911281945261_Added BankAccount.UserId.resx">
+      <DependentUpon>201911281945261_Added BankAccount.UserId.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

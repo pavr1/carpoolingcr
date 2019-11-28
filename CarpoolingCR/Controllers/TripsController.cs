@@ -22,7 +22,7 @@ namespace CarpoolingCR.Controllers
         // GET: Trips
         public ActionResult Index(string message, string type)
         {
-            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg"); ;
+            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg");
 
             try
             {
@@ -684,8 +684,9 @@ namespace CarpoolingCR.Controllers
                 var notifications = db.NotificationRequests.Where(x => x.Status == RequestNotificationStatus.Active)
                 .ToList();
 
-                foreach (var notification in notifications)
+                foreach (var not in notifications)
                 {
+                    var notification = db.NotificationRequests.Where(x => x.NotificationRequestId == not.NotificationRequestId).Single();
                     notification.User = db.Users.Where(x => x.Id == notification.UserId).Single();
                     notification.FromTown = db.Districts.Where(x => x.DistrictId == notification.FromTownId).Single();
                     notification.ToTown = db.Districts.Where(x => x.DistrictId == notification.ToTownId).Single();

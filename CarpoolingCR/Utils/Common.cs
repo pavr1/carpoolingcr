@@ -58,6 +58,8 @@ namespace CarpoolingCR.Utils
                         db.SaveChanges();
 
                         var trip = db.Trips.Where(x => x.TripId == reservation.TripId).Single();
+                        trip.FromTown = db.Districts.Where(x => x.DistrictId == trip.FromTownId).Single();
+                        trip.ToTown = db.Districts.Where(x => x.DistrictId == trip.ToTownId).Single();
 
                         var tripUser = db.Users.Where(x => x.Id == trip.ApplicationUserId).Single();
                         tripUser.PromoBalance += rollbackBalance;

@@ -818,6 +818,16 @@ namespace CarpoolingCR.Controllers
                 db.Entry(reservation).State = EntityState.Modified;
                 db.SaveChanges();
 
+                //get trip's available spaces back
+                if (reservation.Status == ReservationStatus.Cancelled || reservation.Status == ReservationStatus.Rejected)
+                {
+                    var rollingBacktrip = db.Trips.Where(x => x.TripId == reservation.TripId).Single();
+                    rollingBacktrip.AvailableSpaces += reservation.RequestedSpaces;
+
+                    db.Entry(rollingBacktrip).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+
                 Common.ApplyBlockedAmount(reservation);
 
                 var trip = db.Trips.Where(x => x.TripId == reservation.TripId).
@@ -1065,6 +1075,11 @@ namespace CarpoolingCR.Controllers
                 var trip = db.Trips.Where(x => x.TripId == reservation.TripId)
                     .Include(x => x.ApplicationUser)
                     .Single();
+
+                trip.AvailableSpaces -= reservation.RequestedSpaces;
+
+                db.Entry(trip).State = EntityState.Modified;
+                db.SaveChanges();
 
                 trip.FromTown = db.Districts.Where(x => x.DistrictId == trip.FromTownId).Single();
                 trip.ToTown = db.Districts.Where(x => x.DistrictId == trip.ToTownId).Single();

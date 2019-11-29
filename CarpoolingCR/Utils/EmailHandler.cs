@@ -53,7 +53,7 @@ namespace CarpoolingCR.Utils
                 Destination = email,
                 Subject = "Reinicio de contraseña",
                 Body = html
-            }, EmailType.Notifications,false, appLogo);
+            }, EmailType.Notifications, false, appLogo);
         }
 
         //public static void SendEmailNewTown(string callbackUrl)
@@ -269,32 +269,42 @@ namespace CarpoolingCR.Utils
 
         public static void SendEmail(IdentityMessage msg, EmailType EmailType, bool bccToAdmin, string logo)
         {
-            using (FileStream stream = System.IO.File.Open(logo, FileMode.Open, FileAccess.Read))
+            FileStream stream = null;
+
+            try
             {
-                var providerEmail = string.Empty;
-                var providerPwd = string.Empty;
-
-                switch (EmailType)
-                {
-                    case EmailType.Notifications:
-                        providerEmail = WebConfigurationManager.AppSettings["NotificationsEmail"];
-                        providerPwd = WebConfigurationManager.AppSettings["NotificationsPassword"];
-                        break;
-                    case EmailType.Updates:
-                        //peding
-                        break;
-                    case EmailType.Errors:
-                        providerEmail = WebConfigurationManager.AppSettings["ErrorsEmail"];
-                        providerPwd = WebConfigurationManager.AppSettings["ErrorsPassword"];
-                        break;
-                    default:
-                        providerEmail = WebConfigurationManager.AppSettings["NotificationsEmail"];
-                        providerPwd = WebConfigurationManager.AppSettings["NotificationsPassword"];
-                        break;
-                }
-
-                new EmailService().SendInformativeAsync(msg.Destination, msg.Subject, msg.Body, "logo", stream, "image/jpg", null, null, providerEmail, providerPwd, bccToAdmin, logo);
+                stream = System.IO.File.Open(logo, FileMode.Open, FileAccess.Read);
             }
+            catch (Exception)
+            {
+                //do nothing
+            }
+
+            var providerEmail = string.Empty;
+            var providerPwd = string.Empty;
+
+            switch (EmailType)
+            {
+                case EmailType.Notifications:
+                    providerEmail = WebConfigurationManager.AppSettings["NotificationsEmail"];
+                    providerPwd = WebConfigurationManager.AppSettings["NotificationsPassword"];
+                    break;
+                case EmailType.Updates:
+                    //peding
+                    break;
+                case EmailType.Errors:
+                    providerEmail = WebConfigurationManager.AppSettings["ErrorsEmail"];
+                    providerPwd = WebConfigurationManager.AppSettings["ErrorsPassword"];
+                    break;
+                default:
+                    providerEmail = WebConfigurationManager.AppSettings["NotificationsEmail"];
+                    providerPwd = WebConfigurationManager.AppSettings["NotificationsPassword"];
+                    break;
+            }
+
+            new EmailService().SendInformativeAsync(msg.Destination, msg.Subject, msg.Body, "logo", stream, "image/jpg", null, null, providerEmail, providerPwd, bccToAdmin, logo);
+
+            stream = null;
         }
 
         public static void SendTripNotification(string email, string date, string tripInfo, string callbackUrl, string appLogo)

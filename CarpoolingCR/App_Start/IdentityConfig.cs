@@ -168,10 +168,13 @@ namespace CarpoolingCR
 
             AlternateView avHtml = AlternateView.CreateAlternateViewFromString(htmlBody, null, MediaTypeNames.Text.Html);
 
-            LinkedResource inline = new LinkedResource(picture, MediaTypeNames.Image.Jpeg);
-            inline.ContentId = "logo";
-            inline.ContentType = new ContentType("image/jpeg");
-            avHtml.LinkedResources.Add(inline);
+            if (picture != null)
+            {
+                LinkedResource inline = new LinkedResource(picture, MediaTypeNames.Image.Jpeg);
+                inline.ContentId = "logo";
+                inline.ContentType = new ContentType("image/jpeg");
+                avHtml.LinkedResources.Add(inline);
+            }
 
             MailMessage mail = new MailMessage();
             mail.AlternateViews.Add(avHtml);

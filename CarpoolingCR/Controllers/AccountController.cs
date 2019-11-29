@@ -6,6 +6,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
@@ -423,6 +424,46 @@ namespace CarpoolingCR.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Gets all bloking amounts 
+        /// </summary>
+        /// <param name="type">ing/egr</param>
+        /// <returns></returns>
+        public string GetBlockingAmounts(string type)
+        {
+            var user = Common.GetUserByEmail(User.Identity.Name);
+
+            using (var db = new ApplicationDbContext())
+            {
+                List<BlockedAmount> balances = new List<BlockedAmount>();
+                List<BalanceHistorial> historial = new List<BalanceHistorial>();
+
+                if (type == "expenses")
+                {
+                    //expenses
+                    balances = db.BlockedAmounts.Where(x => x.FromUserId == user.Id).ToList();
+                }
+                else if (type == "incomes")
+                {
+                    //incomes
+                    balances = db.BlockedAmounts.Where(x => x.ToUserId == user.Id).ToList();
+                }
+                else if (type == "movements")
+                {
+                    historial = db.BalanceHistorials.Where(x => x.UserId == user.Id).ToList();
+                }
+
+                var response = new BlockingAmountResponse
+                {
+                    Type = type,
+                    Balances = balances,
+                    Historial = historial
+                };
+
+                return Serializer.RenderViewToString(this.ControllerContext, "GetBlockingAmounts", response);
+            }
+        }
+
         public string VerifyUserIdentification(string userId, bool isUserVerified)
         {
             var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg"); ;
@@ -730,7 +771,8 @@ namespace CarpoolingCR.Controllers
                         var historial = new BalanceHistorial
                         {
                             UserPromoId = userPromo.UserPromosId,
-                            Amount = promo.Amount,
+                            RidecoinsAmount = promo.Amount,
+                            CashAmount = 0m,
                             Date = currentDate,
                             Detail = promo.Description,
                             UserId = user.Id

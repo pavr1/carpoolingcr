@@ -1,29 +1,51 @@
 ﻿@model CarpoolingCR.Models.ApplicationUser
+@{
+    var claims = (System.Security.Claims.ClaimsIdentity)User.Identity;
+    var obj = claims.FindFirst("CurrencyChar");
+    var currency = string.Empty;
+
+    if (obj != null)
+    {
+        currency = obj.Value;
+    }
+}
 
 <br />
 <div class="row form-group" style="text-align:center">
     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-        <h5 class="pull-left">Balance Disponible: @Model.PromoBalance.ToString("N2")</h5>
+        <h5 class="pull-left"><i class="fas fa-wallet">&nbsp;</i>Monedero</h5>
     </div>
     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-        <h5 class="pull-left">Balance Bloqueado: @Model.BlockedBalance.ToString("N2")</h5>
+        <small class="badge pull-right">Disponible: @currency@Model.PromoBalance.ToString("N2")</small>
+    </div>
+</div>
+
+<div class="row form-group" style="text-align:center">
+    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+        <div id="btn-check-movements" class="btn btn-sm btn-info panel panel-default" onclick="CheckBlockedAction('movements')" data-toggle="button" aria-pressed="true" style="border-radius:10px 10px 10px 10px; width:200px">
+            <span class="fas fa-coins" aria-hidden="true">&nbsp;</span>&nbsp;<small class="control-label" style="text-align:left">Movimientos: @currency@Model.PromoBalance.ToString("N2") </small>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+        <div id="btn-check-blocked-expenses" class="btn btn-sm btn-info panel panel-default" onclick="CheckBlockedAction('expenses')" data-toggle="button" aria-pressed="true" style="border-radius:10px 10px 10px 10px; width:200px">
+            <span class="fas fa-coins" aria-hidden="true">&nbsp;</span>&nbsp;<small class="control-label" style="text-align:left">Gastos Bloqueados: @currency@Model.BlockedFromBalance.ToString("N2") </small>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+        <div id="btn-check-blocked-icomes" class="btn btn-sm btn-info panel panel-default" onclick="CheckBlockedAction('incomes')" data-toggle="button" aria-pressed="true" style="border-radius:10px 10px 10px 10px; width:200px">
+            <span class="fas fa-coins" aria-hidden="true">&nbsp;</span>&nbsp;<small class="control-label" style="text-align:left">Ingresos Bloqueados: @currency@Model.BlockedToBalance.ToString("N2") </small>
+        </div>
     </div>
 </div>
 <div class="row form-group" style="text-align:center">
     <hr />
 </div>
-<div class="row form-group" style="text-align:center">
-    <div class="col-lg-4 col-md-4 col-sm-4 hidden-xs">
-        Detalle
-    </div>
-    <div class="col-lg-4 col-md-4 col-sm-4 hidden-xs">
-        Fecha
-    </div>
-    <div class="col-lg-4 col-md-4 col-sm-4 hidden-xs">
-        Monto
+<div class="row form-group">
+    <div id="content-div" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
     </div>
 </div>
-@{
+@*{
     foreach (var balance in Model.BalanceHistorial)
     {
         <div class="row form-group" style="text-align:center">
@@ -34,8 +56,30 @@
                 @balance.Date
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4 hidden-xs">
-                @balance.Amount
+                @balance.RidecoinsAmount
             </div>
         </div>
     }
-}
+}*@
+
+<script>
+    function CheckBlockedAction(type) {
+        if (type == 'expenses') {
+            $('#btn-check-blocked-icomes').removeClass('active');
+            $('#btn-check-movements').removeClass('active');
+        } else if (type == 'incomes') {
+            //incomes
+            $('#btn-check-blocked-expenses').removeClass('active');
+            $('#btn-check-movements').removeClass('active');
+        } else if (type == 'movements') {
+            //movements
+            $('#btn-check-blocked-icomes').removeClass('active');
+            $('#btn-check-blocked-expenses').removeClass('active');
+        }
+
+        $.get('@Url.Action("GetBlockingAmounts", "Account")', { type: type },
+        function (data) {
+            $('#content-div').html(data);
+        });
+    }
+</script>

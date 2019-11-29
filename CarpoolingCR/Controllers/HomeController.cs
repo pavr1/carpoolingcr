@@ -63,9 +63,8 @@ namespace CarpoolingCR.Controllers
 
             try
             {
-                var passengerReservations = new List<Reservation>();
+             var passengerReservations = new List<Reservation>();
                 var driverTrips = new List<Trip>();
-                var user = Common.GetUserByEmail(User.Identity.Name);
 
                 var districtsSelectHtml = Common.GetLocationsStrings(1);
 

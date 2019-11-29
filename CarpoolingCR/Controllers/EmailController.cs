@@ -24,6 +24,9 @@ namespace CarpoolingCR.Controllers
                 ViewBag.Success = message;
             }
 
+            var user = Common.GetUserByEmail(User.Identity.Name);
+            Common.UpdateMenuItemsCount(user.Id);
+
             return View();
         }
 

@@ -18,6 +18,9 @@ namespace CarpoolingCR.Controllers
         // GET: UserRatings
         public ActionResult Index()
         {
+            var user = Common.GetUserByEmail(User.Identity.Name);
+            Common.UpdateMenuItemsCount(user.Id);
+
             return View();
         }
 

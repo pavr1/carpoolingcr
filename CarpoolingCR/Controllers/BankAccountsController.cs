@@ -24,6 +24,9 @@ namespace CarpoolingCR.Controllers
                     return RedirectToAction("Login", "Account");
                 }
 
+                var user = Common.GetUserByEmail(User.Identity.Name);
+                Common.UpdateMenuItemsCount(user.Id);
+
                 var bankAccounts = db.BankAccounts.Include(b => b.Bank);
                 return View(bankAccounts.ToList());
             }
@@ -123,11 +126,11 @@ namespace CarpoolingCR.Controllers
                 {
                     db.BankAccounts.Add(bankAccount);
                     db.SaveChanges();
-                    return RedirectToAction("Index");
+
+                    return RedirectToAction("ProfileInfo", "Manage");
                 }
 
-                ViewBag.BankId = new SelectList(db.Banks, "BankId", "BankName", bankAccount.BankId);
-                return View(bankAccount);
+                return RedirectToAction("ProfileInfo", "Manage");
             }
             catch (Exception ex)
             {
@@ -211,16 +214,19 @@ namespace CarpoolingCR.Controllers
                     return RedirectToAction("Login", "Account");
                 }
 
+                var user = Common.GetUserByEmail(User.Identity.Name);
+
+                bankAccount.UserId = user.Id;
+
                 if (ModelState.IsValid)
                 {
                     db.Entry(bankAccount).State = EntityState.Modified;
                     db.SaveChanges();
-                    return RedirectToAction("Index");
+
+                    return RedirectToAction("ProfileInfo", "Manage");
                 }
 
-                ViewBag.BankId = new SelectList(db.Banks, "BankId", "BankName", bankAccount.BankId);
-
-                return View(bankAccount);
+                return RedirectToAction("ProfileInfo", "Manage");
             }
             catch (Exception ex)
             {

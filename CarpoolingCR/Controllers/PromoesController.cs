@@ -20,6 +20,10 @@ namespace CarpoolingCR.Controllers
         public ActionResult Index()
         {
             var promo = db.Promo.Include(p => p.PromoType);
+
+            var user = Common.GetUserByEmail(User.Identity.Name);
+            Common.UpdateMenuItemsCount(user.Id);
+
             return View(promo.ToList());
         }
 

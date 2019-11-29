@@ -216,13 +216,33 @@ namespace CarpoolingCR.Models
         }
 
         [NotMapped]
-        public decimal BlockedBalance
+        public decimal BlockedFromBalance
         {
             get
             {
                 using (var db = new ApplicationDbContext())
                 {
                     var balances = db.BlockedAmounts.Where(x => x.FromUserId == Id).ToList();
+                    var blockedAmount = 0m;
+
+                    foreach (var blocked in balances)
+                    {
+                        blockedAmount += blocked.BlockedBalanceAmount;
+                    }
+
+                    return blockedAmount * -1;
+                }
+            }
+        }
+
+        [NotMapped]
+        public decimal BlockedToBalance
+        {
+            get
+            {
+                using (var db = new ApplicationDbContext())
+                {
+                    var balances = db.BlockedAmounts.Where(x => x.ToUserId == Id).ToList();
                     var blockedAmount = 0m;
 
                     foreach (var blocked in balances)

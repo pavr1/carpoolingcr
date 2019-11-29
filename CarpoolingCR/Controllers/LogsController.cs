@@ -24,6 +24,9 @@ namespace CarpoolingCR.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
+            var user = Common.GetUserByEmail(User.Identity.Name);
+            Common.UpdateMenuItemsCount(user.Id);
+
             return View(db.Logs.OrderByDescending(x => x.Timestamp).ToList());
         }
 

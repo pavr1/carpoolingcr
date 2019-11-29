@@ -29,6 +29,7 @@ namespace CarpoolingCR.Controllers
                 }
 
                 var user = Common.GetUserByEmail(User.Identity.Name);
+                Common.UpdateMenuItemsCount(user.Id);
 
                 if (!string.IsNullOrEmpty(message))
                 {

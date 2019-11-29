@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using CarpoolingCR.Models;
 using CarpoolingCR.Models.Locations;
+using CarpoolingCR.Utils;
 
 namespace CarpoolingCR.Controllers
 {
@@ -18,6 +19,9 @@ namespace CarpoolingCR.Controllers
         // GET: Provinces
         public ActionResult Index()
         {
+            var user = Common.GetUserByEmail(User.Identity.Name);
+            Common.UpdateMenuItemsCount(user.Id);
+
             return View(db.Provinces.ToList());
         }
 

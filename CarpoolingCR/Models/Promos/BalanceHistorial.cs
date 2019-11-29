@@ -15,6 +15,7 @@ namespace CarpoolingCR.Models.Promos
         public string UserId { get; set; }
         public string Detail { get; set; }
         public DateTime Date { get; set; }
-        public decimal Amount { get; set; }
+        public decimal RidecoinsAmount { get; set; }
+        public decimal CashAmount { get; set; }
     }
 }

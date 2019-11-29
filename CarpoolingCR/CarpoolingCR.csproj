@@ -397,6 +397,10 @@
     <Compile Include="Migrations\201911281945261_Added BankAccount.UserId.Designer.cs">
       <DependentUpon>201911281945261_Added BankAccount.UserId.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201911290204033_added BalanceHistorial.CashAmount.cs" />
+    <Compile Include="Migrations\201911290204033_added BalanceHistorial.CashAmount.Designer.cs">
+      <DependentUpon>201911290204033_added BalanceHistorial.CashAmount.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Bank.cs" />
@@ -431,6 +435,7 @@
     <Compile Include="Models\VehicleInfo.cs" />
     <Compile Include="Models\Vehicle\Vehicle.cs" />
     <Compile Include="Objects\Responses\Base\BaseResponse.cs" />
+    <Compile Include="Objects\Responses\BlockingAmountResponse.cs" />
     <Compile Include="Objects\Responses\CancelNotificationResponse.cs" />
     <Compile Include="Objects\Responses\ChatMessageResponse.cs" />
     <Compile Include="Objects\Responses\ContactUsResponse.cs" />
@@ -1008,6 +1013,7 @@
     <Content Include="Views\Promoes\Edit.cshtml" />
     <Content Include="Views\Promoes\Index.cshtml" />
     <Content Include="Views\Account\GetUserBalanceInformation.cshtml" />
+    <Content Include="Views\Account\GetBlockingAmounts.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1146,6 +1152,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201911281945261_Added BankAccount.UserId.resx">
       <DependentUpon>201911281945261_Added BankAccount.UserId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911290204033_added BalanceHistorial.CashAmount.resx">
+      <DependentUpon>201911290204033_added BalanceHistorial.CashAmount.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

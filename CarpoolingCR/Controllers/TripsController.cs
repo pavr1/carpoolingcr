@@ -926,6 +926,8 @@ namespace CarpoolingCR.Controllers
                     db.Entry(reservation).State = EntityState.Modified;
                     db.SaveChanges();
 
+                    Common.ApplyBlockedAmount(reservation);
+
                     passengersToNoticeEmail += reservation.ApplicationUser.Email + ",";
                 }
 

@@ -52,6 +52,7 @@ namespace CarpoolingCR.Utils
                     else if (reservation.Status == ReservationStatus.Finalized)
                     {
                         var rollbackBalance = blockedAmount.BlockedBalanceAmount;
+                        var cashAmount = reservation.totalPayedWithCash;
 
                         db.Entry(blockedAmount).State = EntityState.Deleted;
                         db.SaveChanges();
@@ -67,7 +68,8 @@ namespace CarpoolingCR.Utils
                         //add historial for the driver's payment
                         var driverBalanceHistorial = new BalanceHistorial
                         {
-                            Amount = rollbackBalance,
+                            RidecoinsAmount = rollbackBalance,
+                            CashAmount = cashAmount,
                             Date = trip.DateTime,
                             Detail = trip.FromTown.FullName + " - " + trip.ToTown.FullName + " el " + trip.DateTime.ToString(WebConfigurationManager.AppSettings["DateTimeFormat"]),
                             TripId = trip.TripId,
@@ -80,7 +82,8 @@ namespace CarpoolingCR.Utils
                         //add historial for the passenger's payment
                         var passengerBalanceHistorial = new BalanceHistorial
                         {
-                            Amount = rollbackBalance * -1,
+                            RidecoinsAmount = rollbackBalance * -1,
+                            CashAmount = cashAmount * -1,
                             Date = trip.DateTime,
                             Detail = trip.FromTown.FullName + " - " + trip.ToTown.FullName + " el " + trip.DateTime.ToString(WebConfigurationManager.AppSettings["DateTimeFormat"]),
                             TripId = trip.TripId,

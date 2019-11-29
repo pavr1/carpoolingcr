@@ -29,6 +29,9 @@ namespace CarpoolingCR.Controllers
                     ViewBag.Info = message;
                 }
 
+                var user = Common.GetUserByEmail(User.Identity.Name);
+                Common.UpdateMenuItemsCount(user.Id);
+
                 return View(db.Banks.ToList());
             }
             catch (Exception ex)

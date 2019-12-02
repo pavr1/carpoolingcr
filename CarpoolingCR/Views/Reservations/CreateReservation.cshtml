@@ -8,6 +8,21 @@
 <div class="row form-group" style="text-align:center">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <h5 class="pull-left">¡Reserva tu viaje!</h5>
+        @{
+            var claims = (System.Security.Claims.ClaimsIdentity)User.Identity;
+            var obj = claims.FindFirst("CurrencyChar");
+            var currency = string.Empty;
+
+            if (obj != null)
+            {
+                currency = obj.Value;
+            }
+
+            if (Model.AvailablePromo > 0)
+            {
+                <p style="font-size:medium" class="badge badge-success pull-right"><span class="fas fa-certificate">&nbsp;</span>¡Recibe un bono de @currency@Model.AvailablePromo en tu próxima reserva!</p>
+            }
+        }
     </div>
 </div>
 <div id="loading-content" class="row form-group" style="text-align:center; height:500px;">

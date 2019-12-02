@@ -200,6 +200,13 @@ namespace CarpoolingCR.Controllers
                     && x.FromTownId == fromDistrict.DistrictId && x.ToTownId == toDistrict.DistrictId)
                     .ToList();
 
+                var promo = Common.FindAvailablePromo("Viaje Pasajero", user);
+
+                if(promo != null)
+                {
+                    ViewBag.Promo = promo.Amount;
+                }
+
                 var couldNotFindExactTrip = false;
                 Common.GetNearByTripsForReservationTransportation(fromDistrict, toDistrict, user, ref trips, startDate, endDate, out couldNotFindExactTrip);
 
@@ -926,7 +933,7 @@ namespace CarpoolingCR.Controllers
                     db.Entry(reservation).State = EntityState.Modified;
                     db.SaveChanges();
 
-                    Common.ApplyBlockedAmount(reservation);
+                    Common.ApplyBlockedAmount(reservation, db);
 
                     passengersToNoticeEmail += reservation.ApplicationUser.Email + ",";
                 }

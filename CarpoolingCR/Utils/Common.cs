@@ -14,92 +14,86 @@ using System.Security.Claims;
 using System.Security.Principal;
 using System.Web;
 using System.Web.Configuration;
-using System.Web.Mvc;
 using static CarpoolingCR.Utils.Enums;
 
 namespace CarpoolingCR.Utils
 {
     public class Common
     {
-        public static void ApplyBlockedAmount(Reservation reservation)
+        public static void ApplyBlockedAmount(Reservation reservation, ApplicationDbContext db)
         {
-            using (var db = new ApplicationDbContext())
+            var blockedAmount = db.BlockedAmounts.Where(x => x.ReservationId == reservation.ReservationId).SingleOrDefault();
+
+            if (blockedAmount == null)
             {
-                var blockedAmount = db.BlockedAmounts.Where(x => x.ReservationId == reservation.ReservationId).SingleOrDefault();
+                return;
+            }
 
-                if (blockedAmount == null)
+            try
+            {
+                if ((reservation.Status == ReservationStatus.Cancelled) || (reservation.Status == ReservationStatus.Rejected))
                 {
-                    return;
+                    var rollbackBalance = blockedAmount.BlockedBalanceAmount;
+
+                    db.Entry(blockedAmount).State = EntityState.Deleted;
+                    db.SaveChanges();
+
+                    var reservationUser = db.Users.Where(x => x.Id == reservation.ApplicationUserId).Single();
+                    reservationUser.PromoBalance += rollbackBalance;
+
+                    db.Entry(reservationUser).State = EntityState.Modified;
+                    db.SaveChanges();
                 }
-
-                var tran = db.Database.BeginTransaction();
-
-                try
+                else if (reservation.Status == ReservationStatus.Finalized)
                 {
-                    if ((reservation.Status == ReservationStatus.Cancelled) || (reservation.Status == ReservationStatus.Rejected))
+                    var rollbackBalance = blockedAmount.BlockedBalanceAmount;
+                    var cashAmount = reservation.totalPayedWithCash;
+
+                    db.Entry(blockedAmount).State = EntityState.Deleted;
+                    db.SaveChanges();
+
+                    var trip = db.Trips.Where(x => x.TripId == reservation.TripId).Single();
+                    trip.FromTown = db.Districts.Where(x => x.DistrictId == trip.FromTownId).Single();
+                    trip.ToTown = db.Districts.Where(x => x.DistrictId == trip.ToTownId).Single();
+
+                    var tripUser = db.Users.Where(x => x.Id == trip.ApplicationUserId).Single();
+                    tripUser.PromoBalance += rollbackBalance;
+
+                    db.Entry(tripUser).State = EntityState.Modified;
+                    db.SaveChanges();
+
+                    //add historial for the driver's payment
+                    var driverBalanceHistorial = new BalanceHistorial
                     {
-                        var rollbackBalance = blockedAmount.BlockedBalanceAmount;
+                        RidecoinsAmount = rollbackBalance,
+                        CashAmount = cashAmount,
+                        Date = trip.DateTime,
+                        Detail = trip.FromTown.FullName + " - " + trip.ToTown.FullName + " el " + trip.DateTime.ToString(WebConfigurationManager.AppSettings["DateTimeFormat"]),
+                        TripId = trip.TripId,
+                        UserId = trip.ApplicationUserId
+                    };
 
-                        db.Entry(blockedAmount).State = EntityState.Deleted;
-                        db.SaveChanges();
+                    db.Entry(driverBalanceHistorial).State = EntityState.Added;
+                    db.SaveChanges();
 
-                        var reservationUser = db.Users.Where(x => x.Id == reservation.ApplicationUserId).Single();
-                        reservationUser.PromoBalance += rollbackBalance;
-
-                        db.Entry(reservationUser).State = EntityState.Modified;
-                        db.SaveChanges();
-                    }
-                    else if (reservation.Status == ReservationStatus.Finalized)
+                    //add historial for the passenger's payment
+                    var passengerBalanceHistorial = new BalanceHistorial
                     {
-                        var rollbackBalance = blockedAmount.BlockedBalanceAmount;
-                        var cashAmount = reservation.totalPayedWithCash;
+                        RidecoinsAmount = rollbackBalance * -1,
+                        CashAmount = cashAmount * -1,
+                        Date = trip.DateTime,
+                        Detail = trip.FromTown.FullName + " - " + trip.ToTown.FullName + " el " + trip.DateTime.ToString(WebConfigurationManager.AppSettings["DateTimeFormat"]),
+                        TripId = trip.TripId,
+                        UserId = reservation.ApplicationUserId
+                    };
 
-                        db.Entry(blockedAmount).State = EntityState.Deleted;
-                        db.SaveChanges();
-
-                        var trip = db.Trips.Where(x => x.TripId == reservation.TripId).Single();
-
-                        var tripUser = db.Users.Where(x => x.Id == trip.ApplicationUserId).Single();
-                        tripUser.PromoBalance += rollbackBalance;
-
-                        db.Entry(tripUser).State = EntityState.Modified;
-                        db.SaveChanges();
-
-                        //add historial for the driver's payment
-                        var driverBalanceHistorial = new BalanceHistorial
-                        {
-                            RidecoinsAmount = rollbackBalance,
-                            CashAmount = cashAmount,
-                            Date = trip.DateTime,
-                            Detail = trip.FromTown.FullName + " - " + trip.ToTown.FullName + " el " + trip.DateTime.ToString(WebConfigurationManager.AppSettings["DateTimeFormat"]),
-                            TripId = trip.TripId,
-                            UserId = trip.ApplicationUserId
-                        };
-
-                        db.Entry(driverBalanceHistorial).State = EntityState.Added;
-                        db.SaveChanges();
-
-                        //add historial for the passenger's payment
-                        var passengerBalanceHistorial = new BalanceHistorial
-                        {
-                            RidecoinsAmount = rollbackBalance * -1,
-                            CashAmount = cashAmount * -1,
-                            Date = trip.DateTime,
-                            Detail = trip.FromTown.FullName + " - " + trip.ToTown.FullName + " el " + trip.DateTime.ToString(WebConfigurationManager.AppSettings["DateTimeFormat"]),
-                            TripId = trip.TripId,
-                            UserId = reservation.ApplicationUserId
-                        };
-
-                        db.Entry(passengerBalanceHistorial).State = EntityState.Added;
-                        db.SaveChanges();
-                    }
-
-                    tran.Commit();
+                    db.Entry(passengerBalanceHistorial).State = EntityState.Added;
+                    db.SaveChanges();
                 }
-                catch (Exception)
-                {
-                    tran.Rollback();
-                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 
@@ -173,6 +167,81 @@ namespace CarpoolingCR.Utils
                         return average;
                     }
                 }
+            }
+        }
+
+
+        public static Promo FindAvailablePromo(string promoType, ApplicationUser user)
+        {
+            using (var db = new ApplicationDbContext())
+            {
+                var registerPromoType = db.PromoType.Where(x => x.Description == promoType).Single();
+
+                var promo = db.Promo.Where(x => x.PromoTypeId == registerPromoType.PromoTypeId)
+                    .Where(x => x.Status == Enums.PromoStatus.Active)
+                    .SingleOrDefault();
+
+                if(promo == null)
+                {
+                    return promo;
+                }
+
+                if (Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()) < promo.StartTime)
+                {
+                    //not in promo's range. Treat it as there is no promo yet
+                    promo = null;
+                }
+
+                if (promo.EndTime != null)
+                {
+                    if (Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()) > promo.EndTime)
+                    {
+                        //not in promo's range. Treat it as there is no promo yet
+                        promo = null;
+                    }
+                }
+
+                if (promo != null)
+                {
+                    var appliesForPromo = false;
+
+                    //the user can get the promo as many times as he wants
+                    if (promo.MaxTimesPerUser == 0)
+                    {
+                        appliesForPromo = true;
+                    }
+                    else
+                    {
+                        var promosAlreadyTaken = db.UserPromos.Where(x => x.PromoId == promo.PromoId && x.UserId == user.Id).ToList();
+
+                        if (promosAlreadyTaken.Count() <= promo.MaxTimesPerUser)
+                        {
+                            appliesForPromo = true;
+                        }
+                    }
+
+                    var remainingBudget = promo.AmountAvailable - promo.Amount;
+
+                    //if the available amount minus promo amount for this particular user is less than or equal to zero, then the promo is over. Not enough money for this user's bonus
+                    //so do not apply the promo and inactivate it
+                    if (remainingBudget <= 0)
+                    {
+                        appliesForPromo = false;
+
+                        promo.Status = Enums.PromoStatus.Inactive;
+
+                        db.Entry(promo).State = EntityState.Modified;
+                        db.SaveChanges();
+                    }
+
+                    //if does not apply promo then set promo to null
+                    if (!appliesForPromo)
+                    {
+                        promo = null;
+                    }
+                }
+
+                return promo;
             }
         }
 
@@ -492,7 +561,7 @@ namespace CarpoolingCR.Utils
                             db.Entry(expiredReservation).State = EntityState.Modified;
                             db.SaveChanges();
 
-                            ApplyBlockedAmount(expiredReservation);
+                            ApplyBlockedAmount(expiredReservation, db);
                         }
                     }
 
@@ -514,7 +583,8 @@ namespace CarpoolingCR.Utils
             using (var db = new ApplicationDbContext())
             {
                 var currentUTCTime = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime());
-                var expiredReservations = db.Reservations.Where(x => x.ApplicationUserId == userId && (x.Status == ReservationStatus.Accepted || x.Status == ReservationStatus.Pending))
+                var expiredReservations = db.Reservations.Where(x => x.ApplicationUserId == userId)
+                    .Where(x => (x.Status == ReservationStatus.Accepted || x.Status == ReservationStatus.Pending))
                     .Where(x => x.Trip.DateTime < currentUTCTime)
                     .ToList();
 
@@ -535,7 +605,19 @@ namespace CarpoolingCR.Utils
                     db.Entry(expiredReservation).State = EntityState.Modified;
                     db.SaveChanges();
 
-                    ApplyBlockedAmount(expiredReservation);
+                    //start transaction here in case ApplyBlockedAmount throws an error
+                    var tran = db.Database.BeginTransaction();
+
+                    try
+                    {
+                        ApplyBlockedAmount(expiredReservation, db);
+
+                        tran.Commit();
+                    }
+                    catch (Exception)
+                    {
+                        tran.Rollback();
+                    }
                 }
             }
         }

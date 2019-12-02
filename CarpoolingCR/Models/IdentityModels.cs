@@ -247,7 +247,7 @@ namespace CarpoolingCR.Models
 
                     foreach (var blocked in balances)
                     {
-                        blockedAmount += blocked.BlockedBalanceAmount;
+                        blockedAmount += blocked.BlockedBalanceAmount + blocked.PromoAmount;
                     }
 
                     return blockedAmount;

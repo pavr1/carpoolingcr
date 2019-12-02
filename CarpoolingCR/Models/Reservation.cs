@@ -28,6 +28,7 @@ namespace CarpoolingCR.Models
         public decimal SelectedSeatsTotalPrice { get; set; }
         public decimal totalPayedWithBalance { get; set; }
         public decimal totalPayedWithCash { get; set; }
+        public decimal totalPayedWithPromo { get; set; }
         [Required]
         [Display(Name = "Fecha")]
         public DateTime Date { get; set; }

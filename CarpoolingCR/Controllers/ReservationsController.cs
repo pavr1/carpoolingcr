@@ -232,6 +232,9 @@ namespace CarpoolingCR.Controllers
 
                 List<Trip> trips = new List<Trip>();
 
+                var promo = Common.FindAvailablePromo("Viaje Pasajero", user);
+                var availablePromo = (promo != null) ? promo.Amount : 0m;
+
                 ReservationTransportationResponse response = new ReservationTransportationResponse
                 {
                     Trips = trips,
@@ -241,6 +244,7 @@ namespace CarpoolingCR.Controllers
                     SelectedRouteIndex = -1,
                     CurrentUserType = user.UserType,
                     DistrictControlOptions = districtsSelectHtml.Replace("[control-id]", "FromTown"),
+                    AvailablePromo = availablePromo
                     //From = fromStr,
                     //To = toStr,
                     //TabIndex = tabIndexAux
@@ -818,7 +822,7 @@ namespace CarpoolingCR.Controllers
                 db.Entry(reservation).State = EntityState.Modified;
                 db.SaveChanges();
 
-                Common.ApplyBlockedAmount(reservation);
+                Common.ApplyBlockedAmount(reservation, db);
 
                 var trip = db.Trips.Where(x => x.TripId == reservation.TripId).
                     Include(x => x.ApplicationUser).SingleOrDefault();
@@ -1058,6 +1062,7 @@ namespace CarpoolingCR.Controllers
                     SelectedSeatsTotalPrice = Convert.ToDecimal(Request["SelectedSeatsTotalPrice"].Replace(".", ",")),
                     totalPayedWithBalance = Convert.ToDecimal(Request["balancePayment"].Replace(".", ",")),
                     totalPayedWithCash = Convert.ToDecimal(Request["cashPayment"].Replace(".", ",")),
+                    totalPayedWithPromo = Convert.ToDecimal(Request["bonoPayment"].Replace(".", ",")),
                     Status = ReservationStatus.Pending,
                     TripId = tripId
                 };
@@ -1080,7 +1085,8 @@ namespace CarpoolingCR.Controllers
                     BlockedBalanceAmount = Convert.ToDecimal(Request["balancePayment"].Replace(".", ",")),
                     ReservationId = reservation.ReservationId,
                     FromUserId = reservation.ApplicationUserId,
-                    ToUserId = trip.ApplicationUserId
+                    ToUserId = trip.ApplicationUserId,
+                    PromoAmount = reservation.totalPayedWithPromo
                 };
 
                 db.BlockedAmounts.Add(blockedBalance);

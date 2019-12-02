@@ -613,11 +613,11 @@ namespace CarpoolingCR.Controllers
                         {
                             var refUser = db.Users.Where(x => x.Id == user.ReferencedUser).Single();
 
-                            ValidatePromo("Referencia", logo, db, refUser);
+                            ValidateRefAndRegPromo("Referencia", logo, db, refUser);
                         }
 
                         //validate register promo if existent
-                        ValidatePromo("Registro", logo, db, user);
+                        ValidateRefAndRegPromo("Registro", logo, db, user);
 
                         string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
 
@@ -692,126 +692,80 @@ namespace CarpoolingCR.Controllers
             return View(model);
         }
 
-        private static void ValidatePromo(string promoType, string logo, ApplicationDbContext db, ApplicationUser user)
+        /// <summary>
+        /// Validates any referencing or registry promo if existent
+        /// </summary>
+        /// <param name="promoType"></param>
+        /// <param name="logo"></param>
+        /// <param name="db"></param>
+        /// <param name="user"></param>
+        private static void ValidateRefAndRegPromo(string promoType, string logo, ApplicationDbContext db, ApplicationUser user)
         {
-            //look for register promo available
-            var registerPromoType = db.PromoType.Where(x => x.Description == promoType).Single();
-
-            var promo = db.Promo.Where(x => x.PromoTypeId == registerPromoType.PromoTypeId)
-                .Where(x => x.Status == Enums.PromoStatus.Active)
-                .SingleOrDefault();
-
-            if (Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()) < promo.StartTime)
-            {
-                //not in promo's range. Treat it as there is no promo yet
-                promo = null;
-            }
-
-            if (promo.EndTime != null)
-            {
-                if (Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()) > promo.EndTime)
-                {
-                    //not in promo's range. Treat it as there is no promo yet
-                    promo = null;
-                }
-            }
+            var promo = Common.FindAvailablePromo(promoType, user);
 
             if (promo != null)
             {
-                var appliesForPromo = false;
-                //the user can get the promo as many times as he wants
-                if (promo.MaxTimesPerUser == 0)
-                {
-                    appliesForPromo = true;
-                }
-                else
-                {
-                    var promosAlreadyTaken = db.UserPromos.Where(x => x.PromoId == promo.PromoId && x.UserId == user.Id).ToList();
+                var currentDate = DateTime.Now;
 
-                    if (promosAlreadyTaken.Count() <= promo.MaxTimesPerUser)
+                var tran = db.Database.BeginTransaction();
+
+                try
+                {
+                    //create user promo
+                    var userPromo = new UserPromos
                     {
-                        appliesForPromo = true;
-                    }
-                }
+                        UserId = user.Id,
+                        Date = currentDate,
+                        PromoId = promo.PromoId
+                    };
 
-                var remainingBudget = promo.AmountAvailable - promo.Amount;
+                    db.Entry(userPromo).State = EntityState.Added;
+                    db.SaveChanges();
 
-                //if the available amount minus promo amount for this particular user is less than or equal to zero, then the promo is over. Not enough money for this user's bonus
-                //so do not apply the promo and inactivate it
-                if (remainingBudget <= 0)
-                {
-                    appliesForPromo = false;
+                    //create historial movement
+                    var historial = new BalanceHistorial
+                    {
+                        UserPromoId = userPromo.UserPromosId,
+                        RidecoinsAmount = promo.Amount,
+                        CashAmount = 0m,
+                        Date = currentDate,
+                        Detail = promo.Description,
+                        UserId = user.Id
+                    };
 
-                    promo.Status = Enums.PromoStatus.Inactive;
+                    db.Entry(historial).State = EntityState.Added;
+                    db.SaveChanges();
+
+                    //substract the current user's bonus to the available amount
+                    promo.AmountAvailable = promo.AmountAvailable - promo.Amount;
 
                     db.Entry(promo).State = EntityState.Modified;
                     db.SaveChanges();
+
+                    //add the substracted user's bonus to it's promo balance
+                    user.PromoBalance += promo.Amount;
+
+                    db.Entry(user).State = EntityState.Modified;
+                    db.SaveChanges();
+
+                    tran.Commit();
+
+                    EmailHandler.SendPromoAppliedEmail(user.Email, promo.Description, promo.Amount, "", logo);
                 }
-
-                if (appliesForPromo)
+                catch (Exception)
                 {
-                    var currentDate = DateTime.Now;
+                    tran.Rollback();
 
-                    var tran = db.Database.BeginTransaction();
-
-                    try
+                    Common.LogData(new Log
                     {
-                        //create user promo
-                        var userPromo = new UserPromos
-                        {
-                            UserId = user.Id,
-                            Date = currentDate,
-                            PromoId = promo.PromoId
-                        };
-
-                        db.Entry(userPromo).State = EntityState.Added;
-                        db.SaveChanges();
-
-                        //create historial movement
-                        var historial = new BalanceHistorial
-                        {
-                            UserPromoId = userPromo.UserPromosId,
-                            RidecoinsAmount = promo.Amount,
-                            CashAmount = 0m,
-                            Date = currentDate,
-                            Detail = promo.Description,
-                            UserId = user.Id
-                        };
-
-                        db.Entry(historial).State = EntityState.Added;
-                        db.SaveChanges();
-
-                        //substract the current user's bonus to the available amount
-                        promo.AmountAvailable = remainingBudget;
-
-                        db.Entry(promo).State = EntityState.Modified;
-                        db.SaveChanges();
-
-                        //add the substracted user's bonus to it's promo balance
-                        user.PromoBalance += promo.Amount;
-
-                        db.Entry(user).State = EntityState.Modified;
-                        db.SaveChanges();
-
-                        tran.Commit();
-
-                        EmailHandler.SendPromoAppliedEmail(user.Email, promo.Description, promo.Amount, "", logo);
-                    }
-                    catch (Exception)
-                    {
-                        tran.Rollback();
-
-                        Common.LogData(new Log
-                        {
-                            Line = Common.GetCurrentLine(),
-                            Location = Enums.LogLocation.Server,
-                            LogType = Enums.LogType.Warning,
-                            Message = "Hubo un error al aplicar el promo al usuario: " + user.Email + ". Información de Promo: " + promo.Description + ", monto: " + promo.Amount,
-                            Method = Common.GetCurrentMethod(),
-                            Timestamp = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
-                            UserEmail = user.Email
-                        }, logo);
-                    }
+                        Line = Common.GetCurrentLine(),
+                        Location = Enums.LogLocation.Server,
+                        LogType = Enums.LogType.Warning,
+                        Message = "Hubo un error al aplicar el promo al usuario: " + user.Email + ". Información de Promo: " + promo.Description + ", monto: " + promo.Amount,
+                        Method = Common.GetCurrentMethod(),
+                        Timestamp = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
+                        UserEmail = user.Email
+                    }, logo);
                 }
             }
         }

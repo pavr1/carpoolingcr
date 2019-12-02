@@ -29,5 +29,7 @@ namespace CarpoolingCR.Objects.Responses
         public bool IsAdmin { get; set; }
 
         public bool CouldNotFindExactTrip { get; set; }
+
+        public decimal AvailablePromo { get; set; }
     }
 }

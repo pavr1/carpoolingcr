@@ -18,13 +18,10 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
-    <IISExpressSSLPort>44346</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication>
-    </IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>
-    </IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>
-    </IISExpressUseClassicPipelineMode>
+    <IISExpressSSLPort>443</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -400,6 +397,14 @@
     <Compile Include="Migrations\201911290204033_added BalanceHistorial.CashAmount.cs" />
     <Compile Include="Migrations\201911290204033_added BalanceHistorial.CashAmount.Designer.cs">
       <DependentUpon>201911290204033_added BalanceHistorial.CashAmount.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201912011818370_added Reservation.totalPayedWithPromo.cs" />
+    <Compile Include="Migrations\201912011818370_added Reservation.totalPayedWithPromo.Designer.cs">
+      <DependentUpon>201912011818370_added Reservation.totalPayedWithPromo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201912020219099_Added BlockedAmount.PromoAmount.cs" />
+    <Compile Include="Migrations\201912020219099_Added BlockedAmount.PromoAmount.Designer.cs">
+      <DependentUpon>201912020219099_Added BlockedAmount.PromoAmount.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -1155,6 +1160,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201911290204033_added BalanceHistorial.CashAmount.resx">
       <DependentUpon>201911290204033_added BalanceHistorial.CashAmount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201912011818370_added Reservation.totalPayedWithPromo.resx">
+      <DependentUpon>201912011818370_added Reservation.totalPayedWithPromo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201912020219099_Added BlockedAmount.PromoAmount.resx">
+      <DependentUpon>201912020219099_Added BlockedAmount.PromoAmount.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

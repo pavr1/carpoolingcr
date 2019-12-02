@@ -12,6 +12,7 @@ namespace CarpoolingCR.Models.Promos
         public string ToUserId { get; set; }
         public int ReservationId { get; set; }
         public decimal BlockedBalanceAmount { get; set; }
+        public decimal PromoAmount { get; set; }
 
         public ApplicationUser FromUser
         {

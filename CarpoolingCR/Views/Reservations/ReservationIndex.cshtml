@@ -197,17 +197,20 @@
                                             }
                                             else
                                             {
-                                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                                    <span class="badge badge-success pull-left"><i class="fas fa-money-bill-alt">&nbsp;</i><b>Total: </b>@currency <span id="modelCashTotal" name="modelCashTotal">@reservation.SelectedSeatsTotalPrice</span></span><br />
+                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                                                    <span class="badge badge-success pull-left"><i class="fas fa-money-bill-alt">&nbsp;</i><b>Total: </b>@currency <span>@reservation.SelectedSeatsTotalPrice</span></span><br />
                                                 </div>
-                                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                                    <span class="badge badge-success"><i class="fas fa-coins">&nbsp;</i><b>Ridecoins: </b>@currency <span id="modelCashTotal" name="modelCashTotal">@reservation.totalPayedWithBalance</span></span><br />
+                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                                                    <span class="badge badge-success"><i class="fas fa-coins">&nbsp;</i><b>Bono: </b>@currency <span>@reservation.totalPayedWithPromo</span></span><br />
                                                 </div>
-                                                <div class="col-lg-4 col-md-4 col-sm-4 hidden-xs">
-                                                    <span class="badge badge-success pull-right"><i class="fas fa-money-bill-alt">&nbsp;</i><b>Efectivo: </b>@currency <span id="modelCashTotal" name="modelCashTotal">@reservation.totalPayedWithCash</span></span><br />
+                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                                                    <span class="badge badge-success"><i class="fas fa-coins">&nbsp;</i><b>Ridecoins: </b>@currency <span>@reservation.totalPayedWithBalance</span></span><br />
                                                 </div>
-                                                <div class="col-xs-12 visible-xs">
-                                                    <span class="badge badge-success"><i class="fas fa-money-bill-alt">&nbsp;</i><b>Efectivo: </b>@currency <span id="modelCashTotal" name="modelCashTotal">@reservation.totalPayedWithCash</span></span><br />
+                                                <div class="col-lg-3 col-md-3 col-sm-3 hidden-xs">
+                                                    <span class="badge badge-success pull-right"><i class="fas fa-money-bill-alt">&nbsp;</i><b>Efectivo: </b>@currency <span>@reservation.totalPayedWithCash</span></span><br />
+                                                </div>
+                                                <div class="col-xs-6 visible-xs">
+                                                    <span class="badge badge-success"><i class="fas fa-money-bill-alt">&nbsp;</i><b>Efectivo: </b>@currency <span>@reservation.totalPayedWithCash</span></span><br />
                                                 </div>
                                             }
                                         }

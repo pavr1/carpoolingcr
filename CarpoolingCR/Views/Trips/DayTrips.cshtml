@@ -44,6 +44,7 @@
             var currency = string.Empty;
             var country = string.Empty;
             var balanceObj = claims.FindFirst("Balance");
+            var promo = Convert.ToDecimal(ViewBag.Promo);
 
             if (currencyObj != null)
             {
@@ -111,21 +112,26 @@
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
                                 <input id="hidden-balance" type="hidden" value="@balance.ToString().Replace(",",".")" />
-                                <span class="badge badge-success pull-right"><i class="fas fa-money-bill-alt">&nbsp;</i><b>Tu Balance</b><br />@currency <span id="modelBalance" name="modelBalance">@balance.ToString("N2")</span></span><br />
+                                <input id="hidden-bono" type="hidden" value="@promo.ToString().Replace(",",".")" />
+                                <span class="badge badge-success pull-right"><i class="fas fa-coins">&nbsp;</i><b>Tus Ridecoins</b><br />@currency <span id="modelBalance" name="modelBalance">@balance.ToString("N2")</span></span><br />
                                 <input type="text" id="actualBalance" name="actualBalance" class="hidden" />
                             </div>
                         </div>
                         <div class="row form-group">
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
                                 <span class="badge badge-success pull-left"><i class="fas fa-money-bill-alt">&nbsp;</i><b>Monto a cancelar</b><br />@currency <span id="modelTotal" name="modelTotal"></span></span><br />
                                 <input type="text" id="actualTotal" name="actualTotal" class="hidden" />
                             </div>
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
-                                <span class="badge badge-success center-block"><i class="fas fa-money-bill-alt">&nbsp;</i><b>Pago con Balance</b><br />@currency <span id="modelBalanceTotal" name="modelBalanceTotal"></span></span><br />
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                                <span class="badge badge-success pull-right"><i class="fas fa-receipt">&nbsp;</i><b>Bono: </b><br />@currency <span id="modelBonoTotal" name="modelBonoTotal"></span></span><br />
+                                <input type="text" id="bonoPayment" name="bonoPayment" class="hidden" />
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                                <span class="badge badge-success center-block"><i class="fas fa-coins">&nbsp;</i><b>Ridecoins</b><br />@currency <span id="modelBalanceTotal" name="modelBalanceTotal"></span></span><br />
                                 <input type="text" id="balancePayment" name="balancePayment" class="hidden" />
                             </div>
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                <span class="badge badge-success pull-right"><i class="fas fa-money-bill-alt">&nbsp;</i><b>Pago en Efectivo: </b><br />@currency <span id="modelCashTotal" name="modelCashTotal"></span></span><br />
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                                <span class="badge badge-success pull-right"><i class="fas fa-money-bill-alt">&nbsp;</i><b>Efectivo: </b><br />@currency <span id="modelCashTotal" name="modelCashTotal"></span></span><br />
                                 <input type="text" id="cashPayment" name="cashPayment" class="hidden" />
                             </div>
                         </div>
@@ -306,27 +312,43 @@
 
         var cash = 0;
         var bal = $('#hidden-balance').val();
+        var promo = Number($('#hidden-bono').val());
         var balance = Number(bal);
         var paymentWithBalance = 0;
+        var paymentWithPromo = 0;
+        var totalPaymentWithoutPromo = totalSelectedSeats;
+
+        if (promo > 0) {
+            if (totalSelectedSeats >= promo) {
+                paymentWithPromo = promo;
+                totalPaymentWithoutPromo -= promo;
+            } else {
+                paymentWithPromo = promo - totalSelectedSeats;
+                cash = 0;
+            }
+        }
         
-        if (totalSelectedSeats >= balance) {
+        if (totalPaymentWithoutPromo >= balance) {
             paymentWithBalance = balance;
             balance = 0;
-            cash = totalSelectedSeats - paymentWithBalance;
+            cash = totalPaymentWithoutPromo - paymentWithBalance;
         } else {
-            paymentWithBalance = totalSelectedSeats;
-            balance -= paymentWithBalance;
+            paymentWithBalance = totalPaymentWithoutPromo;
+            balance -= totalPaymentWithoutPromo;
 
         }
-
-        $('#modelBalanceTotal').html(paymentWithBalance.toFixed(2));
-        $('#balancePayment').val(paymentWithBalance.toFixed(2));        
 
         $('#modelTotal').html(totalSelectedSeats.toFixed(2));
         $('#actualTotal').val(totalSelectedSeats.toFixed(2));
 
+        $('#modelBalanceTotal').html(paymentWithBalance.toFixed(2));
+        $('#balancePayment').val(paymentWithBalance.toFixed(2));        
+
         $('#modelBalance').html(balance.toFixed(2));
         $('#actualBalance').val(balance.toFixed(2));
+
+        $('#modelBonoTotal').html(paymentWithPromo.toFixed(2));
+        $('#bonoPayment').val(paymentWithPromo.toFixed(2));
 
         $('#modelCashTotal').html(cash.toFixed(2));
         $('#cashPayment').val(cash.toFixed(2));
@@ -542,9 +564,11 @@
                     $('#back-right-seat').prop('disabled', true);
                 }
 
+                var bono = Number(@promo).toFixed(2);
                 var defaultValue = Number(0).toFixed(2);
                 $('#modelTotal').html(defaultValue);
                 $('#modelBalanceTotal').html(defaultValue);
+                $('#modelBonoTotal').html(bono);
                 $('#modelCashTotal').html(defaultValue);
 
                 $('#TripId').val(calEvent.id);

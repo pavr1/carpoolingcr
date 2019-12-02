@@ -76,23 +76,23 @@
     {
         if (Model.Balances.Count() == 0)
         {
-            < div class="row form-group">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:center">
-                @{
-                    if (Model.Type == "expenses")
-                    {
-                        <small>¡No hay gastos de ridecoins registrados!</small>
+            <div class="row form-group">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:center">
+                    @{
+                        if (Model.Type == "expenses")
+                        {
+                            <small>¡No hay gastos de ridecoins registrados!</small>
+                        }
+                        else if (Model.Type == "incomes")
+                        {
+                            <small>¡No hay ingreso de ridecoins registrados!</small>
+                        }
+                        else if (Model.Type == "movements")
+                        {
+                            <small>¡No hay movimientos de ridecoins registrados!</small>
+                        }
                     }
-                    else if (Model.Type == "incomes")
-                    {
-                        <small>¡No hay ingreso de ridecoins registrados!</small>
-                    }
-                    else if (Model.Type == "movements")
-                    {
-                        <small>¡No hay movimientos de ridecoins registrados!</small>
-                    }
-                }
-            </div>
+                </div>
             </div>
         }
         else

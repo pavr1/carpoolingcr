@@ -130,6 +130,12 @@
                                         @{
                                             var description = CarpoolingCR.Utils.EnumHelper<CarpoolingCR.Utils.Enums.ReservationStatus>.GetDisplayValue(reservation.Status);
                                             <small class="total badge"><b><span class="fas fa-money-bill-alt">&nbsp;</span>Total: @currency @reservation.SelectedSeatsTotalPrice.ToString("N2")</b></small><br />
+
+                                            if (reservation.totalPayedWithPromo > 0m)
+                                            {
+                                                <small class="total badge"><b><span class="fas fa-money-bill-alt">&nbsp;</span>Bono: @currency @reservation.totalPayedWithPromo.ToString("N2")</b></small><br />
+                                            }
+
                                             <small class="total badge"><b><span class="fas fa-coins">&nbsp;</span>Ridecoins: @currency @reservation.totalPayedWithBalance.ToString("N2")</b></small><br />
                                             <small class="total badge"><b><span class="fas fa-money-bill-alt">&nbsp;</span>Efectivo: @currency @reservation.totalPayedWithCash.ToString("N2")</b></small><br />
 

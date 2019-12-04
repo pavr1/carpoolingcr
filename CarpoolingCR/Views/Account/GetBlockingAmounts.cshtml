@@ -108,12 +108,21 @@
                             @{
                                 if (Model.Type == "expenses")
                                 {
+                                    if (item.PromoAmount > 0m)
+                                    {
+                                        <i class="fas fa-receipt">&nbsp;</i><small class="text-success">Bono: @currency @item.PromoAmount.ToString("N2")</small>
+                                    }
+                                    else
+                                    {
+                                        <i class="fas fa-receipt">&nbsp;</i><small>Bono: @currency @item.PromoAmount.ToString("N2")</small>
+                                    }
+                                    <br />
                                     <i class="fas fa-coins">&nbsp;</i><small class="text-danger">Ridecoins: @currency @Convert.ToDecimal(item.BlockedBalanceAmount * -1).ToString("N2")</small><br />
-                                    <i class="fas fa-money-bill-alt">&nbsp;</i><small class="text-danger">Debes pagar en efectivo: @currency @Convert.ToDecimal(item.Reservation.totalPayedWithCash).ToString("N2")</small>
+                                    <i class="fas fa-money-bill-alt">&nbsp;</i><small class="text-danger">Debes pagar en efectivo: @currency @item.Reservation.totalPayedWithCash.ToString("N2")</small>
                                 }
                                 else if (Model.Type == "incomes")
                                 {
-                                    <i class="fas fa-coins">&nbsp;</i><small class="text-success">Ridecoins: @currency @item.BlockedBalanceAmount.ToString("N2")</small><br />
+                                    <i class="fas fa-coins">&nbsp;</i><small class="text-success">Ridecoins: @currency @Convert.ToDecimal(item.BlockedBalanceAmount + item.PromoAmount).ToString("N2")</small><br />
                                     <i class="fas fa-money-bill-alt">&nbsp;</i><small class="text-success">Te pagarán en efectivo: @currency @Convert.ToDecimal(item.Reservation.totalPayedWithCash).ToString("N2")</small>
                                 }
                             }

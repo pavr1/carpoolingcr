@@ -205,6 +205,7 @@ namespace CarpoolingCR.Controllers
                 if(promo != null)
                 {
                     ViewBag.Promo = promo.Amount;
+                    ViewBag.PromoId = promo.PromoId;
                 }
 
                 var couldNotFindExactTrip = false;
@@ -703,8 +704,16 @@ namespace CarpoolingCR.Controllers
                     {
                         notification.Status = RequestNotificationStatus.Expired;
 
-                        db.Entry(notification).State = EntityState.Modified;
-                        db.SaveChanges();
+                        try
+                        {
+                            db.Entry(notification).State = EntityState.Modified;
+                            db.SaveChanges();
+                        }
+                        catch (Exception)
+                        {
+                            //TODO: There is an exception at this point but it still changes it's status so by now just let it crash, later fix
+                            //Error: Store update, insert, or delete statement affected an unexpected number of rows (0). Entities may have been modified or deleted since entities were loaded.
+                        }
                     }
                     else
                     {

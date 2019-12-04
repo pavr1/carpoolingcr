@@ -39,7 +39,7 @@ namespace CarpoolingCR.Utils
                     db.SaveChanges();
 
                     var reservationUser = db.Users.Where(x => x.Id == reservation.ApplicationUserId).Single();
-                    reservationUser.PromoBalance += rollbackBalance;
+                    reservationUser.Ridecoins += rollbackBalance;
 
                     db.Entry(reservationUser).State = EntityState.Modified;
                     db.SaveChanges();
@@ -57,7 +57,7 @@ namespace CarpoolingCR.Utils
                     trip.ToTown = db.Districts.Where(x => x.DistrictId == trip.ToTownId).Single();
 
                     var tripUser = db.Users.Where(x => x.Id == trip.ApplicationUserId).Single();
-                    tripUser.PromoBalance += rollbackBalance;
+                    tripUser.Ridecoins += rollbackBalance;
 
                     db.Entry(tripUser).State = EntityState.Modified;
                     db.SaveChanges();
@@ -685,7 +685,7 @@ namespace CarpoolingCR.Utils
                     //do nothing
                 }
 
-                Identity.AddClaim(new Claim("Balance", user.PromoBalance.ToString()));
+                Identity.AddClaim(new Claim("Balance", user.Ridecoins.ToString()));
 
                 var authenticationManager = System.Web.HttpContext.Current.GetOwinContext().Authentication;
                 authenticationManager.AuthenticationResponseGrant = new AuthenticationResponseGrant(new ClaimsPrincipal(Identity), new AuthenticationProperties() { IsPersistent = true });

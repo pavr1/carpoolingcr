@@ -64,7 +64,7 @@ namespace CarpoolingCR.Models
         public Enums.ProfileStatus Status { get; set; }
         public int? BankAccountId { get; set; }
         public BankAccount BankAccount { get; set; }
-        public decimal PromoBalance { get; set; }
+        public decimal Ridecoins { get; set; }
         [NotMapped]
         public MonthlyBalance MonthlyBalance { get; set; }
         [NotMapped]

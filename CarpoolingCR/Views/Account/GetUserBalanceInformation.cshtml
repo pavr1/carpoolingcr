@@ -16,14 +16,14 @@
         <h5 class="pull-left"><i class="fas fa-wallet">&nbsp;</i>Monedero</h5>
     </div>
     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-        <small class="badge pull-right">Disponible: @currency@Model.PromoBalance.ToString("N2")</small>
+        <small class="badge pull-right">Ridecoins Disponibles: @currency@Model.Ridecoins.ToString("N2")</small>
     </div>
 </div>
 
 <div class="row form-group" style="text-align:center">
     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
         <div id="btn-check-movements" class="btn btn-sm btn-info panel panel-default" onclick="CheckBlockedAction('movements')" data-toggle="button" aria-pressed="true" style="border-radius:10px 10px 10px 10px; width:200px">
-            <span class="fas fa-coins" aria-hidden="true">&nbsp;</span>&nbsp;<small class="control-label" style="text-align:left">Movimientos: @currency@Model.PromoBalance.ToString("N2") </small>
+            <span class="fas fa-coins" aria-hidden="true">&nbsp;</span>&nbsp;<small class="control-label" style="text-align:left">Movimientos: @currency@Model.Ridecoins.ToString("N2") </small>
         </div>
     </div>
     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">

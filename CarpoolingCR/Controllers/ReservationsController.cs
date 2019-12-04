@@ -1055,6 +1055,7 @@ namespace CarpoolingCR.Controllers
                 fields += "SelectedSeatsTotalPrice: " + Request["SelectedSeatsTotalPrice"] + ", ";
                 fields += "balancePayment: " + Request["balancePayment"] + ", ";
                 fields += "cashPayment: " + Request["cashPayment"] + ", ";
+                fields += "PromoId: " + Request["promo-id"] + ", ";
                 fields += "TripId: " + Request["TripId"];
                 #endregion
 
@@ -1095,18 +1096,35 @@ namespace CarpoolingCR.Controllers
                 db.Reservations.Add(reservation);
                 db.SaveChanges();
 
-                var blockedBalance = new BlockedAmount
-                {
-                    BlockedBalanceAmount = Convert.ToDecimal(Request["balancePayment"].Replace(".", ",")),
-                    ReservationId = reservation.ReservationId,
-                    FromUserId = reservation.ApplicationUserId,
-                    ToUserId = trip.ApplicationUserId
-                };
+                //if there is a promo then block the amount and create a userPromo record
+                if (reservation.totalPayedWithPromo > 0) {
+                    var blockedBalance = new BlockedAmount
+                    {
+                        BlockedBalanceAmount = Convert.ToDecimal(Request["balancePayment"].Replace(".", ",")),
+                        ReservationId = reservation.ReservationId,
+                        FromUserId = reservation.ApplicationUserId,
+                        ToUserId = trip.ApplicationUserId,
+                        PromoAmount = reservation.totalPayedWithPromo
+                    };
 
-                db.BlockedAmounts.Add(blockedBalance);
+                    db.BlockedAmounts.Add(blockedBalance);
+                    db.SaveChanges();
+
+                    var promoId = Convert.ToInt32(Request["promo-id"]);
+
+                    var userPromo = new UserPromos
+                    {
+                        Date = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
+                        PromoId = promoId,
+                        UserId = user.Id
+                    };
+
+                    db.Entry(userPromo).State = EntityState.Added;
+                    db.SaveChanges();
+                }
 
                 user = db.Users.Where(x => x.Id == user.Id).Single();
-                user.PromoBalance = Convert.ToDecimal(Request["actualBalance"].Replace(".", ","));
+                user.Ridecoins = Convert.ToDecimal(Request["actualBalance"].Replace(".", ","));
 
                 db.Entry(user).State = EntityState.Modified;
                 db.SaveChanges();

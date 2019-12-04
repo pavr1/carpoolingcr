@@ -115,6 +115,7 @@
                                 <input id="hidden-bono" type="hidden" value="@promo.ToString().Replace(",",".")" />
                                 <span class="badge badge-success pull-right"><i class="fas fa-coins">&nbsp;</i><b>Tus Ridecoins</b><br />@currency <span id="modelBalance" name="modelBalance">@balance.ToString("N2")</span></span><br />
                                 <input type="text" id="actualBalance" name="actualBalance" class="hidden" />
+                                <input type="text" id="promo-id" name="promo-id" class="hidden" value="@ViewBag.PromoId" />
                             </div>
                         </div>
                         <div class="row form-group">
@@ -322,21 +323,22 @@
             if (totalSelectedSeats >= promo) {
                 paymentWithPromo = promo;
                 totalPaymentWithoutPromo -= promo;
+
+                if (totalPaymentWithoutPromo >= balance) {
+                    paymentWithBalance = balance;
+                    balance = 0;
+                    cash = totalPaymentWithoutPromo - paymentWithBalance;
+                } else {
+                    paymentWithBalance = totalPaymentWithoutPromo;
+                    balance -= totalPaymentWithoutPromo;
+
+                }
             } else {
-                paymentWithPromo = promo - totalSelectedSeats;
+                paymentWithPromo = totalSelectedSeats;
                 cash = 0;
             }
         }
-        
-        if (totalPaymentWithoutPromo >= balance) {
-            paymentWithBalance = balance;
-            balance = 0;
-            cash = totalPaymentWithoutPromo - paymentWithBalance;
-        } else {
-            paymentWithBalance = totalPaymentWithoutPromo;
-            balance -= totalPaymentWithoutPromo;
-
-        }
+       
 
         $('#modelTotal').html(totalSelectedSeats.toFixed(2));
         $('#actualTotal').val(totalSelectedSeats.toFixed(2));

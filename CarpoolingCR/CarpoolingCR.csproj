@@ -18,10 +18,13 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
-    <IISExpressSSLPort>443</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
+    <IISExpressSSLPort>44346</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication>
+    </IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>
+    </IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>
+    </IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -405,6 +408,10 @@
     <Compile Include="Migrations\201912020219099_Added BlockedAmount.PromoAmount.cs" />
     <Compile Include="Migrations\201912020219099_Added BlockedAmount.PromoAmount.Designer.cs">
       <DependentUpon>201912020219099_Added BlockedAmount.PromoAmount.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201912032321462_changed user.PromoAmount to Ridecoins.cs" />
+    <Compile Include="Migrations\201912032321462_changed user.PromoAmount to Ridecoins.Designer.cs">
+      <DependentUpon>201912032321462_changed user.PromoAmount to Ridecoins.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -1166,6 +1173,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201912020219099_Added BlockedAmount.PromoAmount.resx">
       <DependentUpon>201912020219099_Added BlockedAmount.PromoAmount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201912032321462_changed user.PromoAmount to Ridecoins.resx">
+      <DependentUpon>201912032321462_changed user.PromoAmount to Ridecoins.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

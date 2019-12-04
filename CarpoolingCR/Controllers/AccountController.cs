@@ -743,7 +743,7 @@ namespace CarpoolingCR.Controllers
                     db.SaveChanges();
 
                     //add the substracted user's bonus to it's promo balance
-                    user.PromoBalance += promo.Amount;
+                    user.Ridecoins += promo.Amount;
 
                     db.Entry(user).State = EntityState.Modified;
                     db.SaveChanges();

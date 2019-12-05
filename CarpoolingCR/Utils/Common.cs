@@ -20,6 +20,56 @@ namespace CarpoolingCR.Utils
 {
     public class Common
     {
+        public static void ApplyBlockedAmount(Trip trip, ApplicationDbContext db)
+        {
+            var blockedAmount = db.BlockedAmounts.Where(x => x.TripId == trip.TripId).SingleOrDefault();
+
+            if (blockedAmount == null)
+            {
+                return;
+            }
+
+            try
+            {
+                if (trip.Status == Status.Cancelado)
+                {
+                    db.Entry(blockedAmount).State = EntityState.Deleted;
+                    db.SaveChanges();
+                }
+                else if (trip.Status == Status.Finalizado)
+                {
+                    var amount = blockedAmount.BlockedBalanceAmount + blockedAmount.PromoAmount;
+
+                    db.Entry(blockedAmount).State = EntityState.Deleted;
+                    db.SaveChanges();
+
+                    var user = db.Users.Where(x => x.Id == trip.ApplicationUserId).Single();
+
+                    user.Ridecoins += amount;
+
+                    db.Entry(user).State = EntityState.Modified;
+                    db.SaveChanges();
+                    
+                    var tripPromoHistorial = new BalanceHistorial
+                    {
+                        RidecoinsAmount = amount,
+                        CashAmount = 0m,
+                        Date = trip.DateTime,
+                        Detail = "Creación de viaje: " + trip.FromTown.FullName + " - " + trip.ToTown.FullName,
+                        TripId = trip.TripId,
+                        UserId = trip.ApplicationUserId,
+                        UserPromoId = blockedAmount.PromoId
+                    };
+
+                    db.Entry(tripPromoHistorial).State = EntityState.Added;
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public static void ApplyBlockedAmount(Reservation reservation, ApplicationDbContext db)
         {
             var blockedAmount = db.BlockedAmounts.Where(x => x.ReservationId == reservation.ReservationId).SingleOrDefault();
@@ -46,7 +96,7 @@ namespace CarpoolingCR.Utils
                 }
                 else if (reservation.Status == ReservationStatus.Finalized)
                 {
-                    var rollbackBalance = blockedAmount.BlockedBalanceAmount;
+                    var rollbackBalance = blockedAmount.BlockedBalanceAmount + blockedAmount.PromoAmount;
                     var cashAmount = reservation.totalPayedWithCash;
 
                     db.Entry(blockedAmount).State = EntityState.Deleted;
@@ -68,9 +118,10 @@ namespace CarpoolingCR.Utils
                         RidecoinsAmount = rollbackBalance,
                         CashAmount = cashAmount,
                         Date = trip.DateTime,
-                        Detail = trip.FromTown.FullName + " - " + trip.ToTown.FullName + " el " + trip.DateTime.ToString(WebConfigurationManager.AppSettings["DateTimeFormat"]),
+                        Detail = trip.FromTown.FullName + " - " + trip.ToTown.FullName,
                         TripId = trip.TripId,
-                        UserId = trip.ApplicationUserId
+                        UserId = trip.ApplicationUserId, 
+                        UserPromoId = reservation.PromoId
                     };
 
                     db.Entry(driverBalanceHistorial).State = EntityState.Added;
@@ -82,9 +133,10 @@ namespace CarpoolingCR.Utils
                         RidecoinsAmount = rollbackBalance * -1,
                         CashAmount = cashAmount * -1,
                         Date = trip.DateTime,
-                        Detail = trip.FromTown.FullName + " - " + trip.ToTown.FullName + " el " + trip.DateTime.ToString(WebConfigurationManager.AppSettings["DateTimeFormat"]),
+                        Detail = trip.FromTown.FullName + " - " + trip.ToTown.FullName,
                         TripId = trip.TripId,
-                        UserId = reservation.ApplicationUserId
+                        UserId = reservation.ApplicationUserId,
+                        UserPromoId = reservation.PromoId
                     };
 
                     db.Entry(passengerBalanceHistorial).State = EntityState.Added;
@@ -214,7 +266,7 @@ namespace CarpoolingCR.Utils
                     {
                         var promosAlreadyTaken = db.UserPromos.Where(x => x.PromoId == promo.PromoId && x.UserId == user.Id).ToList();
 
-                        if (promosAlreadyTaken.Count() <= promo.MaxTimesPerUser)
+                        if (promosAlreadyTaken.Count() < promo.MaxTimesPerUser)
                         {
                             appliesForPromo = true;
                         }
@@ -539,6 +591,8 @@ namespace CarpoolingCR.Utils
 
                         db.Entry(expiredTrip).State = EntityState.Modified;
                         db.SaveChanges();
+
+                        Common.ApplyBlockedAmount(expiredTrip, db);
 
                         //load all reservations except the ones cancelled/rejected/finalized before, those will remain with that status.
                         var reservations = db.Reservations.Where(x => x.TripId == expiredTrip.TripId)

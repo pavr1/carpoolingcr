@@ -70,6 +70,13 @@ namespace CarpoolingCR.Controllers
 
                 List<Trip> trips = new List<Trip>();
 
+                var user = Common.GetUserByEmail(User.Identity.Name);
+
+                if (user != null)
+                {
+                    Common.UpdateMenuItemsCount(user.Id);
+                }
+
                 ReservationTransportationResponse response = new ReservationTransportationResponse
                 {
                     Trips = new List<Trip>(),

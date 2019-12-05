@@ -1,5 +1,6 @@
 ﻿using CarpoolingCR.Models;
 using CarpoolingCR.Models.Locations;
+using CarpoolingCR.Models.Promos;
 using CarpoolingCR.Objects.Responses;
 using CarpoolingCR.Utils;
 using Microsoft.AspNet.Identity;
@@ -376,12 +377,20 @@ namespace CarpoolingCR.Controllers
 
                 var user = Common.GetUserByEmail(User.Identity.Name);
                 var districtsSelectHtml = Common.GetLocationsStrings(user.CountryId);
+                var promo = Common.FindAvailablePromo("VIaje Conductor", user);
+                var promoAmount = 0m;
+
+                if(promo != null)
+                {
+                    promoAmount = promo.Amount;
+                }
 
                 var response = new TripCreateResponse
                 {
                     DistrictControlOptions = districtsSelectHtml,
                     Vehicle = user.Vehicle,
-                    CountryName = user.Country.Name
+                    CountryName = user.Country.Name,
+                    AvailablePromo = promoAmount
                 };
 
                 return View(response);
@@ -426,6 +435,8 @@ namespace CarpoolingCR.Controllers
 
             var user = Common.GetUserByEmail(User.Identity.Name);
             var districtsSelectHtml = Common.GetLocationsStrings(user.CountryId);
+
+            var tran = db.Database.BeginTransaction();
 
             try
             {
@@ -476,6 +487,8 @@ namespace CarpoolingCR.Controllers
                             CountryName = user.Country.Name
                         };
 
+                        tran.Rollback();
+
                         return View(response);
                     }
 
@@ -494,6 +507,8 @@ namespace CarpoolingCR.Controllers
                             CountryName = user.Country.Name
                         };
 
+                        tran.Rollback();
+
                         return View(response);
                     }
 
@@ -511,6 +526,8 @@ namespace CarpoolingCR.Controllers
                             Vehicle = user.Vehicle,
                             CountryName = user.Country.Name
                         };
+
+                        tran.Rollback();
 
                         return View(response);
                     }
@@ -547,6 +564,36 @@ namespace CarpoolingCR.Controllers
 
                         db.Entry(trip).State = EntityState.Added;
                         db.SaveChanges();
+
+                        var promo = Common.FindAvailablePromo("Viaje Conductor", user);
+
+                        if (promo != null)
+                        {
+                            var blockedAmount = new BlockedAmount
+                            {
+                                BlockedBalanceAmount = 0m,
+                                PromoAmount = promo.Amount,
+                                //this is for drivers promos, no from user
+                                FromUserId = "NO_USER",
+                                ToUserId = user.Id,
+                                TripId = trip.TripId,
+                                PromoId = promo.PromoId,
+                                Detail = "Bono por creación de viaje"
+                            };
+
+                            db.Entry(blockedAmount).State = EntityState.Added;
+                            db.SaveChanges();
+
+                            var userPromo = new UserPromos
+                            {
+                                Date = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
+                                PromoId = promo.PromoId,
+                                UserId = user.Id,
+                            };
+
+                            db.Entry(userPromo).State = EntityState.Added;
+                            db.SaveChanges();
+                        }
                     }
                     
                     trip.FromTown = fromDistrict;
@@ -586,6 +633,8 @@ namespace CarpoolingCR.Controllers
                                 CountryName = user.Country.Name
                             };
 
+                            tran.Rollback();
+
                             return View(response);
                         }
 
@@ -600,6 +649,8 @@ namespace CarpoolingCR.Controllers
 
                         if (existentTrip == null)
                         {
+                            price = Convert.ToDecimal(Request["Trip.Price.To"].Replace("₡", string.Empty).Replace(",00", string.Empty));
+
                             tripBack = new Trip
                             {
                                 ApplicationUserId = user.Id,
@@ -622,6 +673,36 @@ namespace CarpoolingCR.Controllers
 
                             db.Entry(tripBack).State = EntityState.Added;
                             db.SaveChanges();
+
+                            var promo = Common.FindAvailablePromo("Viaje Conductor", user);
+
+                            if (promo != null)
+                            {
+                                var blockedAmount = new BlockedAmount
+                                {
+                                    BlockedBalanceAmount = promo.Amount,
+                                    PromoAmount = promo.Amount,
+                                    //this is for drivers promos, no from user
+                                    FromUserId = "NO_USER",
+                                    ToUserId = user.Id,
+                                    TripId = trip.TripId,
+                                    PromoId = promo.PromoId,
+                                    Detail = "Bono por creación de viaje"
+                                };
+
+                                db.Entry(blockedAmount).State = EntityState.Added;
+                                db.SaveChanges();
+
+                                var userPromo = new UserPromos
+                                {
+                                    Date = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
+                                    PromoId = promo.PromoId,
+                                    UserId = user.Id,
+                                };
+
+                                db.Entry(userPromo).State = EntityState.Added;
+                                db.SaveChanges();
+                            }
                         }
 
                         tripBack.FromTown = toDistrict;
@@ -646,6 +727,9 @@ namespace CarpoolingCR.Controllers
                     }
 
                     Common.UpdateMenuItemsCount(user.Id);
+
+                    tran.Commit();
+
                     //¡Viaje Creado!
                     return RedirectToAction("Index", new { message = "10007", type = "info" });
                 }
@@ -655,6 +739,8 @@ namespace CarpoolingCR.Controllers
             }
             catch (Exception ex)
             {
+                tran.Rollback();
+
                 var inner = (ex.InnerException != null) ? ex.InnerException.Message : "None";
 
                 Common.LogData(new Log
@@ -928,6 +1014,9 @@ namespace CarpoolingCR.Controllers
                 {
                     return RedirectToAction("Index", new { message = "Viaje no encontrado!", type = "warning" });
                 }
+
+
+                Common.ApplyBlockedAmount(trip, db);
 
                 trip.Reservations = db.Reservations.Where(x => x.TripId == id)
                     .Where(x => x.Status == ReservationStatus.Accepted || x.Status == ReservationStatus.Pending)

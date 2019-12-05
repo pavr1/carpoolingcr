@@ -1062,6 +1062,12 @@ namespace CarpoolingCR.Controllers
                 var user = Common.GetUserByEmail(User.Identity.Name);
                 var date = Convert.ToDateTime(Request["ReservationDate"]);
                 var tripId = Convert.ToInt32(Request["TripId"]);
+                int? promoId = null;
+
+                if (!string.IsNullOrEmpty(Request["promo-id"]))
+                {
+                    promoId = Convert.ToInt32(Request["promo-id"]);
+                }
 
                 Reservation reservation = new Reservation
                 {
@@ -1075,7 +1081,8 @@ namespace CarpoolingCR.Controllers
                     totalPayedWithCash = Convert.ToDecimal(Request["cashPayment"].Replace(".", ",")),
                     totalPayedWithPromo = Convert.ToDecimal(Request["bonoPayment"].Replace(".", ",")),
                     Status = ReservationStatus.Pending,
-                    TripId = tripId
+                    TripId = tripId,
+                    PromoId = promoId
                 };
 
                 var trip = db.Trips.Where(x => x.TripId == reservation.TripId)
@@ -1104,18 +1111,18 @@ namespace CarpoolingCR.Controllers
                         ReservationId = reservation.ReservationId,
                         FromUserId = reservation.ApplicationUserId,
                         ToUserId = trip.ApplicationUserId,
-                        PromoAmount = reservation.totalPayedWithPromo
+                        PromoAmount = reservation.totalPayedWithPromo,
+                        PromoId = promoId,
+                        Detail = "Bono por creación de reservación"
                     };
 
                     db.BlockedAmounts.Add(blockedBalance);
                     db.SaveChanges();
 
-                    var promoId = Convert.ToInt32(Request["promo-id"]);
-
                     var userPromo = new UserPromos
                     {
                         Date = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
-                        PromoId = promoId,
+                        PromoId = (int)promoId,
                         UserId = user.Id
                     };
 

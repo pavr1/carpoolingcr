@@ -14,5 +14,6 @@ namespace CarpoolingCR.Objects.Responses
         public Trip Trip { get; set; }
         public Vehicle Vehicle{ get; set; }
         public string CountryName { get; set; }
+        public decimal AvailablePromo { get; set; }
     }
 }

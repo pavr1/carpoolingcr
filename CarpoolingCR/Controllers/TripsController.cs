@@ -423,7 +423,7 @@ namespace CarpoolingCR.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "")] Trip trip)
         {
-            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg"); ;
+            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg");
             var tripBack = new Trip();
 
             var fields = "Fields => ";
@@ -616,7 +616,7 @@ namespace CarpoolingCR.Controllers
                     var sendNotificationRequests = new Thread(() => ProcessNotificationRequests(callbackUrl));
                     sendNotificationRequests.Start();
 
-                    if (Request["rbRound"] == "on")
+                    if (Request["rb-Round"] == "on")
                     {
                         var routeBack = Common.ValidateDistrictString(Request["Route-To"]);
 
@@ -685,7 +685,7 @@ namespace CarpoolingCR.Controllers
                                     //this is for drivers promos, no from user
                                     FromUserId = "NO_USER",
                                     ToUserId = user.Id,
-                                    TripId = trip.TripId,
+                                    TripId = tripBack.TripId,
                                     PromoId = promo.PromoId,
                                     Detail = "Bono por creación de viaje"
                                 };

@@ -98,9 +98,9 @@
                     <div id="oneway" class="btn btn-xs btn-default panel panel-default active" data-toggle="button" aria-pressed="false" autocomplete="off" style="border-radius:10px 0px 0px 10px; width:140px;pointer-events:none">
                         <span class="fas fa-long-arrow-alt-right">&nbsp;</span>&nbsp;<label class="control-label" style="text-align:left">Ida </label>
                     </div>
-                    <div id="rbRound" class="btn btn-xs btn-default panel panel-default allow-checkboxes" onclick="ChangeTripRound()" data-toggle="button" aria-pressed="false" autocomplete="off" style="border-radius:0px 10px 10px 0px; width:140px">
+                    <div id="rbRound" name="rbRound" class="btn btn-xs btn-default panel panel-default allow-checkboxes" onclick="ChangeTripRound()" data-toggle="button" aria-pressed="false" autocomplete="off" style="border-radius:0px 10px 10px 0px; width:140px">
                         <span class="fas fa-long-arrow-alt-left">&nbsp;</span>&nbsp;<label class="control-label" style="text-align:left">Vuelta</label>
-                        <input type="text" id="ck-smoking" name="ck-smoking" style="display:none" />
+                        <input type="text" id="rb-Round" name="rb-Round" style="display:none" />
                     </div>
                 </div>
             </div>
@@ -274,7 +274,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <button id="btn-create-trip" onclick="return SetDateTimeFormats()" class="btn btn-info btn-sm btn-block pull-right" data-loading-text="<i class='fa fa-circle-o-notch fa-spin pull-right'></i> Crear Viaje" style="width:150px; border-radius:25px">Crear Viaje</button>
+                <button id="btn-create-trip" onclick="SetDateTimeFormats()" class="btn btn-info btn-sm btn-block pull-right" data-loading-text="<i class='fa fa-circle-o-notch fa-spin pull-right'></i> Crear Viaje" style="width:150px; border-radius:25px">Crear Viaje</button>
             </div>
         </div>
     </div>
@@ -444,37 +444,37 @@
         if ($('#fromDistrictId').val() == '') {
             //¡Origen Inválido!
             DisplayGrowlMessage('100012', 'warn');
-            return false;
+            return;
         }
 
         if ($('#toDistrictId').val() == '') {
             //¡Destino Inválido!
             DisplayGrowlMessage('100036', 'warn');
-            return false;
+            return;
         }
 
         if ($('#Trip_Price').val() == '') {
             //¡Cuota Requerida!
             DisplayGrowlMessage('100038', 'warn');
-            return false;
+            return;
         }
 
         if ($('#Route').val() == '') {
             //¡Ruta Requerida!
             DisplayGrowlMessage('100039', 'warn');
-            return false;
+            return;
         }
 
         if ($('#DateTime').val() == '') {
             //¡Fecha inválida!
             DisplayGrowlMessage('100037', 'warn');
-            return false;
+            return;
         }
 
         if ($('#Trip_Details').val() == '') {
             //¡Encuentro Requerido!
             DisplayGrowlMessage('100072', 'warn');
-            return false;
+            return;
         }
 
         if ($('#rbRound').prop("checked")) {
@@ -483,19 +483,19 @@
                 DisplayGrowlMessage('100069', 'warn');
                 $('#btn-create-trip').button('reset');
 
-                return false;
+                return;
             } else if ($('#DateTimeDisplay-To').val() == '') {
                 //¡Fecha de vuelta requerida!
                 DisplayGrowlMessage('100070', 'warn');
                 $('#btn-create-trip').button('reset');
 
-                return false;
+                return;
             } else if ($('#Trip_Details_To').val() == '') {
                 //¡Encuentro de vuelta requerido!
                 DisplayGrowlMessage('100071', 'warn');
                 $('#btn-create-trip').button('reset');
 
-                return false;
+                return;
             }
         }
 
@@ -507,11 +507,13 @@
             $('#to-route-container').slideDown();
             //$('#rbOneWay').prop('checked', false);
             $('#rbRound').prop('checked', true);
+            $('#rb-Round').val('on');
             $('#rbOneWay').prop('checked', false);
         } else {
             $('#to-route-container').slideUp();
             $('#rbOneWay').prop('checked', true);
             $('#rbRound').prop('checked', false);
+            $('#rb-Round').val('off');
         }
     }
 

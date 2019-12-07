@@ -680,7 +680,6 @@ namespace CarpoolingCR.Controllers
                             {
                                 var blockedAmount = new BlockedAmount
                                 {
-                                    BlockedBalanceAmount = promo.Amount,
                                     PromoAmount = promo.Amount,
                                     //this is for drivers promos, no from user
                                     FromUserId = "NO_USER",
@@ -1016,8 +1015,6 @@ namespace CarpoolingCR.Controllers
                 }
 
 
-                Common.ApplyBlockedAmount(trip, db);
-
                 trip.Reservations = db.Reservations.Where(x => x.TripId == id)
                     .Where(x => x.Status == ReservationStatus.Accepted || x.Status == ReservationStatus.Pending)
                     .Include(x => x.ApplicationUser)
@@ -1045,6 +1042,8 @@ namespace CarpoolingCR.Controllers
 
                 db.Entry(trip).State = EntityState.Modified;
                 db.SaveChanges();
+
+                Common.ApplyBlockedAmount(trip, db);
 
                 if (passengersToNoticeEmail.Length > 0)
                 {

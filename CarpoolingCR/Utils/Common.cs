@@ -592,6 +592,9 @@ namespace CarpoolingCR.Utils
                         db.Entry(expiredTrip).State = EntityState.Modified;
                         db.SaveChanges();
 
+                        expiredTrip.FromTown = db.Districts.Where(x => x.DistrictId == expiredTrip.FromTownId).Single();
+                        expiredTrip.ToTown = db.Districts.Where(x => x.DistrictId == expiredTrip.ToTownId).Single();
+
                         Common.ApplyBlockedAmount(expiredTrip, db);
 
                         //load all reservations except the ones cancelled/rejected/finalized before, those will remain with that status.

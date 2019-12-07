@@ -126,7 +126,7 @@
                                     else if (Model.Type == "incomes")
                                     {
                                         <i class="fas fa-coins">&nbsp;</i><small class="text-success">Ridecoins: @currency @Convert.ToDecimal(item.BlockedBalanceAmount + item.PromoAmount).ToString("N2")</small><br />
-                                        <i class="fas fa-money-bill-alt">&nbsp;</i><small class="text-success">Te pagarán en efectivo: @currency @Convert.ToDecimal(item.Reservation.totalPayedWithCash).ToString("N2")</small>
+                                        <i class="fas fa-money-bill-alt">&nbsp;</i><small class="text-success">Pago en efectivo: @currency @Convert.ToDecimal(item.Reservation.totalPayedWithCash).ToString("N2")</small>
                                     }
                                 }
                             </div>

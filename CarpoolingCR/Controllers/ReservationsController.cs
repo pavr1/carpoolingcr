@@ -1113,7 +1113,7 @@ namespace CarpoolingCR.Controllers
                         ToUserId = trip.ApplicationUserId,
                         PromoAmount = reservation.totalPayedWithPromo,
                         PromoId = promoId,
-                        Detail = "Bono por creación de reservación"
+                        Detail = "Pago de reservación por pasajero"
                     };
 
                     db.BlockedAmounts.Add(blockedBalance);

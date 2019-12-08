@@ -578,10 +578,24 @@ namespace CarpoolingCR.Controllers
                                 ToUserId = user.Id,
                                 TripId = trip.TripId,
                                 PromoId = promo.PromoId,
-                                Detail = "Bono por creación de viaje"
+                                Detail = "Bono por creación de viaje."
                             };
 
                             db.Entry(blockedAmount).State = EntityState.Added;
+                            db.SaveChanges();
+
+                            var historial = new BalanceHistorial
+                            {
+                                CashAmount = 0m,
+                                Date = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
+                                Detail = "Bono por creación de viaje. Bono bloqueado hasta finalizar viaje.",
+                                RidecoinsAmount = blockedAmount.BlockedBalanceAmount,
+                                PromoAmount = blockedAmount.PromoAmount,
+                                TripId = trip.TripId,
+                                UserId = trip.ApplicationUserId,
+                            };
+
+                            db.Entry(historial).State = EntityState.Added;
                             db.SaveChanges();
 
                             var userPromo = new UserPromos
@@ -686,10 +700,24 @@ namespace CarpoolingCR.Controllers
                                     ToUserId = user.Id,
                                     TripId = tripBack.TripId,
                                     PromoId = promo.PromoId,
-                                    Detail = "Bono por creación de viaje"
+                                    Detail = "Bono por creación de viaje."
                                 };
 
                                 db.Entry(blockedAmount).State = EntityState.Added;
+                                db.SaveChanges();
+
+                                var historial = new BalanceHistorial
+                                {
+                                    CashAmount = 0m,
+                                    Date = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
+                                    Detail = "Bono por creación de viaje. Bono bloqueado hasta finalizar viaje.",
+                                    RidecoinsAmount = blockedAmount.BlockedBalanceAmount,
+                                    PromoAmount = blockedAmount.PromoAmount,
+                                    TripId = trip.TripId,
+                                    UserId = trip.ApplicationUserId,
+                                };
+
+                                db.Entry(historial).State = EntityState.Added;
                                 db.SaveChanges();
 
                                 var userPromo = new UserPromos
@@ -1014,11 +1042,13 @@ namespace CarpoolingCR.Controllers
                     return RedirectToAction("Index", new { message = "Viaje no encontrado!", type = "warning" });
                 }
 
-
                 trip.Reservations = db.Reservations.Where(x => x.TripId == id)
                     .Where(x => x.Status == ReservationStatus.Accepted || x.Status == ReservationStatus.Pending)
                     .Include(x => x.ApplicationUser)
                     .ToList();
+
+                trip.FromTown = db.Districts.Where(x => x.DistrictId == trip.FromTownId).Single();
+                trip.ToTown = db.Districts.Where(x => x.DistrictId == trip.ToTownId).Single();
 
                 var passengersToNoticeEmail = string.Empty;
 

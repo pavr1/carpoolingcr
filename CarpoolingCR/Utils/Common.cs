@@ -35,6 +35,20 @@ namespace CarpoolingCR.Utils
                 {
                     db.Entry(blockedAmount).State = EntityState.Deleted;
                     db.SaveChanges();
+
+                    var driverBalanceHistorial = new BalanceHistorial
+                    {
+                        CashAmount = 0m,
+                        Date = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
+                        Detail = "Cancelación de viaje: " + trip.FromTown.FullName + " - " + trip.ToTown.FullName,
+                        RidecoinsAmount = blockedAmount.BlockedBalanceAmount * -1,
+                        PromoAmount = blockedAmount.PromoAmount * -1,
+                        TripId = trip.TripId,
+                        UserId = trip.ApplicationUserId,
+                    };
+
+                    db.Entry(driverBalanceHistorial).State = EntityState.Added;
+                    db.SaveChanges();
                 }
                 else if (trip.Status == Status.Finalizado)
                 {
@@ -49,10 +63,11 @@ namespace CarpoolingCR.Utils
 
                     db.Entry(user).State = EntityState.Modified;
                     db.SaveChanges();
-                    
+
                     var tripPromoHistorial = new BalanceHistorial
                     {
-                        RidecoinsAmount = amount,
+                        RidecoinsAmount = blockedAmount.BlockedBalanceAmount,
+                        PromoAmount = blockedAmount.PromoAmount,
                         CashAmount = 0m,
                         Date = trip.DateTime,
                         Detail = "Creación de viaje: " + trip.FromTown.FullName + " - " + trip.ToTown.FullName,
@@ -81,11 +96,43 @@ namespace CarpoolingCR.Utils
 
             try
             {
+                var trip = db.Trips.Where(x => x.TripId == reservation.TripId).Single();
+                trip.FromTown = db.Districts.Where(x => x.DistrictId == trip.FromTownId).Single();
+                trip.ToTown = db.Districts.Where(x => x.DistrictId == trip.ToTownId).Single();
+
                 if ((reservation.Status == ReservationStatus.Cancelled) || (reservation.Status == ReservationStatus.Rejected))
                 {
                     var rollbackBalance = blockedAmount.BlockedBalanceAmount;
 
                     db.Entry(blockedAmount).State = EntityState.Deleted;
+                    db.SaveChanges();
+
+                    var driverBalanceHistorial = new BalanceHistorial
+                    {
+                        CashAmount = 0m,
+                        Date = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
+                        Detail = "Cancelación de reservación: " + trip.FromTown.FullName + " - " + trip.ToTown.FullName,
+                        RidecoinsAmount = blockedAmount.BlockedBalanceAmount * -1,
+                        PromoAmount = blockedAmount.PromoAmount * -1,
+                        TripId = reservation.Trip.TripId,
+                        UserId = reservation.Trip.ApplicationUserId,
+                    };
+
+                    db.Entry(driverBalanceHistorial).State = EntityState.Added;
+                    db.SaveChanges();
+
+                    var passengerBalanceHistorial = new BalanceHistorial
+                    {
+                        CashAmount = 0m,
+                        Date = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
+                        Detail = "Cancelación de reservación: " + trip.FromTown.FullName + " - " + trip.ToTown.FullName,
+                        RidecoinsAmount = blockedAmount.BlockedBalanceAmount,
+                        PromoAmount = blockedAmount.PromoAmount,
+                        TripId = reservation.TripId,
+                        UserId = reservation.ApplicationUserId,
+                    };
+
+                    db.Entry(passengerBalanceHistorial).State = EntityState.Added;
                     db.SaveChanges();
 
                     var reservationUser = db.Users.Where(x => x.Id == reservation.ApplicationUserId).Single();
@@ -102,10 +149,6 @@ namespace CarpoolingCR.Utils
                     db.Entry(blockedAmount).State = EntityState.Deleted;
                     db.SaveChanges();
 
-                    var trip = db.Trips.Where(x => x.TripId == reservation.TripId).Single();
-                    trip.FromTown = db.Districts.Where(x => x.DistrictId == trip.FromTownId).Single();
-                    trip.ToTown = db.Districts.Where(x => x.DistrictId == trip.ToTownId).Single();
-
                     var tripUser = db.Users.Where(x => x.Id == trip.ApplicationUserId).Single();
                     tripUser.Ridecoins += rollbackBalance;
 
@@ -115,12 +158,13 @@ namespace CarpoolingCR.Utils
                     //add historial for the driver's payment
                     var driverBalanceHistorial = new BalanceHistorial
                     {
-                        RidecoinsAmount = rollbackBalance,
+                        RidecoinsAmount = blockedAmount.BlockedBalanceAmount,
+                        PromoAmount = blockedAmount.PromoAmount,
                         CashAmount = cashAmount,
                         Date = trip.DateTime,
-                        Detail = trip.FromTown.FullName + " - " + trip.ToTown.FullName,
+                        Detail = "Pago de viaje: " + trip.FromTown.FullName + " - " + trip.ToTown.FullName,
                         TripId = trip.TripId,
-                        UserId = trip.ApplicationUserId, 
+                        UserId = trip.ApplicationUserId,
                         UserPromoId = reservation.PromoId
                     };
 
@@ -130,10 +174,11 @@ namespace CarpoolingCR.Utils
                     //add historial for the passenger's payment
                     var passengerBalanceHistorial = new BalanceHistorial
                     {
-                        RidecoinsAmount = rollbackBalance * -1,
+                        RidecoinsAmount = blockedAmount.BlockedBalanceAmount * -1,
+                        PromoAmount = blockedAmount.PromoAmount,
                         CashAmount = cashAmount * -1,
                         Date = trip.DateTime,
-                        Detail = trip.FromTown.FullName + " - " + trip.ToTown.FullName,
+                        Detail = "Pago de viaje: " + trip.FromTown.FullName + " - " + trip.ToTown.FullName,
                         TripId = trip.TripId,
                         UserId = reservation.ApplicationUserId,
                         UserPromoId = reservation.PromoId
@@ -233,7 +278,7 @@ namespace CarpoolingCR.Utils
                     .Where(x => x.Status == Enums.PromoStatus.Active)
                     .SingleOrDefault();
 
-                if(promo == null)
+                if (promo == null)
                 {
                     return promo;
                 }

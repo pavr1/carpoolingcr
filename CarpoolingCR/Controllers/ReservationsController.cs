@@ -1103,6 +1103,34 @@ namespace CarpoolingCR.Controllers
                 db.Reservations.Add(reservation);
                 db.SaveChanges();
 
+                var driverHistorial = new BalanceHistorial
+                {
+                    CashAmount = reservation.totalPayedWithCash,
+                    Date = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
+                    Detail = "Pago de reservación: " + trip.FromTown.FullName + " - " + trip.ToTown.FullName + ". Pago bloqueado hasta finalizar viaje.",
+                    RidecoinsAmount = reservation.totalPayedWithBalance,
+                    PromoAmount = reservation.totalPayedWithPromo,
+                    TripId = trip.TripId,
+                    UserId = trip.ApplicationUserId,
+                };
+
+                db.Entry(driverHistorial).State = EntityState.Added;
+                db.SaveChanges();
+
+                var passengerHistorial = new BalanceHistorial
+                {
+                    CashAmount = reservation.totalPayedWithCash,
+                    Date = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
+                    Detail = "Pago de reservación: " + trip.FromTown.FullName + " - " + trip.ToTown.FullName + ". Pago bloqueado hasta finalizar viaje.",
+                    RidecoinsAmount = reservation.totalPayedWithBalance * -1,
+                    PromoAmount = reservation.totalPayedWithPromo,
+                    TripId = trip.TripId,
+                    UserId = reservation.ApplicationUserId,
+                };
+
+                db.Entry(passengerHistorial).State = EntityState.Added;
+                db.SaveChanges();
+
                 //if there is a promo then block the amount and create a userPromo record
                 if (reservation.totalPayedWithPromo > 0) {
                     var blockedBalance = new BlockedAmount
@@ -1113,7 +1141,7 @@ namespace CarpoolingCR.Controllers
                         ToUserId = trip.ApplicationUserId,
                         PromoAmount = reservation.totalPayedWithPromo,
                         PromoId = promoId,
-                        Detail = "Pago de reservación por pasajero"
+                        Detail = "Pago de reservación."
                     };
 
                     db.BlockedAmounts.Add(blockedBalance);

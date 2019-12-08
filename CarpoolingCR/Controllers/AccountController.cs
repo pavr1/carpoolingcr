@@ -726,7 +726,8 @@ namespace CarpoolingCR.Controllers
                     var historial = new BalanceHistorial
                     {
                         UserPromoId = userPromo.UserPromosId,
-                        RidecoinsAmount = promo.Amount,
+                        PromoAmount = promo.Amount,
+                        RidecoinsAmount = 0m,
                         CashAmount = 0m,
                         Date = currentDate,
                         Detail = promo.Description,

@@ -20,18 +20,22 @@ namespace CarpoolingCR.Models.Promos
         public decimal PromoAmount { get; set; }
         public decimal CashAmount { get; set; }
         
-        [NotMapped]
-        public ApplicationUser User
-        {
-            get
-            {
-                using (var db = new ApplicationDbContext())
-                {
-                    var user = db.Users.Where(x => x.Id == UserId).SingleOrDefault();
+        //[NotMapped]
+        //public ApplicationUser User
+        //{
+        //    get
+        //    {
+        //        using (var db = new ApplicationDbContext())
+        //        {
+        //            var user = db.Users.Where(x => x.Id == UserId).SingleOrDefault();
 
-                    return user;
-                }
-            }
-        }
+        //            foreach (var historial in user.BalanceHistorial)
+        //            {
+        //                historial.User = null;
+        //            }
+        //            return user;
+        //        }
+        //    }
+        //}
     }
 }

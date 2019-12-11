@@ -203,7 +203,7 @@ namespace CarpoolingCR.Controllers
 
                 var promo = Common.FindAvailablePromo("Viaje Pasajero", user);
 
-                if(promo != null)
+                if (promo != null)
                 {
                     ViewBag.Promo = promo.Amount;
                     ViewBag.PromoId = promo.PromoId;
@@ -380,7 +380,7 @@ namespace CarpoolingCR.Controllers
                 var promo = Common.FindAvailablePromo("VIaje Conductor", user);
                 var promoAmount = 0m;
 
-                if(promo != null)
+                if (promo != null)
                 {
                     promoAmount = promo.Amount;
                 }
@@ -607,9 +607,13 @@ namespace CarpoolingCR.Controllers
 
                             db.Entry(userPromo).State = EntityState.Added;
                             db.SaveChanges();
+
+                            promo.AmountAvailable -= blockedAmount.PromoAmount;
+                            db.Entry(promo).State = EntityState.Modified;
+                            db.SaveChanges();
                         }
                     }
-                    
+
                     trip.FromTown = fromDistrict;
                     trip.ToTown = toDistrict;
                     trip.Route = routeDistrict;
@@ -654,7 +658,7 @@ namespace CarpoolingCR.Controllers
 
                         int routeBackId = routeBack.DistrictId;
                         var tripDateTo = DateTime.SpecifyKind(Convert.ToDateTime(Request["DateTime-To"]), DateTimeKind.Local);
-                        
+
                         var arrivalTimeTo = tripDateTo.AddHours(apoxTime);
 
                         existentTrip = db.Trips.Where(x => x.DateTime == utcTime)
@@ -728,6 +732,11 @@ namespace CarpoolingCR.Controllers
                                 };
 
                                 db.Entry(userPromo).State = EntityState.Added;
+                                db.SaveChanges();
+
+                                promo.AmountAvailable -= blockedAmount.PromoAmount;
+
+                                db.Entry(promo).State = EntityState.Modified;
                                 db.SaveChanges();
                             }
                         }
@@ -1167,7 +1176,7 @@ namespace CarpoolingCR.Controllers
                     trip.ToTown = db.Districts.Where(x => x.DistrictId == trip.ToTownId).Single();
                     trip.Route = db.Districts.Where(x => x.DistrictId == trip.RouteId).Single();
                     trip.UserRatings = db.UserRatings.Where(x => x.TripId == trip.TripId).ToList();
-    }
+                }
 
                 var response = new HistorialResponse
                 {

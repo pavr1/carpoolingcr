@@ -49,6 +49,20 @@ namespace CarpoolingCR.Utils
 
                     db.Entry(driverBalanceHistorial).State = EntityState.Added;
                     db.SaveChanges();
+
+                    //if there is a promo id and the trip is cancelled or rejected
+                    if (blockedAmount.PromoId != null)
+                    {
+                        var promo = db.Promo.Where(x => x.PromoId == (int)blockedAmount.PromoId).SingleOrDefault();
+
+                        if (promo != null)
+                        {
+                            promo.AmountAvailable += blockedAmount.PromoAmount;
+
+                            db.Entry(promo).State = EntityState.Modified;
+                            db.SaveChanges();
+                        }
+                    }
                 }
                 else if (trip.Status == Status.Finalizado)
                 {
@@ -117,6 +131,20 @@ namespace CarpoolingCR.Utils
                         TripId = reservation.Trip.TripId,
                         UserId = reservation.Trip.ApplicationUserId,
                     };
+
+                    //if there is a promo id and the reservation is cancelled or rejected
+                    if(blockedAmount.PromoId != null)
+                    {
+                        var promo = db.Promo.Where(x => x.PromoId == (int)blockedAmount.PromoId).SingleOrDefault();
+
+                        if(promo != null)
+                        {
+                            promo.AmountAvailable += blockedAmount.PromoAmount;
+
+                            db.Entry(promo).State = EntityState.Modified;
+                            db.SaveChanges();
+                        }
+                    }
 
                     db.Entry(driverBalanceHistorial).State = EntityState.Added;
                     db.SaveChanges();

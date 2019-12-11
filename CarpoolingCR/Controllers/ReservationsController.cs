@@ -1147,6 +1147,20 @@ namespace CarpoolingCR.Controllers
                     db.BlockedAmounts.Add(blockedBalance);
                     db.SaveChanges();
 
+                    //if there is a promo id and the reservation is cancelled or rejected
+                    if (blockedBalance.PromoId != null)
+                    {
+                        var promo = db.Promo.Where(x => x.PromoId == (int)blockedBalance.PromoId).SingleOrDefault();
+
+                        if (promo != null)
+                        {
+                            promo.AmountAvailable -= blockedBalance.PromoAmount;
+
+                            db.Entry(promo).State = EntityState.Modified;
+                            db.SaveChanges();
+                        }
+                    }
+
                     var userPromo = new UserPromos
                     {
                         Date = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),

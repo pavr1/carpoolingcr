@@ -118,6 +118,14 @@ namespace CarpoolingCR.Controllers
                     reservation.Trip.Route = db.Districts.Where(x => x.DistrictId == reservation.Trip.RouteId).Single();
 
                     reservation.Trip.UserRatings = db.UserRatings.Where(x => x.TripId == reservation.TripId).ToList();
+
+                    var blockedAmount = db.BlockedAmounts.Where(x => x.ToUserId == user.Id)
+                            .Where(x => x.ReservationId == reservation.ReservationId).SingleOrDefault();
+
+                    if (blockedAmount != null)
+                    {
+                        reservation.PendingPromoAmount = blockedAmount.PromoAmount;
+                    }
                 }
 
                 List<Trip> trips = new List<Trip>();

@@ -130,6 +130,9 @@ namespace CarpoolingCR.Models
         }
 
         [NotMapped]
+        public decimal PendingPromoAmount { get; set; }
+
+        [NotMapped]
         public DateTime LocalArrivalDateTime
         {
             get

@@ -63,6 +63,14 @@
                         var selectedSeatsTotalPrice = reservation.SelectedSeatsTotalPrice;
 
                         <li class="panel panel-default" style="border-radius:10px; padding:0px">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-top:10px">
+                                @{
+                                    if (reservation.PendingPromoAmount > 0m)
+                                    {
+                                        <p style="font-size:small" class="badge badge-success pull-right"><span class="fas fa-certificate" aria-hidden="true">&nbsp;</span>¡Has recibido un bono de @currency@reservation.PendingPromoAmount!</p><br />
+                                    }
+                                }
+                            </div>
                             <div class="row form-group" style="padding-left:10px;padding-top:10px;padding-right:10px;padding-bottom:0px">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <div class="row form-group">

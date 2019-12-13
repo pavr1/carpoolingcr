@@ -24,6 +24,14 @@
 }
 
 <div class="row form-group" style="padding-left:20px; padding-right:20px">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        @{
+            if (Model.PendingPromoAmount > 0m)
+            {
+                <p style="font-size:small" class="badge badge-success pull-right"><span class="fas fa-certificate" aria-hidden="true">&nbsp;</span>¡Has recibido un bono de @currency@Model.PendingPromoAmount!</p><br />
+            }
+        }
+    </div>
     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
         <span class="fas fa-calendar-alt"></span><small class="date"> <b>@Model.LocalDateTime.ToString("dddd dd 'de' MMMM 'del' yyyy")</b></small><br />
         <br />

@@ -95,6 +95,14 @@ namespace CarpoolingCR.Controllers
                         trip.Route = db.Districts.Where(x => x.DistrictId == trip.RouteId)
                             .Include(x => x.County)
                             .SingleOrDefault();
+
+                        var blockedAmount = db.BlockedAmounts.Where(x => x.ToUserId == user.Id)
+                            .Where(x => x.TripId == trip.TripId).SingleOrDefault();
+
+                        if(blockedAmount != null)
+                        {
+                            trip.PendingPromoAmount = blockedAmount.PromoAmount;
+                        }
                     }
                 }
                 else
@@ -124,6 +132,14 @@ namespace CarpoolingCR.Controllers
                             trip.Route = db.Districts.Where(x => x.DistrictId == trip.RouteId)
                             .Include(x => x.County)
                             .SingleOrDefault();
+
+                            var blockedAmount = db.BlockedAmounts.Where(x => x.ToUserId == user.Id)
+                            .Where(x => x.TripId == trip.TripId).SingleOrDefault();
+
+                            if (blockedAmount != null)
+                            {
+                                trip.PendingPromoAmount = blockedAmount.PromoAmount;
+                            }
                         }
 
                         reachedMaxCount = (currentTrips.Count == maxTripsPerUser);

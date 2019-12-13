@@ -41,5 +41,8 @@ namespace CarpoolingCR.Models
 
         public bool IsPassengerQualified { get; set; }
         public bool IsDriverQualified { get; set; }
+
+        [NotMapped]
+        public decimal PendingPromoAmount { get; set; }
     }
 }

@@ -1111,33 +1111,33 @@ namespace CarpoolingCR.Controllers
                 db.Reservations.Add(reservation);
                 db.SaveChanges();
 
-                var driverHistorial = new BalanceHistorial
-                {
-                    CashAmount = reservation.totalPayedWithCash,
-                    Date = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
-                    Detail = "Pago de reservación: " + trip.FromTown.FullName + " - " + trip.ToTown.FullName + ". Pago bloqueado hasta finalizar viaje.",
-                    RidecoinsAmount = reservation.totalPayedWithBalance,
-                    PromoAmount = reservation.totalPayedWithPromo,
-                    TripId = trip.TripId,
-                    UserId = trip.ApplicationUserId,
-                };
+                //var driverHistorial = new BalanceHistorial
+                //{
+                //    CashAmount = reservation.totalPayedWithCash,
+                //    Date = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
+                //    Detail = "Pago de reservación: " + trip.FromTown.FullName + " - " + trip.ToTown.FullName + ". Pago bloqueado hasta finalizar viaje.",
+                //    RidecoinsAmount = reservation.totalPayedWithBalance,
+                //    PromoAmount = reservation.totalPayedWithPromo,
+                //    TripId = trip.TripId,
+                //    UserId = trip.ApplicationUserId,
+                //};
 
-                db.Entry(driverHistorial).State = EntityState.Added;
-                db.SaveChanges();
+                //db.Entry(driverHistorial).State = EntityState.Added;
+                //db.SaveChanges();
 
-                var passengerHistorial = new BalanceHistorial
-                {
-                    CashAmount = reservation.totalPayedWithCash,
-                    Date = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
-                    Detail = "Pago de reservación: " + trip.FromTown.FullName + " - " + trip.ToTown.FullName + ". Pago bloqueado hasta finalizar viaje.",
-                    RidecoinsAmount = reservation.totalPayedWithBalance * -1,
-                    PromoAmount = reservation.totalPayedWithPromo,
-                    TripId = trip.TripId,
-                    UserId = reservation.ApplicationUserId,
-                };
+                //var passengerHistorial = new BalanceHistorial
+                //{
+                //    CashAmount = reservation.totalPayedWithCash,
+                //    Date = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
+                //    Detail = "Pago de reservación: " + trip.FromTown.FullName + " - " + trip.ToTown.FullName + ". Pago bloqueado hasta finalizar viaje.",
+                //    RidecoinsAmount = reservation.totalPayedWithBalance * -1,
+                //    PromoAmount = reservation.totalPayedWithPromo,
+                //    TripId = trip.TripId,
+                //    UserId = reservation.ApplicationUserId,
+                //};
 
-                db.Entry(passengerHistorial).State = EntityState.Added;
-                db.SaveChanges();
+                //db.Entry(passengerHistorial).State = EntityState.Added;
+                //db.SaveChanges();
 
                 //if there is a promo then block the amount and create a userPromo record
                 if (reservation.totalPayedWithPromo > 0) {

@@ -600,19 +600,19 @@ namespace CarpoolingCR.Controllers
                             db.Entry(blockedAmount).State = EntityState.Added;
                             db.SaveChanges();
 
-                            var historial = new BalanceHistorial
-                            {
-                                CashAmount = 0m,
-                                Date = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
-                                Detail = "Bono por creación de viaje. Bono bloqueado hasta finalizar viaje.",
-                                RidecoinsAmount = blockedAmount.BlockedBalanceAmount,
-                                PromoAmount = blockedAmount.PromoAmount,
-                                TripId = trip.TripId,
-                                UserId = trip.ApplicationUserId,
-                            };
+                            //var historial = new BalanceHistorial
+                            //{
+                            //    CashAmount = 0m,
+                            //    Date = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
+                            //    Detail = "Bono por creación de viaje. Bono bloqueado hasta finalizar viaje.",
+                            //    RidecoinsAmount = blockedAmount.BlockedBalanceAmount,
+                            //    PromoAmount = blockedAmount.PromoAmount,
+                            //    TripId = trip.TripId,
+                            //    UserId = trip.ApplicationUserId,
+                            //};
 
-                            db.Entry(historial).State = EntityState.Added;
-                            db.SaveChanges();
+                            //db.Entry(historial).State = EntityState.Added;
+                            //db.SaveChanges();
 
                             var userPromo = new UserPromos
                             {
@@ -726,19 +726,19 @@ namespace CarpoolingCR.Controllers
                                 db.Entry(blockedAmount).State = EntityState.Added;
                                 db.SaveChanges();
 
-                                var historial = new BalanceHistorial
-                                {
-                                    CashAmount = 0m,
-                                    Date = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
-                                    Detail = "Bono por creación de viaje. Bono bloqueado hasta finalizar viaje.",
-                                    RidecoinsAmount = blockedAmount.BlockedBalanceAmount,
-                                    PromoAmount = blockedAmount.PromoAmount,
-                                    TripId = trip.TripId,
-                                    UserId = trip.ApplicationUserId,
-                                };
+                                //var historial = new BalanceHistorial
+                                //{
+                                //    CashAmount = 0m,
+                                //    Date = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
+                                //    Detail = "Bono por creación de viaje. Bono bloqueado hasta finalizar viaje.",
+                                //    RidecoinsAmount = blockedAmount.BlockedBalanceAmount,
+                                //    PromoAmount = blockedAmount.PromoAmount,
+                                //    TripId = trip.TripId,
+                                //    UserId = trip.ApplicationUserId,
+                                //};
 
-                                db.Entry(historial).State = EntityState.Added;
-                                db.SaveChanges();
+                                //db.Entry(historial).State = EntityState.Added;
+                                //db.SaveChanges();
 
                                 var userPromo = new UserPromos
                                 {

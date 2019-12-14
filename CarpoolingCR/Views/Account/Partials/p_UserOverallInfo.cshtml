@@ -2,7 +2,7 @@
 
 <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        <div class="pull-right selectable-div" style="width:110px;cursor:pointer; border-radius:10px" onclick="PopUpUserInfo()">
+        <div class="pull-right selectable-div" style="width:110px;cursor:pointer; border-radius:10px" onclick="PopUpUserInfo('@Model.RateUserInfoModalName')">
             @{
                 <div class="pull-right" id="profile-container-small" data-toggle="tooltip" style="margin-right:30px;" title="Conductor">
                     <img id="profileImage" class="center-block" src="@Url.Content(Model.Picture)" />
@@ -22,7 +22,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="rateUserInfoModal" tabindex="-1" role="dialog" aria-labelledby="rateUserInfoModalModalLabel" aria-hidden="true">
+<div class="modal fade" id="@Model.RateUserInfoModalName" tabindex="-1" role="dialog" aria-labelledby="rateUserInfoModalModalLabel" aria-hidden="true">
     <div class="vertical-alignment-helper">
         <div class="modal-dialog vertical-align-center">
             <div class="modal-content">
@@ -37,7 +37,7 @@
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="center-block" style="width:110px;border-radius:10px;text-align:center">
                                 @{
-                                    <div id="profile-container-small" data-toggle="tooltip" style="margin-right:0px;width:100px; height:100px" title="Conductor">
+                                    <div id="profile-container-small" data-toggle="tooltip" style="margin-right:0px;width:100px; height:100px" title="Usuario">
                                         <img id="profileImage" src="@Url.Content(Model.Picture)" style="margin-right:0px;width:100px; height:100px" />
                                     </div>
 
@@ -128,7 +128,7 @@
                         }
                     </div>
                     <hr style="padding:0px; margin:0px" />
-                    <h6 class="text-default">Comentarios:</h6>
+                    <h6 class="text-default">Calificaciones:</h6>
                     @{
                         if (Model.UserRatings.Count() == 0)
                         {
@@ -148,7 +148,7 @@
 
                                 <div class="row">
                                     <div class="col-lg-2 col-md-2 col-sm-2 col-xs-3">
-                                        <div id="profile-container-small" data-toggle="tooltip" style="margin-right:0px" title="Conductor">
+                                        <div id="profile-container-small" data-toggle="tooltip" style="margin-right:0px" title="Usuario">
                                             <img id="profileImage" src="@Url.Content(rating.FromUser.Picture)" style="margin-right:0px;" />
                                         </div>
                                         <small>&nbsp;&nbsp;@rating.FromUser.Name</small>
@@ -175,8 +175,8 @@
 </div>
 
 <script>
-    function PopUpUserInfo() {
-        $('#rateUserInfoModal').modal();
+    function PopUpUserInfo(modal) {
+        $('#' + modal).modal();
     }
 </script>
 

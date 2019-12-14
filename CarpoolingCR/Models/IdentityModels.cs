@@ -89,6 +89,15 @@ namespace CarpoolingCR.Models
             }
         }
 
+        [NotMapped]
+        public string RateUserInfoModalName
+        {
+            get
+            {
+                return "rateUserInfoModal_" + Id;
+            }
+        }
+
         public int WaitingTimeToResendSMS
         {
             get

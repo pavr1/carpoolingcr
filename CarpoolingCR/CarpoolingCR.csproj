@@ -18,13 +18,10 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
-    <IISExpressSSLPort>44346</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication>
-    </IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>
-    </IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>
-    </IISExpressUseClassicPipelineMode>
+    <IISExpressSSLPort>443</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -428,6 +425,10 @@
     <Compile Include="Migrations\201912082141575_Added BalanceHistorial.PromoAmount.cs" />
     <Compile Include="Migrations\201912082141575_Added BalanceHistorial.PromoAmount.Designer.cs">
       <DependentUpon>201912082141575_Added BalanceHistorial.PromoAmount.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201912241832257_BlockedAmountId.cs" />
+    <Compile Include="Migrations\201912241832257_BlockedAmountId.Designer.cs">
+      <DependentUpon>201912241832257_BlockedAmountId.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -1204,6 +1205,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201912082141575_Added BalanceHistorial.PromoAmount.resx">
       <DependentUpon>201912082141575_Added BalanceHistorial.PromoAmount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201912241832257_BlockedAmountId.resx">
+      <DependentUpon>201912241832257_BlockedAmountId.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

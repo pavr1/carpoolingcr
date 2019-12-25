@@ -12,5 +12,6 @@ namespace CarpoolingCR.Models.Promos
         public virtual int PromoId { get; set; }
         public virtual Promo Promo { get; set; }
         public DateTime Date { get; set; }
+        public int BlockedAmountId { get; set; }
     }
 }

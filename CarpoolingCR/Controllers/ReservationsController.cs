@@ -1173,7 +1173,8 @@ namespace CarpoolingCR.Controllers
                     {
                         Date = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
                         PromoId = (int)promoId,
-                        UserId = user.Id
+                        UserId = user.Id,
+                        BlockedAmountId = blockedBalance.BlockedAmountId
                     };
 
                     db.Entry(userPromo).State = EntityState.Added;

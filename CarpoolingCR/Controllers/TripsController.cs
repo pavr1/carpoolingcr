@@ -619,11 +619,13 @@ namespace CarpoolingCR.Controllers
                                 Date = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
                                 PromoId = promo.PromoId,
                                 UserId = user.Id,
+                                BlockedAmountId = blockedAmount.BlockedAmountId
                             };
 
                             db.Entry(userPromo).State = EntityState.Added;
                             db.SaveChanges();
 
+                            promo = db.Promo.Where(x => x.PromoId == promo.PromoId).Single();
                             promo.AmountAvailable -= blockedAmount.PromoAmount;
                             db.Entry(promo).State = EntityState.Modified;
                             db.SaveChanges();
@@ -745,11 +747,13 @@ namespace CarpoolingCR.Controllers
                                     Date = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
                                     PromoId = promo.PromoId,
                                     UserId = user.Id,
+                                    BlockedAmountId = blockedAmount.BlockedAmountId
                                 };
 
                                 db.Entry(userPromo).State = EntityState.Added;
                                 db.SaveChanges();
 
+                                promo = db.Promo.Where(x => x.PromoId == promo.PromoId).Single();
                                 promo.AmountAvailable -= blockedAmount.PromoAmount;
 
                                 db.Entry(promo).State = EntityState.Modified;

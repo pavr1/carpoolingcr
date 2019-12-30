@@ -1,8 +1,7 @@
-﻿using System;
+﻿using CarpoolingCR.Utils;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 using static CarpoolingCR.Utils.Enums;
 
 namespace CarpoolingCR.Models.Promos
@@ -41,5 +40,28 @@ namespace CarpoolingCR.Models.Promos
         public decimal? AmountAvailable { get; set; }
 
         public List<UserPromos> UserPromos { get; set; }
+
+        public DateTime LocalStartTime
+        {
+            get
+            {
+                return Common.ConvertToLocalTime(StartTime);
+            }
+        }
+
+        public DateTime? LocalEndTime
+        {
+            get
+            {
+                if (EndTime != null)
+                {
+                    return Common.ConvertToLocalTime((DateTime)EndTime);
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
     }
 }

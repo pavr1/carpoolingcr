@@ -7,6 +7,7 @@ using static CarpoolingCR.Utils.Enums;
 
 namespace CarpoolingCR.Models
 {
+    [Obsolete]
     public class RideRequest
     {
         public int RideRequestId { get; set; }

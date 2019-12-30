@@ -2,23 +2,42 @@
 
 <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        <div class="pull-right selectable-div" style="width:110px;cursor:pointer; border-radius:10px" onclick="PopUpUserInfo('@Model.RateUserInfoModalName')">
-            @{
+        @{
+            var selectableDiv = "";
+
+            if (ViewBag.HideUserDetail != null)
+            {
+                if (!ViewBag.HideUserDetail)
+                {
+                    selectableDiv = "selectable-div";
+                }
+            }
+
+            <div class="pull-right @selectableDiv" style="width:110px;cursor:pointer; border-radius:10px" onclick="PopUpUserInfo('@Model.RateUserInfoModalName', @ViewBag.HideUserDetail)">
                 <div class="pull-right" id="profile-container-small" data-toggle="tooltip" style="margin-right:30px;" title="Conductor">
                     <img id="profileImage" class="center-block" src="@Url.Content(Model.Picture)" />
                 </div>
-                var stars = Model.Stars;
 
-                <small class="center-block">
-                    @Html.Partial("~/Views/Account/Partials/p_UserStars.cshtml", stars)
-                </small>
+                @{
+                    var stars = Model.Stars;
 
-                <small class="center-block" style="text-align:center">
-                    <span class="fas fa-chevron-down center-block" style="text-align:center"></span>
-                </small>
-                
-            }
-        </div>
+                    <small class="center-block" style="text-align:center">
+                        <b>@Model.Name</b>
+                        @Html.Partial("~/Views/Account/Partials/p_UserStars.cshtml", stars)
+                    </small>
+
+                    if (ViewBag.HideUserDetail != null)
+                    {
+                        if (!ViewBag.HideUserDetail)
+                        {
+                        <small class="center-block" style="text-align:center">
+                            <span class="fas fa-chevron-down center-block" style="text-align:center"></span>
+                        </small>
+                            }
+                        }
+                    }
+            </div>
+        }
     </div>
 </div>
 
@@ -108,21 +127,21 @@
                                         age--;
                                     }
 
-                                    <small><small><b>Edad: </b> <br /> @age</small></small>
+                                    <small><b>Edad: </b> <br /> @age</small>
                                 }
                             }
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-                            <small><small><b>Miembro Desde: </b><br /> @Model.MemberSince.ToString("MMMM, yyyy")</small></small>
+                            <small><b>Miembro Desde: </b><br /> @Model.MemberSince.ToString("MMMM, yyyy")</small>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-                            <small><small><b>Reservaciones: </b><br /> @Model.ReservationsAmount</small></small>
+                            <small><b>Reservaciones: </b><br /> @Model.ReservationsAmount</small>
                         </div>
                         @{
                             if (Model.UserType != CarpoolingCR.Utils.Enums.UserType.Pasajero)
                             {
                                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-                                    <small><small><b>Viajes: </b><br /> @Model.TripsAmount</small></small>
+                                    <small><b>Viajes: </b><br /> @Model.TripsAmount</small>
                                 </div>
                             }
                         }
@@ -175,8 +194,10 @@
 </div>
 
 <script>
-    function PopUpUserInfo(modal) {
-        $('#' + modal).modal();
+    function PopUpUserInfo(modal, hide) {
+        if (!hide) {
+            $('#' + modal).modal();
+        }
     }
 </script>
 

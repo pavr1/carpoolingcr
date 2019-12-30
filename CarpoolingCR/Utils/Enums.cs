@@ -133,6 +133,22 @@ namespace CarpoolingCR.Utils
             [Description("Inactivo")]
             Inactive = 2
         }
+
+        public enum RideTransactionTypeEnum
+        {
+            Deposit = 1,
+            Withdraw = 2
+        }
+
+        public enum RideTransactionStatusEnum
+        {
+            [Description("Pendiente")]
+            Pending = 1,
+            [Description("Aprobado")]
+            Approved = 2,
+            [Description("Rechazado")]
+            Rejected = 3
+        }
     }
 
     public static class EnumHelper<T>

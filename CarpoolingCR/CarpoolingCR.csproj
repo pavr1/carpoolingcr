@@ -229,6 +229,7 @@
     <Compile Include="Controllers\PhoneController.cs" />
     <Compile Include="Controllers\PromoesController.cs" />
     <Compile Include="Controllers\ProvincesController.cs" />
+    <Compile Include="Controllers\RideTransactionsController.cs" />
     <Compile Include="Controllers\UserRatingsController.cs" />
     <Compile Include="Controllers\RideRequestsController.cs" />
     <Compile Include="Controllers\TownsController.cs" />
@@ -430,6 +431,14 @@
     <Compile Include="Migrations\201912241832257_BlockedAmountId.Designer.cs">
       <DependentUpon>201912241832257_BlockedAmountId.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201912270124263_Created Ridetransaction Model.cs" />
+    <Compile Include="Migrations\201912270124263_Created Ridetransaction Model.Designer.cs">
+      <DependentUpon>201912270124263_Created Ridetransaction Model.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201912271537561_Added purchased bank information.cs" />
+    <Compile Include="Migrations\201912271537561_Added purchased bank information.Designer.cs">
+      <DependentUpon>201912271537561_Added purchased bank information.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Bank.cs" />
@@ -455,6 +464,7 @@
     <Compile Include="Models\Qualification.cs" />
     <Compile Include="Models\Reservation.cs" />
     <Compile Include="Models\RideRequest.cs" />
+    <Compile Include="Models\RideTransaction.cs" />
     <Compile Include="Models\Route.cs" />
     <Compile Include="Models\Town.cs" />
     <Compile Include="Models\Trip.cs" />
@@ -1043,6 +1053,11 @@
     <Content Include="Views\Promoes\Index.cshtml" />
     <Content Include="Views\Account\GetUserBalanceInformation.cshtml" />
     <Content Include="Views\Account\GetBlockingAmounts.cshtml" />
+    <Content Include="Views\RideTransactions\Create.cshtml" />
+    <Content Include="Views\RideTransactions\Delete.cshtml" />
+    <Content Include="Views\RideTransactions\Details.cshtml" />
+    <Content Include="Views\RideTransactions\Edit.cshtml" />
+    <Content Include="Views\RideTransactions\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1208,6 +1223,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201912241832257_BlockedAmountId.resx">
       <DependentUpon>201912241832257_BlockedAmountId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201912270124263_Created Ridetransaction Model.resx">
+      <DependentUpon>201912270124263_Created Ridetransaction Model.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201912271537561_Added purchased bank information.resx">
+      <DependentUpon>201912271537561_Added purchased bank information.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

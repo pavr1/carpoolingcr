@@ -13,14 +13,25 @@
 <br />
 <div class="row form-group" style="text-align:center">
     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-        <h5 class="pull-left"><i class="fas fa-wallet">&nbsp;</i>Monedero (Ridecoins)</h5>
+        <h5 class="pull-left"><i class="fas fa-wallet">&nbsp;</i>Monedero Virtual (ꭆidecoins)</h5>
     </div>
-    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pull-left">
+        @*<button id="btn-request-deposit" class="btn btn-sm btn-success panel panel-default" style="border-radius:10px 10px 10px 10px; width:200px"><span class="fas fa-coins" aria-hidden="true">&nbsp;</span>Compra Ridecoins</button>
+        <button id="btn-request-withdraw" class="btn btn-sm btn-success panel panel-default" style="border-radius:10px 10px 10px 10px; width:200px"><span class="fas fa-coins" aria-hidden="true">&nbsp;</span>Solicitud de Retiro</button>*@
+    </div>
+</div>
+<div class="row form-group" style="text-align:center">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <small class="badge pull-right">Ridecoins Disponibles: @currency@Model.Ridecoins.ToString("N2")</small>
     </div>
 </div>
-
-<div class="row form-group" style="text-align:center">
+<div class="row form-group" style="text-align:center; text-align:justify">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <small>Si deseas retirar tus ridecoins por favor envía un correo electrónico <b>desde tu e-mail registrado en buscoridecr.com a <a href="mailto:ridecoins@buscoridecr.com">ridecoins@buscoridecr.com</a></b> especificando el monto a retirar. 
+        Recuerda que la información de tu cuenta debe estar debidamente registrada en <b><a href="~/Manage/ProfileInfo" class="nav-link">tu perfíl</a></b> y que el monto especificado debe ser menor o igual a tus Ridecoins disponibles en tu monedero virtual. </small><br />
+    </div>
+</div>
+<div class="row form-group panel panel-default" style="text-align:center; padding-top: 20px; border-radius:10px">
     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
         <div id="btn-check-movements" class="btn btn-sm btn-info panel panel-default" onclick="CheckBlockedAction('movements')" data-toggle="button" aria-pressed="true" style="border-radius:10px 10px 10px 10px; width:200px">
             <span class="fas fa-coins" aria-hidden="true">&nbsp;</span>&nbsp;<small class="control-label" style="text-align:left">Movimientos: @currency@Model.Ridecoins.ToString("N2") </small>
@@ -41,12 +52,108 @@
     <hr />
 </div>
 <div class="row form-group">
-    <div id="content-div" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-
+    <div style="text-align:center" id="content-div" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <small>¡Selecciona una opción!</small>
+    </div>
+</div>
+<div class="modal fade" id="depositRequestModal" tabindex="-1" role="dialog" aria-labelledby="dayTripModalLabel" aria-hidden="true">
+    @Html.AntiForgeryToken()
+    <div class="vertical-alignment-helper">
+        <div class="modal-dialog vertical-align-center">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="dayTripModalLabel">Compra de Ridecoins</h4>
+                </div>
+                <div class="modal-body">
+                    <h5 class="pull-right">Ridecoin = ₡1.01</h5><br />
+                    <small>Pasos para realizar la compra de Ridecoins:</small><br />
+                    <small>1) Seleccione el banco de su preferencia y realice el depósito correspondiente.</small><br />
+                    <small>2) Tome una foto del comprobante de depósito.</small><br />
+                    <small>3) Seleccione el banco y cuenta.</small><br />
+                    <small>4) Ingrese el número de referencia y monto.</small><br />
+                    <small>5) Sube la foto del comprobante del depósito.</small><br />
+                    <small>5) Da click en solicitar compra.</small><br />
+                    <br />
+                    <small>La información del depósito será verificado y antes de acreditar los ridecoins a su cuenta.</small><br /><br />
+                    <hr />
+                    <input type="radio" name="bank" /> <small>Banco Nacional: 123154654876, Sinpe: 45645487968731, Nombre: Pablo Villalobos Rodriguez, Cedula: 205810569</small><br />
+                    <input type="radio" name="bank" /> <small>BAC: 123154654876, Sinpe: 45645487968731, Nombre: Pablo Villalobos Rodriguez, Cedula: 205810569</small><br /><br />
+                    <div class="row form-group">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            Número de Referencia:
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <input type="text" class="form-control" id="reference-number" />
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            Monto:
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <input type="text" class="form-control money" id="amount" />
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            Sube el comprobante de Depósito
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            @*<input id="imageUpload" type="file" name="profile_photo" placeholder="Photo">*@
+                            <input type="file" />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="button" class="btn btn-default btn-sm" style="width:150px" data-dismiss="modal" value="Cancelar">
+                        <input type="button" class="btn btn-info btn-sm" style="width:150px" value="Solicitar Compra">
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
+<div class="modal fade" id="withdrawRequestModal" tabindex="-1" role="dialog" aria-labelledby="dayTripModalLabel" aria-hidden="true">
+    <form action="~/Trips/Delete/0" method="post">
+        @Html.AntiForgeryToken()
+        <div class="vertical-alignment-helper">
+            <div class="modal-dialog vertical-align-center">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                        </button>
+                        <h4 class="modal-title" id="dayTripModalLabel">Solicitud de Retiro</h4>
+                    </div>
+                    <div class="modal-body">
+                        <small>Por ahora la única forma de depósito es por medio de transferencia a cualquiera de las siguientes cuentas</small><br />
+                        <small>Banco Nacional: 123154654876 45645487968731</small><br />
+                        <small>BAC: 123154654876 45645487968731</small><br />
+                        <div class="modal-footer">
+                            <input type="button" class="btn btn-default btn-sm" style="width:150px" data-dismiss="modal" value="Cancelar">
+                            <input type="submit" class="btn btn-danger btn-sm" style="width:150px" value="Eliminar">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
 <script>
+    $('#amount').mask('000000');
+
+    $('#btn-request-deposit').click(function () {
+        $('#depositRequestModal').modal();
+    });
+
+    $('#btn-request-withdraw').click(function () {
+        $('#withdrawRequestModal').modal();
+    });
+
     function CheckBlockedAction(type) {
         if (type == 'expenses') {
             $('#btn-check-blocked-icomes').removeClass('active');
@@ -65,5 +172,14 @@
         function (data) {
             $('#content-div').html(data);
         });
+    }
+
+    function RequestRidecoinsPurchase(transactionType) {
+        $.post('/RideTransactions/Create', { referenceNumber: "", amount: 0, transactionType: transactionType},
+            function (data) {
+                $('#chatContainer').html(data);
+
+                $('#chatMessageContainer').scrollTop($('#chatMessageContainer')[0].scrollHeight);
+            });
     }
 </script>

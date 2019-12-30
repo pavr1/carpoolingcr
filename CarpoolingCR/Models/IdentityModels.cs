@@ -417,5 +417,7 @@ namespace CarpoolingCR.Models
         public System.Data.Entity.DbSet<CarpoolingCR.Models.Promos.UserPromos> UserPromos { get; set; }
 
         public System.Data.Entity.DbSet<CarpoolingCR.Models.Promos.BlockedAmount> BlockedAmounts { get; set; }
+
+        public System.Data.Entity.DbSet<CarpoolingCR.Models.RideTransaction> RideTransactions { get; set; }
     }
 }

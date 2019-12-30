@@ -1,0 +1,81 @@
+﻿@model IEnumerable<CarpoolingCR.Models.RideTransaction>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.UserId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RequestedDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TransactionType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TransactionStatus)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AppliedDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ReferencedNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Image)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Amount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Detail)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RequestedDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TransactionType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TransactionStatus)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AppliedDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ReferencedNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Image)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Amount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Detail)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.RideTransactionId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.RideTransactionId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.RideTransactionId })
+        </td>
+    </tr>
+}
+
+</table>

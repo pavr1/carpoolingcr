@@ -2,8 +2,6 @@
 using Microsoft.AspNet.Identity;
 using System;
 using System.IO;
-using System.Linq;
-using System.Threading;
 using System.Web.Configuration;
 using static CarpoolingCR.Utils.Enums;
 
@@ -15,7 +13,7 @@ namespace CarpoolingCR.Utils
         {
             callbackUrl = callbackUrl.Replace("http://", "https://");
 
-            var html = "Te has registrado de forma exitosa en nuestro sitio. Buscoridecr.com te da la bienvenida! <br/> Para confirmar tu cuenta <a href='" + callbackUrl + "'><b>DA CLICK AQUÍ</a></a>";
+            var html = "Tu cuenta en www.buscoridecr.com ha sido creada satisfactoriamente. ¡Te damos la bienvenida! <br/><br/> Ahora sólo <a href='" + callbackUrl + "'><b>CONFIRMA TU CUENTA DANDO CLICK AQUÍ</a>.";
 
             SendEmail(new IdentityMessage
             {
@@ -192,7 +190,7 @@ namespace CarpoolingCR.Utils
         {
             callbackUrl = callbackUrl.Replace("http://", "https://");
 
-            var html = "Felicidades, has recibido un " + promoDescription + " por un monto de " + amount.ToString("N2") + ". ¡Sigue participando en nuestras promociones!";
+            var html = "Felicidades, has recibido un " + promoDescription + " por un monto de " + amount.ToString("N2") + " ridecoins. ¡Sigue participando en nuestras promociones!";
 
             SendEmail(new IdentityMessage
             {
@@ -345,6 +343,45 @@ namespace CarpoolingCR.Utils
                 Subject = "Verificación de Cédula",
                 Body = html
             }, EmailType.Notifications, true, appLogo);
+        }
+
+        public static void SendEmailRidecoinsRequest(string callbackUrl, ApplicationUser user, string referenceNumber, decimal amount, Enums.RideTransactionTypeEnum transactionType, string appLogo)
+        {
+            callbackUrl = callbackUrl.Replace("http://", "https://");
+
+            var html = string.Empty;
+            var subject = string.Empty;
+
+            if (transactionType == RideTransactionTypeEnum.Deposit)
+            {
+                subject = "Han realizado compra de Ridecoins\n";
+                html = subject;
+                html += user.FullName + " ha solicitado la compra de " + amount.ToString("N2") + " ridecoins.\n";
+                html += "Banco: " + user.BankAccount.Bank.BankName + "\n";
+                html += "Referencia: " + referenceNumber + "\n";
+                html += "Ridecoins: " + amount + "\n";
+
+            }
+            else
+            {
+                subject = "Han solicitado retiro de dinero\n";
+                html = subject;
+                html += user.FullName + " ha solicitado el retiro de ₡" + amount.ToString("N2") + ".\n";
+                html += "Identificación: " + user.UserIdentification + "\n";
+                html += "Email: " + user.Email + "\n";
+                html += "Banco: " + user.BankAccount.Bank.BankName + "\n";
+                html += "Cta Ahorros: " + user.BankAccount.SavingsAccount + "\n";
+                html += "Cta Sinpe: " + user.BankAccount.Sinpe + "\n";
+            }
+
+            html = "Para tomar acciones sobre esta solicitud de click <b><a href='" + callbackUrl + "'>aquí</a>";
+
+            SendEmail(new IdentityMessage
+            {
+                Destination = WebConfigurationManager.AppSettings["AdminEmails"],
+                Subject = subject,
+                Body = html
+            }, EmailType.Notifications, false, appLogo);
         }
     }
 }

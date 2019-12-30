@@ -277,7 +277,7 @@ namespace CarpoolingCR.Controllers
 
                 var referenceLink = Url.Action("Register", "Account", new { refusr = user.Id}, protocol: Request.Url.Scheme);
 
-                user.ReferenceLink = referenceLink;
+                user.ReferenceLink = referenceLink.Replace("http://", "https://");
 
                 ViewBag.BrandId = new SelectList(user.Brands, "BrandId", "Name");
 
@@ -368,12 +368,6 @@ namespace CarpoolingCR.Controllers
                             }
 
                             path = relativePath;
-
-                            //path = Path.Combine(Server.MapPath("~/Content/Pictures/Users"), fileName);
-                            //file.SaveAs(path);
-
-                            //path = "\\Content\\" + path.Split(new string[] { "\\Content\\" }, StringSplitOptions.RemoveEmptyEntries)[1];
-                            //path = "~/" + path.Replace("\\", "/");
                         }
                     }
                     if (string.IsNullOrEmpty(Request["UserIdentification"]))

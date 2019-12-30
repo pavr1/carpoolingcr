@@ -1,8 +1,8 @@
 ﻿using CarpoolingCR.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using System.Web;
 
 namespace CarpoolingCR.Objects.Responses
 {
@@ -19,5 +19,18 @@ namespace CarpoolingCR.Objects.Responses
         public List<Reservation> ExistentReservations { get; set; }
         public bool CouldNotFindExactTrip { get; set; }
         public string Currency { get; set; }
+
+        public ApplicationUser CurrentUser
+        {
+            get
+            {
+                using (var db = new ApplicationDbContext())
+                {
+                    var user = db.Users.Where(x => x.Id == CurrentUserId).Single();
+
+                    return user;
+                }
+            }
+        }
     }
 }

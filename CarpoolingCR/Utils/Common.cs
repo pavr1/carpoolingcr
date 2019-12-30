@@ -45,6 +45,11 @@ namespace CarpoolingCR.Utils
                         {
                             promo.AmountAvailable += blockedAmount.PromoAmount;
 
+                            if(promo.AmountAvailable > 0)
+                            {
+                                promo.Status = PromoStatus.Active;
+                            }
+
                             db.Entry(promo).State = EntityState.Modified;
                             db.SaveChanges();
 
@@ -125,6 +130,11 @@ namespace CarpoolingCR.Utils
                         {
                             promo.AmountAvailable += blockedAmount.PromoAmount;
 
+                            if (promo.AmountAvailable > 0)
+                            {
+                                promo.Status = PromoStatus.Active;
+                            }
+
                             db.Entry(promo).State = EntityState.Modified;
                             db.SaveChanges();
 
@@ -139,19 +149,19 @@ namespace CarpoolingCR.Utils
                     }
 
 
-                    var passengerBalanceHistorial = new BalanceHistorial
-                    {
-                        CashAmount = 0m,
-                        Date = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
-                        Detail = "Cancelación de reservación: " + trip.FromTown.FullName + " - " + trip.ToTown.FullName,
-                        RidecoinsAmount = blockedAmount.BlockedBalanceAmount,
-                        PromoAmount = blockedAmount.PromoAmount,
-                        TripId = reservation.TripId,
-                        UserId = reservation.ApplicationUserId,
-                    };
+                    //var passengerBalanceHistorial = new BalanceHistorial
+                    //{
+                    //    CashAmount = 0m,
+                    //    Date = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
+                    //    Detail = "Cancelación de reservación: " + trip.FromTown.FullName + " - " + trip.ToTown.FullName,
+                    //    RidecoinsAmount = blockedAmount.BlockedBalanceAmount,
+                    //    PromoAmount = blockedAmount.PromoAmount,
+                    //    TripId = reservation.TripId,
+                    //    UserId = reservation.ApplicationUserId,
+                    //};
 
-                    db.Entry(passengerBalanceHistorial).State = EntityState.Added;
-                    db.SaveChanges();
+                    //db.Entry(passengerBalanceHistorial).State = EntityState.Added;
+                    //db.SaveChanges();
 
                     var reservationUser = db.Users.Where(x => x.Id == reservation.ApplicationUserId).Single();
                     reservationUser.Ridecoins += rollbackBalance;
@@ -304,7 +314,7 @@ namespace CarpoolingCR.Utils
                 if (Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()) < promo.StartTime)
                 {
                     //not in promo's range. Treat it as there is no promo yet
-                    promo = null;
+                    return null;
                 }
 
                 if (promo.EndTime != null)
@@ -312,7 +322,7 @@ namespace CarpoolingCR.Utils
                     if (Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()) > promo.EndTime)
                     {
                         //not in promo's range. Treat it as there is no promo yet
-                        promo = null;
+                        return null;
                     }
                 }
 
@@ -339,7 +349,7 @@ namespace CarpoolingCR.Utils
 
                     //if the available amount minus promo amount for this particular user is less than or equal to zero, then the promo is over. Not enough money for this user's bonus
                     //so do not apply the promo and inactivate it
-                    if (remainingBudget <= 0)
+                    if (remainingBudget < 0)
                     {
                         appliesForPromo = false;
 

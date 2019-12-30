@@ -99,7 +99,7 @@ namespace CarpoolingCR.Controllers
                         var blockedAmount = db.BlockedAmounts.Where(x => x.ToUserId == user.Id)
                             .Where(x => x.TripId == trip.TripId).SingleOrDefault();
 
-                        if(blockedAmount != null)
+                        if (blockedAmount != null)
                         {
                             trip.PendingPromoAmount = blockedAmount.PromoAmount;
                         }
@@ -477,6 +477,8 @@ namespace CarpoolingCR.Controllers
                 fields += "ck-smoking: " + Request["ck-smoking"] + ", ";
                 #endregion
 
+                Promo promo = null;
+
                 if (ModelState.IsValid)
                 {
                     var fromDistrict = new District();
@@ -581,7 +583,7 @@ namespace CarpoolingCR.Controllers
                         db.Entry(trip).State = EntityState.Added;
                         db.SaveChanges();
 
-                        var promo = Common.FindAvailablePromo("Viaje Conductor", user);
+                        promo = Common.FindAvailablePromo("Viaje Conductor", user);
 
                         if (promo != null)
                         {
@@ -599,20 +601,6 @@ namespace CarpoolingCR.Controllers
 
                             db.Entry(blockedAmount).State = EntityState.Added;
                             db.SaveChanges();
-
-                            //var historial = new BalanceHistorial
-                            //{
-                            //    CashAmount = 0m,
-                            //    Date = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
-                            //    Detail = "Bono por creación de viaje. Bono bloqueado hasta finalizar viaje.",
-                            //    RidecoinsAmount = blockedAmount.BlockedBalanceAmount,
-                            //    PromoAmount = blockedAmount.PromoAmount,
-                            //    TripId = trip.TripId,
-                            //    UserId = trip.ApplicationUserId,
-                            //};
-
-                            //db.Entry(historial).State = EntityState.Added;
-                            //db.SaveChanges();
 
                             var userPromo = new UserPromos
                             {
@@ -710,9 +698,7 @@ namespace CarpoolingCR.Controllers
                             db.Entry(tripBack).State = EntityState.Added;
                             db.SaveChanges();
 
-                            var promo = Common.FindAvailablePromo("Viaje Conductor", user);
-
-                            if (promo != null)
+                            if ((promo.AmountAvailable - promo.Amount) >= 0m)
                             {
                                 var blockedAmount = new BlockedAmount
                                 {
@@ -727,20 +713,6 @@ namespace CarpoolingCR.Controllers
 
                                 db.Entry(blockedAmount).State = EntityState.Added;
                                 db.SaveChanges();
-
-                                //var historial = new BalanceHistorial
-                                //{
-                                //    CashAmount = 0m,
-                                //    Date = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
-                                //    Detail = "Bono por creación de viaje. Bono bloqueado hasta finalizar viaje.",
-                                //    RidecoinsAmount = blockedAmount.BlockedBalanceAmount,
-                                //    PromoAmount = blockedAmount.PromoAmount,
-                                //    TripId = trip.TripId,
-                                //    UserId = trip.ApplicationUserId,
-                                //};
-
-                                //db.Entry(historial).State = EntityState.Added;
-                                //db.SaveChanges();
 
                                 var userPromo = new UserPromos
                                 {

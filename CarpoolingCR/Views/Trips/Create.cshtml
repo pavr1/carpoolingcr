@@ -94,15 +94,7 @@
                 </div>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                <div class="row form-group btn-group center-block" style="padding-left:13px; padding-right:13px; margin-bottom:0px">
-                    <div id="oneway" class="btn btn-xs btn-default panel panel-default active" data-toggle="button" aria-pressed="false" autocomplete="off" style="border-radius:10px 0px 0px 10px; width:140px;pointer-events:none">
-                        <span class="fas fa-long-arrow-alt-right">&nbsp;</span>&nbsp;<label class="control-label" style="text-align:left">Ida </label>
-                    </div>
-                    <div id="rbRound" name="rbRound" class="btn btn-xs btn-default panel panel-default allow-checkboxes" onclick="ChangeTripRound()" data-toggle="button" aria-pressed="false" autocomplete="off" style="border-radius:0px 10px 10px 0px; width:140px">
-                        <span class="fas fa-long-arrow-alt-left">&nbsp;</span>&nbsp;<label class="control-label" style="text-align:left">Vuelta</label>
-                        <input type="text" id="rb-Round" name="rb-Round" style="display:none" />
-                    </div>
-                </div>
+               
             </div>
         </div>
         <div class="row form-group" style="padding:20px; padding-top:0px !important">
@@ -159,6 +151,21 @@
                                 </div>
                                 <div class="col-lg-9 col-md-9 col-sm-8 col-xs-12 pull-left">
                                     @Html.EditorFor(model => model.Trip.Details, new { htmlAttributes = new { @class = "form-control w-100" } })
+                                </div>
+                            </div>
+                            <br />
+                            <br />
+                            <br />
+                            <br />
+                            <br />
+                            <br />
+                            <div class="row form-group btn-group center-block" style="padding-left:13px; padding-right:13px; margin-bottom:0px">
+                                <div id="oneway" class="btn btn-xs btn-default panel panel-default active" data-toggle="button" aria-pressed="false" autocomplete="off" style="border-radius:10px 0px 0px 10px; width:140px;pointer-events:none">
+                                    <span class="fas fa-long-arrow-alt-right">&nbsp;</span>&nbsp;<label class="control-label" style="text-align:left">Ida </label>
+                                </div>
+                                <div id="rbRound" name="rbRound" class="btn btn-xs btn-default panel panel-default allow-checkboxes" onclick="ChangeTripRound()" data-toggle="button" aria-pressed="false" autocomplete="off" style="border-radius:0px 10px 10px 0px; width:140px">
+                                    <span class="fas fa-long-arrow-alt-left">&nbsp;</span>&nbsp;<label class="control-label" style="text-align:left">Vuelta</label>
+                                    <input type="text" id="rb-Round" name="rb-Round" style="display:none" />
                                 </div>
                             </div>
                         </div>

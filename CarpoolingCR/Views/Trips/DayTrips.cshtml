@@ -77,10 +77,16 @@
                                 <span class="fas fa-clock"></span>&nbsp;<small id="toTime"></small>&nbsp;&nbsp;<br class="visible-xs" /><span class="fas fa-map-marker-alt">&nbsp;</span><small id="modelTo"></small><br />
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                <div id="profile-container-small" data-toggle="tooltip" style="margin-right:15px" title="Conductor" class="pull-right">
-                                    <img id="driver-img" />
-                                </div><br /><br /><br />
-                                <small id="modelDriver" class="pull-right"></small><br />
+                                @{ 
+                                    //set this property to true so when the user clicks over the user's control to see its information, there will be no action, in this place we do not want any pop up
+                                    ViewBag.HideUserDetail = true;
+                                }
+
+                                @Html.Partial("~/Views/Account/Partials/p_UserOverallInfo.cshtml", Model.CurrentUser)
+                                @*<div id="profile-container-small" data-toggle="tooltip" style="margin-right:15px" title="Conductor" class="pull-right">
+                                        <img id="driver-img" />
+                                    </div><br /><br /><br />
+                                    <small id="modelDriver" class="pull-right"></small><br />*@
                             </div>
                         </div>
                         <div class="row form-group">
@@ -338,13 +344,13 @@
                 cash = 0;
             }
         }
-       
+
 
         $('#modelTotal').html(totalSelectedSeats.toFixed(2));
         $('#actualTotal').val(totalSelectedSeats.toFixed(2));
 
         $('#modelBalanceTotal').html(paymentWithBalance.toFixed(2));
-        $('#balancePayment').val(paymentWithBalance.toFixed(2));        
+        $('#balancePayment').val(paymentWithBalance.toFixed(2));
 
         $('#modelBalance').html(balance.toFixed(2));
         $('#actualBalance').val(balance.toFixed(2));
@@ -455,9 +461,9 @@
                                             <span class="fas fa-clock"></span>&nbsp;<small>`+ formatAMPM(new Date(event.end)) +`</small>&nbsp;&nbsp;<span class="fas fa-map-marker-alt">&nbsp;</span><small class="to">` + event.to + `</small><br />
                                         </td>
                                         <td class="fc-list-item-title fc-widget-content">
-                                            <div class="pull-right" id="profile-container-small" data-toggle="tooltip" title="Conductor"><img id="profileImage" src="` + event.picture + `" /></div><br /><br />
-                                            <small class="pull-right"><small>` + starsStr + `</small></small><br>
-                                            <small class="pull-right">` + event.driver + `</small><br>
+                                            <div class="pull-right" id="profile-container-small" data-toggle="tooltip" title="Conductor"><img id="profileImage" src="` + event.picture + `" /></div><br /><br /><br />
+                                            <small class="pull-right"><small>` + starsStr + `</small></small><br/>
+                                            <small class="pull-right">` + event.driver + `</small><br/>
                                         </td>
                                     </tr>
                                     <tr class="fc-list-item ">
@@ -695,19 +701,6 @@
 
         $('#dayCalendar').fullCalendar('gotoDate', startDate)
     });
-
-    //$('#RequestedSpaces').spinner({
-    //    stop: function (e, ui) {
-    //        var price = parseFloat($('#modelPrice').html());
-    //        var requestedSpaces = parseInt($('#RequestedSpaces').val());
-
-    //        var total = price * requestedSpaces;
-
-    //        $('#modelTotal').html(total.toFixed(2));
-
-    //        return false;
-    //    }
-    //}).val(1);
 
     function ExistReservationToTrip(currentTripId) {
         var passengerReservations = JSON.parse('@Html.Raw(Json.Encode(Model.ExistentReservations))');

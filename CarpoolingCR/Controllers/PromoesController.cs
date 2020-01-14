@@ -27,6 +27,11 @@ namespace CarpoolingCR.Controllers
             return View(promo.ToList());
         }
 
+        public ActionResult IndexDetail()
+        {
+            return View();
+        }
+
         // GET: Promoes/Details/5
         public ActionResult Details(int? id)
         {

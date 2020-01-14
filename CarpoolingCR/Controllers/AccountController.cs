@@ -367,6 +367,23 @@ namespace CarpoolingCR.Controllers
             {
                 ViewBag.ReferencedUser = refusr;
 
+                using (var db = new ApplicationDbContext())
+                {
+                    var user = db.Users.Where(x => x.Id == refusr).SingleOrDefault();
+
+                    if(user != null)
+                    {
+                        var send = Convert.ToBoolean(WebConfigurationManager.AppSettings["SendNotificationsToAdmin"]);
+
+                        if (send)
+                        {
+                            EmailHandler.SendEmailReferencedLinkAccessed(user.FullName, user.Email, logo);
+                        }
+
+                        ViewBag.RefUserName = user.FullName;
+                    }
+                }
+
                 ReloadCountryList();
             }
             catch (Exception ex)

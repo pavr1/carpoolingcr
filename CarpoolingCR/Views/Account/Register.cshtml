@@ -6,6 +6,24 @@
 }
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <br />
+<div class="row form-group">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:justify">
+        <h6>
+            ¿Viajas a algún lugar y necesitas ride? ¿O sos el conductor y tenés espacio en tu vehículo para llevar gente? wwww.buscoridecr.com es tu mejor opción, ¡crea o reserva tu viaje de una forma rápida y segura!
+            <br /><br />
+
+            ¡Regístrate gratis aquí!
+
+            @{
+                if (!string.IsNullOrEmpty(ViewBag.RefUserName))
+                {
+                    <small class="badge badge-info pull-right">Invitación de @ViewBag.RefUserName.</small>
+                }
+            }
+        </h6>
+        
+    </div>
+</div>
 <div class="row form-group" style="text-align:center">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <h5 class="panel-title pull-left">Registro de Usuarios</h5>

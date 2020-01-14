@@ -383,5 +383,18 @@ namespace CarpoolingCR.Utils
                 Body = html
             }, EmailType.Notifications, false, appLogo);
         }
+
+        public static void SendEmailReferencedLinkAccessed(string userName, string email, string appLogo)
+        {
+            var title = string.Empty;
+            var html = "¡Un enlace de referencia ha sido accesado! Puede que un usuario esté a punto de registrarse por medio de una invitación de otro usuario. Usuario de Referencia: " + userName + ", E-mail: " + email;
+
+            SendEmail(new IdentityMessage
+            {
+                Destination = email,
+                Subject = "Enlace de referencia accesado",
+                Body = html
+            }, EmailType.Notifications, true, appLogo);
+        }
     }
 }

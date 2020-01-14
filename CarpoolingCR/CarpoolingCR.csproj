@@ -508,6 +508,7 @@
     <Content Include="Content\Icons\ride_small_darkbg.jpg" />
     <Content Include="Content\Icons\ride_small_pkW_icon.ico" />
     <Content Include="Content\mdb.css" />
+    <Content Include="Content\Pictures\2019-12-29_2059.png" />
     <Content Include="Content\rating.css" />
     <Content Include="ride.ico" />
     <Content Include="ride2.ico" />
@@ -1058,6 +1059,7 @@
     <Content Include="Views\RideTransactions\Details.cshtml" />
     <Content Include="Views\RideTransactions\Edit.cshtml" />
     <Content Include="Views\RideTransactions\Index.cshtml" />
+    <Content Include="Views\Promoes\IndexDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

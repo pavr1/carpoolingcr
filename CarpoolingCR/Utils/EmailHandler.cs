@@ -195,7 +195,7 @@ namespace CarpoolingCR.Utils
             SendEmail(new IdentityMessage
             {
                 Destination = email,
-                Subject = "¡Bono aplicado a tu cueta!",
+                Subject = "¡Bono aplicado a tu cuenta!",
                 Body = html
             }, EmailType.Notifications, true, appLogo);
         }

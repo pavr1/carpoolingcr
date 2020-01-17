@@ -308,7 +308,7 @@ namespace CarpoolingCR.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> VerifyCode(VerifyCodeViewModel model)
         {
-            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg"); ;
+            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg");
 
             try
             {
@@ -381,6 +381,13 @@ namespace CarpoolingCR.Controllers
                         }
 
                         ViewBag.RefUserName = user.FullName;
+
+                        var promo = Common.FindAvailablePromo("Registro", user);
+
+                        if(promo != null)
+                        {
+                            ViewBag.RegisterPromoAmount = promo.Amount;
+                        }
                     }
                 }
 
@@ -626,16 +633,6 @@ namespace CarpoolingCR.Controllers
 
                     if (result.Succeeded)
                     {
-                        if (!string.IsNullOrEmpty(user.ReferencedUser))
-                        {
-                            var refUser = db.Users.Where(x => x.Id == user.ReferencedUser).Single();
-
-                            ValidateRefAndRegPromo("Referencia", logo, db, refUser);
-                        }
-
-                        //validate register promo if existent
-                        ValidateRefAndRegPromo("Registro", logo, db, user);
-
                         string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
 
                         var callbackUrl = string.Empty;
@@ -860,6 +857,25 @@ namespace CarpoolingCR.Controllers
                 {
                     return View("Error");
                 }
+
+                using (var db = new ApplicationDbContext())
+                {
+                    var user = db.Users.Where(x => x.Id == userId).SingleOrDefault();
+
+                    if (user != null)
+                    {
+                        //validate register promo if existent
+                        ValidateRefAndRegPromo("Registro", logo, db, user);
+
+                        if (!string.IsNullOrEmpty(user.ReferencedUser))
+                        {
+                            var refUser = db.Users.Where(x => x.Id == user.ReferencedUser).Single();
+
+                            ValidateRefAndRegPromo("Referencia", logo, db, refUser);
+                        }
+                    }
+                }
+
                 var result = await UserManager.ConfirmEmailAsync(userId, code);
 
                 return View(result.Succeeded ? "ConfirmEmail" : "Error");

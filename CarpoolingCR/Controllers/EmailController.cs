@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
-using System.Web;
 using System.Web.Mvc;
 using static CarpoolingCR.Utils.Enums;
 
@@ -67,7 +66,7 @@ namespace CarpoolingCR.Controllers
                         }
                         else
                         {
-                            users = db.Users.Where(x => x.Status == Enums.ProfileStatus.Active).ToList(); 
+                            users = db.Users.Where(x => x.Status == Enums.ProfileStatus.Active).ToList();
                         }
 
                         var sendEmails = new Thread(() => SendToAll(users, absolutePath));
@@ -116,20 +115,70 @@ namespace CarpoolingCR.Controllers
         {
             try
             {
+                string message = "<div class=\"panel panel-default\" style=\"text-align:justify; border-radius:10px; padding:20px; margin:20px\">" +
+                                    "<h4>" +
+                                        "Promoción de principio de año 2020" +
+                                    "</h4>" +
+                                    "<hr/>" +
+                                    "¡Gánate ₡1000,00 por cada usuario que se registre en www.buscoridecr.com por medio de tu enlace de referencia!" +
+                                    "<br/>" +
+                                    "<br/>" +
+                                    "Participa en esta promoción de principio de año y gana dinero por cada usuario que se registre por medio de tu enlace." +
+                                    "<br/>" +
+                                    "<br/>" +
+                                    "¿Cómo Funciona?" +
+                                    "<br/>" +
+                                    "Busca el \"Enlace de Referencia\" desde tu <a href = \"~/Manage/ProfileInfo\" > Perfíl </a>, da click en \"Copiar\" y envíalo a todos tus contactos por los diferentes canales de comunicación (Whatsapp, Messenger, E-mail, etc)." +
+                                    "<br/>" +
+                                    "<br/>" +
+                                    "Por cada usuario que se registre desde tu enlace de referencia, se te acreditarán ₡1000,00 a tu monedero virtual, los cuales podrás utilizar para pagos totales, parciales en tus viajes o retiros." +
+                                    "<br/>" +
+                                    "<br/>" +
+                                    "¡Los usuarios nuevos también ganan! Al abrir una nueva cuenta con www.buscoridecr.com recibirán ₡1000,00." +
+                                    "<br/>" +
+                                    "<br/>" +
+                                    "<small class=\"pull-right\">Aplican Restricciones, promoción válida hasta agotar existencias</small>" +
+                                    "</div>";
+
                 foreach (var user in users)
                 {
                     EmailHandler.SendEmail(new IdentityMessage
                     {
                         Destination = user.Email,
                         Subject = "¡Correo Informativo buscoridecr.com!",
-                        Body = string.Empty
+                        Body = message
                     }, EmailType.Notifications, false, logo);
                 }
-            }
-            catch (Exception)
-            {
 
-                throw;
+                Common.LogData(new Log
+                {
+                    Line = Common.GetCurrentLine(),
+                    Location = Enums.LogLocation.Server,
+                    LogType = Enums.LogType.Info,
+                    Message = "Correos enviados satisfactoriamente!",
+                    Method = Common.GetCurrentMethod(),
+                    Timestamp = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
+                    UserEmail = "",
+                    Fields = string.Empty
+                }, logo);
+
+                ViewBag.success = "¡Correos enviados satisfactoriamente!";
+            }
+            catch (Exception ex)
+            {
+                Common.LogData(new Log
+                {
+                    Line = Common.GetCurrentLine(),
+                    Location = Enums.LogLocation.Server,
+                    LogType = Enums.LogType.Error,
+                    Message = "Enviando correos. Envío cancelado. Error: " + ex.Message,
+                    Method = Common.GetCurrentMethod(),
+                    Timestamp = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
+                    UserEmail = "",
+                    Fields = string.Empty
+                }, logo);
+
+                ViewBag.Error = "¡Hubo un error cargado la imagen, vualva a intentar!";
             }
         }
     }

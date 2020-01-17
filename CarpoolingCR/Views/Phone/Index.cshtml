@@ -57,7 +57,7 @@
 
     function SendToAllCheckChange() {
         if ($("#ckSendToAll").prop('checked')) {
-            $('#phone').attr('readonly', 'readyonly');
+            $('#phone').removeAttr('readonly', 'readyonly');
             $('#ckInitialMessage').removeAttr('checked');
             $('#message').removeAttr('readonly');
         } else {

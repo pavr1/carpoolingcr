@@ -83,8 +83,18 @@ namespace CarpoolingCR.Controllers
                         }
                         else
                         {
-                            //send to all numbers
-                            var users = db.Users.Where(x => x.Status == Enums.ProfileStatus.Active).ToList();
+                            var phone = Request["phone"].Trim();
+                            List<ApplicationUser> users = new List<ApplicationUser>();
+
+                            if (string.IsNullOrEmpty(phone))
+                            {
+                                //send to all numbers
+                                users = db.Users.Where(x => x.Status == Enums.ProfileStatus.Active).ToList();
+                            }
+                            else
+                            {
+                                users = db.Users.Where(x => x.Phone1 == phone).ToList();
+                            }
 
                             var sendEmails = new Thread(() => SendSMSToUsers(users, message, logo));
                             sendEmails.Start();

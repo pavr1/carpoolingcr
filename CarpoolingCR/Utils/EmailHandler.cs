@@ -305,6 +305,33 @@ namespace CarpoolingCR.Utils
             stream = null;
         }
 
+        public static void SendEmail(IdentityMessage msg, EmailType EmailType, bool bccToAdmin, FileStream logo, string logo2)
+        {
+            var providerEmail = string.Empty;
+            var providerPwd = string.Empty;
+
+            switch (EmailType)
+            {
+                case EmailType.Notifications:
+                    providerEmail = WebConfigurationManager.AppSettings["NotificationsEmail"];
+                    providerPwd = WebConfigurationManager.AppSettings["NotificationsPassword"];
+                    break;
+                case EmailType.Updates:
+                    //peding
+                    break;
+                case EmailType.Errors:
+                    providerEmail = WebConfigurationManager.AppSettings["ErrorsEmail"];
+                    providerPwd = WebConfigurationManager.AppSettings["ErrorsPassword"];
+                    break;
+                default:
+                    providerEmail = WebConfigurationManager.AppSettings["NotificationsEmail"];
+                    providerPwd = WebConfigurationManager.AppSettings["NotificationsPassword"];
+                    break;
+            }
+
+            new EmailService().SendInformativeAsync(msg.Destination, msg.Subject, msg.Body, "logo", logo, "image/jpg", null, null, providerEmail, providerPwd, bccToAdmin, logo2);
+        }
+
         public static void SendTripNotification(string email, string date, string tripInfo, string callbackUrl, string appLogo)
         {
             callbackUrl = callbackUrl.Replace("http://", "https://");

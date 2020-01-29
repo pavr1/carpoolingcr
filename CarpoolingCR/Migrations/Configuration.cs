@@ -9,7 +9,7 @@ namespace CarpoolingCR.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
         }
 
         protected override void Seed(CarpoolingCR.Models.ApplicationDbContext context)

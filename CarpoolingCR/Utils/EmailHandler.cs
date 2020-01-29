@@ -195,7 +195,7 @@ namespace CarpoolingCR.Utils
             SendEmail(new IdentityMessage
             {
                 Destination = email,
-                Subject = "¡Bono aplicado a tu cueta!",
+                Subject = "¡Bono aplicado a tu cuenta!",
                 Body = html
             }, EmailType.Notifications, true, appLogo);
         }
@@ -305,6 +305,33 @@ namespace CarpoolingCR.Utils
             stream = null;
         }
 
+        public static void SendEmail(IdentityMessage msg, EmailType EmailType, bool bccToAdmin, FileStream logo, string logo2)
+        {
+            var providerEmail = string.Empty;
+            var providerPwd = string.Empty;
+
+            switch (EmailType)
+            {
+                case EmailType.Notifications:
+                    providerEmail = WebConfigurationManager.AppSettings["NotificationsEmail"];
+                    providerPwd = WebConfigurationManager.AppSettings["NotificationsPassword"];
+                    break;
+                case EmailType.Updates:
+                    //peding
+                    break;
+                case EmailType.Errors:
+                    providerEmail = WebConfigurationManager.AppSettings["ErrorsEmail"];
+                    providerPwd = WebConfigurationManager.AppSettings["ErrorsPassword"];
+                    break;
+                default:
+                    providerEmail = WebConfigurationManager.AppSettings["NotificationsEmail"];
+                    providerPwd = WebConfigurationManager.AppSettings["NotificationsPassword"];
+                    break;
+            }
+
+            new EmailService().SendInformativeAsync(msg.Destination, msg.Subject, msg.Body, "logo", logo, "image/jpg", null, null, providerEmail, providerPwd, bccToAdmin, logo2);
+        }
+
         public static void SendTripNotification(string email, string date, string tripInfo, string callbackUrl, string appLogo)
         {
             callbackUrl = callbackUrl.Replace("http://", "https://");
@@ -382,6 +409,19 @@ namespace CarpoolingCR.Utils
                 Subject = subject,
                 Body = html
             }, EmailType.Notifications, false, appLogo);
+        }
+
+        public static void SendEmailReferencedLinkAccessed(string userName, string email, string appLogo)
+        {
+            var title = string.Empty;
+            var html = "¡Un enlace de referencia ha sido accesado! Puede que un usuario esté a punto de registrarse por medio de una invitación de otro usuario. Usuario de Referencia: " + userName + ", E-mail: " + email;
+
+            SendEmail(new IdentityMessage
+            {
+                Destination = email,
+                Subject = "Enlace de referencia accesado",
+                Body = html
+            }, EmailType.Notifications, true, appLogo);
         }
     }
 }

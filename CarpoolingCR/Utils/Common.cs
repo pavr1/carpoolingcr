@@ -300,7 +300,23 @@ namespace CarpoolingCR.Utils
         {
             using (var db = new ApplicationDbContext())
             {
-                var registerPromoType = db.PromoType.Where(x => x.Description == promoType).Single();
+                var registerPromoType = db.PromoType.Where(x => x.Description == promoType).SingleOrDefault();
+
+                if(registerPromoType == null)
+                {
+                    Common.LogData(new Log
+                    {
+                        Line = Common.GetCurrentLine(),
+                        Location = Enums.LogLocation.Server,
+                        LogType = Enums.LogType.Warning,
+                        Message = "It seems there is no promo type registered for '" + promoType + "'. These values should be registered",
+                        Method = Common.GetCurrentMethod(),
+                        Timestamp = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
+                        UserEmail = "[N/A]"
+                    }, string.Empty);
+
+                    return null;
+                }
 
                 var promo = db.Promo.Where(x => x.PromoTypeId == registerPromoType.PromoTypeId)
                     .Where(x => x.Status == Enums.PromoStatus.Active)

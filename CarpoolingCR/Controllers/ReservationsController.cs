@@ -284,7 +284,7 @@ namespace CarpoolingCR.Controllers
         [HttpPost]
         public string CreateReservation(string from, string to)
         {
-            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg"); ;
+            var logo = Server.MapPath("~/Content/Icons/ride_small - Copy.jpg");
 
             try
             {
@@ -1166,6 +1166,8 @@ namespace CarpoolingCR.Controllers
 
                             db.Entry(promo).State = EntityState.Modified;
                             db.SaveChanges();
+
+                            EmailHandler.SendPromoAppliedEmail(user.Email, promo.Description, promo.Amount, "", logo);
                         }
                     }
 

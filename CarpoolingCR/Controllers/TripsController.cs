@@ -393,7 +393,7 @@ namespace CarpoolingCR.Controllers
 
                 var user = Common.GetUserByEmail(User.Identity.Name);
                 var districtsSelectHtml = Common.GetLocationsStrings(user.CountryId);
-                var promo = Common.FindAvailablePromo("VIaje Conductor", user);
+                var promo = Common.FindAvailablePromo("Viaje Conductor", user);
                 var promoAmount = 0m;
 
                 if (promo != null)
@@ -617,6 +617,8 @@ namespace CarpoolingCR.Controllers
                             promo.AmountAvailable -= blockedAmount.PromoAmount;
                             db.Entry(promo).State = EntityState.Modified;
                             db.SaveChanges();
+
+                            EmailHandler.SendPromoAppliedEmail(user.Email, promo.Description, promo.Amount, "", logo);
                         }
                     }
 

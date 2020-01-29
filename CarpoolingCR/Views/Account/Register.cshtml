@@ -6,6 +6,40 @@
 }
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <br />
+<div class="row form-group">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 panel panel-default" style="text-align:justify; border-radius:10px; padding:5px">
+        <h6>
+            ¿Viajas a algún lugar y necesitas ride? ¿O sos el conductor y tenés espacio en tu vehículo para llevar gente? ¡wwww.buscoridecr.com es tu mejor opción! Crea o reserva tu viaje de una forma rápida y segura.
+            <br /><br />
+
+            ¡Regístrate gratis aquí!
+            <br />
+            <br />
+
+            @{
+                if (!string.IsNullOrEmpty(ViewBag.RefUserName))
+                {
+                    <small class="badge badge-info pull-right">Has sido invitado por @ViewBag.RefUserName.</small>
+                }
+
+                var claims = (System.Security.Claims.ClaimsIdentity)User.Identity;
+                var obj = claims.FindFirst("CurrencyChar");
+                var currency = string.Empty;
+
+                if (obj != null)
+                {
+                    currency = obj.Value;
+                }
+
+                if (ViewBag.RegisterPromoAmount > 0)
+                {
+                    <small class="badge badge-info pull-left">¡Recibe un bono de bienvenida de @currency@ViewBag.RegisterPromoAmount.ToString("N2") al registrarte aquí!</small>
+                }
+            }
+        </h6>
+
+    </div>
+</div>
 <div class="row form-group" style="text-align:center">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <h5 class="panel-title pull-left">Registro de Usuarios</h5>

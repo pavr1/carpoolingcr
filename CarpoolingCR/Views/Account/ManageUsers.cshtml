@@ -107,6 +107,15 @@
                             @Html.ActionLink("Editar", "DeleteUser", new { id = item.Id }, new { @class = "btn btn-info btn-sm pull-right" })
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 country">
+                            <small><b class="rideCoins"><span class="fas fa-money-bill-alt">&nbsp;</span>Ridecoins: @item.Ridecoins</b></small>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 hidden-xs">
+                        </div>
+                    </div>
                     <hr />
                 </li>
             }
@@ -116,7 +125,7 @@
 
 <script language="javascript">
     var options = {
-        valueNames: ['passenger', 'status', 'country', 'email', 'usertype', 'phones',]
+        valueNames: ['passenger', 'status', 'country', 'email', 'usertype', 'phones', 'rideCoins']
     };
 
     var userList = new List('manage-users-search', options);

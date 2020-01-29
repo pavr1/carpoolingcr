@@ -860,7 +860,7 @@ namespace CarpoolingCR.Controllers
 
                 using (var db = new ApplicationDbContext())
                 {
-                    var user = db.Users.Where(x => x.Id == userId).SingleOrDefault();
+                    var user = db.Users.Where(x => x.Id == userId && !x.EmailConfirmed).SingleOrDefault();
 
                     if (user != null)
                     {

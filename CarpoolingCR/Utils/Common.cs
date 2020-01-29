@@ -363,7 +363,7 @@ namespace CarpoolingCR.Utils
 
                     var remainingBudget = promo.AmountAvailable - promo.Amount;
 
-                    //if the available amount minus promo amount for this particular user is less than or equal to zero, then the promo is over. Not enough money for this user's bonus
+                    //if the available amount minus promo amount for this particular user is less than zero, then the promo is over. Not enough money for this user's bonus
                     //so do not apply the promo and inactivate it
                     if (remainingBudget < 0)
                     {

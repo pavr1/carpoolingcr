@@ -114,8 +114,24 @@
                             </div>
                             <hr />
                             <div class="row">
-                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                     <b><span class="fas fa-info-circle">&nbsp;</span>Descripción: </b><small>@promo.Description</small><br />
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                    @{
+                                        var totalAssigned = 0m;
+
+                                        foreach (var userPromo in promo.UserPromos)
+                                        {
+                                            var user = userPromo.GetUser();
+
+                                            <b><span class="fas fa-user">&nbsp;</span> @user.UserType.ToString(): </b><small>@user.FullName - @user.Email - @currency@user.Ridecoins</small><br />
+
+                                            totalAssigned += user.Ridecoins;
+                                        }
+                                        <hr/>
+                                        <b><span class="fas fa-money-bill-alt">&nbsp;</span> Total Asignado: <small>@currency@totalAssigned</small></b><br />
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -125,84 +141,3 @@
         </ul>
     }
 }
-@*<h2>Index</h2>
-
-    <p>
-        @Html.ActionLink("Create New", "Create")
-    </p>
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.PromoType.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Amount)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StartTime)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EndTime)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UntilAssignedAmountRunsOut)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MaxAmountPerUser)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MaxAmountToSpend)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AmountAvailable)
-            </th>
-            <th></th>
-        </tr>
-
-    @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.PromoType.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Amount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StartTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EndTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UntilAssignedAmountRunsOut)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MaxAmountPerUser)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MaxAmountToSpend)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AmountAvailable)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.PromoId }) |
-                @Html.ActionLink("Details", "Details", new { id=item.PromoId }) |
-                @Html.ActionLink("Delete", "Delete", new { id=item.PromoId })
-            </td>
-        </tr>
-    }
-
-    </table>*@

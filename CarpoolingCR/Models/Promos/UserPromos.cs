@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Microsoft.Owin.Security.Provider;
 
 namespace CarpoolingCR.Models.Promos
 {
@@ -13,5 +14,13 @@ namespace CarpoolingCR.Models.Promos
         public virtual Promo Promo { get; set; }
         public DateTime Date { get; set; }
         public int BlockedAmountId { get; set; }
+
+        public ApplicationUser GetUser()
+        {
+            using (var db = new ApplicationDbContext())
+            {
+                return db.Users.Where(x => x.Id == UserId).Single();
+            }
+        }
     }
 }

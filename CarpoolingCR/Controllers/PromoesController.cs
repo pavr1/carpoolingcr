@@ -19,12 +19,18 @@ namespace CarpoolingCR.Controllers
         // GET: Promoes
         public ActionResult Index()
         {
-            var promo = db.Promo.Include(p => p.PromoType);
+            using (var db = new ApplicationDbContext())
+            {
+                var promos = db.Promo
+                    .Include(p => p.PromoType)
+                    .Include(up => up.UserPromos)
+                    .ToList();
 
-            var user = Common.GetUserByEmail(User.Identity.Name);
-            Common.UpdateMenuItemsCount(user.Id);
+                var user = Common.GetUserByEmail(User.Identity.Name);
+                Common.UpdateMenuItemsCount(user.Id);
 
-            return View(promo.ToList());
+                return View(promos);
+            }
         }
 
         public ActionResult IndexDetail()

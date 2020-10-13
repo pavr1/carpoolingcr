@@ -837,5 +837,54 @@ namespace CarpoolingCR.Utils
                 authenticationManager.AuthenticationResponseGrant = new AuthenticationResponseGrant(new ClaimsPrincipal(Identity), new AuthenticationProperties() { IsPersistent = true });
             }
         }
+
+        public static void UpdateMenuItemsCount(ApplicationDbContext db, string userId)
+        {
+            var trips = 0;
+            var reservations = 0;
+            var notifications = 0;
+
+            var user = db.Users.Where(x => x.Id == userId).Single();
+
+            if (user.UserType == Enums.UserType.Administrador)
+            {
+                trips = db.Trips.Where(x => (x.Status == Enums.Status.Activo || x.Status == Enums.Status.Lleno || x.Status == Enums.Status.Pendiente)).Count();
+                reservations = db.Reservations.Where(x => (x.Status == Enums.ReservationStatus.Accepted || x.Status == Enums.ReservationStatus.Pending || x.Status == Enums.ReservationStatus.Rejected)).Count();
+                notifications = db.NotificationRequests.Where(x => (x.Status == CarpoolingCR.Utils.Enums.RequestNotificationStatus.Active)).Count();
+            }
+            else
+            {
+                trips = db.Trips.Where(x => x.ApplicationUserId == userId && (x.Status == Enums.Status.Activo || x.Status == Enums.Status.Lleno || x.Status == Enums.Status.Pendiente)).Count();
+                reservations = db.Reservations.Where(x => x.ApplicationUserId == userId && (x.Status == Enums.ReservationStatus.Accepted || x.Status == Enums.ReservationStatus.Pending || x.Status == Enums.ReservationStatus.Rejected)).Count();
+                notifications = db.NotificationRequests.Where(x => x.UserId == userId && (x.Status == CarpoolingCR.Utils.Enums.RequestNotificationStatus.Active)).Count();
+            }
+
+            var Identity = HttpContext.Current.User.Identity as ClaimsIdentity;
+            Identity.RemoveClaim(Identity.FindFirst("Name"));
+            Identity.AddClaim(new Claim("Name", user.Name));
+
+            Identity.RemoveClaim(Identity.FindFirst("Trips"));
+            Identity.AddClaim(new Claim("Trips", trips.ToString()));
+
+            Identity.RemoveClaim(Identity.FindFirst("Reservations"));
+            Identity.AddClaim(new Claim("Reservations", reservations.ToString()));
+
+            Identity.RemoveClaim(Identity.FindFirst("Notifications"));
+            Identity.AddClaim(new Claim("Notifications", notifications.ToString()));
+
+            try
+            {
+                Identity.RemoveClaim(Identity.FindFirst("Balance"));
+            }
+            catch (Exception)
+            {
+                //do nothing
+            }
+
+            Identity.AddClaim(new Claim("Balance", user.Ridecoins.ToString()));
+
+            var authenticationManager = System.Web.HttpContext.Current.GetOwinContext().Authentication;
+            authenticationManager.AuthenticationResponseGrant = new AuthenticationResponseGrant(new ClaimsPrincipal(Identity), new AuthenticationProperties() { IsPersistent = true });
+        }
     }
 }

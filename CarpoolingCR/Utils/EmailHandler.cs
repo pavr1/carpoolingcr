@@ -2,6 +2,7 @@
 using Microsoft.AspNet.Identity;
 using System;
 using System.IO;
+using System.Threading.Tasks;
 using System.Web.Configuration;
 using static CarpoolingCR.Utils.Enums;
 
@@ -186,18 +187,20 @@ namespace CarpoolingCR.Utils
         //    }
         //}
 
-        public static void SendPromoAppliedEmail(string email, string promoDescription, decimal amount, string callbackUrl, string appLogo)
+        public static async Task SendPromoAppliedEmail(string email, string promoDescription, decimal amount, string callbackUrl, string appLogo)
         {
-            callbackUrl = callbackUrl.Replace("http://", "https://");
+            Task.Run(() => {
+                callbackUrl = callbackUrl.Replace("http://", "https://");
 
-            var html = "Felicidades, has recibido un " + promoDescription + " por un monto de " + amount.ToString("N2") + " ridecoins. ¡Sigue participando en nuestras promociones!";
+                var html = "Felicidades, has recibido un " + promoDescription + " por un monto de " + amount.ToString("N2") + " ridecoins. ¡Sigue participando en nuestras promociones!";
 
-            SendEmail(new IdentityMessage
-            {
-                Destination = email,
-                Subject = "¡Bono aplicado a tu cuenta!",
-                Body = html
-            }, EmailType.Notifications, true, appLogo);
+                SendEmail(new IdentityMessage
+                {
+                    Destination = email,
+                    Subject = "¡Bono aplicado a tu cuenta!",
+                    Body = html
+                }, EmailType.Notifications, true, appLogo);
+            });
         }
 
         public static void SendEmail(int line, Enums.LogLocation location, Enums.LogType logType, string message, string method, DateTime time, string user, string fields, string appLogo)

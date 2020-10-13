@@ -213,16 +213,16 @@ namespace CarpoolingCR
             catch (Exception ex)
             {
                 //this will cycle error sending message
-                //Common.LogData(new Log
-                //{
-                //    Line = Common.GetCurrentLine(),
-                //    Location = Enums.LogLocation.Server,
-                //    LogType = Enums.LogType.Error,
-                //    Message = ex.Message + " / Inner: " + inner + " / " + ex.StackTrace,
-                //    Method = Common.GetCurrentMethod(),
-                //    Timestamp = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
-                //    UserEmail = email
-                //}, logo);
+                Common.LogData(new Log
+                {
+                    Line = Common.GetCurrentLine(),
+                    Location = Enums.LogLocation.Server,
+                    LogType = Enums.LogType.Error,
+                    Message = ex.Message + " / Inner: " + ex.InnerException + " / " + ex.StackTrace,
+                    Method = Common.GetCurrentMethod(),
+                    Timestamp = Common.ConvertToUTCTime(DateTime.Now.ToLocalTime()),
+                    UserEmail = email
+                }, logo);
             }
 
             return Task.FromResult(0);

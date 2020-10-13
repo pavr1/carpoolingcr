@@ -486,7 +486,6 @@ namespace CarpoolingCR.Controllers
                     var routeDistrict = new District();
 
                     var tripDate = DateTime.SpecifyKind(Convert.ToDateTime(Request["DateTime"]), DateTimeKind.Local);
-
                     var apoxTime = Convert.ToDouble(Request["aprox-time"].Replace(".", ","));
                     var arrivalTime = tripDate.AddHours(apoxTime);
 
@@ -756,7 +755,7 @@ namespace CarpoolingCR.Controllers
                         sendNotificationRequests.Start();
                     }
 
-                    Common.UpdateMenuItemsCount(user.Id);
+                    Common.UpdateMenuItemsCount(db, user.Id);
 
                     tran.Commit();
 
